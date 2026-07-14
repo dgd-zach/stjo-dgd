@@ -3,3 +3,5 @@ assets/fonts/.DS_Store
 assets/images/.DS_Store
 seed.php
 seed-manifest.json
+error_log
+*.log

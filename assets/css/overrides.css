@@ -1,0 +1,39 @@
+/*
+ * overrides.css — harness auto-patches (apply_css_deltas.py). Loaded last.
+ */
+.stjo-hero { padding-top: 48px; } /* harness:_stjo-hero_padding-top */
+.stjo-hero { padding-right: 96px; } /* harness:_stjo-hero_padding-right */
+.stjo-hero { padding-bottom: 48px; } /* harness:_stjo-hero_padding-bottom */
+.stjo-hero { padding-left: 179px; } /* harness:_stjo-hero_padding-left */
+.stjo-hero { gap: 10px; } /* harness:_stjo-hero_gap */
+.stjo-hero .wp-block-button__link { padding-right: 20px; } /* harness:_stjo-hero_wp-block-button_link_padding-right */
+.stjo-hero .wp-block-button__link { padding-left: 20px; } /* harness:_stjo-hero_wp-block-button_link_padding-left */
+.stjo-hero .wp-block-button__link { border-width: 1.5px; } /* harness:_stjo-hero_wp-block-button_link_border-width */
+.stjo-hero .wp-block-button__link { font-size: 14px; } /* harness:_stjo-hero_wp-block-button_link_font-size */
+.stjo-donation-band { min-height: 512px; } /* harness:_stjo-donation-band_min-height */
+.stjo-donation-band h2.wp-block-heading { font-size: 32px; } /* harness:_stjo-donation-band_h2_wp-block-heading_font-size */
+.stjo-video-band h2.wp-block-heading { font-size: 32px; } /* harness:_stjo-video-band_h2_wp-block-heading_font-size */
+.stjo-blog-band { padding-top: 32px; } /* harness:_stjo-blog-band_padding-top */
+.stjo-blog-band { padding-right: 96px; } /* harness:_stjo-blog-band_padding-right */
+.stjo-blog-band { padding-bottom: 96px; } /* harness:_stjo-blog-band_padding-bottom */
+.stjo-blog-band { padding-left: 96px; } /* harness:_stjo-blog-band_padding-left */
+.stjo-blog-band { gap: 24px; } /* harness:_stjo-blog-band_gap */
+.stjo-blog-band { background-color: rgb(243, 243, 230); } /* harness:_stjo-blog-band_background-color */
+.stjo-blog-band { min-height: 890px; } /* harness:_stjo-blog-band_min-height */
+.stjo-generosity h2.wp-block-heading { font-size: 64px; } /* harness:_stjo-generosity_h2_wp-block-heading_font-size */
+.stjo-testimonial-band { padding-top: 48px; } /* harness:_stjo-testimonial-band_padding-top */
+.stjo-testimonial-band { padding-right: 80px; } /* harness:_stjo-testimonial-band_padding-right */
+.stjo-testimonial-band { padding-bottom: 48px; } /* harness:_stjo-testimonial-band_padding-bottom */
+.stjo-testimonial-band { padding-left: 80px; } /* harness:_stjo-testimonial-band_padding-left */
+.stjo-testimonial-band { gap: 96px; } /* harness:_stjo-testimonial-band_gap */
+.stjo-testimonial-band { min-height: 473px; } /* harness:_stjo-testimonial-band_min-height */
+.stjo-hero h1.wp-block-heading { text-align: center; } /* harness:_stjo-hero_h1_wp-block-heading_text-align */
+.stjo-hero p { text-align: center; } /* harness:_stjo-hero_p_text-align */
+.stjo-donation-band h2.wp-block-heading { font-weight: 700; } /* harness:_stjo-donation-band_h2_wp-block-heading_font-weight */
+.stjo-donation-band h2.wp-block-heading { line-height: 41.6px; } /* harness:_stjo-donation-band_h2_wp-block-heading_line-height */
+.stjo-donation-band h2.wp-block-heading { color: rgb(26, 109, 184); } /* harness:_stjo-donation-band_h2_wp-block-heading_color */
+.stjo-donation-band h2.wp-block-heading { text-align: center; } /* harness:_stjo-donation-band_h2_wp-block-heading_text-align */
+.stjo-video-band h2.wp-block-heading { font-weight: 700; } /* harness:_stjo-video-band_h2_wp-block-heading_font-weight */
+.stjo-video-band h2.wp-block-heading { line-height: 41.6px; } /* harness:_stjo-video-band_h2_wp-block-heading_line-height */
+.stjo-generosity h2.wp-block-heading { line-height: 73.6px; } /* harness:_stjo-generosity_h2_wp-block-heading_line-height */
+.stjo-testimonial__quote { line-height: 27.34px; } /* harness:_stjo-testimonial_quote_line-height */

@@ -1,0 +1,112 @@
+{
+  "header": {
+    "ctas": [
+      {
+        "label": "Log In",
+        "url": "/login/",
+        "style": "ghost"
+      },
+      {
+        "label": "Give Now",
+        "url": "/donate/",
+        "style": "primary"
+      }
+    ],
+    "menu_fallback": [
+      {
+        "label": "About",
+        "url": "/about/"
+      },
+      {
+        "label": "Youth Programs",
+        "url": "/youth-programs/"
+      },
+      {
+        "label": "Lakota Culture",
+        "url": "/lakota-culture/"
+      },
+      {
+        "label": "Your Impact",
+        "url": "/your-impact/"
+      },
+      {
+        "label": "Prayers",
+        "url": "/prayers/"
+      },
+      {
+        "label": "Support Us",
+        "url": "/support-us/"
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "We serve and teach, we receive and learn.",
+    "contact": [
+      {
+        "icon": "address",
+        "text": "1301 North Main Street<br>Chamberlain, SD 57325"
+      },
+      {
+        "icon": "phone",
+        "text": "1-800-341-2235",
+        "url": "tel:18003412235"
+      },
+      {
+        "icon": "email",
+        "text": "saintjosephs@stjo.org",
+        "url": "mailto:saintjosephs@stjo.org"
+      }
+    ],
+    "links": [
+      {
+        "label": "Careers",
+        "url": "/about/careers/"
+      },
+      {
+        "label": "Awards",
+        "url": "/about/awards/"
+      },
+      {
+        "label": "Contact",
+        "url": "/contact/"
+      },
+      {
+        "label": "Blog",
+        "url": "/blog/"
+      }
+    ],
+    "social": [
+      {
+        "network": "Facebook",
+        "url": "#"
+      },
+      {
+        "network": "Instagram",
+        "url": "#"
+      },
+      {
+        "network": "YouTube",
+        "url": "#"
+      },
+      {
+        "network": "TikTok",
+        "url": "#"
+      },
+      {
+        "network": "X",
+        "url": "#"
+      },
+      {
+        "network": "Flickr",
+        "url": "#"
+      }
+    ],
+    "newsletter": {
+      "heading": "Sign up for Email updates from St. Joseph's Indian School",
+      "body": "Sign up today and receive email updates, special offers and videos from St. Joseph's Indian School. Join today to see and hear the difference your friendship makes!",
+      "action": "#"
+    },
+    "legal": "\u00a9 {year} St. Joseph's Indian School. All rights reserved. | St. Joseph's Indian School is a tax-exempt 501(c)(3) organization.",
+    "privacy_url": "/privacy-policy/"
+  }
+}

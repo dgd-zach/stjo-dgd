@@ -1,0 +1,17 @@
+/*
+ * editor.css — Gutenberg overrides only.
+ * main.css/tokens.css/fonts.css are auto-scoped under .editor-styles-wrapper by
+ * add_editor_style(). Do NOT duplicate them here — overrides only.
+ */
+
+/* Content width: match the frontend wrapper / wide tiers. */
+.editor-styles-wrapper .wp-block { max-width: var(--stjo--layout--wrapper--max-width, 1280px); }
+.editor-styles-wrapper .wp-block[data-align="wide"] { max-width: var(--stjo--layout--wide--max-width, 1440px); }
+.editor-styles-wrapper .wp-block[data-align="full"] { max-width: none; }
+
+/* Reinforce link color (bare <a> pseudo-states can slip past auto-scoping). */
+.editor-styles-wrapper a { color: var(--wp--preset--color--primary, #1a6db8); }
+.editor-styles-wrapper a:hover { color: var(--wp--preset--color--brand-dark, #0053a0); }
+
+/* Separator default override. */
+.editor-styles-wrapper .wp-block-separator { border-color: var(--wp--preset--color--neutral-200, #cccccc); border-width: 1px; }

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": false,
+    "color": {
+      "palette": [
+        {
+          "slug": "black",
+          "name": "Black",
+          "color": "#000000"
+        },
+        {
+          "slug": "blue-400",
+          "name": "Blue 400",
+          "color": "#4d94cc"
+        },
+        {
+          "slug": "blue-700",
+          "name": "Blue 700",
+          "color": "#0053a0"
+        },
+        {
+          "slug": "blue-900",
+          "name": "Blue 900",
+          "color": "#003566"
+        },
+        {
+          "slug": "brand-dark",
+          "name": "Brand Dark",
+          "color": "#0053a0"
+        },
+        {
+          "slug": "dark",
+          "name": "Dark",
+          "color": "#333333"
+        },
+        {
+          "slug": "light",
+          "name": "Light",
+          "color": "#f3f3e6"
+        },
+        {
+          "slug": "neutral-200",
+          "name": "Neutral 200",
+          "color": "#cccccc"
+        },
+        {
+          "slug": "neutral-700",
+          "name": "Neutral 700",
+          "color": "#4d4d4d"
+        },
+        {
+          "slug": "primary",
+          "name": "Primary",
+          "color": "#1a6db8"
+        },
+        {
+          "slug": "white",
+          "name": "White",
+          "color": "#ffffff"
+        },
+        {
+          "slug": "white-90",
+          "name": "White 90",
+          "color": "#ffffffe5"
+        },
+        {
+          "slug": "yellow",
+          "name": "Yellow",
+          "color": "#ffd520"
+        }
+      ],
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "custom": false
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "slug": "base",
+          "name": "DM Sans (base)",
+          "fontFamily": "'DM Sans', system-ui, -apple-system, sans-serif"
+        },
+        {
+          "slug": "heading",
+          "name": "Caecilia LT Pro (heading)",
+          "fontFamily": "'Caecilia LT Pro', Georgia, 'Times New Roman', serif"
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "12",
+          "size": "12px",
+          "name": "12"
+        },
+        {
+          "slug": "small",
+          "size": "14px",
+          "name": "Small"
+        },
+        {
+          "slug": "base",
+          "size": "16px",
+          "name": "Base"
+        },
+        {
+          "slug": "h5",
+          "size": "21px",
+          "name": "H5"
+        },
+        {
+          "slug": "medium",
+          "size": "24px",
+          "name": "Medium"
+        },
+        {
+          "slug": "large",
+          "size": "32px",
+          "name": "Large"
+        },
+        {
+          "slug": "xl",
+          "size": "48px",
+          "name": "Xl"
+        },
+        {
+          "slug": "xxl",
+          "size": "64px",
+          "name": "Xxl"
+        }
+      ],
+      "defaultFontSizes": false,
+      "customFontSize": false
+    },
+    "spacing": {
+      "spacingSizes": [
+        {
+          "slug": "small",
+          "name": "Small",
+          "size": "24px"
+        },
+        {
+          "slug": "medium",
+          "name": "Medium",
+          "size": "48px"
+        },
+        {
+          "slug": "large",
+          "name": "Large",
+          "size": "96px"
+        }
+      ],
+      "defaultSpacingSizes": false,
+      "units": [
+        "px",
+        "rem",
+        "%",
+        "vw"
+      ],
+      "blockGap": null
+    },
+    "layout": {
+      "contentSize": "1280px"
+    }
+  }
+}

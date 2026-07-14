@@ -3,20 +3,28 @@
  * assets/fonts/ and re-run; commercial families: license + add files, then
  * uncomment the template below. */
 
-/* DM Sans (base): Google font — download woff2 into assets/fonts/. Expected files: assets/fonts/dm-sans-<weight>.woff2
 @font-face {
 	font-family: 'DM Sans';
-	src: url('../fonts/dm-sans-400.woff2') format('woff2');
-	font-weight: 400;
+	src: url('../fonts/DMSans-VariableFont_opsz,wght.woff2') format('woff2');
+	font-weight: 100 1000;
+	font-style: normal;
 	font-display: swap;
 }
-*/
 
-/* Caecilia LT Pro (heading): Commercial font — requires a license. Expected files: assets/fonts/caecilia-lt-pro-<weight>.woff2
+@font-face {
+	font-family: 'DM Sans';
+	src: url('../fonts/DMSans-Italic-VariableFont_opsz,wght.woff2') format('woff2');
+	font-weight: 100 1000;
+	font-style: italic;
+	font-display: swap;
+}
+
+ /* Caecilia LT Pro (heading): Commercial font — requires a license. Expected files: assets/fonts/caecilia-lt-pro-<weight>.woff2 */
+
 @font-face {
 	font-family: 'Caecilia LT Pro';
-	src: url('../fonts/caecilia-lt-pro-400.woff2') format('woff2');
+	src: url('../fonts/CaeciliaLTPro45Light.woff2') format('woff2');
 	font-weight: 400;
 	font-display: swap;
 }
-*/
+

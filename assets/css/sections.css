@@ -22,6 +22,18 @@
 .stjo-blog-grid .wp-block-post-excerpt__more-text a,
 .stjo-blog-grid .wp-block-read-more { color: var(--wp--preset--color--blue-900, #003566); font-weight: 600; text-decoration: none; }
 
+/* Whole post card is clickable (stretched title link) with a brand ring. */
+.stjo-blog-grid .wp-block-post-template > li { position: relative; transition: box-shadow .2s ease; }
+.stjo-blog-grid .wp-block-post-title a::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+.stjo-blog-grid .wp-block-post-template > li:hover,
+.stjo-blog-grid .wp-block-post-template > li:focus-within {
+	box-shadow: 0 0 0 2px var(--wp--preset--color--brand-dark, #0053a0), var(--stjo--shadow--elevated);
+}
+
 /* ── component: card ── */
 /* Cover-style photo cards: image + gradient + bottom-left text. */
 .stjo-card.wp-block-cover { border-radius: var(--stjo--radius--lg, 16px); min-height: 400px; justify-content: flex-end; padding: var(--stjo--spacing--md); }
@@ -32,6 +44,33 @@
 .stjo-card .wp-block-cover__background {
 	background: linear-gradient(to bottom, rgba(97, 97, 97, 0) 0%, rgba(0, 0, 0, 0.8) 80%) !important;
 	opacity: 1 !important;
+}
+
+/* Whole card is clickable: the arrow link stretches over the card. */
+.stjo-card.wp-block-cover { position: relative; }
+.stjo-card .wp-block-button__link::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+
+/* Body copy hides until hover/focus (design prototype card states). */
+.stjo-card__reveal {
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	margin: 0;
+	transition: max-height .25s ease, opacity .25s ease, margin .25s ease;
+}
+.stjo-card.wp-block-cover:hover .stjo-card__reveal,
+.stjo-card.wp-block-cover:focus-within .stjo-card__reveal {
+	max-height: 6em;
+	opacity: 1;
+	margin-bottom: var(--stjo--spacing--xs);
+}
+/* Ring also appears on keyboard focus, matching hover. */
+.stjo-card.wp-block-cover:focus-within {
+	box-shadow: inset 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
 }
 
 /* ── component: donation-widget ── */
@@ -61,6 +100,12 @@
 }
 a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color--blue-900, #003566) 85%, black); }
 .stjo-give-tile img { width: 56px; height: 56px; }
+/* Icon turns brand yellow on tile hover/focus. No transition: animating a
+   filter chain interpolates through junk hues (pink) on the way. */
+a.stjo-give-tile:hover img,
+a.stjo-give-tile:focus-visible img {
+	filter: brightness(0) saturate(100%) invert(81%) sepia(48%) saturate(1104%) hue-rotate(358deg) brightness(102%) contrast(103%);
+}
 .stjo-give-tile__title {
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
 	font-size: var(--wp--preset--font-size--medium, 24px);
@@ -76,7 +121,7 @@ a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color-
 /* ── component: hero ── */
 /* Home hero cover: left-aligned content over full-bleed photo (Figma composition). */
 .stjo-hero .wp-block-cover__inner-container {
-	max-width: var(--stjo--layout--wrapper--max-width, 1280px);
+	max-width: var(--wp--style--global--content-size, 1146px);
 	margin-inline: auto;
 	padding-inline: var(--stjo--spacing--md);
 	text-align: left;
@@ -106,6 +151,55 @@ a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color-
 	outline-offset: -6px;
 }
 
+/* ── component: story-card ── */
+/* Bordered story/news card + filter pills. */
+.stjo-story-card {
+	background: var(--wp--preset--color--white, #fff);
+	border: 1px solid var(--wp--preset--color--brand-dark, #0053a0);
+	border-radius: var(--stjo--radius--lg, 16px);
+	overflow: hidden;
+	display: flex; flex-direction: column;
+	height: 100%;
+	transition: box-shadow .2s ease;
+}
+.stjo-story-card:hover { box-shadow: var(--stjo--shadow--elevated); }
+.stjo-story-card > .wp-block-image { margin: 0; }
+.stjo-story-card > .wp-block-image img { width: 100%; height: 200px; object-fit: cover; border-radius: 0; }
+.stjo-story-card__body { padding: var(--stjo--spacing--md); display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.stjo-story-card__body h3 { font-size: var(--wp--preset--font-size--medium, 24px); color: var(--wp--preset--color--blue-900, #003566); margin: 0; }
+.stjo-story-card__body p { color: var(--wp--preset--color--neutral-700, #4d4d4d); margin: 0; font-size: var(--wp--preset--font-size--base, 16px); line-height: 1.3; }
+.stjo-story-card__more { color: var(--wp--preset--color--blue-900, #003566); font-weight: 600; text-decoration: none; margin-top: auto; }
+.stjo-story-card__more::after { content: " \2192"; }
+.stjo-story-card__more:hover { text-decoration: underline; }
+.stjo-filterbar { display: flex; flex-wrap: wrap; gap: var(--stjo--spacing--sm); align-items: center; justify-content: space-between; }
+.stjo-filterbar__label { font-weight: 700; font-size: var(--stjo--font-size--small, 14px); color: var(--wp--preset--color--dark, #333); }
+.stjo-pills { display: flex; flex-wrap: wrap; gap: var(--stjo--spacing--xs); align-items: center; justify-content: center; }
+.stjo-pills a, .stjo-pill {
+	display: inline-flex; align-items: center;
+	padding: 4px 14px;
+	border: var(--stjo--border--width, 1.5px) solid var(--wp--preset--color--brand-dark, #0053a0);
+	border-radius: 999px;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+	font-size: var(--stjo--font-size--small, 14px);
+	font-weight: 600;
+	text-decoration: none;
+	background: transparent;
+	transition: background-color .2s ease, color .2s ease;
+}
+.stjo-pills a:hover, .stjo-pill:hover { background: var(--wp--preset--color--brand-dark, #0053a0); color: var(--wp--preset--color--white, #fff); }
+
+/* Whole story card is clickable with a brand ring on hover/focus. */
+.stjo-story-card { position: relative; }
+.stjo-story-card .stjo-story-card__more::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+.stjo-story-card:hover,
+.stjo-story-card:focus-within {
+	box-shadow: 0 0 0 2px var(--wp--preset--color--brand-dark, #0053a0), var(--stjo--shadow--elevated);
+}
+
 /* ── component: subsection ── */
 /* Two-column subsection: arrow links align with buttons. */
 .stjo-subsection .wp-block-buttons { align-items: center; }
@@ -123,7 +217,8 @@ a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color-
 .stjo-video__play { position: absolute; inset: 0; margin: auto; width: 96px; height: 96px; }
 
 /* ── component: zigzag ── */
-/* Yellow zigzag ribbon divider (exported Figma asset, repeats horizontally). */
+/* Zigzag is the DEFAULT core/separator style (main.css §5). The class below
+   remains for content generated before the flip. */
 hr.stjo-zigzag, .stjo-zigzag {
 	border: 0;
 	height: 24px;

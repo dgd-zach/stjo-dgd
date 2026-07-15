@@ -46,16 +46,28 @@
 				</button>
 			<?php endif; ?>
 			<?php
+			// style → [wrapper block-style class, link color classes]. Only three
+			// block styles exist; variants come from WP color settings.
+			$style_classes = array(
+				'primary'     => array( 'is-style-fill', '' ),
+				'fill'        => array( 'is-style-fill', '' ),
+				'ghost'       => array( 'is-style-outline', '' ),
+				'outline'     => array( 'is-style-outline', '' ),
+				'ghost-light' => array( 'is-style-outline', 'has-white-color has-text-color has-white-background-color has-background' ),
+				'yellow'      => array( 'is-style-fill', 'has-blue-900-color has-text-color has-yellow-background-color has-background' ),
+				'light'       => array( 'is-style-fill', 'has-brand-dark-color has-text-color has-white-background-color has-background' ),
+			);
 			foreach ( (array) stjo_config_get( 'header.ctas', array() ) as $cta ) {
 				if ( empty( $cta['label'] ) || empty( $cta['url'] ) ) {
 					continue;
 				}
-				$style = isset( $cta['style'] ) ? $cta['style'] : 'primary';
+				list( $style, $link_colors ) = $style_classes[ $cta['style'] ?? 'primary' ] ?? array( 'is-style-fill', '' );
 				printf(
-					'<a class="btn btn--%1$s" href="%2$s">%3$s</a>',
+					'<div class="wp-block-button %1$s"><a class="wp-block-button__link %4$s wp-element-button" href="%2$s">%3$s</a></div>',
 					esc_attr( $style ),
 					esc_url( 0 === strpos( $cta['url'], 'http' ) ? $cta['url'] : home_url( $cta['url'] ) ),
-					esc_html( $cta['label'] )
+					esc_html( $cta['label'] ),
+					esc_attr( $link_colors )
 				);
 			}
 			?>

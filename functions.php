@@ -52,8 +52,10 @@ function stjo_enqueue_styles() {
 	wp_enqueue_style( 'stjo-tokens', $uri . '/assets/css/tokens.css', array( 'stjo-fonts' ), STJO_VERSION );
 	wp_enqueue_style( 'stjo-style', get_stylesheet_uri(), array( 'stjo-tokens' ), STJO_VERSION );
 	wp_enqueue_style( 'stjo-main', $uri . '/assets/css/main.css', array( 'stjo-style' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-sections', $uri . '/assets/css/sections.css', array( 'stjo-main' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-overrides', $uri . '/assets/css/overrides.css', array( 'stjo-sections' ), STJO_VERSION );
+	wp_enqueue_style( 'stjo-palette-buttons', $uri . '/assets/css/palette-buttons.css', array( 'stjo-main' ), STJO_VERSION );
+	wp_enqueue_style( 'stjo-sections', $uri . '/assets/css/sections.css', array( 'stjo-palette-buttons' ), STJO_VERSION );
+	wp_enqueue_style( 'stjo-hover', $uri . '/assets/css/hover.css', array( 'stjo-sections' ), STJO_VERSION );
+	wp_enqueue_style( 'stjo-overrides', $uri . '/assets/css/overrides.css', array( 'stjo-hover' ), STJO_VERSION );
 }
 add_action( 'wp_enqueue_scripts', 'stjo_enqueue_styles' );
 
@@ -66,7 +68,9 @@ function stjo_editor_styles() {
 		'assets/css/tokens.css',
 		'style.css',
 		'assets/css/main.css',
+		'assets/css/palette-buttons.css',
 		'assets/css/sections.css',
+		'assets/css/hover.css',
 		'assets/css/overrides.css',
 	) );
 }
@@ -100,6 +104,8 @@ function stjo_register_blocks() {
 add_action( 'init', 'stjo_register_blocks' );
 
 require_once get_template_directory() . '/inc/theme-config.php';
+require_once get_template_directory() . '/inc/asset-helper.php';
 require_once get_template_directory() . '/inc/cpt-loader.php';
+require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';

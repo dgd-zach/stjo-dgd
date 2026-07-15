@@ -95,7 +95,7 @@ $contact_icons = array(
 						</div>
 						<label class="screen-reader-text" for="nl-email"><?php esc_html_e( 'Email', 'stjo' ); ?></label>
 						<input id="nl-email" type="email" name="email" placeholder="<?php esc_attr_e( 'Email address', 'stjo' ); ?>">
-						<button class="btn btn--ghost-light" type="submit"><?php esc_html_e( 'Sign Up', 'stjo' ); ?></button>
+						<button class="wp-block-button__link wp-element-button stjo-form-button-outline" type="submit"><?php esc_html_e( 'Sign Up', 'stjo' ); ?></button>
 					</form>
 				<?php endif; ?>
 			</div>

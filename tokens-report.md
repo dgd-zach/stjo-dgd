@@ -44,7 +44,13 @@ landed in the wrong place.
 | radius/xlg | radius | xlg | 32px |
 | line height/18_57 | line_heights | 18-57 | 18.56999969482422 |
 | line height/24 | line_heights | 24 | 24 |
-| width/1280 | layout | default | 1280px |
+| derived default | line_heights | body | 1.5 |
+| derived default | line_heights | heading | 1.3 |
+| derived default | line_heights | tight | 1.15 |
+| derived default (no shadow/* variables) | shadows | card | 0 2px 8px rgba(0, 0, 0, 0.10) |
+| derived default (no shadow/* variables) | shadows | elevated | 0 8px 24px rgba(0, 0, 0, 0.16) |
+| override --content-size | layout | default | 1146px |
+| override --wide-size | layout | wide | 1280px |
 | degree-mode-55940468.figma.site/White | misc | degree-mode-55940468-figma-site-white | #FFFFFF |
 | degree-mode-55940468.figma.site/White 90% | misc | degree-mode-55940468-figma-site-white-90 | #FFFFFF |
 | destructive/foreground | misc | destructive-foreground | #ffffff |

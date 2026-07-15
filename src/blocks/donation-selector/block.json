@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/donation-selector",
+	"title": "Donation Selector",
+	"category": "widgets",
+	"icon": "money-alt",
+	"description": "Frequency switch + amount buttons that deep-link to a Luminate Online donation form.",
+	"attributes": {
+		"loFormId": { "type": "string", "default": "6740" },
+		"baseUrl": { "type": "string", "default": "https://give.stjo.org/site/Donation2" },		
+		"amounts": { "type": "array", "default": [ 25, 36, 50, 100, 250 ] },
+		"defaultAmount": { "type": "string", "default": "36" },
+		"fineprint": { "type": "string", "default": "Secure giving is processed through our partner platform." }
+	},
+	"supports": { "html": false },
+	"textdomain": "stjo",
+	"editorScript": "stjo-donation-selector-editor",
+	"viewScript": "file:./view.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

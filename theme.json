@@ -161,7 +161,8 @@
       "blockGap": null
     },
     "layout": {
-      "contentSize": "1280px"
+      "contentSize": "1146px",
+      "wideSize": "1280px"
     }
   }
 }

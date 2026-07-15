@@ -41,5 +41,18 @@ function stjo_register_block_styles() {
 		'name'  => 'arrow-link',
 		'label' => __( 'Arrow Link', 'stjo' ),
 	) );
+
+	// Separators: the zigzag ribbon is the DEFAULT; 'basic' is the plain line.
+	register_block_style( 'core/separator', array(
+		'name'  => 'basic',
+		'label' => __( 'Basic line', 'stjo' ),
+	) );
+
+	// Group whose last child hangs halfway below the band edge (donation card).
+	register_block_style( 'core/group', array(
+		'name'  => 'content-overhang',
+		'label' => __( 'Content Overhang', 'stjo' ),
+	) );
+
 }
 add_action( 'init', 'stjo_register_block_styles' );

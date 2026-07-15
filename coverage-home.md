@@ -13,6 +13,6 @@
 | Columns | impact-stats | name |
 | Columns | blog-teaser | name |
 | Separator | zigzag | name |
-| Your Generosity band (intro + photo cards + tiles + donate) | generosity | site-wide template part (skipped here) |
+| Your Generosity band (intro + photo cards + tiles + donate) | generosity | name |
 | Ways to Give | testimonial | name |
 | Footer | - | skipped (template part, not post content) |

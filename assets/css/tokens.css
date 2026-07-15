@@ -80,16 +80,31 @@
 	--stjo--h5--line-height: 1.0;  /* Heading/H5 */
 
 	/* ─── Line heights ─── */
-	--stjo--line-height--18-57:  18.56999969482422;  /* line height/18_57 */
-	--stjo--line-height--24:     24;  /* line height/24 */
+	--stjo--line-height--18-57:    18.56999969482422;  /* line height/18_57 */
+	--stjo--line-height--24:       24;  /* line height/24 */
+	--stjo--line-height--body:     1.5;  /* derived default */
+	--stjo--line-height--heading:  1.3;  /* derived default */
+	--stjo--line-height--tight:    1.15;  /* derived default */
 
 	/* ─── Border radius ─── */
 	--stjo--radius--md:   8px;  /* radius/md */
 	--stjo--radius--lg:   16px;  /* radius/lg */
 	--stjo--radius--xlg:  32px;  /* radius/xlg */
 
+	/* ─── Shadows ─── */
+	--stjo--shadow--card:      0 2px 8px rgba(0, 0, 0, 0.10);  /* derived default (no shadow/* variables) */
+	--stjo--shadow--elevated:  0 8px 24px rgba(0, 0, 0, 0.16);  /* derived default (no shadow/* variables) */
+
 	/* ─── Layout width tiers (mirror theme.json) ─── */
-	--stjo--layout--wrapper--max-width: 1280px;  /* width/1280 */
+	--stjo--layout--wrapper--max-width: 1146px;  /* override --content-size */
+	--stjo--layout--wide--max-width: 1280px;  /* override --wide-size */
+
+	/* ─── Component tokens (starter contract; from size/* vars or defaults) ─── */
+	--stjo--button--height: 48px;
+	--stjo--input--height: 48px;
+	--stjo--letter-spacing--caps: 1.5px;
+	--stjo--header--accent-bar-height: 18px;
+	--stjo--border--width: 1.5px;
 
 	/* ─── Misc (review: unmatched Figma variables) ─── */
 	--stjo--misc--degree-mode-55940468-figma-site-white:     #FFFFFF;  /* degree-mode-55940468.figma.site/White */

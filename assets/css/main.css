@@ -285,8 +285,16 @@ blockquote, .wp-block-quote {
    flow put it (no ghost gap above), while the BAND's measured height shrinks so
    its edge cuts up through the child. The group's bottom margin then reserves
    exactly the overhang below — one variable drives both, so clearance is exact
-   at every screen size. Tune per instance: --overhang (default 176px). */
+   at every screen size. Tune per instance: --overhang (default 176px).
+   flow-root is load-bearing: without a BFC the child's negative bottom margin
+   collapses with the group's positive one (they cancel to 0 and the group's
+   height ignores the negative margin entirely — no cut, no clearance).
+   min-height must stay free too: any clamp (harness delta, dimensions panel)
+   silently eats the cut. Band height under this style is content-driven —
+   make a band taller with padding/spacers, not min-height. */
 .wp-block-group.is-style-content-overhang {
+	display: flow-root;
+	min-height: 0 !important;
 	padding-bottom: 0 !important;
 	margin-bottom: var(--overhang, 176px) !important;
 }

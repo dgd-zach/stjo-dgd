@@ -6,7 +6,7 @@
  * @package stjo
  */
 ?>
-<!-- wp:group {"align":"full","className":"stjo-cards-band","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"3-Column Cover Cards"},"align":"full","className":"stjo-cards-band","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull stjo-cards-band"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
 <div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
@@ -24,7 +24,7 @@
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url( stjo_asset( 'card.png' ) ); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card.png' ) ); ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-cover stjo-card" style="min-height:400px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">Our Mission</h3>
 <!-- /wp:heading -->
 
@@ -41,7 +41,7 @@
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-cover stjo-card" style="min-height:400px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">About Our Children</h3>
 <!-- /wp:heading -->
 
@@ -58,7 +58,7 @@
 <!-- /wp:column -->
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url( stjo_asset( 'card-3.png' ) ); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-3.png' ) ); ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-cover stjo-card" style="min-height:400px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-3.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">Our Programs</h3>
 <!-- /wp:heading -->
 

@@ -6,7 +6,7 @@
  * @package stjo
  */
 ?>
-<!-- wp:group {"align":"full","backgroundColor":"light","layout":{"type":"constrained"},"className":"stjo-donation-band"} -->
+<!-- wp:group {"metadata":{"name":"2-Column: Quote + Donation Widget"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"},"className":"stjo-donation-band"} -->
 <div class="wp-block-group alignfull stjo-donation-band has-light-background-color has-background"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
 <div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->

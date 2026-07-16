@@ -292,16 +292,125 @@ blockquote, .wp-block-quote {
    min-height must stay free too: any clamp (harness delta, dimensions panel)
    silently eats the cut. Band height under this style is content-driven —
    make a band taller with padding/spacers, not min-height. */
-.wp-block-group.is-style-content-overhang {
+
+.wp-block-group.is-style-overhang-last-child {
 	display: flow-root;
 	min-height: 0 !important;
 	padding-bottom: 0 !important;
 	margin-bottom: var(--overhang, 176px) !important;
 }
-.wp-block-group.is-style-content-overhang > :last-child {
+.wp-block-group.is-style-overhang-last-child > :last-child {
 	margin-bottom: calc(-1 * var(--overhang, 176px)) !important;
 	position: relative;
 	z-index: 1;
+}
+
+.wp-block-group.is-style-overhang-first-child {
+	display: flow-root;
+	min-height: 0 !important;
+	padding-top: 0 !important;
+	margin-top: var(--overhang, 176px) !important;
+}
+.wp-block-group.is-style-overhang-first-child > :first-child {
+	margin-top: calc(-1 * var(--overhang, 176px)) !important;
+	position: relative;
+	z-index: 1;
+}
+
+/* ─── Carousel group style ───
+   Group with .is-style-carousel: each direct-child Cover is one slide.
+   Slides stack in a single grid cell (container height = tallest slide, so
+   switching never jumps the page); carousel.js injects the controls pill,
+   ARIA, and swipe, and toggles .is-active-slide.
+   Every rule is gated on html.js (set by nav.js's head script, FRONTEND
+   only) so the block-editor canvas and no-JS visitors get plain stacked,
+   fully visible covers — the canvas iframe loads this file via
+   add_editor_style, and editor-only stylesheets never reach it. */
+html.js .wp-block-group.is-style-carousel {
+	display: grid;
+	position: relative;
+	overflow: clip;
+}
+html.js .wp-block-group.is-style-carousel > .wp-block-cover {
+	grid-area: 1 / 1;
+	width: 100%;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 320ms ease, visibility 0s linear 320ms;
+}
+html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 320ms ease, visibility 0s linear 0s;
+}
+
+/* Controls pill, injected by carousel.js. */
+.stjo-carousel-controls {
+	position: absolute;
+	bottom: var(--stjo--spacing--md, 24px);
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px;
+	background: rgba(255, 255, 255, .94);
+	border-radius: 100px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+}
+.stjo-carousel-controls__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: #ededed;
+	color: var(--wp--preset--color--dark, #333);
+	cursor: pointer;
+}
+.stjo-carousel-controls__arrow:hover { background: var(--stjo--color--neutral-200, #ccc); }
+.stjo-carousel-controls__arrow:focus-visible,
+.stjo-carousel-controls__dot:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+.stjo-carousel-controls__dots { display: flex; gap: 10px; }
+.stjo-carousel-controls__dot {
+	width: 10px;
+	height: 10px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--stjo--color--neutral-200, #ccc);
+	cursor: pointer;
+	transition: background-color 150ms ease;
+}
+.stjo-carousel-controls__dot[aria-current="true"] { background: var(--wp--preset--color--brand-dark, #0053a0); }
+
+/* Hero slide layout: centered text column on the right of the photo. */
+.stjo-hero-slide .wp-block-cover__inner-container { width: 100%;  margin-inline: auto; }
+.stjo-hero-slide__box {
+	max-width: 520px;
+	margin-left: auto;
+	margin-right: clamp(0px, 4vw, 56px);
+	text-align: center;
+}
+@media (max-width: 782px) {
+	.stjo-hero-slide__box {
+		margin-inline: auto;
+		background: rgba(255, 255, 255, .88);
+		padding: var(--stjo--spacing--md, 24px);
+		border-radius: var(--stjo--radius--md, 8px);
+	}
+	.stjo-hero-slide--dark .wp-block-cover__inner-container { padding-inline: var(--stjo--spacing--md, 24px); }
+}
+@media (prefers-reduced-motion: reduce) {
+	html.js .wp-block-group.is-style-carousel > .wp-block-cover,
+	.stjo-carousel-controls__dot { transition: none; }
 }
 
 /* Root-level parent blocks carry no vertical margin — only Spacers separate sections. */
@@ -331,7 +440,7 @@ blockquote, .wp-block-quote {
    ═══════════════════════════════════════════════════════════════════════ */
 .site-accent-bar { height: var(--stjo--header--accent-bar-height, 18px); background: var(--wp--preset--color--yellow, #ffd520); }
 
-.site-header { background: var(--wp--preset--color--white, #fff); }
+.site-header { background: var(--wp--preset--color--white, #fff); position: relative; z-index: 20; }
 .site-header__inner {
 	display: flex;
 	align-items: center;
@@ -356,17 +465,275 @@ blockquote, .wp-block-quote {
 	margin: 0;
 	padding: 0;
 }
-.primary-menu a { white-space: nowrap; }
-.primary-menu a {
+/* Top-level section triggers: disclosure <button>s (childless items stay
+   <a>s), styled identically. Panel links have their own rules below. */
+.primary-menu > li > .menu-item__link {
+	appearance: none;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
 	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
 	font-size: var(--wp--preset--font-size--base, 16px);
 	font-weight: 500;
 	color: var(--wp--preset--color--dark, #333);
 	text-decoration: none;
-	padding-block: 5px;
+	white-space: nowrap;
+	padding-block: 5px 2px;
 	border-bottom: 2px solid transparent;
+	transition: border-bottom-color 200ms ease;
 }
-.primary-menu a:hover { border-bottom-color: var(--wp--preset--color--yellow, #ffd520); color: var(--wp--preset--color--brand-dark, #0053a0); }
+.primary-menu > li > .menu-item__link:hover,
+.primary-menu > li > .menu-item__link[aria-expanded="true"],
+.primary-menu > li.is-current > .menu-item__link {
+	border-bottom-color: var(--wp--preset--color--brand-dark, #0053a0);
+}
+.primary-menu > li > .menu-item__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.primary-menu > li > .menu-item__link { transition: none; }
+}
+
+/* ─── Mega panel band ───
+   .mega-panels is a header-level band that nav.js moves every section panel
+   into on desktop. It opens IN FLOW: its height animates (set inline by
+   nav.js) and pushes the page content down instead of floating over it.
+   Switching sections keeps the band open; the stacked panels inside just
+   crossfade, so the band itself never fades out/in. */
+.mega-panels {
+	position: relative;
+	height: 0;
+	overflow: hidden;
+	background: var(--wp--preset--color--light, #f3f3e6);
+	transition: height 240ms ease;
+}
+.mega-panels.is-open { box-shadow: 0 8px 12px rgba(0, 0, 0, .1); }
+.mega-panels > .mega-panel { position: absolute; top: 0; left: 0; width: 100%; }
+
+/* Sequenced content fade: an outgoing panel fades immediately (base
+   transition, visibility flips once faded); an incoming panel waits 160ms
+   before fading in, so a switch reads as out-then-in and a first open reads
+   as blank-band-expands-then-content-appears. */
+.mega-panel {
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease, visibility 0s linear 180ms;
+}
+.mega-panel.is-open,
+html.no-js .menu-item--section:hover > .mega-panel,
+html.no-js .menu-item--section:focus-within > .mega-panel {
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+	transition: opacity 180ms ease 160ms, visibility 0s linear 0s;
+}
+
+/* Fallback position (no JS: panels never leave their <li>): float under the
+   header on hover/focus so the nav still works without scripting. */
+.menu-item--section > .mega-panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: var(--wp--preset--color--light, #f3f3e6);
+	box-shadow: 0 8px 12px rgba(0, 0, 0, .1);
+	z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mega-panels, .mega-panel { transition: none; }
+}
+
+.mega-panel__inner {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--stjo--spacing--xl, 40px);
+	max-width: var(--stjo--layout--wide--max-width, 1440px);
+	margin-inline: auto;
+	padding: var(--stjo--spacing--xl, 40px) var(--stjo--spacing--lg, 32px) 48px;
+}
+
+/* Intro: section name, short rule, blurb. Divider drawn as a border. */
+.mega-panel__intro {
+	flex: 0 0 260px;
+	padding-right: var(--stjo--spacing--xl, 40px);
+	border-right: 1px solid var(--stjo--color--neutral-200, #ccc);
+	align-self: stretch;
+}
+.mega-panel__heading {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--wp--preset--font-size--large, 32px);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--wp--preset--color--dark, #333);
+	margin: 0 0 var(--stjo--spacing--sm, 16px);
+}
+.mega-panel__heading::after {
+	content: "";
+	display: block;
+	width: 40px;
+	height: 3px;
+	margin-top: var(--stjo--spacing--sm, 16px);
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+}
+.mega-panel__blurb {
+	font-size: var(--stjo--font-size--small, 14px);
+	line-height: 1.6;
+	letter-spacing: .03em;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+	margin: 0;
+}
+
+/* Link columns. */
+.mega-panel__columns {
+	flex: 1 1 auto;
+	display: flex;
+	gap: var(--stjo--spacing--xl, 40px);
+	min-width: 0;
+}
+.mega-panel__group { flex: 1 1 0; min-width: 0; max-width: 280px; }
+.mega-panel__group-heading {
+	font-size: var(--stjo--font-size--small, 14px);
+	font-weight: 600;
+	line-height: 1.45;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+	margin: 0 0 var(--stjo--spacing--sm, 16px);
+}
+.mega-panel__group-heading a { color: inherit; text-decoration: none; }
+.mega-panel__group-heading a:hover { color: var(--wp--preset--color--brand-dark, #0053a0); text-decoration: underline; }
+.mega-panel__links { list-style: none; margin: 0; padding: 0; }
+.mega-panel__links a {
+	display: block;
+	padding-block: var(--stjo--spacing--xs, 8px);
+	font-size: var(--stjo--font-size--small, 14px);
+	line-height: 1.6;
+	letter-spacing: .03em;
+	color: var(--wp--preset--color--dark, #333);
+	text-decoration: none;
+}
+.mega-panel__links a:hover { color: var(--wp--preset--color--brand-dark, #0053a0); text-decoration: underline; }
+
+/* Promo card. */
+.mega-panel__promo {
+	flex: 0 0 clamp(320px, 36%, 500px);
+	display: flex;
+	gap: var(--stjo--spacing--sm, 16px);
+	align-items: center;
+	padding: var(--stjo--spacing--md, 24px);
+	border-radius: var(--stjo--radius--md, 8px);
+	background: linear-gradient(180deg, var(--wp--preset--color--primary, #1a6db8), var(--wp--preset--color--brand-dark, #0053a0));
+}
+.mega-panel__promo-media { flex: 1 1 0; min-width: 0; align-self: stretch; }
+.mega-panel__promo-img {
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	object-fit: cover;
+	border-radius: 4px;
+}
+.mega-panel__promo-content { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--stjo--spacing--sm, 16px); }
+.mega-panel__promo-heading {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--wp--preset--font-size--medium, 24px);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--wp--preset--color--white, #fff);
+	margin: 0;
+}
+.mega-panel__promo-body {
+	font-size: var(--stjo--font-size--small, 14px);
+	line-height: 1.6;
+	letter-spacing: .03em;
+	color: rgba(255, 255, 255, .85);
+	margin: 0;
+}
+.mega-panel__promo-button .wp-block-button__link {
+	width: 100%;
+	border-radius: 4px;
+	font-size: var(--stjo--font-size--small, 14px);
+	padding: 10px var(--stjo--spacing--sm, 16px);
+}
+
+/* ─── Search modal ───
+   Native <dialog>: the element is the top-layer card, the inner card div
+   carries the padding so backdrop-click detection (target === dialog) can't
+   fire from inside the card. */
+body.modal-open { overflow: hidden; }
+
+.search-modal {
+	width: min(602px, calc(100vw - 2 * var(--stjo--spacing--md, 24px)));
+	margin: 14vh auto auto;
+	padding: 0;
+	border: 0;
+	border-radius: var(--stjo--radius--lg, 16px);
+	box-shadow: 0 24px 48px rgba(0, 20, 40, .25);
+}
+.search-modal::backdrop { background: rgba(0, 53, 102, .55); }
+.search-modal[open] { opacity: 1; transform: none; transition: opacity 150ms ease, transform 150ms ease; }
+@starting-style {
+	.search-modal[open] { opacity: 0; transform: translateY(-10px); }
+}
+
+.search-modal__card {
+	position: relative;
+	padding: var(--stjo--spacing--lg, 32px);
+}
+.search-modal__form {
+	display: flex;
+	gap: var(--stjo--spacing--sm, 16px);
+	align-items: center;
+}
+.search-modal__input {
+	flex: 1 1 0;
+	min-width: 0;
+	height: var(--stjo--input--height, 48px);
+	padding-inline: var(--stjo--spacing--sm, 16px);
+	border: 1px solid var(--stjo--color--neutral-200, #ccc);
+	border-radius: var(--stjo--radius--md, 8px);
+	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
+	font-size: var(--wp--preset--font-size--base, 16px);
+	color: var(--wp--preset--color--dark, #333);
+}
+.search-modal__input:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 1px;
+}
+.search-modal__submit { flex: 0 0 auto; }
+.search-modal__close {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+}
+.search-modal__close:hover { color: var(--wp--preset--color--brand-dark, #0053a0); }
+.search-modal__close:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.search-modal[open] { transition: none; }
+}
+@media (max-width: 480px) {
+	.search-modal__form { flex-wrap: wrap; }
+	.search-modal__submit { flex: 1 1 100%; }
+	.search-modal__submit .wp-block-button__link { width: 100%; }
+}
+
+/* Drawer toggle (hidden on desktop). */
+.site-header__menu-toggle { display: none; }
 
 .site-header__actions { display: flex; align-items: center; gap: var(--stjo--spacing--sm); }
 .site-header__actions .wp-block-button__link { min-height: var(--stjo--button--height, 48px); }
@@ -376,7 +743,7 @@ blockquote, .wp-block-quote {
 /* ═══════════════════════════════════════════════════════════════════════
    9. SITE FOOTER
    ═══════════════════════════════════════════════════════════════════════ */
-.site-footer { background: var(--wp--preset--color--blue-900, #003566); color: var(--wp--preset--color--white, #fff); }
+.site-footer { background: var(--color-blue-700, #0053A0);color: var(--wp--preset--color--white, #fff); }
 .site-footer a { color: var(--wp--preset--color--white, #fff); }
 .site-footer a:hover { color: var(--wp--preset--color--yellow, #ffd520); }
 .site-footer__inner { max-width: var(--stjo--layout--wide--max-width, 1440px); margin-inline: auto; padding: var(--stjo--spacing--xxl) var(--stjo--spacing--xl) var(--stjo--spacing--xl); }
@@ -419,9 +786,87 @@ blockquote, .wp-block-quote {
    11. RESPONSIVE
    ═══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-	.site-header__inner { flex-wrap: wrap; }
-	.site-header__nav { order: 3; flex-basis: 100%; }
-	.primary-menu { justify-content: flex-start; }
+	/* Nav collapses into a drawer behind the toggle; panels become accordions. */
+	.site-header__menu-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		background: none;
+		border: 0;
+		cursor: pointer;
+		color: var(--wp--preset--color--brand-dark, #0053a0);
+	}
+	.site-header__menu-icon,
+	.site-header__menu-icon::before,
+	.site-header__menu-icon::after {
+		display: block;
+		width: 24px;
+		height: 2.5px;
+		border-radius: 2px;
+		background: currentColor;
+		position: relative;
+		transition: transform 150ms ease, opacity 150ms ease;
+	}
+	.site-header__menu-icon::before,
+	.site-header__menu-icon::after { content: ""; position: absolute; left: 0; }
+	.site-header__menu-icon::before { top: -7px; }
+	.site-header__menu-icon::after { top: 7px; }
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-icon { background: transparent; }
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-icon::before { transform: translateY(7px) rotate(45deg); }
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-icon::after { transform: translateY(-7px) rotate(-45deg); }
+	@media (prefers-reduced-motion: reduce) {
+		.site-header__menu-icon,
+		.site-header__menu-icon::before,
+		.site-header__menu-icon::after { transition: none; }
+	}
+
+	.site-header__nav {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: var(--wp--preset--color--white, #fff);
+		border-top: 1px solid var(--stjo--color--neutral-200, #ccc);
+		box-shadow: 0 8px 12px rgba(0, 0, 0, .1);
+		max-height: calc(100vh - 100%);
+		overflow-y: auto;
+	}
+	.site-header.nav-open .site-header__nav { display: block; }
+	body.nav-open { overflow: hidden; }
+
+	.primary-menu { flex-direction: column; align-items: stretch; gap: 0; padding: var(--stjo--spacing--sm) 0; }
+	.primary-menu > li { border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc); }
+	.primary-menu > li:last-child { border-bottom: 0; }
+	.primary-menu > li > .menu-item__link {
+		display: block;
+		padding: var(--stjo--spacing--sm) var(--stjo--spacing--md);
+		border-bottom: 0;
+		white-space: normal;
+	}
+	.primary-menu > li.is-current > .menu-item__link,
+	.primary-menu > li > .menu-item__link[aria-expanded="true"] { color: var(--wp--preset--color--brand-dark, #0053a0); }
+
+	/* Panels flow in place as accordions (nav.js moves them back under their
+	   triggers); intro and promo stay desktop-only. The desktop fade/height
+	   dance doesn't apply in flow, so it's a plain display toggle here. */
+	.mega-panels { display: none; }
+	.menu-item--section > .mega-panel,
+	.mega-panel {
+		position: static;
+		box-shadow: none;
+		display: none;
+		visibility: visible;
+		opacity: 1;
+		pointer-events: auto;
+		transition: none;
+	}
+	.mega-panel.is-open { display: block; }
+	.mega-panel__inner { flex-direction: column; gap: var(--stjo--spacing--md); padding: 0 var(--stjo--spacing--md) var(--stjo--spacing--md); }
+	.mega-panel__intro, .mega-panel__promo { display: none; }
+	.mega-panel__columns { flex-direction: column; gap: var(--stjo--spacing--md); width: 100%; }
 }
 @media (max-width: 768px) {
 	h1, h1.wp-block-heading { font-size: var(--wp--preset--font-size--xl, 48px); }

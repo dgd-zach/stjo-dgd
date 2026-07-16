@@ -6,8 +6,8 @@
  * @package stjo
  */
 ?>
-<!-- wp:cover {"url":"<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>","dimRatio":60,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":783,"align":"full","className":"stjo-stats"} -->
-<div class="wp-block-cover alignfull stjo-stats" style="min-height:783px"><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-60 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container">
+<!-- wp:cover {"metadata":{"name":"4-Column Stats on Photo Band"},"url":"<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>","dimRatio":60,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":783,"align":"full","className":"stjo-stats"} -->
+<div class="wp-block-cover alignfull stjo-stats" style="min-height:783px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-60 has-background-dim"></span><div class="wp-block-cover__inner-container">
 
 <!-- wp:heading {"textAlign":"center","level":2,"textColor":"light"} -->
 <h2 class="wp-block-heading has-text-align-center has-light-color has-text-color">Here's What Happens <strong>When You Give</strong></h2>

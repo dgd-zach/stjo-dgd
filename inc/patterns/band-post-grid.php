@@ -6,7 +6,7 @@
  * @package stjo
  */
 ?>
-<!-- wp:group {"align":"full","className":"stjo-blog-band","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Band: Post Grid + Heading"},"align":"full","className":"stjo-blog-band","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull stjo-blog-band"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
 <div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->

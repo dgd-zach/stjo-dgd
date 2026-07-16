@@ -50,8 +50,29 @@ function stjo_register_block_styles() {
 
 	// Group whose last child hangs halfway below the band edge (donation card).
 	register_block_style( 'core/group', array(
-		'name'  => 'content-overhang',
-		'label' => __( 'Content Overhang', 'stjo' ),
+		'name'  => 'overhang-last-child',
+		'label' => __( 'Overhang Last Child', 'stjo' ),
+	) ); 
+	// Group whose last child hangs halfway below the band edge (donation card).
+	register_block_style( 'core/group', array(
+		'name'  => 'overhang-first-child',
+		'label' => __( 'Overhang First Child', 'stjo' ),
+	) );
+	// Group of Cover blocks presented one at a time (carousel.js adds
+	// controls, ARIA, fades, and swipe). Direct-child Covers = slides.
+	register_block_style( 'core/group', array(
+		'name'  => 'carousel',
+		'label' => __( 'Carousel', 'stjo' ),
+	) );
+	// Number that counts up from zero when scrolled into view (count-up.js).
+	// stjo-stat__figure paragraphs get this behavior automatically.
+	register_block_style( 'core/paragraph', array(
+		'name'  => 'count-up',
+		'label' => __( 'Count Up', 'stjo' ),
+	) );
+	register_block_style( 'core/heading', array(
+		'name'  => 'count-up',
+		'label' => __( 'Count Up', 'stjo' ),
 	) );
 
 }

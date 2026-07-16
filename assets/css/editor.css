@@ -5,7 +5,10 @@
  */
 
 /* Content width: match the frontend wrapper / wide tiers. */
-.editor-styles-wrapper .wp-block { max-width: var(--stjo--layout--wrapper--max-width, 1280px); }
+.editor-styles-wrapper .wp-block { 
+    /* max-width: var(--stjo--layout--wrapper--max-width, 1280px);  */
+    max-width: 100%; 
+}
 .editor-styles-wrapper .wp-block[data-align="wide"] { max-width: var(--stjo--layout--wide--max-width, 1440px); }
 .editor-styles-wrapper .wp-block[data-align="full"] { max-width: none; }
 
@@ -15,3 +18,4 @@
 
 /* Separator default override. */
 .editor-styles-wrapper .wp-block-separator { border-color: var(--wp--preset--color--neutral-200, #cccccc); border-width: 1px; }
+

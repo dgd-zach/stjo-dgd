@@ -24,21 +24,18 @@
 			?>
 		</div>
 
-		<nav class="site-header__nav" aria-label="<?php esc_attr_e( 'Primary', 'stjo' ); ?>">
-			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'primary',
-				'container'      => false,
-				'menu_class'     => 'primary-menu',
-				'depth'          => 2,
-				'fallback_cb'    => 'stjo_primary_menu_fallback',
-			) );
-			?>
+		<button class="site-header__menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+			<span class="site-header__menu-icon" aria-hidden="true"></span>
+			<span class="screen-reader-text"><?php esc_html_e( 'Menu', 'stjo' ); ?></span>
+		</button>
+
+		<nav id="site-nav" class="site-header__nav" aria-label="<?php esc_attr_e( 'Primary', 'stjo' ); ?>">
+			<?php stjo_mega_nav(); ?>
 		</nav>
 
 		<div class="site-header__actions">
 			<?php if ( stjo_config_get( 'header.show_search', true ) ) : ?>
-				<button class="site-header__search" type="button" aria-label="<?php esc_attr_e( 'Search', 'stjo' ); ?>">
+				<button class="site-header__search" type="button" aria-haspopup="dialog" aria-label="<?php esc_attr_e( 'Search', 'stjo' ); ?>" data-search-open>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
 						<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
 						<line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -73,6 +70,33 @@
 			?>
 		</div>
 	</div>
+	<?php
+	// Desktop panel band: nav.js moves each section's .mega-panel in here so
+	// the band opens IN FLOW (pushing content down, nothing floats over the
+	// hero) and section switches crossfade inside the one band. In the
+	// drawer, panels move back under their triggers as accordions.
+	?>
+	<div class="mega-panels" data-mega-panels></div>
+
+	<?php if ( stjo_config_get( 'header.show_search', true ) ) : ?>
+	<dialog class="search-modal" id="site-search-modal" aria-label="<?php esc_attr_e( 'Search this site', 'stjo' ); ?>" data-search-modal>
+		<div class="search-modal__card">
+			<form class="search-modal__form" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+				<label class="screen-reader-text" for="site-search-input"><?php esc_html_e( 'Search this site', 'stjo' ); ?></label>
+				<input id="site-search-input" class="search-modal__input" type="search" name="s" placeholder="<?php esc_attr_e( 'Search', 'stjo' ); ?>" required>
+				<div class="wp-block-button is-style-fill search-modal__submit">
+					<button class="wp-block-button__link wp-element-button" type="submit"><?php esc_html_e( 'Search', 'stjo' ); ?></button>
+				</div>
+			</form>
+			<button class="search-modal__close" type="button" data-search-close>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+					<path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+				<span class="screen-reader-text"><?php esc_html_e( 'Close search', 'stjo' ); ?></span>
+			</button>
+		</div>
+	</dialog>
+	<?php endif; ?>
 </header>
 <?php
 /**

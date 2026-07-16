@@ -6,6 +6,6 @@
  * @package stjo
  */
 ?>
-<!-- wp:separator {"className":"alignfull"} -->
+<!-- wp:separator {"metadata":{"name":"Divider: Zigzag Ribbon"},"className":"alignfull"} -->
 <hr class="wp-block-separator has-alpha-channel-opacity alignfull"/>
 <!-- /wp:separator -->

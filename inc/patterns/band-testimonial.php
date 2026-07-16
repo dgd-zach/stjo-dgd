@@ -6,7 +6,7 @@
  * @package stjo
  */
 ?>
-<!-- wp:group {"align":"full","backgroundColor":"blue-900","className":"stjo-testimonial-band","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Band: Centered Testimonial"},"align":"full","backgroundColor":"blue-900","className":"stjo-testimonial-band","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull stjo-testimonial-band has-blue-900-background-color has-background"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
 <div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->

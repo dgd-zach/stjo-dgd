@@ -105,6 +105,8 @@ add_action( 'init', 'stjo_register_blocks' );
 
 require_once get_template_directory() . '/inc/theme-config.php';
 require_once get_template_directory() . '/inc/asset-helper.php';
+require_once get_template_directory() . '/inc/nav-menu.php';
+require_once get_template_directory() . '/inc/nav-menu-fields.php';
 require_once get_template_directory() . '/inc/cpt-loader.php';
 require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/block-styles.php';

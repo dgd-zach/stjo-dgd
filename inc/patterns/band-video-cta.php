@@ -6,7 +6,7 @@
  * @package stjo
  */
 ?>
-<!-- wp:group {"align":"full","backgroundColor":"brand-dark","textColor":"white","layout":{"type":"constrained"},"className":"stjo-video-band"} -->
+<!-- wp:group {"metadata":{"name":"Band: Video + CTA"},"align":"full","backgroundColor":"brand-dark","textColor":"white","layout":{"type":"constrained"},"className":"stjo-video-band"} -->
 <div class="wp-block-group alignfull stjo-video-band has-white-color has-brand-dark-background-color has-text-color has-background"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
 <div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->

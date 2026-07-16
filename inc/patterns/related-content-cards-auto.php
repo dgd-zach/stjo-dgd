@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Related Content Cards (Auto)
+ * Categories: cards
  * Description: Structure: related-content-cards auto. Eyebrow, heading, latest posts via Query Loop styled as info cards. Source: general-content.
  *
  * @package stjo

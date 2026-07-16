@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Two-Column Subsection (Image Right)
+ * Categories: media
  * Description: Structure: two-column-subsection reversed. Text left, image right. Replaces two-column-image-text. Source: both frames.
  *
  * @package stjo

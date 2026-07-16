@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Subsection Link Bar
+ * Categories: utility
  * Description: Structure: subsection-link-bar. Centered in-page jump links with separators. Source: section-landing-general.
  *
  * @package stjo

@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Hero Carousel
+ * Categories: heroes
  * Description: Structure: carousel of full-width cover slides (Campaign, Event, DreamMaker). Apply per-slide imagery and copy in the editor; carousel.js adds controls.
  *
  * Any group with the "Carousel" style behaves this way: each direct-child

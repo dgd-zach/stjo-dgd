@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Related Content Cards (Manual)
+ * Categories: cards
  * Description: Structure: related-content-cards. Eyebrow, heading, four hand-curated image cards. Source: general-content.
  *
  * @package stjo

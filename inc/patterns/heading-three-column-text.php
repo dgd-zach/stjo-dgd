@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Heading + Three-Column Text
+ * Categories: body
  * Description: Structure: heading-three-column-text. Full-width title above three text columns. Source: general-content.
  *
  * @package stjo

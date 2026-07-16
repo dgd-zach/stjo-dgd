@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Pull Quote
+ * Categories: quotes
  * Description: Structure: pull-quote. Large quote with attribution between yellow rules. Source: general-content.
  *
  * @package stjo

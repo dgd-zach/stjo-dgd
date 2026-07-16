@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Heading + Video
+ * Categories: media
  * Description: Structure: heading-video. Centered title over a rounded video placeholder. Source: section-landing-general + general-content.
  *
  * @package stjo

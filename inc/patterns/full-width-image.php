@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Full-Width Image
+ * Categories: media
  * Description: Structure: full-width-image. Full-bleed image band. Source: general-content.
  *
  * @package stjo

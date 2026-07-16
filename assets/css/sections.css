@@ -390,3 +390,80 @@ hr.stjo-zigzag, .stjo-zigzag {
 	.stjo-related-query .wp-block-post-template { grid-template-columns: 1fr !important; }
 	.stjo-subsection-links a:not(:first-child)::before { margin-inline: var(--stjo--spacing--sm, 16px); }
 }
+
+/* ─── Pattern Library template (dev/staging style guide) ─── */
+.stjo-plib__head { background: var(--wp--preset--color--blue-900, #003566); color: var(--wp--preset--color--white, #fff); padding: var(--stjo--spacing--xl, 48px) var(--stjo--spacing--lg, 32px); }
+.stjo-plib__head-inner { max-width: var(--wp--style--global--content-size, 1146px); margin-inline: auto; }
+.stjo-plib__head h1 { color: var(--wp--preset--color--white, #fff); margin-bottom: var(--stjo--spacing--sm, 16px); }
+.stjo-plib__head .is-style-eyebrow { color: var(--wp--preset--color--yellow, #ffd520); }
+.stjo-plib__count { color: rgba(255, 255, 255, .8); }
+.stjo-plib__toc { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--stjo--spacing--lg, 32px); margin-top: var(--stjo--spacing--md, 24px); }
+.stjo-plib__toc-label { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; color: var(--wp--preset--color--yellow, #ffd520); margin: 0 0 6px; }
+.stjo-plib__toc ul { list-style: none; margin: 0; padding: 0; }
+.stjo-plib__toc li { margin-bottom: 6px; }
+.stjo-plib__toc a { color: var(--wp--preset--color--white, #fff); text-decoration-color: rgba(255, 255, 255, .4); }
+.stjo-plib__toc a:hover { color: var(--wp--preset--color--yellow, #ffd520); }
+
+.stjo-plib__cat {
+	max-width: var(--wp--style--global--content-size, 1146px);
+	margin: var(--stjo--spacing--xl, 48px) auto var(--stjo--spacing--sm, 16px);
+	padding-inline: var(--stjo--spacing--lg, 32px);
+	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
+	font-size: var(--stjo--font-size--h5, 21px);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+}
+
+/* Each pattern is a focusable copy target; the overlay reveals on
+   hover/focus and carries the real links. */
+.stjo-plib__item { position: relative; border-top: 2px solid var(--stjo--color--neutral-200, #ccc); cursor: copy; }
+.stjo-plib__item:focus-visible { outline: 3px solid var(--wp--preset--color--primary, #1a6db8); outline-offset: -3px; }
+.stjo-plib__render { padding-block: var(--stjo--spacing--md, 24px); }
+.stjo-plib__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background: rgba(0, 32, 61, .82);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 160ms ease, visibility 0s linear 160ms;
+	pointer-events: none;
+}
+.stjo-plib__item:hover .stjo-plib__overlay,
+.stjo-plib__item:focus-within .stjo-plib__overlay,
+.stjo-plib__item:focus-visible .stjo-plib__overlay {
+	opacity: 1;
+	visibility: visible;
+	transition-delay: 0s;
+	pointer-events: auto;
+}
+.stjo-plib__overlay-inner { max-width: 640px; padding: var(--stjo--spacing--lg, 32px); color: var(--wp--preset--color--white, #fff); }
+.stjo-plib__overlay-title { color: var(--wp--preset--color--white, #fff); font-size: var(--wp--preset--font-size--medium, 24px); margin: 0 0 var(--stjo--spacing--xs, 8px); }
+.stjo-plib__overlay-desc { color: rgba(255, 255, 255, .85); font-size: var(--stjo--font-size--small, 14px); margin: 0 0 var(--stjo--spacing--sm, 16px); }
+.stjo-plib__overlay-hint { font-weight: 600; color: var(--wp--preset--color--yellow, #ffd520); margin: 0 0 var(--stjo--spacing--sm, 16px); }
+.stjo-plib__item.is-copied .stjo-plib__overlay-hint { color: #7ee787; }
+.stjo-plib__overlay-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 20px;
+	border: 1.5px solid var(--wp--preset--color--white, #fff);
+	border-radius: var(--stjo--radius--md, 8px);
+	color: var(--wp--preset--color--white, #fff);
+	font-weight: 600;
+	text-decoration: none;
+}
+.stjo-plib__overlay-btn:hover { background: var(--wp--preset--color--white, #fff); color: var(--wp--preset--color--brand-dark, #0053a0); }
+.stjo-plib__markup { display: none; }
+@media (prefers-reduced-motion: reduce) {
+	.stjo-plib__overlay { transition: none; }
+}
+@media (max-width: 768px) {
+	.stjo-plib__toc { grid-template-columns: 1fr; }
+}

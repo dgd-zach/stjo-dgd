@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Accordion
+ * Categories: accordions
  * Description: Structure: accordion. Centered stack of native Details blocks. Source: general-content.
  *
  * @package stjo

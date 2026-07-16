@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Two-Column Text + List
+ * Categories: body
  * Description: Structure: two-column-text-list. Title and text beside a bullet list. Source: general-content.
  *
  * @package stjo

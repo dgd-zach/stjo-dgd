@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Page Title Band
+ * Categories: heroes
  * Description: Structure: page-title-band. Imageless page header: blue gradient band, eyebrow, centered title. Source: general-content.
  *
  * @package stjo

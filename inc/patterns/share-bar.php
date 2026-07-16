@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Share Bar
+ * Categories: utility
  * Description: Structure: share-bar. Share label plus social share pill buttons. Source: general-content.
  *
  * @package stjo

@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Two-Column Text + Accordion
+ * Categories: accordions
  * Description: Structure: two-column-text-accordion. Title and text beside an accordion stack. Source: general-content.
  *
  * @package stjo

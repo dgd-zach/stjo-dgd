@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Heading + Two-Column Text
+ * Categories: body
  * Description: Structure: heading-two-column-text. Full-width title above two text columns. Source: general-content.
  *
  * @package stjo

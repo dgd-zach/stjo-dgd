@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Heading + Centered Text
+ * Categories: body
  * Description: Structure: heading-centered-text. Centered heading over a narrow centered paragraph. Source: general-content.
  *
  * @package stjo

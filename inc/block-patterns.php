@@ -27,6 +27,35 @@ function stjo_register_pattern_category() {
 add_action( 'init', 'stjo_register_pattern_category' );
 
 /**
+ * Content-type categories, in display order (Pattern Library page + the
+ * editor inserter both use these). Pattern files opt in via a
+ * "Categories: <slug>" header; anything unmapped falls to the last group.
+ */
+function stjo_pattern_content_categories() {
+	return array(
+		'stjo-heroes'     => __( 'Hero Banners', 'stjo' ),
+		'stjo-ctas'       => __( 'CTAs', 'stjo' ),
+		'stjo-cards'      => __( 'Cards', 'stjo' ),
+		'stjo-media'      => __( 'Media + Text', 'stjo' ),
+		'stjo-body'       => __( 'Body Copy', 'stjo' ),
+		'stjo-accordions' => __( 'Accordions + FAQs', 'stjo' ),
+		'stjo-quotes'     => __( 'Quotes + Testimonials', 'stjo' ),
+		'stjo-stats'      => __( 'Stats', 'stjo' ),
+		'stjo-utility'    => __( 'Utilities', 'stjo' ),
+	);
+}
+
+/**
+ * Register the content-type categories.
+ */
+function stjo_register_content_categories() {
+	foreach ( stjo_pattern_content_categories() as $cat_slug => $label ) {
+		register_block_pattern_category( $cat_slug, array( 'label' => $label ) );
+	}
+}
+add_action( 'init', 'stjo_register_content_categories' );
+
+/**
  * Register each inc/patterns/*.php file as a block pattern.
  */
 function stjo_register_patterns() {
@@ -34,23 +63,65 @@ function stjo_register_patterns() {
 	if ( ! is_dir( $dir ) ) {
 		return;
 	}
+	$known = stjo_pattern_content_categories();
 	foreach ( glob( $dir . '*.php' ) as $file ) {
 		$headers = get_file_data( $file, array(
 			'title'       => 'Title',
 			'description' => 'Description',
+			'categories'  => 'Categories',
 		) );
 		$slug  = 'stjo/' . basename( $file, '.php' );
 		$title = $headers['title'] ?: ucwords( str_replace( '-', ' ', basename( $file, '.php' ) ) );
+		$cats  = array( 'stjo' );
+		foreach ( array_filter( array_map( 'trim', explode( ',', (string) $headers['categories'] ) ) ) as $cat ) {
+			$cat = 0 === strpos( $cat, 'stjo-' ) ? $cat : 'stjo-' . $cat;
+			if ( isset( $known[ $cat ] ) ) {
+				$cats[] = $cat;
+			}
+		}
 		ob_start();
 		include $file;
 		$content = ob_get_clean();
 		register_block_pattern( $slug, array(
 			'title'       => $title,
 			'description' => $headers['description'],
-			'categories'  => array( 'stjo' ),
+			'categories'  => $cats,
 			'content'     => trim( $content ),
 			'inserter'    => true,
 		) );
 	}
 }
 add_action( 'init', 'stjo_register_patterns' );
+
+/**
+ * Tidy the inserter: theme patterns only. Drops the bundled core patterns
+ * and the remote Pattern Directory feed.
+ */
+function stjo_remove_stock_patterns() {
+	remove_theme_support( 'core-block-patterns' );
+}
+add_action( 'after_setup_theme', 'stjo_remove_stock_patterns', 20 );
+add_filter( 'should_load_remote_block_patterns', '__return_false' );
+
+/**
+ * Keep the Pattern Library style guide out of search engines and the
+ * on-site search; it is a dev/staging reference page.
+ */
+function stjo_pattern_library_robots( $robots ) {
+	if ( is_page_template( 'page-pattern-library.php' ) ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'stjo_pattern_library_robots' );
+
+function stjo_pattern_library_exclude_search( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
+		$library = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-pattern-library.php' ) );
+		if ( $library ) {
+			$query->set( 'post__not_in', wp_list_pluck( $library, 'ID' ) );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'stjo_pattern_library_exclude_search' );

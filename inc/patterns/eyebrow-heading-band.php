@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Eyebrow + Heading
+ * Categories: body
  * Description: Structure: eyebrow-heading-band. Centered eyebrow and section heading. Source: general-content.
  *
  * @package stjo

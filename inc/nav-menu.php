@@ -243,6 +243,15 @@ function stjo_nav_assets() {
 		STJO_VERSION,
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
+	if ( is_page_template( 'page-pattern-library.php' ) ) {
+		wp_enqueue_script(
+			'stjo-pattern-library',
+			get_template_directory_uri() . '/assets/js/pattern-library.js',
+			array(),
+			STJO_VERSION,
+			array( 'strategy' => 'defer', 'in_footer' => true )
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'stjo_nav_assets' );
 

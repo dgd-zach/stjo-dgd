@@ -1,6 +1,7 @@
 <?php
 /**
  * Title: Two-Column Intro
+ * Categories: body
  * Description: Structure: two-column-intro. Section title left, body text right. Source: section-landing-general + general-content.
  *
  * @package stjo

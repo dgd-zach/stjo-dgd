@@ -48,6 +48,7 @@ add_action( 'after_setup_theme', 'stjo_setup' );
 function stjo_enqueue_styles() {
 	$uri = get_template_directory_uri();
 
+	wp_enqueue_style( 'stjo-fontawesome', $uri . '/assets/vendor/fontawesome/css/all.min.css', array(), '7.3.1' );
 	wp_enqueue_style( 'stjo-fonts', $uri . '/assets/css/fonts.css', array(), STJO_VERSION );
 	wp_enqueue_style( 'stjo-tokens', $uri . '/assets/css/tokens.css', array( 'stjo-fonts' ), STJO_VERSION );
 	wp_enqueue_style( 'stjo-style', get_stylesheet_uri(), array( 'stjo-tokens' ), STJO_VERSION );

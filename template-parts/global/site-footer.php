@@ -7,9 +7,24 @@
  */
 
 $contact_icons = array(
-	'address' => '&#9737;',
-	'phone'   => '&#9742;',
-	'email'   => '&#9993;',
+	'address' => 'fa-solid fa-location-dot',
+	'phone'   => 'fa-solid fa-phone',
+	'email'   => 'fa-solid fa-envelope',
+);
+
+// Font Awesome brand classes keyed by the config's network name (lowercased).
+$social_icons = array(
+	'facebook'  => 'fa-facebook-f',
+	'instagram' => 'fa-instagram',
+	'youtube'   => 'fa-youtube',
+	'tiktok'    => 'fa-tiktok',
+	'x'         => 'fa-x-twitter',
+	'twitter'   => 'fa-x-twitter',
+	'flickr'    => 'fa-flickr',
+	'linkedin'  => 'fa-linkedin-in',
+	'pinterest' => 'fa-pinterest-p',
+	'threads'   => 'fa-threads',
+	'vimeo'     => 'fa-vimeo-v',
 );
 ?>
 <footer class="site-footer" role="contentinfo">
@@ -26,7 +41,7 @@ $contact_icons = array(
 					<ul class="site-footer__contact">
 						<?php foreach ( $contact as $row ) : ?>
 							<li>
-								<span class="site-footer__icon" aria-hidden="true"><?php echo isset( $contact_icons[ $row['icon'] ?? '' ] ) ? $contact_icons[ $row['icon'] ] : '&#9737;'; // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
+								<span class="site-footer__icon" aria-hidden="true"><i class="<?php echo esc_attr( $contact_icons[ $row['icon'] ?? '' ] ?? 'fa-solid fa-location-dot' ); ?>"></i></span>
 								<?php if ( ! empty( $row['url'] ) ) : ?>
 									<a href="<?php echo esc_url( $row['url'] ); ?>"><?php echo wp_kses( $row['text'] ?? '', array( 'br' => array() ) ); ?></a>
 								<?php else : ?>
@@ -66,10 +81,13 @@ $contact_icons = array(
 					<h2 class="site-footer__heading"><?php esc_html_e( 'Connect With Us', 'stjo' ); ?></h2>
 					<ul class="site-footer__social" aria-label="<?php esc_attr_e( 'Social media', 'stjo' ); ?>">
 						<?php foreach ( $social as $network ) : ?>
+							<?php $brand = $social_icons[ strtolower( $network['network'] ?? '' ) ] ?? ''; ?>
 							<li>
 								<a href="<?php echo esc_url( $network['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( $network['network'] ?? '' ); ?>">
 									<?php if ( ! empty( $network['icon'] ) ) : ?>
 										<img src="<?php echo esc_url( $network['icon'] ); ?>" alt="" width="24" height="24" loading="lazy">
+									<?php elseif ( $brand ) : ?>
+										<i class="fa-brands <?php echo esc_attr( $brand ); ?>" aria-hidden="true"></i>
 									<?php else : ?>
 										<span class="site-footer__social-dot" aria-hidden="true"></span>
 									<?php endif; ?>

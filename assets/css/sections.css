@@ -100,11 +100,27 @@
 }
 a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color--blue-900, #003566) 85%, black); }
 .stjo-give-tile img { width: 56px; height: 56px; }
-/* Icon turns brand yellow on tile hover/focus. No transition: animating a
-   filter chain interpolates through junk hues (pink) on the way. */
-a.stjo-give-tile:hover img,
-a.stjo-give-tile:focus-visible img {
+/* Icon turns brand yellow on tile hover/focus. icon-mask.js repaints each
+   icon <img> as a background-color box masked by its own bitmap (--icon =
+   its src), so the color change can transition; a filter chain can't
+   (it interpolates through junk hues). Filter stays as the no-JS /
+   pre-load fallback, snapping with no transition. */
+a.stjo-give-tile:hover img:not(.is-masked),
+a.stjo-give-tile:focus-visible img:not(.is-masked) {
 	filter: brightness(0) saturate(100%) invert(81%) sepia(48%) saturate(1104%) hue-rotate(358deg) brightness(102%) contrast(103%);
+}
+a.stjo-give-tile img.is-masked {
+	height: 0;
+	padding-top: 56px; /* keeps the 56px box while hiding the bitmap (content box = 0) */
+	box-sizing: border-box;
+	background-color: var(--wp--preset--color--white, #fff);
+	-webkit-mask: var(--icon) center / contain no-repeat;
+	mask: var(--icon) center / contain no-repeat;
+	transition: background-color .2s ease;
+}
+a.stjo-give-tile:hover img.is-masked,
+a.stjo-give-tile:focus-visible img.is-masked {
+	background-color: var(--wp--preset--color--yellow, #ffd520);
 }
 .stjo-give-tile__title {
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));

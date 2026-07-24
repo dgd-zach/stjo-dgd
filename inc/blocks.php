@@ -18,5 +18,14 @@ function stjo_register_custom_blocks() {
 		true
 	);
 	register_block_type( get_template_directory() . '/src/blocks/donation-selector' );
+
+	wp_register_script(
+		'stjo-timeline-editor',
+		get_template_directory_uri() . '/src/blocks/timeline/edit.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-server-side-render' ),
+		STJO_VERSION,
+		true
+	);
+	register_block_type( get_template_directory() . '/src/blocks/timeline' );
 }
 add_action( 'init', 'stjo_register_custom_blocks' );

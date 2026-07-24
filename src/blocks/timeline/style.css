@@ -1,0 +1,435 @@
+/* History Timeline block. Server markup is a stacked, fully readable list
+ * (that is also what the editor SSR preview shows); view.js adds .is-js and
+ * .is-slider to turn each decade into a height-animated slider, and drives
+ * the scroll-linked custom properties:
+ *   --stjo-tl-progress  (inner)    px height of the navy line fill
+ *   --stjo-tl-vis       (decade)   0..1 opacity for watermark + node
+ *   --stjo-tl-blur      (decade)   blur radius for the watermark
+ * All three default to the fully-visible state so no-JS renders complete. */
+
+:root {
+	--stjo-tl-pad: clamp(24px, 4vw, 64px);
+	--stjo-tl-label-col: clamp(240px, 24vw, 380px);
+	--stjo-tl-col-gap: clamp(40px, 4vw, 72px);
+	--stjo-tl-slide-gap: 48px;
+	--stjo-tl-media-size: 300px; /* horizontal card image height AND vertical card image width */
+	--stjo-tl-wm-size: clamp(56px, 8vw, 120px);
+	--stjo-tl-line-x: calc(var(--stjo-tl-pad) + var(--stjo-tl-label-col) + var(--stjo-tl-col-gap) / 2);
+}
+
+.stjo-timeline {
+	padding-block: var(--stjo--spacing--lg, 32px);
+}
+
+.stjo-timeline__inner {
+	position: relative;
+	max-width: 1520px;
+	margin-inline: auto;
+	padding-inline: var(--stjo-tl-pad);
+	padding-bottom: var(--stjo--spacing--lg, 32px);
+}
+
+/* Continuous vertical line + scroll-progress fill */
+.stjo-timeline__inner::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: var(--stjo-tl-line-x);
+	width: 2px;
+	transform: translateX(-50%);
+	background: rgba(0, 83, 160, 0.22);
+}
+
+.stjo-timeline__inner::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	height: var(--stjo-tl-progress, 0px);
+	left: var(--stjo-tl-line-x);
+	width: 2px;
+	transform: translateX(-50%);
+	background: var(--wp--preset--color--blue-900, #003566);
+}
+
+.stjo-timeline__node {
+	position: absolute;
+	/* The decade section's origin sits inside the inner padding, so subtract it */
+	left: calc(var(--stjo-tl-line-x) - var(--stjo-tl-pad));
+	top: calc(var(--stjo--spacing--xl, 48px) + var(--stjo-tl-wm-size) / 2);
+	width: 16px;
+	height: 16px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow, #ffd520);
+	border: 3px solid var(--wp--preset--color--brand-dark, #0053a0);
+	z-index: 1;
+	opacity: var(--stjo-tl-vis, 1);
+}
+
+.stjo-timeline__end {
+	position: absolute;
+	left: var(--stjo-tl-line-x);
+	bottom: 0;
+	width: 16px;
+	height: 16px;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow, #ffd520);
+	border: 3px solid var(--wp--preset--color--brand-dark, #0053a0);
+	z-index: 1;
+}
+
+.stjo-timeline__decade {
+	position: relative;
+	display: grid;
+	grid-template-columns: var(--stjo-tl-label-col) minmax(0, 1fr);
+	column-gap: var(--stjo-tl-col-gap);
+	padding-block: var(--stjo--spacing--xl, 48px);
+}
+
+.stjo-timeline__decade-label {
+	grid-column: 1;
+	align-self: start;
+	margin: 0;
+	display: block;
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading, serif));
+	font-size: var(--stjo-tl-wm-size);
+	font-weight: 700;
+	line-height: 1;
+	color: rgba(0, 83, 160, 0.22); /* decorative (aria-hidden) — decade info lives in year pills/chips */
+	opacity: var(--stjo-tl-vis, 1);
+	filter: blur(var(--stjo-tl-blur, 0px));
+	will-change: opacity, filter;
+}
+
+.stjo-timeline__cards {
+	grid-column: 2;
+	max-width: 900px;
+}
+
+/* Default (no JS / editor preview): stacked cards, all readable */
+.stjo-timeline__track {
+	display: grid;
+	gap: var(--stjo--spacing--lg, 32px);
+}
+
+/* Slider mode (JS). The padding/negative-margin pair gives card box-shadows
+ * room inside the overflow clip without shifting layout; view.js reads the
+ * padding and adds it to the animated height. */
+.stjo-timeline__cards.is-slider .stjo-timeline__viewport {
+	overflow: hidden;
+	padding: var(--stjo-tl-bleed, 24px);
+	margin: calc(-1 * var(--stjo-tl-bleed, 24px));
+	transition: height 0.35s ease;
+}
+
+.stjo-timeline__cards.is-slider .stjo-timeline__track {
+	display: flex;
+	align-items: flex-start;
+	column-gap: var(--stjo-tl-slide-gap);
+	transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.stjo-timeline__cards.is-slider .stjo-timeline-card {
+	flex: 0 0 100%;
+}
+
+/* Card */
+.stjo-timeline-card {
+	position: relative; /* anchors the editor-only Edit pill */
+	background: var(--wp--preset--color--white, #fff);
+	border-radius: var(--stjo--radius--lg, 16px);
+	box-shadow: var(--stjo--shadow--card, 0 2px 8px rgba(0, 0, 0, 0.1));
+	overflow: hidden;
+}
+
+/* Editor preview only (render.php emits it solely in that context). The
+ * selector weight matters: editor styles are rewritten with an
+ * .editor-styles-wrapper prefix, so the canvas's a / a:hover rules outrank
+ * a bare class. */
+.stjo-timeline-card a.stjo-timeline-card__edit {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 2;
+	background: var(--wp--preset--color--blue-900, #003566);
+	color: var(--wp--preset--color--white, #fff);
+	font-family: var(--stjo--font-family--base, sans-serif);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1;
+	padding: 8px 14px;
+	border-radius: 999px;
+	text-decoration: none;
+}
+
+.stjo-timeline-card a.stjo-timeline-card__edit:hover,
+.stjo-timeline-card a.stjo-timeline-card__edit:focus-visible {
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+	text-decoration: none;
+}
+
+.stjo-timeline-card--bare {
+	border-top: 8px solid var(--wp--preset--color--brand-dark, #0053a0);
+}
+
+.stjo-timeline-card__media {
+	margin: 0;
+}
+
+/* Horizontal: full card width at a set height — the focus point steers the
+ * vertical crop. */
+.stjo-timeline-card--horizontal .stjo-timeline-card__media img {
+	display: block;
+	width: 100%;
+	height: var(--stjo-tl-media-size, 300px);
+	object-fit: cover;
+}
+
+/* Vertical: set width, and the image's full natural height shows — the card
+ * grows to the image, never the other way around. Nothing crops here. */
+.stjo-timeline-card--vertical {
+	display: flex;
+	align-items: stretch;
+}
+
+.stjo-timeline-card--vertical .stjo-timeline-card__media {
+	/* set width, but never more than 40% of the card */
+	flex: 0 0 min(var(--stjo-tl-media-size, 300px), 40%);
+	width: min(var(--stjo-tl-media-size, 300px), 40%);
+}
+
+.stjo-timeline-card--vertical .stjo-timeline-card__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.stjo-timeline-card--vertical .stjo-timeline-card__body {
+	flex: 1;
+	min-width: 0;
+}
+
+.stjo-timeline-card__body {
+	padding: var(--stjo--spacing--md, 24px) var(--stjo--spacing--lg, 32px) var(--stjo--spacing--lg, 32px);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.stjo-timeline-card__year {
+	background: var(--wp--preset--color--blue-900, #003566);
+	color: var(--wp--preset--color--white, #fff);
+	font-family: var(--stjo--font-family--base, sans-serif);
+	font-size: var(--stjo--font-size--small, 14px);
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	padding: 4px 16px;
+	border-radius: 999px;
+}
+
+.stjo-timeline-card__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading, serif));
+	font-size: var(--stjo--font-size--medium, 24px);
+	font-weight: 700;
+	line-height: 1.25;
+	color: var(--wp--preset--color--blue-900, #003566);
+}
+
+.stjo-timeline-card__text {
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+	font-size: var(--stjo--font-size--base, 16px);
+	line-height: 1.5;
+}
+
+.stjo-timeline-card__text p { margin: 0 0 0.75em; }
+.stjo-timeline-card__text p:last-child { margin-bottom: 0; }
+
+.stjo-timeline-card__text.is-clamped {
+	max-height: 4.5em; /* exactly 3 lines at 1.5 line-height — the JS overflow check relies on this */
+	overflow: hidden;
+	-webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 98%);
+	mask-image: linear-gradient(180deg, #000 55%, transparent 98%);
+	transition: max-height 0.4s ease;
+}
+
+.stjo-timeline-card__text.is-expanded {
+	-webkit-mask-image: none;
+	mask-image: none;
+}
+
+.stjo-timeline-card__more {
+	background: none;
+	border: 0;
+	padding: 4px 0; /* keeps the hit area above the 24px target minimum */
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+	font-family: var(--stjo--font-family--base, sans-serif);
+	font-size: var(--stjo--font-size--small, 14px);
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	cursor: pointer;
+}
+
+.stjo-timeline-card__more:hover .stjo-timeline-card__more-label { text-decoration: underline; }
+
+.stjo-timeline-card__more:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 3px;
+}
+
+.stjo-timeline-card__more[hidden] { display: none; }
+
+.stjo-timeline-card__more-icon { transition: transform 0.2s ease; }
+.stjo-timeline-card__more[aria-expanded="true"] .stjo-timeline-card__more-icon { transform: rotate(90deg); }
+
+/* Chips are a JS-only control */
+.stjo-timeline:not(.is-js) .stjo-timeline__chips { display: none; }
+.stjo-timeline:not(.is-js) .stjo-timeline-card__more { display: none; }
+
+.stjo-timeline__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--stjo--spacing--xs, 8px);
+	margin-top: var(--stjo--spacing--md, 24px);
+}
+
+.stjo-timeline__chip {
+	border: var(--stjo--border--width, 1.5px) solid rgba(0, 83, 160, 0.65); /* ≥3:1 on white for non-text contrast */
+	background: var(--wp--preset--color--white, #fff);
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+	border-radius: 999px;
+	padding: 6px 18px;
+	font-family: var(--stjo--font-family--base, sans-serif);
+	font-size: var(--stjo--font-size--small, 14px);
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	line-height: 1.4;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.stjo-timeline__chip:hover { border-color: var(--wp--preset--color--brand-dark, #0053a0); }
+
+.stjo-timeline__chip.is-active {
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	border-color: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+
+.stjo-timeline__chip:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+
+/* Scroll reveals (cards + end dot) — only once JS is in charge, never for reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+	.stjo-timeline.is-js .stjo-timeline-card[data-reveal] {
+		opacity: 0;
+		transform: translateY(24px);
+		transition: opacity 0.6s ease, transform 0.6s ease;
+	}
+
+	.stjo-timeline.is-js .stjo-timeline-card[data-reveal].is-revealed {
+		opacity: 1;
+		transform: none;
+	}
+
+	.stjo-timeline.is-js .stjo-timeline__end[data-reveal] {
+		opacity: 0;
+		transform: translateX(-50%) scale(0.4);
+		transition: opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	.stjo-timeline.is-js .stjo-timeline__end[data-reveal].is-revealed {
+		opacity: 1;
+		transform: translateX(-50%) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.stjo-timeline *,
+	.stjo-timeline *::before,
+	.stjo-timeline *::after {
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* Comfortable touch targets on touch devices */
+@media (pointer: coarse) {
+	.stjo-timeline__chip,
+	.stjo-timeline-card__more {
+		min-height: 44px;
+	}
+}
+
+/* Editor-only notes */
+.stjo-timeline--empty,
+.stjo-timeline__editor-note {
+	border: 1.5px dashed rgba(0, 83, 160, 0.4);
+	border-radius: var(--stjo--radius--md, 8px);
+	padding: var(--stjo--spacing--sm, 16px);
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+	font-family: var(--stjo--font-family--base, sans-serif);
+}
+
+/* Fallback in case the theme ever drops its own .screen-reader-text rule */
+.stjo-timeline .screen-reader-text {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	word-wrap: normal;
+}
+
+/* Tablet / mobile */
+@media (max-width: 900px) {
+	:root {
+		--stjo-tl-line-x: calc(var(--stjo-tl-pad) / 2);
+		--stjo-tl-wm-size: clamp(40px, 9vw, 56px);
+	}
+
+	.stjo-timeline__decade {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: var(--stjo--spacing--sm, 16px);
+		padding-block: var(--stjo--spacing--lg, 32px);
+	}
+
+	.stjo-timeline__decade-label {
+		grid-column: 1;
+		padding-left: var(--stjo--spacing--md, 24px); /* clear the line + node dot */
+	}
+
+	.stjo-timeline__cards {
+		grid-column: 1;
+		max-width: none;
+	}
+
+	.stjo-timeline__node {
+		left: calc(var(--stjo-tl-line-x) - var(--stjo-tl-pad));
+		top: calc(var(--stjo--spacing--lg, 32px) + var(--stjo-tl-wm-size) / 2);
+	}
+}
+
+@media (max-width: 640px) {
+	/* Vertical cards stay side-by-side on phones (image column capped at 40%
+	 * by the base rule); horizontal ones get a smaller set height, focus
+	 * steering the crop. */
+	.stjo-timeline-card--horizontal .stjo-timeline-card__media img {
+		height: 220px;
+	}
+
+	.stjo-timeline-card__body {
+		padding: var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px) var(--stjo--spacing--md, 24px);
+	}
+}

@@ -483,3 +483,65 @@ hr.stjo-zigzag, .stjo-zigzag {
 @media (max-width: 768px) {
 	.stjo-plib__toc { grid-template-columns: 1fr; }
 }
+
+/* ─── Our History page bands (hero + timeline outro) ─── */
+.stjo-history-hero {
+	min-height: 88svh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-block: var(--stjo--spacing--xxl, 96px);
+	background-color: var(--wp--preset--color--blue-900, #003566);
+	background-image: repeating-linear-gradient(
+		180deg,
+		transparent 0,
+		transparent 46px,
+		rgba(255, 255, 255, 0.05) 46px,
+		rgba(255, 255, 255, 0.05) 47px
+	);
+}
+.stjo-history-hero .is-style-eyebrow { color: var(--wp--preset--color--yellow, #ffd520); }
+.stjo-history-hero h1 { margin-inline: auto; max-width: 14ch; }
+
+.stjo-history-hero__cue {
+	font-size: var(--stjo--font-size--12, 12px);
+	font-weight: 600;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.6);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--stjo--spacing--sm, 16px);
+}
+.stjo-history-hero__cue::after {
+	content: "";
+	width: 1px;
+	height: 64px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.05));
+}
+@media (prefers-reduced-motion: no-preference) {
+	.stjo-history-hero__cue::after {
+		animation: stjo-cue-pulse 2.2s ease-in-out infinite;
+	}
+	@keyframes stjo-cue-pulse {
+		0%, 100% { opacity: 0.35; }
+		50% { opacity: 1; }
+	}
+}
+
+/* TODAY outro: alignfull content mirroring the timeline block's geometry
+   (--stjo-tl-* vars come from the block's style.css :root) so it lines up
+   with the card column. */
+.stjo-timeline-outro {
+	max-width: 1520px;
+	margin-inline: auto;
+	padding-inline: var(--stjo-tl-pad, clamp(24px, 4vw, 64px));
+}
+.stjo-timeline-outro p { max-width: 56ch; }
+@media (min-width: 901px) {
+	.stjo-timeline-outro {
+		padding-left: calc(var(--stjo-tl-pad, 24px) + var(--stjo-tl-label-col, 240px) + var(--stjo-tl-col-gap, 56px));
+		max-width: 1520px !important;
+	}
+}

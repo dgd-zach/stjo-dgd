@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/timeline",
+	"title": "History Timeline",
+	"category": "widgets",
+	"icon": "clock",
+	"description": "Scroll timeline auto-populated from Timeline events, grouped by decade with year chips.",
+	"keywords": [ "history", "timeline", "milestones", "decades" ],
+	"attributes": {
+		"align": { "type": "string", "default": "full" }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "full" ],
+		"multiple": false
+	},
+	"textdomain": "stjo",
+	"editorScript": "stjo-timeline-editor",
+	"viewScript": "file:./view.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

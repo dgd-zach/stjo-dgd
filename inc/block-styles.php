@@ -77,3 +77,19 @@ function stjo_register_block_styles() {
 
 }
 add_action( 'init', 'stjo_register_block_styles' );
+
+/**
+ * Remove unwanted core style variants in the editor. Core registers these
+ * client-side, so server-side unregister_block_style() can't touch them —
+ * it has to be JS (assets/js/unregister.js).
+ */
+function stjo_unregister_block_styles() {
+	wp_enqueue_script(
+		'stjo-unregister-block-styles',
+		get_template_directory_uri() . '/assets/js/unregister.js',
+		array( 'wp-blocks', 'wp-dom-ready' ),
+		STJO_VERSION,
+		true
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'stjo_unregister_block_styles' );

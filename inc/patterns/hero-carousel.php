@@ -8,6 +8,16 @@
  * Cover block is one slide. Campaign and Event photos are placeholder crops
  * pending clean asset exports from the design.
  *
+ * Readability + mobile framing (automatic, no editor setup needed):
+ * - carousel.js adds a guaranteed-contrast scrim to every slide (light scrim
+ *   under dark text, dark under light), anchored to the text's column side,
+ *   flat on phones. Editor-set overlays stack on top as art direction.
+ * - Set each slide's FOCAL POINT on the subject — object-position keeps it
+ *   in frame at every viewport. Slides without one default to 50% 30% on
+ *   phones; focus-sm-{top,bottom,left,right,center,top-left,...} classes on
+ *   a Cover force a phone-only position when the desktop focal point crops
+ *   badly.
+ *
  * @package stjo
  */
 ?>

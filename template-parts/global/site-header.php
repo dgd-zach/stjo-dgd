@@ -24,12 +24,14 @@
 			?>
 		</div>
 
-		<button class="site-header__menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
-			<span class="site-header__menu-icon" aria-hidden="true"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Menu', 'stjo' ); ?></span>
-		</button>
-
 		<nav id="site-nav" class="site-header__nav" aria-label="<?php esc_attr_e( 'Primary', 'stjo' ); ?>">
+			<?php
+			// Mobile drawer only (CSS-hidden elsewhere): the header CTAs move
+			// in here, side by side above the menu items.
+			?>
+			<div class="site-header__drawer-ctas">
+				<?php stjo_header_ctas(); ?>
+			</div>
 			<?php stjo_mega_nav(); ?>
 		</nav>
 
@@ -42,33 +44,14 @@
 					</svg>
 				</button>
 			<?php endif; ?>
-			<?php
-			// style → [wrapper block-style class, link color classes]. Only three
-			// block styles exist; variants come from WP color settings.
-			$style_classes = array(
-				'primary'     => array( 'is-style-fill', '' ),
-				'fill'        => array( 'is-style-fill', '' ),
-				'ghost'       => array( 'is-style-outline', '' ),
-				'outline'     => array( 'is-style-outline', '' ),
-				'ghost-light' => array( 'is-style-outline', 'has-white-color has-text-color has-white-background-color has-background' ),
-				'yellow'      => array( 'is-style-fill', 'has-blue-900-color has-text-color has-yellow-background-color has-background' ),
-				'light'       => array( 'is-style-fill', 'has-brand-dark-color has-text-color has-white-background-color has-background' ),
-			);
-			foreach ( (array) stjo_config_get( 'header.ctas', array() ) as $cta ) {
-				if ( empty( $cta['label'] ) || empty( $cta['url'] ) ) {
-					continue;
-				}
-				list( $style, $link_colors ) = $style_classes[ $cta['style'] ?? 'primary' ] ?? array( 'is-style-fill', '' );
-				printf(
-					'<div class="wp-block-button %1$s"><a class="wp-block-button__link %4$s wp-element-button" href="%2$s">%3$s</a></div>',
-					esc_attr( $style ),
-					esc_url( 0 === strpos( $cta['url'], 'http' ) ? $cta['url'] : home_url( $cta['url'] ) ),
-					esc_html( $cta['label'] ),
-					esc_attr( $link_colors )
-				);
-			}
-			?>
+			<?php stjo_header_ctas(); ?>
 		</div>
+
+		<?php // After the actions so the hamburger sits at the far right on tablet/mobile. ?>
+		<button class="site-header__menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+			<span class="site-header__menu-icon" aria-hidden="true"></span>
+			<span class="screen-reader-text"><?php esc_html_e( 'Menu', 'stjo' ); ?></span>
+		</button>
 	</div>
 	<?php
 	// Desktop panel band: nav.js moves each section's .mega-panel in here so
@@ -99,6 +82,38 @@
 	<?php endif; ?>
 </header>
 <?php
+/**
+ * Header action CTAs from theme-config.json → header.ctas. Rendered twice:
+ * in the header bar (desktop/tablet) and inside the drawer (mobile); CSS
+ * shows exactly one of the two.
+ */
+function stjo_header_ctas() {
+	// style → [wrapper block-style class, link color classes]. Only three
+	// block styles exist; variants come from WP color settings.
+	$style_classes = array(
+		'primary'     => array( 'is-style-fill', '' ),
+		'fill'        => array( 'is-style-fill', '' ),
+		'ghost'       => array( 'is-style-outline', '' ),
+		'outline'     => array( 'is-style-outline', '' ),
+		'ghost-light' => array( 'is-style-outline', 'has-white-color has-text-color has-white-background-color has-background' ),
+		'yellow'      => array( 'is-style-fill', 'has-blue-900-color has-text-color has-yellow-background-color has-background' ),
+		'light'       => array( 'is-style-fill', 'has-brand-dark-color has-text-color has-white-background-color has-background' ),
+	);
+	foreach ( (array) stjo_config_get( 'header.ctas', array() ) as $cta ) {
+		if ( empty( $cta['label'] ) || empty( $cta['url'] ) ) {
+			continue;
+		}
+		list( $style, $link_colors ) = $style_classes[ $cta['style'] ?? 'primary' ] ?? array( 'is-style-fill', '' );
+		printf(
+			'<div class="wp-block-button %1$s"><a class="wp-block-button__link %4$s wp-element-button" href="%2$s">%3$s</a></div>',
+			esc_attr( $style ),
+			esc_url( 0 === strpos( $cta['url'], 'http' ) ? $cta['url'] : home_url( $cta['url'] ) ),
+			esc_html( $cta['label'] ),
+			esc_attr( $link_colors )
+		);
+	}
+}
+
 /**
  * Fallback primary menu (used until a menu is assigned to the "primary" location).
  * Items come from theme-config.json → header.menu_fallback.

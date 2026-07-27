@@ -14,7 +14,7 @@
     <!-- /wp:spacer -->
 
     <!-- wp:heading {"textAlign":"center","level":2,"textColor":"white"} -->
-    <h2 class="wp-block-heading has-text-align-center has-white-color has-text-color">Your Generosity  <strong>Changes Everything</strong></h2>
+    <h2 class="wp-block-heading has-text-align-center has-white-color has-text-color">Your Generosity <strong>Changes Everything</strong></h2>
     <!-- /wp:heading -->
 
     <!-- wp:paragraph {"align":"center","textColor":"light"} -->
@@ -74,7 +74,7 @@
         <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-6.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
             <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-6.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
-                    <h3 class="wp-block-heading has-light-color has-text-color">Donor  Advised Fund</h3>
+                    <h3 class="wp-block-heading has-light-color has-text-color">Donor Advised Fund</h3>
                     <!-- /wp:heading -->
 
                     <!-- wp:paragraph {"textColor":"light","className":"stjo-card__reveal"} -->

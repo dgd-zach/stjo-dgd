@@ -344,6 +344,47 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	transition: opacity 320ms ease, visibility 0s linear 0s;
 }
 
+/* ─── Auto scrim (carousel.js injects the element + classes) ───
+   Guarantees text contrast on every slide regardless of the photo. The scrim
+   is a real div inserted after the image, before the editor's overlay span:
+   cover layers are all z-index auto, so DOM order is the stacking — image,
+   auto scrim, editor overlay, content. Dark text gets a light scrim, light
+   text a dark one, anchored to the text's column side; no columns = flat
+   wash. On small screens the columns stack, so every variant goes flat. */
+.stjo-slide-scrim {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+.wp-block-cover.has-auto-scrim--light.has-auto-scrim--right > .stjo-slide-scrim {
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.88) 62%);
+}
+.wp-block-cover.has-auto-scrim--light.has-auto-scrim--left > .stjo-slide-scrim {
+	background: linear-gradient(270deg, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.88) 62%);
+}
+.wp-block-cover.has-auto-scrim--light.has-auto-scrim--center > .stjo-slide-scrim {
+	background: rgba(255, 255, 255, 0.72);
+}
+.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--right > .stjo-slide-scrim {
+	background: linear-gradient(90deg, rgba(0, 27, 51, 0) 32%, rgba(0, 27, 51, 0.68) 62%);
+}
+.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--left > .stjo-slide-scrim {
+	background: linear-gradient(270deg, rgba(0, 27, 51, 0) 32%, rgba(0, 27, 51, 0.68) 62%);
+}
+.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--center > .stjo-slide-scrim {
+	background: rgba(0, 27, 51, 0.55);
+}
+@media (max-width: 782px) {
+	/* Class count matches the gradient rules above so these later flat rules
+	   win the tie on phones. */
+	.wp-block-cover.has-auto-scrim.has-auto-scrim--light > .stjo-slide-scrim {
+		background: rgba(255, 255, 255, 0.78);
+	}
+	.wp-block-cover.has-auto-scrim.has-auto-scrim--dark > .stjo-slide-scrim {
+		background: rgba(0, 27, 51, 0.6);
+	}
+}
+
 /* Controls pill, injected by carousel.js. */
 .stjo-carousel-controls {
 	position: absolute;
@@ -408,6 +449,32 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	}
 	.stjo-hero-slide--dark .wp-block-cover__inner-container { padding-inline: var(--stjo--spacing--md, 24px); }
 }
+
+/* ─── Mobile subject alignment for cover images ───
+   The right tool is the cover block's own focal point (drag the dot onto the
+   subject): object-position keeps that point proportionally in frame at every
+   crop, so a well-placed focal point survives the tall phone crop untouched.
+   Two assists for when that isn't enough:
+   1. Carousel slides with NO focal point set fall back to 50% 30% on phones —
+      subjects (faces) live in the upper third far more often than dead center.
+   2. focus-sm-* utility classes (add to any Cover's "Additional CSS class")
+      override the focal point on phones only, for photos whose desktop focal
+      point frames badly in the tall crop. !important outranks the inline
+      object-position style WP writes. */
+@media (max-width: 782px) {
+	html.js .wp-block-group.is-style-carousel > .wp-block-cover .wp-block-cover__image-background:not([data-object-position]) {
+		object-position: 50% 30%;
+	}
+	.wp-block-cover.focus-sm-center .wp-block-cover__image-background { object-position: 50% 50% !important; }
+	.wp-block-cover.focus-sm-top .wp-block-cover__image-background { object-position: 50% 12% !important; }
+	.wp-block-cover.focus-sm-bottom .wp-block-cover__image-background { object-position: 50% 88% !important; }
+	.wp-block-cover.focus-sm-left .wp-block-cover__image-background { object-position: 12% 50% !important; }
+	.wp-block-cover.focus-sm-right .wp-block-cover__image-background { object-position: 88% 50% !important; }
+	.wp-block-cover.focus-sm-top-left .wp-block-cover__image-background { object-position: 12% 12% !important; }
+	.wp-block-cover.focus-sm-top-right .wp-block-cover__image-background { object-position: 88% 12% !important; }
+	.wp-block-cover.focus-sm-bottom-left .wp-block-cover__image-background { object-position: 12% 88% !important; }
+	.wp-block-cover.focus-sm-bottom-right .wp-block-cover__image-background { object-position: 88% 88% !important; }
+}
 @media (prefers-reduced-motion: reduce) {
 	html.js .wp-block-group.is-style-carousel > .wp-block-cover,
 	.stjo-carousel-controls__dot { transition: none; }
@@ -450,8 +517,10 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	margin-inline: auto;
 	padding: var(--stjo--spacing--sm) var(--stjo--spacing--lg);
 }
+
+/* .site-header__brand {max-width: 10%} */
 .site-header__brand .custom-logo,
-.site-header__brand img { width: auto; max-height: 72px; }
+.site-header__brand img { width: auto; max-height: 103px; }
 .site-header__title { font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading)); font-size: var(--wp--preset--font-size--medium, 24px); color: var(--wp--preset--color--brand-dark, #0053a0); text-decoration: none; }
 
 .site-header__nav { flex: 1 1 0; }
@@ -544,7 +613,7 @@ html.no-js .menu-item--section:focus-within > .mega-panel {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.mega-panels, .mega-panel { transition: none; }
+	.mega-panels, .mega-panel, .mega-panel__inner { transition: none; }
 }
 
 .mega-panel__inner {
@@ -736,9 +805,13 @@ body.modal-open { overflow: hidden; }
 .site-header__menu-toggle { display: none; }
 
 .site-header__actions { display: flex; align-items: center; gap: var(--stjo--spacing--sm); }
-.site-header__actions .wp-block-button__link { min-height: var(--stjo--button--height, 48px); }
-.site-header__search { background: none; border: 0; padding: 0; cursor: pointer; color: var(--wp--preset--color--dark, #333); display: inline-flex; }
+.site-header__actions .wp-block-button { flex: 0 0 auto; }
+.site-header__actions .wp-block-button__link { min-height: var(--stjo--button--height, 48px); white-space: nowrap; }
+.site-header__search { background: none; border: 0; padding: 0; cursor: pointer; color: var(--wp--preset--color--dark, #333); display: inline-flex; flex-shrink: 0; }
 .site-header__search:hover { color: var(--wp--preset--color--brand-dark, #0053a0); }
+
+/* Drawer CTA row exists only in the mobile drawer (shown <=768px). */
+.site-header__drawer-ctas { display: none; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    9. SITE FOOTER
@@ -840,7 +913,10 @@ body.modal-open { overflow: hidden; }
 	.site-header.nav-open .site-header__nav { display: block; }
 	body.nav-open { overflow: hidden; }
 
-	.primary-menu { flex-direction: column; align-items: stretch; gap: 0; padding: var(--stjo--spacing--sm) 0; }
+	/* Actions + hamburger hug the right edge together. */
+	.site-header__actions { margin-left: auto; }
+
+	.primary-menu { flex-direction: column; align-items: stretch; gap: 0; padding: 0 0 var(--stjo--spacing--sm); }
 	.primary-menu > li { border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc); }
 	.primary-menu > li:last-child { border-bottom: 0; }
 	.primary-menu > li > .menu-item__link {
@@ -853,23 +929,48 @@ body.modal-open { overflow: hidden; }
 	.primary-menu > li > .menu-item__link[aria-expanded="true"] { color: var(--wp--preset--color--brand-dark, #0053a0); }
 
 	/* Panels flow in place as accordions (nav.js moves them back under their
-	   triggers); intro and promo stay desktop-only. The desktop fade/height
-	   dance doesn't apply in flow, so it's a plain display toggle here. */
+	   triggers). The open/close is animated via grid-template-rows 0fr→1fr,
+	   with visibility flipping after the collapse so closed panels leave the
+	   tab order. */
 	.mega-panels { display: none; }
 	.menu-item--section > .mega-panel,
 	.mega-panel {
 		position: static;
 		box-shadow: none;
-		display: none;
+		display: grid;
+		grid-template-rows: 0fr;
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
+		transition: grid-template-rows 240ms ease, opacity 180ms ease, visibility 0s linear 240ms;
+	}
+	.mega-panel.is-open {
+		grid-template-rows: 1fr;
 		visibility: visible;
 		opacity: 1;
 		pointer-events: auto;
-		transition: none;
+		transition: grid-template-rows 240ms ease, opacity 180ms ease 60ms, visibility 0s linear 0s;
 	}
-	.mega-panel.is-open { display: block; }
-	.mega-panel__inner { flex-direction: column; gap: var(--stjo--spacing--md); padding: 0 var(--stjo--spacing--md) var(--stjo--spacing--md); }
-	.mega-panel__intro, .mega-panel__promo { display: none; }
-	.mega-panel__columns { flex-direction: column; gap: var(--stjo--spacing--md); width: 100%; }
+	/* Block padding rides the open state — a collapsed border-box can't get
+	   below its padding, so closed panels would otherwise keep ghost height. */
+	.mega-panel__inner {
+		min-height: 0;
+		overflow: hidden;
+		width: 100%;
+		max-width: none;
+		margin-inline: 0; /* desktop band centering shrink-wraps the grid item here */
+		gap: var(--stjo--spacing--md);
+		padding: 0 var(--stjo--spacing--md);
+		align-items: flex-start;
+		transition: padding 240ms ease;
+	}
+	.mega-panel.is-open .mega-panel__inner {
+		padding: var(--stjo--spacing--sm) var(--stjo--spacing--md) var(--stjo--spacing--md);
+	}
+	.mega-panel__intro { display: none; }
+	.mega-panel__columns { flex-direction: column; gap: var(--stjo--spacing--md); }
+	/* Promo card keeps its desktop look on the panel's right side. */
+	.mega-panel__promo { flex: 0 0 min(45%, 420px); }
 }
 @media (max-width: 768px) {
 	h1, h1.wp-block-heading { font-size: var(--wp--preset--font-size--xl, 48px); }
@@ -878,6 +979,54 @@ body.modal-open { overflow: hidden; }
 	.wp-block-query .wp-block-post-template { grid-template-columns: 1fr; }
 	.site-footer__grid { grid-template-columns: 1fr; gap: var(--stjo--spacing--lg); }
 	.site-header__inner { padding-inline: var(--stjo--spacing--md); }
+
+	/* Header bar slims to logo + search + hamburger; the CTAs re-appear
+	   side by side at the top of the open drawer. */
+	.site-header__actions .wp-block-button { display: none; }
+	.site-header__drawer-ctas {
+		display: flex;
+		gap: var(--stjo--spacing--sm);
+		padding: var(--stjo--spacing--sm) var(--stjo--spacing--md);
+		border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc);
+	}
+	.site-header__drawer-ctas .wp-block-button { flex: 1 1 0; min-width: 0; }
+	.site-header__drawer-ctas .wp-block-button__link {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--stjo--button--height, 48px);
+		white-space: nowrap;
+	}
+
+	/* Panels stack; the promo collapses to just its button, restyled as a
+	   solid CTA (its desktop white-outline look would vanish on white) and
+	   sitting as the last item of the submenu. */
+	.mega-panel__inner { flex-direction: column; align-items: stretch; }
+	.mega-panel__promo {
+		display: block;
+		flex: none;
+		background: none;
+		padding: 0;
+		border-radius: 0;
+	}
+	.mega-panel__promo-media,
+	.mega-panel__promo-heading,
+	.mega-panel__promo-body { display: none; }
+	.mega-panel__promo-content { display: block; }
+	/* Must out-gun the outline-style rest suppression (same selector shape +
+	   one class, both !important) or the button sits white-on-white here. */
+	.mega-panel__promo .wp-block-button.is-style-outline .wp-block-button__link:not(:hover):not(:focus-visible) {
+		background-color: var(--wp--preset--color--brand-dark, #0053a0) !important;
+	}
+	.mega-panel__promo .wp-block-button .wp-block-button__link {
+		color: var(--wp--preset--color--white, #fff) !important;
+		border-color: var(--wp--preset--color--brand-dark, #0053a0);
+	}
+	.mega-panel__promo .wp-block-button .wp-block-button__link:hover,
+	.mega-panel__promo .wp-block-button .wp-block-button__link:focus-visible {
+		background-color: var(--wp--preset--color--blue-900, #003566) !important;
+	}
 }
 @media (max-width: 480px) {
 	.site-footer__form-row { flex-direction: column; }

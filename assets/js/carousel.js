@@ -18,6 +18,40 @@
 
 	var reducedMq = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+	// Guaranteed-contrast scrim: read the slide's text color (luminance picks
+	// a dark or light scrim) and which column the text sits in (anchors the
+	// gradient to that side; no columns = flat). The scrim is a real element
+	// inserted after the image and before the editor's overlay span — cover
+	// layers are all z-index auto in this WP, so DOM order IS the stacking.
+	function applyScrim(slide) {
+		var inner = slide.querySelector('.wp-block-cover__inner-container');
+		var text = inner && inner.querySelector('h1, h2, h3, h4, h5, h6, p');
+		if (!text) {
+			return;
+		}
+		var rgb = window.getComputedStyle(text).color.match(/\d+(\.\d+)?/g);
+		if (!rgb) {
+			return;
+		}
+		var luminance = (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255;
+		var side = 'center';
+		var column = text.closest('.wp-block-column');
+		if (column && column.parentElement) {
+			var columns = Array.prototype.slice.call(column.parentElement.children);
+			side = columns.indexOf(column) <= (columns.length - 1) / 2 ? 'left' : 'right';
+		}
+		slide.classList.add(
+			'has-auto-scrim',
+			luminance > 0.55 ? 'has-auto-scrim--dark' : 'has-auto-scrim--light',
+			'has-auto-scrim--' + side
+		);
+		var scrim = document.createElement('div');
+		scrim.className = 'stjo-slide-scrim';
+		scrim.setAttribute('aria-hidden', 'true');
+		var overlay = slide.querySelector('.wp-block-cover__background');
+		slide.insertBefore(scrim, overlay || inner);
+	}
+
 	function init(root) {
 		var slides = Array.prototype.slice.call(root.children).filter(function (el) {
 			return el.classList.contains('wp-block-cover');
@@ -25,6 +59,8 @@
 		if (!slides.length) {
 			return;
 		}
+
+		slides.forEach(applyScrim);
 
 		var current = 0;
 		var label = root.getAttribute('data-carousel-label') || 'Highlights';

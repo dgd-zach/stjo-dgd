@@ -519,14 +519,15 @@ hr.stjo-zigzag, .stjo-zigzag {
 	width: 1px;
 	height: 64px;
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.05));
+	transform: translateY(0px);
 }
 @media (prefers-reduced-motion: no-preference) {
 	.stjo-history-hero__cue::after {
 		animation: stjo-cue-pulse 2.2s ease-in-out infinite;
 	}
 	@keyframes stjo-cue-pulse {
-		0%, 100% { opacity: 0.35; }
-		50% { opacity: 1; }
+		0%, 100% { opacity: 1; transform: translateY(0px)}
+		50% { opacity: 0.35; transform: translateY(20px)}
 	}
 }
 

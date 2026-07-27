@@ -44,7 +44,14 @@
 			return;
 		}
 		var reduce = window.matchMedia( '(prefers-reduced-motion: reduce)' );
-		var decades = Array.prototype.slice.call( root.querySelectorAll( '.stjo-timeline__decade' ) );
+		var mobile = window.matchMedia( '(max-width: 900px)' );
+		var decades = Array.prototype.slice.call( root.querySelectorAll( '.stjo-timeline__decade' ) ).map( function ( section ) {
+			return {
+				section: section,
+				label: section.querySelector( '.stjo-timeline__decade-label' ),
+				latched: 0
+			};
+		} );
 		var ticking = false;
 
 		function update() {
@@ -55,25 +62,29 @@
 			inner.style.setProperty( '--stjo-tl-progress', fill.toFixed( 1 ) + 'px' );
 
 			var span = window.innerHeight * 0.45;
-			decades.forEach( function ( section ) {
-				var label = section.querySelector( '.stjo-timeline__decade-label' );
-				if ( ! label ) {
+			decades.forEach( function ( d ) {
+				if ( ! d.label ) {
 					return;
 				}
 				if ( reduce.matches ) {
-					section.style.setProperty( '--stjo-tl-vis', '1' );
-					section.style.setProperty( '--stjo-tl-blur', '0px' );
+					d.section.style.setProperty( '--stjo-tl-vis', '1' );
+					d.section.style.setProperty( '--stjo-tl-blur', '0px' );
 					return;
 				}
 				// One-sided: ramp in while approaching the viewport center from
-				// below, stay at full strength once passed. Scrolling back up
-				// walks the same ramp in reverse.
-				var r = label.getBoundingClientRect();
+				// below, stay at full strength once passed. On desktop, scrolling
+				// back up walks the same ramp in reverse; on mobile the value
+				// latches so headings fade in once and stay in.
+				var r = d.label.getBoundingClientRect();
 				var delta = r.top + r.height / 2 - focusY;
 				var vis = delta <= 0 ? 1 : 1 - Math.min( delta / span, 1 );
 				vis = Math.pow( vis, 0.75 );
-				section.style.setProperty( '--stjo-tl-vis', vis.toFixed( 3 ) );
-				section.style.setProperty( '--stjo-tl-blur', ( ( 1 - vis ) * 5 ).toFixed( 2 ) + 'px' );
+				d.latched = Math.max( d.latched, vis );
+				if ( mobile.matches ) {
+					vis = d.latched;
+				}
+				d.section.style.setProperty( '--stjo-tl-vis', vis.toFixed( 3 ) );
+				d.section.style.setProperty( '--stjo-tl-blur', ( ( 1 - vis ) * 5 ).toFixed( 2 ) + 'px' );
 			} );
 		}
 

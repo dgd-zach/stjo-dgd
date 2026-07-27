@@ -13,6 +13,7 @@
 	--stjo-tl-col-gap: clamp(40px, 4vw, 72px);
 	--stjo-tl-slide-gap: 48px;
 	--stjo-tl-media-size: 300px; /* horizontal card image height AND vertical card image width */
+	--stjo-tl-node-travel: 80px; /* how far a decade dot rides up the line before settling */
 	--stjo-tl-wm-size: clamp(56px, 8vw, 120px);
 	--stjo-tl-line-x: calc(var(--stjo-tl-pad) + var(--stjo-tl-label-col) + var(--stjo-tl-col-gap) / 2);
 }
@@ -59,12 +60,16 @@
 	top: calc(var(--stjo--spacing--xl, 48px) + var(--stjo-tl-wm-size) / 2);
 	width: 16px;
 	height: 16px;
-	transform: translate(-50%, -50%);
+	/* Rides up the line and scales 0→1 as --stjo-tl-vis climbs, settling at
+	 * full size beside the decade heading. vis defaults to 1 (no-JS, reduced
+	 * motion) = settled. */
+	transform: translate(-50%, -50%) translateY(calc((1 - var(--stjo-tl-vis, 1)) * var(--stjo-tl-node-travel, 160px))) scale(var(--stjo-tl-vis, 1));
 	border-radius: 50%;
 	background: var(--wp--preset--color--yellow, #ffd520);
 	border: 3px solid var(--wp--preset--color--brand-dark, #0053a0);
 	z-index: 1;
 	opacity: var(--stjo-tl-vis, 1);
+	will-change: transform, opacity;
 }
 
 .stjo-timeline__end {
@@ -350,6 +355,46 @@
 	.stjo-timeline.is-js .stjo-timeline__end[data-reveal].is-revealed {
 		opacity: 1;
 		transform: translateX(-50%) scale(1);
+		animation: stjo-tl-end-pulse-inner 2.4s ease-out infinite;
+	}
+
+	/* Once settled, the end dot keeps emitting a soft ring */
+	.stjo-timeline.is-js .stjo-timeline__end[data-reveal].is-revealed::after {
+		content: "";
+		position: absolute;
+		inset: -3px;
+		border-radius: 50%;
+		border: 2px solid var(--wp--preset--color--yellow, #ffd520);
+		animation: stjo-tl-end-pulse 2.4s ease-out infinite;
+	}
+
+	@keyframes stjo-tl-end-pulse-inner {
+		0%, 
+		
+		100% {
+			
+			transform: translateX(-50%) scale(1);
+		}
+
+		40%
+		
+		 {
+			transform: translateX(-50%) scale(1.2);
+			
+		}
+	}
+	@keyframes stjo-tl-end-pulse {
+		0% {
+			transform: scale(1);
+			filter: blur(0px);
+			opacity: 0.9;
+		}
+		70%,
+		100% {
+			transform: scale(2.6);
+			filter: blur(3px);
+			opacity: 0;
+		}
 	}
 }
 

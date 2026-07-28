@@ -18,6 +18,26 @@
 
 	var reducedMq = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+	// focus-sm-X-Y (e.g. focus-sm-23-62) on any Cover: parsed here into
+	// --stjo-focus-sm, which main.css applies as the phone object-position.
+	// CSS can't read numbers out of class names, so pregenerating a rule per
+	// X/Y pair is a non-starter; this is the programmatic half. The keyword
+	// classes (focus-sm-top-left etc.) never match the digits-only pattern.
+	document.querySelectorAll('.wp-block-cover[class*="focus-sm-"]').forEach(function (cover) {
+		cover.className.split(/\s+/).some(function (cls) {
+			var m = cls.match(/^focus-sm-(\d{1,3})-(\d{1,3})$/);
+			if (!m) {
+				return false;
+			}
+			cover.style.setProperty(
+				'--stjo-focus-sm',
+				Math.min(100, parseInt(m[1], 10)) + '% ' + Math.min(100, parseInt(m[2], 10)) + '%'
+			);
+			cover.classList.add('has-focus-sm');
+			return true;
+		});
+	});
+
 	// Guaranteed-contrast scrim: read the slide's text color (luminance picks
 	// a dark or light scrim) and which column the text sits in (anchors the
 	// gradient to that side; no columns = flat). The scrim is a real element

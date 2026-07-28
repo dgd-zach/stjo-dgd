@@ -88,7 +88,7 @@ function stjo_unregister_block_styles() {
 		'stjo-unregister-block-styles',
 		get_template_directory_uri() . '/assets/js/unregister.js',
 		array( 'wp-blocks', 'wp-dom-ready' ),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/assets/js/unregister.js' ), // cache-busts on edit, unlike the static theme version
 		true
 	);
 }

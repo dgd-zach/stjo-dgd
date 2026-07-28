@@ -150,10 +150,15 @@ a:focus-visible { outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
 }
 
 /* Outline: transparent at rest, border = text color. A chosen backgroundColor
-   is suppressed at rest and becomes the hover fill (palette-buttons.css). */
+   is suppressed at rest and becomes the hover fill (palette-buttons.css).
+   border-width + padding are re-declared here because core's outline style
+   ships 2px / 0.667em at the same specificity — without these, outline
+   buttons render taller than fill ones. */
 .wp-block-button.is-style-outline .wp-block-button__link {
 	background-color: transparent;
 	border-color: currentColor;
+	border-width: var(--stjo--border--width, 1.5px);
+	padding: 10px var(--stjo--spacing--lg);
 }
 /* The chosen backgroundColor (preset class or custom inline style) is
    suppressed at rest ONLY — lifting the suppression on hover makes it the
@@ -376,14 +381,30 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 }
 @media (max-width: 782px) {
 	/* Class count matches the gradient rules above so these later flat rules
-	   win the tie on phones. */
+	   win the tie on phones. --stjo-scrim-sm (0–1, set per slide by the
+	   scrim-sm-* classes below) overrides the default strength. */
 	.wp-block-cover.has-auto-scrim.has-auto-scrim--light > .stjo-slide-scrim {
-		background: rgba(255, 255, 255, 0.78);
+		background: rgba(255, 255, 255, var(--stjo-scrim-sm, 0.5));
 	}
 	.wp-block-cover.has-auto-scrim.has-auto-scrim--dark > .stjo-slide-scrim {
-		background: rgba(0, 27, 51, 0.6);
+		background: rgba(0, 27, 51, var(--stjo-scrim-sm, 0.6));
 	}
 }
+
+/* Per-slide phone scrim strength: add ONE of these to a slide Cover's
+   "Additional CSS class" field. scrim-sm-0 disables the phone scrim,
+   scrim-sm-100 is a solid wash; unset keeps the defaults above. */
+.wp-block-cover.scrim-sm-0 { --stjo-scrim-sm: 0; }
+.wp-block-cover.scrim-sm-10 { --stjo-scrim-sm: 0.1; }
+.wp-block-cover.scrim-sm-20 { --stjo-scrim-sm: 0.2; }
+.wp-block-cover.scrim-sm-30 { --stjo-scrim-sm: 0.3; }
+.wp-block-cover.scrim-sm-40 { --stjo-scrim-sm: 0.4; }
+.wp-block-cover.scrim-sm-50 { --stjo-scrim-sm: 0.5; }
+.wp-block-cover.scrim-sm-60 { --stjo-scrim-sm: 0.6; }
+.wp-block-cover.scrim-sm-70 { --stjo-scrim-sm: 0.7; }
+.wp-block-cover.scrim-sm-80 { --stjo-scrim-sm: 0.8; }
+.wp-block-cover.scrim-sm-90 { --stjo-scrim-sm: 0.9; }
+.wp-block-cover.scrim-sm-100 { --stjo-scrim-sm: 1; }
 
 /* Controls pill, injected by carousel.js. */
 .stjo-carousel-controls {
@@ -474,6 +495,9 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	.wp-block-cover.focus-sm-top-right .wp-block-cover__image-background { object-position: 88% 12% !important; }
 	.wp-block-cover.focus-sm-bottom-left .wp-block-cover__image-background { object-position: 12% 88% !important; }
 	.wp-block-cover.focus-sm-bottom-right .wp-block-cover__image-background { object-position: 88% 88% !important; }
+	/* Arbitrary pair, e.g. focus-sm-23-62 → 23% 62%. carousel.js parses the
+	   numbers into --stjo-focus-sm (CSS can't); last so it beats the keywords. */
+	.wp-block-cover.has-focus-sm .wp-block-cover__image-background { object-position: var(--stjo-focus-sm) !important; }
 }
 @media (prefers-reduced-motion: reduce) {
 	html.js .wp-block-group.is-style-carousel > .wp-block-cover,

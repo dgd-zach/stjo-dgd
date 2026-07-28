@@ -16,7 +16,10 @@
  *   in frame at every viewport. Slides without one default to 50% 30% on
  *   phones; focus-sm-{top,bottom,left,right,center,top-left,...} classes on
  *   a Cover force a phone-only position when the desktop focal point crops
- *   badly.
+ *   badly, and focus-sm-{X}-{Y} (e.g. focus-sm-23-62) sets an exact
+ *   "X% Y%" position (carousel.js parses it).
+ * - Phone scrim strength is tunable per slide: add scrim-sm-{0..100 in tens}
+ *   to the Cover's Additional CSS class (scrim-sm-0 = no phone scrim).
  *
  * @package stjo
  */

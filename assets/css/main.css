@@ -344,47 +344,6 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	transition: opacity 320ms ease, visibility 0s linear 0s;
 }
 
-/* ─── Auto scrim (carousel.js injects the element + classes) ───
-   Guarantees text contrast on every slide regardless of the photo. The scrim
-   is a real div inserted after the image, before the editor's overlay span:
-   cover layers are all z-index auto, so DOM order is the stacking — image,
-   auto scrim, editor overlay, content. Dark text gets a light scrim, light
-   text a dark one, anchored to the text's column side; no columns = flat
-   wash. On small screens the columns stack, so every variant goes flat. */
-.stjo-slide-scrim {
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-}
-.wp-block-cover.has-auto-scrim--light.has-auto-scrim--right > .stjo-slide-scrim {
-	background: linear-gradient(90deg, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.88) 62%);
-}
-.wp-block-cover.has-auto-scrim--light.has-auto-scrim--left > .stjo-slide-scrim {
-	background: linear-gradient(270deg, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.88) 62%);
-}
-.wp-block-cover.has-auto-scrim--light.has-auto-scrim--center > .stjo-slide-scrim {
-	background: rgba(255, 255, 255, 0.72);
-}
-.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--right > .stjo-slide-scrim {
-	background: linear-gradient(90deg, rgba(0, 27, 51, 0) 32%, rgba(0, 27, 51, 0.68) 62%);
-}
-.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--left > .stjo-slide-scrim {
-	background: linear-gradient(270deg, rgba(0, 27, 51, 0) 32%, rgba(0, 27, 51, 0.68) 62%);
-}
-.wp-block-cover.has-auto-scrim--dark.has-auto-scrim--center > .stjo-slide-scrim {
-	background: rgba(0, 27, 51, 0.55);
-}
-@media (max-width: 782px) {
-	/* Class count matches the gradient rules above so these later flat rules
-	   win the tie on phones. */
-	.wp-block-cover.has-auto-scrim.has-auto-scrim--light > .stjo-slide-scrim {
-		background: rgba(255, 255, 255, 0.78);
-	}
-	.wp-block-cover.has-auto-scrim.has-auto-scrim--dark > .stjo-slide-scrim {
-		background: rgba(0, 27, 51, 0.6);
-	}
-}
-
 /* Controls pill, injected by carousel.js. */
 .stjo-carousel-controls {
 	position: absolute;
@@ -448,32 +407,6 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 		border-radius: var(--stjo--radius--md, 8px);
 	}
 	.stjo-hero-slide--dark .wp-block-cover__inner-container { padding-inline: var(--stjo--spacing--md, 24px); }
-}
-
-/* ─── Mobile subject alignment for cover images ───
-   The right tool is the cover block's own focal point (drag the dot onto the
-   subject): object-position keeps that point proportionally in frame at every
-   crop, so a well-placed focal point survives the tall phone crop untouched.
-   Two assists for when that isn't enough:
-   1. Carousel slides with NO focal point set fall back to 50% 30% on phones —
-      subjects (faces) live in the upper third far more often than dead center.
-   2. focus-sm-* utility classes (add to any Cover's "Additional CSS class")
-      override the focal point on phones only, for photos whose desktop focal
-      point frames badly in the tall crop. !important outranks the inline
-      object-position style WP writes. */
-@media (max-width: 782px) {
-	html.js .wp-block-group.is-style-carousel > .wp-block-cover .wp-block-cover__image-background:not([data-object-position]) {
-		object-position: 50% 30%;
-	}
-	.wp-block-cover.focus-sm-center .wp-block-cover__image-background { object-position: 50% 50% !important; }
-	.wp-block-cover.focus-sm-top .wp-block-cover__image-background { object-position: 50% 12% !important; }
-	.wp-block-cover.focus-sm-bottom .wp-block-cover__image-background { object-position: 50% 88% !important; }
-	.wp-block-cover.focus-sm-left .wp-block-cover__image-background { object-position: 12% 50% !important; }
-	.wp-block-cover.focus-sm-right .wp-block-cover__image-background { object-position: 88% 50% !important; }
-	.wp-block-cover.focus-sm-top-left .wp-block-cover__image-background { object-position: 12% 12% !important; }
-	.wp-block-cover.focus-sm-top-right .wp-block-cover__image-background { object-position: 88% 12% !important; }
-	.wp-block-cover.focus-sm-bottom-left .wp-block-cover__image-background { object-position: 12% 88% !important; }
-	.wp-block-cover.focus-sm-bottom-right .wp-block-cover__image-background { object-position: 88% 88% !important; }
 }
 @media (prefers-reduced-motion: reduce) {
 	html.js .wp-block-group.is-style-carousel > .wp-block-cover,

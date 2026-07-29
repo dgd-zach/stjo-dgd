@@ -182,6 +182,9 @@
 
 .stjo-timeline-card__media {
 	margin: 0;
+	/* Clips the Image motion zoom (vertical cards scale the img to 1.3x)
+	 * inside the media column. */
+	overflow: hidden;
 }
 
 /* Horizontal: full card width at a set height — the focus point steers the

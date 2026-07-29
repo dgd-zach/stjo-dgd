@@ -1,6 +1,7 @@
 /* "Image Focus" sidebar panel for timeline-event: the cover block's
  * drag-to-focus picker, bound to the stjo_timeline_image_focus meta
- * ("X% Y%", legacy keyword pairs still parse). No build step. */
+ * ("X% Y%", legacy keyword pairs still parse). No build step. The
+ * "Image motion" toggle lives on the timeline BLOCK (edit.js), not here. */
 ( function ( wp ) {
 	var el = wp.element.createElement;
 	var registerPlugin = wp.plugins && wp.plugins.registerPlugin;

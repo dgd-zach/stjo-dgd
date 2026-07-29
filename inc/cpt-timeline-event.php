@@ -140,7 +140,7 @@ function stjo_timeline_editor_assets() {
 		'stjo-timeline-focus-panel',
 		get_template_directory_uri() . '/src/blocks/timeline/focus-panel.js',
 		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-components', 'wp-element', 'wp-data' ),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/src/blocks/timeline/focus-panel.js' ), // mtime version: STJO_VERSION let stale copies stick in the editor
 		true
 	);
 }

@@ -49,6 +49,11 @@ foreach ( $stjo_tl_events as $stjo_tl_event ) {
 
 $stjo_tl_is_editor_preview = defined( 'REST_REQUEST' ) && REST_REQUEST;
 
+// Block-level "Image motion" toggle (all cards or none). view.js pans the
+// crop of flagged horizontal images on scroll and settles vertical ones from
+// a 1.3x zoom.
+$stjo_tl_motion = ! isset( $attributes['imageMotion'] ) || $attributes['imageMotion'];
+
 if ( ! $stjo_tl_decades ) {
 	if ( $stjo_tl_is_editor_preview ) {
 		echo '<div ' . get_block_wrapper_attributes( array( 'class' => 'stjo-timeline stjo-timeline--empty' ) ) . '><p>' // phpcs:ignore WordPress.Security.EscapeOutput
@@ -91,6 +96,9 @@ $stjo_tl_uid = wp_unique_id( 'stjo-tl-' );
 								$stjo_tl_img_att = array( 'class' => 'stjo-timeline-card__img' );
 								if ( ! in_array( $stjo_tl_focus, array( 'center center', '50% 50%' ), true ) ) {
 									$stjo_tl_img_att['style'] = 'object-position:' . $stjo_tl_focus;
+								}
+								if ( $stjo_tl_motion ) {
+									$stjo_tl_img_att['data-stjo-parallax'] = '1';
 								}
 								$stjo_tl_image   = get_the_post_thumbnail( $stjo_tl_post, 'large', $stjo_tl_img_att );
 								$stjo_tl_classes = 'stjo-timeline-card';

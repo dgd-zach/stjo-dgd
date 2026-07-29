@@ -36,8 +36,9 @@
 	}
 
 	/* Scroll-linked effects: the navy line fill tracks the viewport center,
-	 * and each decade's watermark + node fade/de-blur in around it (both
-	 * directions). Under reduced motion only the line fill runs. */
+	 * each decade's watermark + node fade/de-blur in around it, and flagged
+	 * card images pan their crop with the scroll (parallax). Under reduced
+	 * motion only the line fill runs. */
 	function initScrollFx( root ) {
 		var inner = root.querySelector( '.stjo-timeline__inner' );
 		if ( ! inner ) {
@@ -50,6 +51,22 @@
 				section: section,
 				label: section.querySelector( '.stjo-timeline__decade-label' ),
 				latched: 0
+			};
+		} );
+		// "Image motion" images (block-level toggle, imageMotion attribute).
+		// Horizontal cards crop, so scroll pans object-position Y (focal point
+		// keeps X). Vertical cards show the whole photo, so they scale from
+		// 1.3x down to 1x instead. Geometry is measured on the media figure:
+		// the img's own rect grows while scaled, which would feed back into
+		// the math. `rest` is the inline focus style to put back under
+		// reduced motion.
+		var parallax = Array.prototype.slice.call( root.querySelectorAll( 'img[data-stjo-parallax]' ) ).map( function ( img ) {
+			return {
+				img: img,
+				box: img.closest( '.stjo-timeline-card__media' ) || img,
+				zoom: !! img.closest( '.stjo-timeline-card--vertical' ),
+				x: window.getComputedStyle( img ).objectPosition.split( /\s+/ )[ 0 ] || '50%',
+				rest: img.style.objectPosition
 			};
 		} );
 		var ticking = false;
@@ -85,6 +102,37 @@
 				}
 				d.section.style.setProperty( '--stjo-tl-vis', vis.toFixed( 3 ) );
 				d.section.style.setProperty( '--stjo-tl-blur', ( ( 1 - vis ) * 5 ).toFixed( 2 ) + 'px' );
+			} );
+
+			// Image motion. Travel t runs 0 (entering at the bottom of the
+			// screen) to 1 (leaving at the top). Horizontal: t maps onto
+			// object-position Y, 100% down to 0%, the same physics as a fixed
+			// background; the pan distance is exactly the hidden crop.
+			// Vertical: the photo starts at 1.3x and settles softly to 1x by
+			// the time the card reaches the viewport center (reversible on
+			// back-scroll).
+			parallax.forEach( function ( p ) {
+				if ( reduce.matches ) {
+					if ( p.img.style.objectPosition !== p.rest ) {
+						p.img.style.objectPosition = p.rest;
+					}
+					if ( p.img.style.transform ) {
+						p.img.style.transform = '';
+					}
+					return;
+				}
+				var pr = p.box.getBoundingClientRect();
+				if ( ! pr.height || pr.bottom < 0 || pr.top > window.innerHeight ) {
+					return;
+				}
+				var t = ( window.innerHeight - pr.top ) / ( window.innerHeight + pr.height );
+				t = Math.max( 0, Math.min( 1, t ) );
+				if ( p.zoom ) {
+					var settle = Math.min( t / 0.5, 1 );
+					p.img.style.transform = 'scale(' + ( 1 + 0.3 * Math.pow( 1 - settle, 2 ) ).toFixed( 4 ) + ')';
+				} else {
+					p.img.style.objectPosition = p.x + ' ' + ( ( 1 - t ) * 100 ).toFixed( 2 ) + '%';
+				}
 			} );
 		}
 

@@ -1111,3 +1111,157 @@ body.modal-open { overflow: hidden; }
 
 .stjo-lightbox-card__body { padding: var(--stjo--spacing--md, 24px); }
 .stjo-lightbox-card__body p { font-size: var(--stjo--font-size--small, 14px); }
+
+/* ── Student Stories archive: section bands, 6-card pages, carousel ── */
+.stjo-stories-hero__intro { max-width: 640px; }
+.stjo-page-title-band h1.wp-block-heading { margin-bottom: var(--stjo--spacing--sm);}
+.stjo-page-title-band .stjo-stories-hero__intro { color: var(--wp--preset--color--light, #f3f3e6); max-width: 600px;}
+
+.stjo-stories-band { padding-block: var(--stjo--spacing--xl, 48px); }
+.stjo-stories-band--tint { background: var(--wp--preset--color--light, #f3f3e6); }
+
+.stjo-stories-band__head { margin-bottom: var(--stjo--spacing--md, 24px); }
+.stjo-stories-band__head h2 { margin: 0; }
+
+.stjo-pills a[aria-current="true"] {
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+
+.stjo-stories-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--stjo--spacing--md, 24px);
+}
+
+/* No-JS / pre-JS: pages of 6 simply stack. */
+.stjo-stories-carousel__track { display: grid; gap: var(--stjo--spacing--md, 24px); }
+
+/* Carousel mode (stories-carousel.js adds .is-carousel + the nav). The
+   viewport's padding/negative-margin pair gives card hover shadows room
+   inside the overflow clip; the JS reads it into the height math. */
+.stjo-stories-carousel.is-carousel .stjo-stories-carousel__viewport {
+	overflow: hidden;
+	padding: var(--stjo-stories-bleed, 12px);
+	margin: calc(-1 * var(--stjo-stories-bleed, 12px));
+	transition: height 0.35s ease;
+}
+
+.stjo-stories-carousel.is-carousel .stjo-stories-carousel__track {
+	display: flex;
+	align-items: flex-start;
+	column-gap: var(--stjo--spacing--xl, 48px);
+	transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.stjo-stories-carousel.is-carousel .stjo-stories-carousel__page { flex: 0 0 100%; }
+
+.stjo-stories-nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--stjo--spacing--sm, 16px);
+	margin-top: var(--stjo--spacing--md, 24px);
+}
+
+.stjo-stories-nav__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border: var(--stjo--border--width, 1.5px) solid var(--wp--preset--color--brand-dark, #0053a0);
+	border-radius: 50%;
+	background: var(--wp--preset--color--white, #fff);
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.stjo-stories-nav__arrow:hover:not(:disabled),
+.stjo-stories-nav__arrow:focus-visible {
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+
+.stjo-stories-nav__arrow:disabled { opacity: 0.35; cursor: default; }
+
+.stjo-stories-nav__arrow:focus-visible,
+.stjo-stories-nav__dot:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+
+.stjo-stories-nav__dots { display: flex; align-items: center; gap: 10px; }
+
+.stjo-stories-nav__dot {
+	width: 12px;
+	height: 12px;
+	padding: 0;
+	border: var(--stjo--border--width, 1.5px) solid var(--wp--preset--color--brand-dark, #0053a0);
+	border-radius: 50%;
+	background: transparent;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.stjo-stories-nav__dot[aria-current="true"] { background: var(--wp--preset--color--brand-dark, #0053a0); }
+
+/* Card image zooms slightly on hover (whole card is the hover target
+   because the Read More link stretches over it). */
+.stjo-story-card > .wp-block-image { overflow: hidden; }
+
+@media (prefers-reduced-motion: no-preference) {
+	.stjo-story-card > .wp-block-image img { transition: transform 0.45s ease; }
+
+	.stjo-story-card:hover > .wp-block-image img,
+	.stjo-story-card:focus-within > .wp-block-image img { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.stjo-stories-carousel.is-carousel .stjo-stories-carousel__viewport,
+	.stjo-stories-carousel.is-carousel .stjo-stories-carousel__track { transition: none; }
+}
+
+@media (pointer: coarse) {
+	.stjo-stories-nav__arrow { width: 44px; height: 44px; }
+	.stjo-stories-nav__dot { width: 14px; height: 14px; }
+}
+
+@media (max-width: 900px) {
+	.stjo-stories-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+	.stjo-stories-grid { grid-template-columns: minmax(0, 1fr); }
+	.stjo-stories-band__head { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Breadcrumbs bar (Yoast trail in our wrapper, under the header on all
+   internal pages; template-parts/global/breadcrumbs.php) ── */
+.stjo-breadcrumbs {
+	background: var(--wp--preset--color--light, #f3f3e6);
+	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
+	font-size: var(--stjo--font-size--small, 14px);
+}
+
+.stjo-breadcrumbs__inner {
+	box-sizing: content-box; /* same 1146 grid as .entry-content */
+	max-width: var(--wp--style--global--content-size, 1146px);
+	margin-inline: auto;
+	padding: 14px var(--stjo--spacing--md, 24px);
+}
+
+.stjo-breadcrumbs a {
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+	text-decoration: none;
+}
+
+.stjo-breadcrumbs .breadcrumb_last { color: var(--wp--preset--color--dark, #333); }
+
+.stjo-breadcrumbs__sep {
+	display: inline-flex;
+	vertical-align: middle;
+	margin-inline: 2px;
+	color: var(--wp--preset--color--primary, #1a6db8);
+}

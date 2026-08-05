@@ -228,7 +228,7 @@
 
 <!-- wp:cover {"url":"<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>","dimRatio":30,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":418,"align":"full","className":"stjo-dreammaker"} -->
 <div class="wp-block-cover alignfull stjo-dreammaker" style="min-height:418px"><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-30 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","fontSize":"xxl"} -->
-<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color has-xxl-font-size">Become a DreamMaker</h2>
+<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color has-xxl-font-size">Become a DreamMaker</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"white"} -->
@@ -647,7 +647,7 @@ generation.</p>
 <!-- wp:group -->
 <div class="wp-block-group">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Donor  Advised Fund</h3>
+<h3 class="wp-block-heading">Donor Advised Fund</h3>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->

@@ -50,7 +50,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"light","className":"stjo-stat__label"} -->
-<p class="has-text-align-center has-light-color has-text-color stjo-stat__label">to Native American students  pursuing higher education</p>
+<p class="has-text-align-center has-light-color has-text-color stjo-stat__label">to Native American students pursuing higher education</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 <!-- wp:column -->
@@ -84,7 +84,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"align":"center","textColor":"light","className":"stjo-stat__label"} -->
-<p class="has-text-align-center has-light-color has-text-color stjo-stat__label">took place in our campus  health center</p>
+<p class="has-text-align-center has-light-color has-text-color stjo-stat__label">took place in our campus health center</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 </div>

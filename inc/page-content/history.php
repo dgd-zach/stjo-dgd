@@ -97,7 +97,7 @@
 <!-- wp:group -->
 <div class="wp-block-group">
 <!-- wp:heading -->
-<h2 class="wp-block-heading">A Century  of Service &amp; Love</h2>
+<h2 class="wp-block-heading">A Century of Service &amp; Love</h2>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->
@@ -836,7 +836,7 @@
 <!-- wp:group -->
 <div class="wp-block-group">
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Donor  Advised Fund</h3>
+<h3 class="wp-block-heading">Donor Advised Fund</h3>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->

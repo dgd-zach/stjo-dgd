@@ -25,5 +25,71 @@ function stjo_register_student_story() {
 		'has_archive'  => 'student-stories',
 		'rewrite'      => array( 'slug' => 'student-stories', 'with_front' => false ),
 	) );
+
+	// Category drives which archive section a story renders in (Student vs
+	// Alumni bands, per the design); Tag holds grade-level labels; Year
+	// powers the archive's filter pills for the Student section.
+	register_taxonomy( 'story-category', 'student-story', array(
+		'labels'            => array(
+			'name'          => __( 'Story Categories', 'stjo' ),
+			'singular_name' => __( 'Story Category', 'stjo' ),
+		),
+		'hierarchical'      => true,
+		'public'            => false,
+		'show_ui'           => true,
+		'show_in_rest'      => true,
+		'show_admin_column' => true,
+		'rewrite'           => false,
+	) );
+
+	register_taxonomy( 'story-tag', 'student-story', array(
+		'labels'            => array(
+			'name'          => __( 'Story Tags', 'stjo' ),
+			'singular_name' => __( 'Story Tag', 'stjo' ),
+		),
+		'hierarchical'      => false,
+		'public'            => false,
+		'show_ui'           => true,
+		'show_in_rest'      => true,
+		'show_admin_column' => true,
+		'rewrite'           => false,
+	) );
+
+	register_taxonomy( 'story-year', 'student-story', array(
+		'labels'            => array(
+			'name'          => __( 'Years', 'stjo' ),
+			'singular_name' => __( 'Year', 'stjo' ),
+		),
+		'hierarchical'      => false,
+		'public'            => false,
+		'show_ui'           => true,
+		'show_in_rest'      => true,
+		'show_admin_column' => true,
+		'rewrite'           => false,
+	) );
 }
 add_action( 'init', 'stjo_register_student_story' );
+
+/**
+ * Breadcrumbs: Student Stories lives under About in the site structure
+ * (Home > About > Student Stories per the design), but the CPT archive has
+ * no real page ancestor, so splice the About page in after Home on the
+ * archive and on single stories.
+ */
+function stjo_student_story_breadcrumbs( $links ) {
+	if ( ! is_post_type_archive( 'student-story' ) && ! is_singular( 'student-story' ) ) {
+		return $links;
+	}
+	$about = get_page_by_path( 'about' );
+	if ( ! $about || ! is_array( $links ) ) {
+		return $links;
+	}
+	array_splice( $links, 1, 0, array(
+		array(
+			'url'  => get_permalink( $about ),
+			'text' => get_the_title( $about ),
+		),
+	) );
+	return $links;
+}
+add_filter( 'wpseo_breadcrumb_links', 'stjo_student_story_breadcrumbs' );

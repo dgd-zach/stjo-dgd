@@ -169,7 +169,7 @@
     <!-- /wp:heading -->
 
     <!-- wp:paragraph {"align":"center","textColor":"light"} -->
-    <p class="has-text-align-center has-light-color has-text-color">For nearly a century, St. Joseph’s has been lighting<strong> The Spark</strong> of curiosity, energy and promise that lights the way to a brighter future.</p>
+    <p class="has-text-align-center has-light-color has-text-color">For nearly a century, St. Joseph’s has been lighting<strong> The Spark</strong> of curiosity, energy and promise that lights the way to a brighter future.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->

@@ -104,6 +104,23 @@ function stjo_register_blocks() {
 }
 add_action( 'init', 'stjo_register_blocks' );
 
+/**
+ * Yoast skips building indexables on non-production environments (Local sets
+ * WP_ENVIRONMENT_TYPE), which silently drops page ancestors from breadcrumb
+ * trails in dev. Force indexing on so local matches production behavior.
+ */
+add_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_true' );
+
+/**
+ * Breadcrumb separator: the brand chevron (same glyph as the carousel
+ * arrows) instead of a text character. The wpseo_titles separator setting
+ * remains as a plain-text fallback for feeds/schema contexts.
+ */
+function stjo_breadcrumb_separator() {
+	return '<span class="stjo-breadcrumbs__sep" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" focusable="false"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+}
+add_filter( 'wpseo_breadcrumb_separator', 'stjo_breadcrumb_separator' );
+
 require_once get_template_directory() . '/inc/theme-config.php';
 require_once get_template_directory() . '/inc/asset-helper.php';
 require_once get_template_directory() . '/inc/nav-menu.php';

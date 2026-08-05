@@ -107,7 +107,29 @@
       "body": "Sign up today and receive email updates, special offers and videos from St. Joseph's Indian School. Join today to see and hear the difference your friendship makes!",
       "action": "#"
     },
-    "legal": "\u00a9 {year} St. Joseph's Indian School. All rights reserved. | St. Joseph's Indian School is a tax-exempt 501(c)(3) organization.",
+    "partners": [
+      {
+        "name": "Council on Accreditation: COA Accredited",
+        "image": "http://stjodevdev.local/wp-content/uploads/2026/07/image-2.png"
+      },
+      {
+        "name": "GreatNonprofits 2025 Top-Rated Nonprofit",
+        "image": "http://stjodevdev.local/wp-content/uploads/2026/07/image-3.png"
+      },
+      {
+        "name": "Candid Platinum Transparency 2026",
+        "image": "http://stjodevdev.local/wp-content/uploads/2026/07/image-4.png"
+      },
+      {
+        "name": "CORE: Coalition of Residential Excellence",
+        "image": "http://stjodevdev.local/wp-content/uploads/2026/07/image-5.png"
+      },
+      {
+        "name": "American Indian Catholic Schools Network",
+        "image": "http://stjodevdev.local/wp-content/uploads/2026/07/image-6.png"
+      }
+    ],
+    "legal": "© {year} St. Joseph's Indian School. All rights reserved. | St. Joseph's Indian School is a tax-exempt 501(c)(3) organization.",
     "privacy_url": "/privacy-policy/"
   }
 }

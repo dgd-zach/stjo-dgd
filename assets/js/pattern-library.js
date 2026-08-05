@@ -1,10 +1,10 @@
 /**
  * Pattern Library interactions: each pattern section is focusable and acts
- * as a copy button. Click (or Enter/Space) anywhere on a pattern, except
- * the overlay's real links, copies the raw block markup from the section's
- * text/plain script node to the clipboard, with an announced "Copied"
- * confirmation. Clipboard API first, execCommand fallback for plain-http
- * dev sites.
+ * as a copy button. Click (or Enter/Space) anywhere on a pattern copies the
+ * raw block markup from the section's text/plain script node to the
+ * clipboard; the corner HUD's name line briefly reads "Copied to clipboard."
+ * and the live region announces the result. Clipboard API first, execCommand
+ * fallback for plain-http dev sites.
  */
 (function () {
 	'use strict';
@@ -37,14 +37,31 @@
 		});
 	}
 
-	document.querySelectorAll('[data-plib-item]').forEach(function (item) {
+	var items = Array.prototype.slice.call(document.querySelectorAll('[data-plib-item]'));
+
+	// Short blocks (dividers etc.) get a compact one-row HUD; the CSS also
+	// clips the HUD to the block, so this keeps name + icon inside view.
+	function markShort() {
+		items.forEach(function (item) {
+			item.classList.toggle('stjo-plib__item--short', item.offsetHeight < 120);
+		});
+	}
+	markShort();
+	window.addEventListener('load', markShort);
+	var shortRaf = 0;
+	window.addEventListener('resize', function () {
+		cancelAnimationFrame(shortRaf);
+		shortRaf = requestAnimationFrame(markShort);
+	});
+
+	items.forEach(function (item) {
 		var markupEl = item.querySelector('.stjo-plib__markup');
-		var hint = item.querySelector('[data-plib-hint]');
 		if (!markupEl) {
 			return;
 		}
 		var title = item.getAttribute('data-plib-title') || 'pattern';
-		var hintDefault = hint ? hint.textContent : '';
+		var hudTitle = item.querySelector('.stjo-plib__hud-title');
+		var hudDefault = hudTitle ? hudTitle.innerHTML : ''; // keeps the <strong> around the name on restore
 		var resetTimer = 0;
 
 		item.setAttribute('tabindex', '0');
@@ -52,27 +69,25 @@
 		item.setAttribute('aria-label', 'Copy the ' + title + ' pattern markup');
 
 		function feedback(message) {
-			if (hint) {
-				hint.textContent = message;
-				item.classList.add('is-copied');
+			if (hudTitle) {
+				hudTitle.textContent = message;
 				window.clearTimeout(resetTimer);
 				resetTimer = window.setTimeout(function () {
-					hint.textContent = hintDefault;
-					item.classList.remove('is-copied');
+					hudTitle.innerHTML = hudDefault;
 				}, 1800);
 			}
 			if (live) {
-				live.textContent = message + ': ' + title;
+				live.textContent = message + ' ' + title;
 			}
 		}
 
 		function copy() {
 			copyText(markupEl.textContent.trim()).then(
 				function () {
-					feedback('Copied!');
+					feedback('Copied to clipboard.');
 				},
 				function () {
-					feedback('Copy failed');
+					feedback('Copy failed.');
 				}
 			);
 		}

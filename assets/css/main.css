@@ -90,7 +90,7 @@ p, .wp-block-paragraph {
 	margin: 0 0 var(--stjo--spacing--md);
 	line-height: var(--stjo--line-height--body, 1.5);
 }
-p:last-child { margin-bottom: 0; }
+p:last-child:not(:only-child) { margin-bottom: 0; }
 
 /* Eyebrow / caps label — "ABOUT US", "FROM THE BLOG" */
 .is-style-eyebrow {
@@ -260,12 +260,20 @@ blockquote, .wp-block-quote {
    6. LAYOUT — wrapper, alignments, cascade (load-bearing)
    ═══════════════════════════════════════════════════════════════════════ */
 .entry-content {
+	/* content-box: the 1146px cap measures the CONTENT, with the gutter
+	   padding outside it. In-flow content then sits on the same 1146 grid
+	   as the inner content of alignfull bands (border-box shaved it to
+	   1098 and the two never lined up). */
+	box-sizing: content-box;
 	max-width: var(--wp--style--global--content-size, 1146px);
 	margin-inline: auto;
-	padding-inline: var(--stjo--spacing--md);
+	padding-inline: var(--stjo--spacing--md, 24px);
 }
-/* The front page is a stack of full-bleed bands; let them span edge to edge. */
+/* The front page is a stack of full-bleed bands; let them span edge to edge.
+   Any top-level block that is NOT alignfull still gets the 16px gutter so
+   its content can't touch the viewport edge on small screens. */
 .entry-content--front { max-width: none; padding-inline: 0; }
+.entry-content--front > :where(:not(.alignfull)) { padding-inline: var(--stjo--spacing--sm, 16px); }
 
 .entry-content > .alignwide,
 .wp-block-group.alignwide { max-width: var(--wp--style--global--wide-size, 1280px); margin-inline: auto; }
@@ -273,10 +281,18 @@ blockquote, .wp-block-quote {
 .entry-content > .alignfull,
 .wp-block-group.alignfull { max-width: none; margin-inline: calc(50% - 50vw); }
 
-/* Full-bleed band → inner content returns to wrapper width & centres. */
+/* Full-bleed band → inner content returns to wrapper width & centres.
+   The min() keeps a 16px gutter each side on small screens: any block that
+   is not itself alignfull can never touch the viewport edge. */
 .wp-block-group.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)),
 .wp-block-group.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)) {
-	max-width: var(--wp--style--global--content-size, 1146px);
+	max-width: min(var(--wp--style--global--content-size, 1146px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
+	margin-inline: auto;
+}
+
+/* Wide children of full bands get the same guarantee at the wide tier. */
+.wp-block-group.alignfull > .alignwide {
+	max-width: min(var(--wp--style--global--wide-size, 1280px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
 	margin-inline: auto;
 }
 /* Horizontal gutter for band content. */
@@ -1057,3 +1073,41 @@ body.modal-open { overflow: hidden; }
 	.site-footer__legal { flex-direction: column; align-items: flex-start; }
 }
 
+
+/* ── Section landing: sublink tiles + lightbox-link cards ──
+   Used by the Cards That Open Lightboxes band (section-landing-example);
+   markup is core groups with these classes, no block-level border attrs. */
+.stjo-sublink-tile {
+	height: 100%;
+	padding: var(--stjo--spacing--md, 24px);
+	border: 2px solid var(--wp--preset--color--yellow, #ffd520);
+	border-radius: var(--stjo--radius--md, 8px);
+	background: var(--wp--preset--color--white, #fff);
+}
+
+.stjo-sublink-tile p { font-size: var(--stjo--font-size--small, 14px); }
+
+.stjo-sublink-tile--solid {
+	background: var(--wp--preset--color--blue-900, #003566);
+	border-color: var(--wp--preset--color--blue-900, #003566);
+}
+
+.stjo-lightbox-card {
+	height: 100%;
+	border: 1.5px solid rgba(0, 83, 160, 0.45);
+	border-radius: var(--stjo--radius--md, 8px);
+	overflow: hidden;
+	background: var(--wp--preset--color--white, #fff);
+}
+
+.stjo-lightbox-card > .wp-block-image { margin: 0; }
+
+.stjo-lightbox-card > .wp-block-image img {
+	display: block;
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+
+.stjo-lightbox-card__body { padding: var(--stjo--spacing--md, 24px); }
+.stjo-lightbox-card__body p { font-size: var(--stjo--font-size--small, 14px); }

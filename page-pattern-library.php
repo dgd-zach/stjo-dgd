@@ -5,11 +5,12 @@
  * Living style guide: renders every block pattern registered in the theme
  * category, grouped under content-type headings (see
  * stjo_pattern_content_categories()), straight from the pattern registry so
- * it can never go stale. Hovering or focusing a pattern reveals an overlay
- * with its title, description, and an Isolate link; clicking anywhere else
- * on the pattern copies its block markup to the clipboard for pasting into
- * the editor (assets/js/pattern-library.js). Append ?pattern=<slug> to
- * render a single pattern in isolation. Noindexed and excluded from search.
+ * it can never go stale. Each pattern section is one big copy button:
+ * hovering or focusing it drops a name + copy-icon pill in from above the
+ * top-right edge, and clicking anywhere on the pattern copies its block
+ * markup to the clipboard (assets/js/pattern-library.js). Append
+ * ?pattern=<slug> to render a single pattern in isolation (no UI links to
+ * it). Noindexed and excluded from search.
  *
  * @package stjo
  */
@@ -45,33 +46,28 @@ function stjo_pattern_anchor( $name ) {
 }
 
 /**
- * One pattern section: render + hover overlay + raw markup for copying.
+ * One pattern section: live render + top-right name/copy pill + raw markup
+ * for the clipboard. The pill is decorative for AT (the section itself is
+ * the labelled copy button; the live region announces the result).
  */
-function stjo_pattern_library_item( $pattern, $stjo_only ) {
+function stjo_pattern_library_item( $pattern ) {
 	$anchor = stjo_pattern_anchor( $pattern['name'] );
 	?>
 	<section id="<?php echo esc_attr( $anchor ); ?>" class="stjo-plib__item" data-plib-item data-plib-title="<?php echo esc_attr( $pattern['title'] ); ?>">
 		<div class="entry-content stjo-plib__render">
 			<?php echo do_blocks( $pattern['content'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
-		<div class="stjo-plib__overlay">
-			<div class="stjo-plib__overlay-inner">
-				<h3 class="stjo-plib__overlay-title"><?php echo esc_html( $pattern['title'] ); ?></h3>
-				<?php if ( ! empty( $pattern['description'] ) ) : ?>
-					<p class="stjo-plib__overlay-desc"><?php echo esc_html( $pattern['description'] ); ?></p>
-				<?php endif; ?>
-				<p class="stjo-plib__overlay-hint" data-plib-hint><?php esc_html_e( 'Click anywhere to copy the block markup', 'stjo' ); ?></p>
-				<div class="stjo-plib__overlay-actions">
-					<?php if ( $stjo_only ) : ?>
-						<a class="stjo-plib__overlay-btn" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Back to all', 'stjo' ); ?></a>
-					<?php else : ?>
-						<a class="stjo-plib__overlay-btn" href="<?php echo esc_url( add_query_arg( 'pattern', $anchor, get_permalink() ) ); ?>"><?php esc_html_e( 'Isolate', 'stjo' ); ?></a>
-					<?php endif; ?>
-				</div>
+		<div class="stjo-plib__hud" aria-hidden="true">
+			<div class="stjo-plib__hud-inner">
+				<p class="stjo-plib__hud-title"><?php printf( /* translators: %s: pattern title */ esc_html__( 'Pattern Name: %s.', 'stjo' ), '<br><strong>' . esc_html( $pattern['title'] ) . '</strong>' ); ?></p>
+				<svg class="stjo-plib__hud-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/></svg>
 			</div>
 		</div>
 		<script type="text/plain" class="stjo-plib__markup"><?php echo $pattern['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></script>
 	</section>
+	<!-- wp:spacer -->
+	<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer  with-borders"></div>
+	<!-- /wp:spacer -->
 	<?php
 }
 ?>
@@ -114,15 +110,18 @@ function stjo_pattern_library_item( $pattern, $stjo_only ) {
 	if ( $stjo_only ) {
 		foreach ( $group as $pattern ) {
 			if ( stjo_pattern_anchor( $pattern['name'] ) === $stjo_only ) {
-				stjo_pattern_library_item( $pattern, $stjo_only );
+				stjo_pattern_library_item( $pattern );
 			}
 		}
 		continue;
 	}
 	?>
 	<h2 class="stjo-plib__cat" id="cat-<?php echo esc_attr( $cat_slug ); ?>"><?php echo esc_html( $stjo_cats[ $cat_slug ] ); ?></h2>
+	<!-- wp:spacer -->
+	<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer with-borders"></div>
+	<!-- /wp:spacer -->
 	<?php foreach ( $group as $pattern ) : ?>
-		<?php stjo_pattern_library_item( $pattern, '' ); ?>
+		<?php stjo_pattern_library_item( $pattern ); ?>
 	<?php endforeach; ?>
 <?php endforeach; ?>
 

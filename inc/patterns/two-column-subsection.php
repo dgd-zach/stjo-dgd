@@ -2,25 +2,18 @@
 /**
  * Title: Two-Column Subsection (Image Left)
  * Categories: media
- * Description: Structure: two-column-subsection. Image beside title, optional subhead, text, CTA row. Replaces two-column-image-text. Source: both frames.
+ * Description: Structure: two-column-subsection. Native Media & Text block: image beside title, optional subhead, text, CTA row. Stacks on mobile out of the box.
  *
  * @package stjo
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Two-Column Subsection (Image Left)"},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
+<!-- wp:group {"metadata":{"name":"Two-Column Subsection (Image Left)"},"align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull"><!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
 <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
 
-<!-- wp:columns {"verticalAlignment":"center"} -->
-<div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"sizeSlug":"large","className":"is-style-rounded"} -->
-<figure class="wp-block-image size-large is-style-rounded"><img src="<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>" alt=""/></figure>
-<!-- /wp:image --></div>
-<!-- /wp:column -->
-
-<!-- wp:column {"verticalAlignment":"center"} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"level":3} -->
+<!-- wp:media-text {"mediaType":"image","className":"is-style-rounded"} -->
+<div class="wp-block-media-text is-stacked-on-mobile is-style-rounded"><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>" alt=""/></figure><div class="wp-block-media-text__content"><!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Subsection Title</h3>
 <!-- /wp:heading -->
 
@@ -44,9 +37,8 @@
 <!-- wp:button {"className":"is-style-arrow-link"} -->
 <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="#">Learn More</a></div>
 <!-- /wp:button --></div>
-<!-- /wp:buttons --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns -->
+<!-- /wp:buttons --></div></div>
+<!-- /wp:media-text -->
 
 <!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
 <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>

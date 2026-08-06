@@ -120,6 +120,13 @@ function stjo_mega_nav_section( $section, $tree ) {
 			$loose[] = $child;
 		}
 	}
+	// The section itself leads its own submenu (the top-level trigger is a
+	// button and never navigates, so this is the way to the landing page).
+	if ( ! empty( $section->url ) && '#' !== $section->url ) {
+		$stjo_self                = clone $section;
+		$stjo_self->stjo_is_self  = true;
+		array_unshift( $loose, $stjo_self );
+	}
 	if ( $loose ) {
 		echo '<div class="mega-panel__group">';
 		stjo_mega_nav_links( $loose );
@@ -158,9 +165,10 @@ function stjo_mega_nav_links( $items ) {
 	echo '<ul class="mega-panel__links">';
 	foreach ( $items as $item ) {
 		printf(
-			'<li><a href="%1$s">%2$s</a></li>',
+			'<li%3$s><a href="%1$s">%2$s</a></li>',
 			esc_url( $item->url ),
-			esc_html( $item->title )
+			esc_html( $item->title ),
+			! empty( $item->stjo_is_self ) ? ' class="mega-panel__self-link"' : ''
 		);
 	}
 	echo '</ul>';

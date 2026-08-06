@@ -229,7 +229,8 @@ if ( $stjo_intro ) {
 // blog features about students, distinct from the two graduates sections).
 stjo_stories_section( array(
 	'id'         => 'student-stories',
-	'title'      => __( 'Student Stories', 'stjo' ),
+	// "(placeholders)": current cards are blog pulls pending the client's real picks.
+	'title'      => __( 'Student Stories (placeholders)', 'stjo' ),
 	'cat'        => 'student-stories',
 	'tag'        => '',
 	'filter_key' => 'students',

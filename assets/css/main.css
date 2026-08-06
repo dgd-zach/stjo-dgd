@@ -756,6 +756,13 @@ html.no-js .menu-item--section:focus-within > .mega-panel {
 }
 .mega-panel__links a:hover { color: var(--wp--preset--color--brand-dark, #0053a0); text-decoration: underline; }
 
+/* The section's own link leads its submenu (the top-level item is a
+   non-navigating disclosure button). */
+.mega-panel__self-link a {
+	font-weight: 700;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+}
+
 /* Promo card. */
 .mega-panel__promo {
 	flex: 0 0 clamp(320px, 36%, 500px);

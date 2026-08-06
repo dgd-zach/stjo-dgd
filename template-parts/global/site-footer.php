@@ -104,15 +104,30 @@ $social_icons = array(
 					<?php if ( stjo_config_get( 'footer.newsletter.body' ) ) : ?>
 						<p><?php echo esc_html( stjo_config_get( 'footer.newsletter.body' ) ); ?></p>
 					<?php endif; ?>
+					<?php
+					// Posts straight into the client's Luminate Online email-signup
+					// survey; field names mirror the live SSurvey form (cons_*).
+					$stjo_nl_survey = stjo_config_get( 'footer.newsletter.survey_id' );
+					?>
 					<form class="site-footer__form" action="<?php echo esc_url( stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="post">
+						<?php if ( $stjo_nl_survey ) : ?>
+							<input type="hidden" name="SURVEY_ID" value="<?php echo esc_attr( $stjo_nl_survey ); ?>">
+							<input type="hidden" name="cons_info_component" value="t">
+							<input type="hidden" name="ACTION_SUBMIT_SURVEY_RESPONSE" value="Submit">
+							<?php // LO honeypot: humans leave it empty, scripts that fill it get denied. ?>
+							<input type="hidden" name="denySubmit" value="">
+							<?php if ( stjo_config_get( 'footer.newsletter.s_src' ) ) : ?>
+								<input type="hidden" name="s_src" value="<?php echo esc_attr( stjo_config_get( 'footer.newsletter.s_src' ) ); ?>">
+							<?php endif; ?>
+						<?php endif; ?>
 						<div class="site-footer__form-row">
 							<label class="screen-reader-text" for="nl-first"><?php esc_html_e( 'First name', 'stjo' ); ?></label>
-							<input id="nl-first" type="text" name="first_name" placeholder="<?php esc_attr_e( 'First name', 'stjo' ); ?>">
+							<input id="nl-first" type="text" name="cons_first_name" autocomplete="given-name" placeholder="<?php esc_attr_e( 'First name', 'stjo' ); ?>">
 							<label class="screen-reader-text" for="nl-last"><?php esc_attr_e( 'Last name', 'stjo' ); ?></label>
-							<input id="nl-last" type="text" name="last_name" placeholder="<?php esc_attr_e( 'Last name', 'stjo' ); ?>">
+							<input id="nl-last" type="text" name="cons_last_name" autocomplete="family-name" placeholder="<?php esc_attr_e( 'Last name', 'stjo' ); ?>">
 						</div>
 						<label class="screen-reader-text" for="nl-email"><?php esc_html_e( 'Email', 'stjo' ); ?></label>
-						<input id="nl-email" type="email" name="email" placeholder="<?php esc_attr_e( 'Email address', 'stjo' ); ?>">
+						<input id="nl-email" type="email" name="cons_email" autocomplete="email" required placeholder="<?php esc_attr_e( 'Email address', 'stjo' ); ?>">
 						<button class="wp-block-button__link wp-element-button stjo-form-button-outline" type="submit"><?php esc_html_e( 'Sign Up', 'stjo' ); ?></button>
 					</form>
 				<?php endif; ?>

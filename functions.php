@@ -129,3 +129,4 @@ require_once get_template_directory() . '/inc/cpt-loader.php';
 require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
+require_once get_template_directory() . '/inc/chatbot.php';

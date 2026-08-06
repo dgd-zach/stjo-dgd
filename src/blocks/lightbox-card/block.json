@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/lightbox-card",
+	"title": "Lightbox Card",
+	"category": "widgets",
+	"icon": "external",
+	"description": "Card that opens a prescribed lightbox: hero image, heading, content, and an optional link. The card shows an abbreviated version of the lightbox content.",
+	"attributes": {
+		"title": { "type": "string", "default": "Lightbox Link" },
+		"linkLabel": { "type": "string", "default": "Explore" },
+		"content": { "type": "string", "default": "" },
+		"linkText": { "type": "string", "default": "Learn More" },
+		"linkUrl": { "type": "string", "default": "" },
+		"linkNewTab": { "type": "boolean", "default": false },
+		"mediaId": { "type": "number", "default": 0 },
+		"mediaUrl": { "type": "string", "default": "" },
+		"mediaAlt": { "type": "string", "default": "" }
+	},
+	"styles": [
+		{ "name": "image", "label": "With image", "isDefault": true },
+		{ "name": "text", "label": "Text only" }
+	],
+	"supports": {
+		"html": false,
+		"color": { "background": true, "text": true, "link": false }
+	},
+	"textdomain": "stjo",
+	"editorScript": "stjo-lightbox-card-editor",
+	"viewScript": "file:./view.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

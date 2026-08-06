@@ -243,6 +243,12 @@ function stjo_nav_assets() {
 		(string) filemtime( get_template_directory() . '/assets/js/stories-carousel.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
+	// Graduate story cards on the archive open a lightbox; the modal JS/CSS
+	// ship with the stjo/lightbox-card block, so pull its registered handles.
+	if ( is_post_type_archive( 'student-story' ) ) {
+		wp_enqueue_script( 'stjo-lightbox-card-view-script' );
+		wp_enqueue_style( 'stjo-lightbox-card-style' );
+	}
 	wp_enqueue_script(
 		'stjo-share',
 		get_template_directory_uri() . '/assets/js/share.js',

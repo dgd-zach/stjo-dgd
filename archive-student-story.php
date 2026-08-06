@@ -21,9 +21,11 @@
 get_header();
 
 /**
- * Stories for one section (all filters applied), newest first.
+ * Stories for one section (all filters applied). Newest first by default;
+ * pass 'menu_order' for hand-curated sequences (Alumni mirrors the order of
+ * the client's alumni page via each post's Order attribute).
  */
-function stjo_stories_query( $cat, $tag = '', $year = '' ) {
+function stjo_stories_query( $cat, $tag = '', $year = '', $orderby = 'date' ) {
 	$tax = array( array( 'taxonomy' => 'story-category', 'field' => 'slug', 'terms' => $cat ) );
 	if ( $tag ) {
 		$tax[] = array( 'taxonomy' => 'story-tag', 'field' => 'slug', 'terms' => $tag );
@@ -36,7 +38,7 @@ function stjo_stories_query( $cat, $tag = '', $year = '' ) {
 		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 		'tax_query'      => $tax,
-		'orderby'        => 'date',
+		'orderby'        => 'menu_order' === $orderby ? array( 'menu_order' => 'ASC', 'date' => 'DESC' ) : 'date',
 		'order'          => 'DESC',
 	) );
 }
@@ -44,14 +46,18 @@ function stjo_stories_query( $cat, $tag = '', $year = '' ) {
 /**
  * One story card (design-approved card markup). Stories carrying an
  * stjo_external_url meta (alumni imported from the blog) link out to it in
- * a new tab instead of their local single view.
+ * a new tab; $lightbox cards (Eighth Grade / High School) open the story in
+ * a modal instead of navigating to the single view. Featured photos honor
+ * the per-post Image Focus meta within the card's fixed-height crop.
  */
-function stjo_story_card( $post ) {
+function stjo_story_card( $post, $lightbox = false ) {
 	$external = get_post_meta( $post->ID, 'stjo_external_url', true );
+	$focus    = get_post_meta( $post->ID, 'stjo_story_image_focus', true );
+	$img_attr = $focus && 'center center' !== $focus ? array( 'style' => 'object-position:' . $focus ) : array();
 	?>
 	<article <?php post_class( 'stjo-story-card', $post ); ?>>
 		<?php if ( has_post_thumbnail( $post ) ) : ?>
-			<figure class="wp-block-image"><?php echo get_the_post_thumbnail( $post, 'medium_large' ); ?></figure>
+			<figure class="wp-block-image"><?php echo get_the_post_thumbnail( $post, 'medium_large', $img_attr ); ?></figure>
 		<?php endif; ?>
 		<div class="stjo-story-card__body">
 			<h3><?php echo esc_html( get_the_title( $post ) ); ?></h3>
@@ -61,6 +67,33 @@ function stjo_story_card( $post ) {
 					<?php esc_html_e( 'Read More', 'stjo' ); ?>
 					<span class="screen-reader-text"><?php echo esc_html( sprintf( /* translators: %s: story title */ __( 'about %s (opens in a new tab)', 'stjo' ), get_the_title( $post ) ) ); ?></span>
 				</a>
+			<?php elseif ( $lightbox ) : ?>
+				<button type="button" class="stjo-story-card__more" data-stjo-lightbox>
+					<?php esc_html_e( 'Read More', 'stjo' ); ?>
+					<span class="screen-reader-text"><?php echo esc_html( sprintf( /* translators: %s: story title */ __( 'about %s', 'stjo' ), get_the_title( $post ) ) ); ?></span>
+				</button>
+				<template data-stjo-lightbox-template>
+					<?php if ( has_post_thumbnail( $post ) ) : ?>
+						<figure class="stjo-lightbox__hero"><?php echo get_the_post_thumbnail( $post, 'large', $img_attr ); ?></figure>
+					<?php endif; ?>
+					<div class="stjo-lightbox__inner">
+						<h2 class="stjo-lightbox__title"><?php echo esc_html( get_the_title( $post ) ); ?></h2>
+						<div class="stjo-lightbox__body">
+							<?php
+							// Same chain as the lightbox-card block: not the_content,
+							// which would re-enter the page's filter pass.
+							$stjo_story_html = do_blocks( $post->post_content );
+							$stjo_story_html = wptexturize( $stjo_story_html );
+							$stjo_story_html = wpautop( $stjo_story_html );
+							$stjo_story_html = shortcode_unautop( $stjo_story_html );
+							echo do_shortcode( $stjo_story_html ); // phpcs:ignore WordPress.Security.EscapeOutput -- editor-authored post content.
+							?>
+						</div>
+						<div class="stjo-lightbox__actions">
+							<button type="button" class="stjo-lightbox__dismiss" data-stjo-lightbox-close><?php esc_html_e( 'Close', 'stjo' ); ?></button>
+						</div>
+					</div>
+				</template>
 			<?php else : ?>
 				<a class="stjo-story-card__more" href="<?php echo esc_url( get_permalink( $post ) ); ?>">
 					<?php esc_html_e( 'Read More', 'stjo' ); ?>
@@ -76,13 +109,15 @@ function stjo_story_card( $post ) {
  * One section band: heading, optional year pills, carousel of 6-card pages.
  *
  * @param array $args id, title, cat, tag, filter_key (empty = no filter),
- *                    tint (cream band), active (all active filters by key).
+ *                    tint (cream band), active (all active filters by key),
+ *                    orderby ('date' default, or 'menu_order' for curated).
  */
 function stjo_stories_section( $args ) {
 	$key    = $args['filter_key'];
+	$sort   = ! empty( $args['orderby'] ) ? $args['orderby'] : 'date';
 	$year   = $key && ! empty( $args['active'][ $key ] ) ? $args['active'][ $key ] : '';
-	$all    = stjo_stories_query( $args['cat'], $args['tag'] );
-	$posts  = $year ? stjo_stories_query( $args['cat'], $args['tag'], $year ) : $all;
+	$all    = stjo_stories_query( $args['cat'], $args['tag'], '', $sort );
+	$posts  = $year ? stjo_stories_query( $args['cat'], $args['tag'], $year, $sort ) : $all;
 	$pages  = array_chunk( $posts, 6 );
 	$h_id   = $args['id'] . '-heading';
 
@@ -109,7 +144,7 @@ function stjo_stories_section( $args ) {
 	?>
 	<section id="<?php echo esc_attr( $args['id'] ); ?>" class="wp-block-group alignfull stjo-stories-band<?php echo $args['tint'] ? ' stjo-stories-band--tint' : ''; ?>" aria-labelledby="<?php echo esc_attr( $h_id ); ?>">
 		<div class="stjo-filterbar stjo-stories-band__head">
-			<h2 id="<?php echo esc_attr( $h_id ); ?>"><?php echo esc_html( $args['title'] ); ?></h2>
+			<h3 id="<?php echo esc_attr( $h_id ); ?>"><?php echo esc_html( $args['title'] ); ?></h3>
 			<?php if ( $years ) : ?>
 				<nav class="stjo-pills" aria-label="<?php echo esc_attr( sprintf( /* translators: %s: section title */ __( 'Filter %s by year', 'stjo' ), $args['title'] ) ); ?>">
 					<span class="stjo-filterbar__label"><?php esc_html_e( 'Filters:', 'stjo' ); ?></span>
@@ -139,7 +174,7 @@ function stjo_stories_section( $args ) {
 						<?php foreach ( $pages as $page ) : ?>
 							<div class="stjo-stories-carousel__page">
 								<div class="stjo-stories-grid">
-									<?php foreach ( $page as $p ) { stjo_story_card( $p ); } ?>
+									<?php foreach ( $page as $p ) { stjo_story_card( $p, ! empty( $args['lightbox'] ) ); } ?>
 								</div>
 							</div>
 						<?php endforeach; ?>
@@ -210,6 +245,8 @@ stjo_stories_section( array(
 	'filter_key' => 'eighth',
 	'tint'       => true,
 	'active'     => $stjo_active,
+	// Graduate stories open in a lightbox instead of the single view.
+	'lightbox'   => true,
 ) );
 
 stjo_stories_section( array(
@@ -220,6 +257,7 @@ stjo_stories_section( array(
 	'filter_key' => 'high',
 	'tint'       => false,
 	'active'     => $stjo_active,
+	'lightbox'   => true,
 ) );
 
 stjo_stories_section( array(
@@ -230,6 +268,8 @@ stjo_stories_section( array(
 	'filter_key' => '',
 	'tint'       => true,
 	'active'     => $stjo_active,
+	// Curated: mirrors the client's alumni page via each post's Order field.
+	'orderby'    => 'menu_order',
 ) );
 
 // DreamMaker CTA band, straight from the registered pattern.

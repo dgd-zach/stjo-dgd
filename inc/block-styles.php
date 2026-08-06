@@ -36,10 +36,16 @@ function stjo_register_block_styles() {
 		'label' => __( 'Rounded', 'stjo' ),
 	) );
 
-	// Pill / ghost link arrow button ("See Our Mission →", "More").
+	// Pill / ghost link arrow button ("See Our Mission ›", "More").
 	register_block_style( 'core/button', array(
 		'name'  => 'arrow-link',
 		'label' => __( 'Arrow Link', 'stjo' ),
+	) );
+
+	// Same ghost link, no caret.
+	register_block_style( 'core/button', array(
+		'name'  => 'plain',
+		'label' => __( 'Plain Link', 'stjo' ),
 	) );
 
 	// Separators: the zigzag ribbon is the DEFAULT; 'basic' is the plain line.

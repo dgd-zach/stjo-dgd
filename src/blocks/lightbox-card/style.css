@@ -1,0 +1,224 @@
+/* Lightbox card (stjo/lightbox-card) + the shared modal it opens.
+   Card visuals follow the static section-landing tiles in main.css
+   (.stjo-lightbox-card / .stjo-sublink-tile); the block carries the same
+   base class so those rules apply, with block-specific parts here. This
+   stylesheet is also enqueued in the block editor's admin document so the
+   sidebar's Preview Lightbox modal matches the frontend. */
+
+.wp-block-stjo-lightbox-card.stjo-lightbox-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.stjo-lightbox-card__media { margin: 0; }
+
+.stjo-lightbox-card__media img {
+	display: block;
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+
+.wp-block-stjo-lightbox-card .stjo-lightbox-card__body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: var(--stjo--spacing--xs, 12px);
+	padding: var(--stjo--spacing--md, 24px);
+}
+
+.stjo-lightbox-card__title { margin: 0; }
+.stjo-lightbox-card__text { margin: 0; font-size: var(--stjo--font-size--small, 14px); }
+
+/* Trigger is a <button> on the frontend, a <span> in the editor canvas. */
+.stjo-lightbox-card__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	padding: 0;
+	border: 0;
+	background: none;
+	font: inherit;
+	font-weight: 600;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+	text-decoration: none;
+	cursor: pointer;
+}
+.stjo-lightbox-card__link svg { transition: translate 0.2s ease; }
+
+/* The link stretches over the card so the whole card is one click target. */
+.stjo-lightbox-card__link::after { content: ""; position: absolute; inset: 0; }
+
+.stjo-lightbox-card:hover .stjo-lightbox-card__link svg,
+.stjo-lightbox-card:focus-within .stjo-lightbox-card__link svg { translate: 4px 0; }
+.stjo-lightbox-card:focus-within {
+	box-shadow: 0 0 0 3px var(--wp--preset--color--brand-dark, #0053a0);
+}
+.stjo-lightbox-card .stjo-lightbox-card__link:focus-visible { outline: none; }
+
+/* Editor canvas renders the trigger as an inert span. */
+span.stjo-lightbox-card__link { cursor: default; }
+
+/* "Text only" style: the bordered Sublink tile from the design. */
+.wp-block-stjo-lightbox-card.is-style-text {
+	border: 2px solid var(--wp--preset--color--yellow, #ffd520);
+	text-align: center;
+}
+.wp-block-stjo-lightbox-card.is-style-text .stjo-lightbox-card__link { justify-content: center; }
+
+/* Solid variant: give the tile a background color (design: blue-900 + white
+   text) and the yellow outline drops away. Title and link follow the text
+   color. */
+.wp-block-stjo-lightbox-card.has-background { border-color: transparent; }
+.wp-block-stjo-lightbox-card.has-text-color .stjo-lightbox-card__title,
+.wp-block-stjo-lightbox-card.has-text-color .stjo-lightbox-card__link { color: inherit; }
+
+.stjo-lightbox-card__notice {
+	margin: 0;
+	font-size: var(--stjo--font-size--small, 14px);
+	font-style: italic;
+	opacity: 0.7;
+}
+
+/* ── shared modal (prescribed template: hero, heading, content, actions) ──
+   Layout/typography rules target .stjo-lightbox so the editor's preview div
+   can reuse them; open/close motion targets dialog.stjo-lightbox only. */
+.stjo-lightbox {
+	width: min(680px, calc(100vw - 32px));
+	max-height: calc(100vh - 64px);
+	padding: 0;
+	border: 0;
+	border-radius: var(--stjo--radius--lg, 16px);
+	overflow: auto;
+	background: var(--wp--preset--color--white, #fff);
+	box-shadow: var(--stjo--shadow--elevated, 0 24px 64px rgba(0, 0, 0, 0.3));
+	font-family: var(--wp--preset--font-family--base, "DM Sans", sans-serif);
+}
+
+.stjo-lightbox__close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--wp--preset--color--light, #f3f3e6);
+	color: var(--wp--preset--color--blue-900, #003566);
+	cursor: pointer;
+}
+.stjo-lightbox__close:hover { background: var(--wp--preset--color--yellow, #ffd520); }
+
+.stjo-lightbox__hero { margin: 0; }
+.stjo-lightbox__hero img {
+	display: block;
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+}
+
+.stjo-lightbox__inner { padding: var(--stjo--spacing--lg, 32px); }
+
+.stjo-lightbox__title {
+	margin: 0 0 var(--stjo--spacing--sm, 16px);
+	font-family: var(--wp--preset--font-family--heading, Georgia, serif);
+	font-size: var(--wp--preset--font-size--large, 32px);
+	line-height: 1.2;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+}
+
+.stjo-lightbox__body p {
+	margin: 0 0 1em;
+	font-size: var(--wp--preset--font-size--base, 16px);
+	line-height: 1.6;
+	color: var(--wp--preset--color--contrast, #1a1a1a);
+}
+.stjo-lightbox__body p:last-child { margin-bottom: 0; }
+
+.stjo-lightbox__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--stjo--spacing--xs, 12px);
+	margin-top: var(--stjo--spacing--md, 24px);
+}
+
+.stjo-lightbox__cta,
+.stjo-lightbox__dismiss {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 10px 28px;
+	border-radius: var(--stjo--radius--md, 8px);
+	font: inherit;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.stjo-lightbox__cta {
+	border: 2px solid var(--wp--preset--color--brand-dark, #0053a0);
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+.stjo-lightbox__cta:hover {
+	background: var(--wp--preset--color--blue-900, #003566);
+	border-color: var(--wp--preset--color--blue-900, #003566);
+}
+
+.stjo-lightbox__dismiss {
+	border: 2px solid var(--wp--preset--color--brand-dark, #0053a0);
+	background: transparent;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+}
+.stjo-lightbox__dismiss:hover { background: rgba(0, 83, 160, 0.08); }
+
+/* ── open/close motion (dialog element only, not the editor preview) ── */
+dialog.stjo-lightbox {
+	opacity: 0;
+	translate: 0 16px;
+	transition:
+		opacity 0.25s ease,
+		translate 0.25s ease,
+		overlay 0.25s ease allow-discrete,
+		display 0.25s ease allow-discrete;
+}
+dialog.stjo-lightbox[open] {
+	opacity: 1;
+	translate: 0 0;
+}
+@starting-style {
+	dialog.stjo-lightbox[open] {
+		opacity: 0;
+		translate: 0 16px;
+	}
+}
+
+dialog.stjo-lightbox::backdrop {
+	background: rgba(10, 18, 26, 0.78);
+	opacity: 0;
+	transition:
+		opacity 0.25s ease,
+		overlay 0.25s ease allow-discrete,
+		display 0.25s ease allow-discrete;
+}
+dialog.stjo-lightbox[open]::backdrop { opacity: 1; }
+@starting-style {
+	dialog.stjo-lightbox[open]::backdrop { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	dialog.stjo-lightbox,
+	dialog.stjo-lightbox::backdrop {
+		transition-duration: 0.01s;
+	}
+	dialog.stjo-lightbox { translate: 0 0; }
+}

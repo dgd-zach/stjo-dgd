@@ -21,7 +21,7 @@
 
 /* Filters → Property 1=Hover (student-stories) */
 .stjo-pills a, .stjo-pill { transition: background-color .2s ease, border-color .2s ease; }
-.stjo-pills a:hover, .stjo-pill:hover { background-color: rgb(210, 230, 248) !important; border-color: rgb(0, 53, 102) !important; }
+/* .stjo-pills a:hover, .stjo-pill:hover { background-color: rgb(210, 230, 248) !important; color: inherit  border-color: rgb(0, 53, 102) !important; } */
 
 /* More Button Dark → Property 1=Hover (home) */
 .stjo-story-card__more, .wp-block-button.is-style-arrow-link .wp-block-button__link { transition: color .2s ease; }

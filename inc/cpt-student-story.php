@@ -21,7 +21,7 @@ function stjo_register_student_story() {
 		'public'       => true,
 		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-groups',
-		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ), // custom-fields: REST meta for the image-focus panel
 		'has_archive'  => 'student-stories',
 		'rewrite'      => array( 'slug' => 'student-stories', 'with_front' => false ),
 	) );
@@ -69,6 +69,55 @@ function stjo_register_student_story() {
 	) );
 }
 add_action( 'init', 'stjo_register_student_story' );
+
+/**
+ * Card/lightbox image focus, stored as a CSS object-position value ("X% Y%")
+ * from the editor's FocalPointPicker panel (assets/js/story-focus-panel.js).
+ * Lets editors position each photo within its fixed-height card crop.
+ */
+function stjo_story_sanitize_focus( $value ) {
+	$parts = preg_split( '/\s+/', trim( (string) $value ) );
+	if ( 2 === count( $parts )
+		&& preg_match( '/^(\d{1,3}(?:\.\d+)?)%$/', $parts[0], $mx )
+		&& preg_match( '/^(\d{1,3}(?:\.\d+)?)%$/', $parts[1], $my ) ) {
+		$x = min( 100, max( 0, (float) $mx[1] ) );
+		$y = min( 100, max( 0, (float) $my[1] ) );
+		return $x . '% ' . $y . '%';
+	}
+	return 'center center';
+}
+
+function stjo_story_register_meta() {
+	register_post_meta( 'student-story', 'stjo_story_image_focus', array(
+		'type'              => 'string',
+		'single'            => true,
+		'default'           => 'center center',
+		'sanitize_callback' => 'stjo_story_sanitize_focus',
+		'show_in_rest'      => true,
+		'auth_callback'     => function () {
+			return current_user_can( 'edit_posts' );
+		},
+	) );
+}
+add_action( 'init', 'stjo_story_register_meta' );
+
+/**
+ * FocalPointPicker panel (block editor sidebar) for the focus meta.
+ */
+function stjo_story_editor_assets() {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if ( ! $screen || 'student-story' !== $screen->post_type ) {
+		return;
+	}
+	wp_enqueue_script(
+		'stjo-story-focus-panel',
+		get_template_directory_uri() . '/assets/js/story-focus-panel.js',
+		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-components', 'wp-element', 'wp-data' ),
+		(string) filemtime( get_template_directory() . '/assets/js/story-focus-panel.js' ), // mtime version: stale copies stick in the editor on STJO_VERSION
+		true
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'stjo_story_editor_assets' );
 
 /**
  * Breadcrumbs: Student Stories lives under About in the site structure

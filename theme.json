@@ -11,6 +11,11 @@
           "color": "#000000"
         },
         {
+          "slug": "blue-200",
+          "name": "Blue 200",
+          "color": "#A6CEF2"
+        },
+        {
           "slug": "blue-400",
           "name": "Blue 400",
           "color": "#4d94cc"

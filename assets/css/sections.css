@@ -163,12 +163,16 @@ a.stjo-give-tile:focus-visible img.is-masked {
    asset (stat-ring.png) overlaid over the photo edge. The ring's transparent
    center is 89% of its diameter, so the overlay sits at ~112% of the 200px
    photo to line its inner edge up with the photo edge. */
-.stjo-stat__photo { position: relative; width: 200px; margin-inline: auto; }
+/* Fluid frame: caps at 200px but shrinks to the column on narrower
+   viewports; aspect-ratio keeps it square so the image and ring stay in
+   proportion at every width. */
+.stjo-stat__photo { position: relative; width: min(200px, 100%); aspect-ratio: 1; margin-inline: auto; }
 /* Two-class selector so the circle wins even if an editor left the Rounded
    image style on the photo — the ring is circular, so the photo must be too. */
 .wp-block-image.stjo-stat__photo img {
+	position: absolute; inset: 0; /* out of flow so a portrait source can't stretch the square frame */
 	display: block;
-	width: 200px; height: 200px; object-fit: cover;
+	width: 100%; height: 100%; object-fit: cover;
 	border-radius: 50%;
 }
 .stjo-stat__photo::after {

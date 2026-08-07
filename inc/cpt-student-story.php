@@ -22,8 +22,11 @@ function stjo_register_student_story() {
 		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-groups',
 		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ), // custom-fields: REST meta for the image-focus panel
-		'has_archive'  => 'student-stories',
-		'rewrite'      => array( 'slug' => 'student-stories', 'with_front' => false ),
+		// No auto-archive: the /student-stories/ page (built from stjo/stories-section
+		// blocks) is the archive now. Singles live under /student-story/ (singular)
+		// so they don't collide with that page's URL.
+		'has_archive'  => false,
+		'rewrite'      => array( 'slug' => 'student-story', 'with_front' => false ),
 	) );
 
 	// Category drives which archive section a story renders in (Student

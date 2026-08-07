@@ -37,6 +37,15 @@ function stjo_register_custom_blocks() {
 	);
 	register_block_type( get_template_directory() . '/src/blocks/lightbox-card' );
 
+	wp_register_script(
+		'stjo-stories-section-editor',
+		get_template_directory_uri() . '/src/blocks/stories-section/edit.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-data', 'wp-html-entities', 'wp-server-side-render' ),
+		(string) filemtime( get_template_directory() . '/src/blocks/stories-section/edit.js' ),
+		true
+	);
+	register_block_type( get_template_directory() . '/src/blocks/stories-section' );
+
 	// block.json assets default to the WP core version string; pin filemtime
 	// so edits actually cache-bust (same stale-script trap as unregister.js).
 	$stjo_lb_view = wp_scripts()->query( 'stjo-lightbox-card-view-script' );

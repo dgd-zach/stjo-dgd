@@ -146,6 +146,7 @@ require_once get_template_directory() . '/inc/asset-helper.php';
 require_once get_template_directory() . '/inc/nav-menu.php';
 require_once get_template_directory() . '/inc/nav-menu-fields.php';
 require_once get_template_directory() . '/inc/cpt-loader.php';
+require_once get_template_directory() . '/inc/stories.php';
 require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';

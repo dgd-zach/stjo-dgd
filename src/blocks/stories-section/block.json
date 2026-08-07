@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/stories-section",
+	"title": "Student Stories Section",
+	"category": "widgets",
+	"icon": "images-alt2",
+	"description": "A full-width band of student-story cards for one category: swipeable 6-card carousel, optional Class Year filter, optional lightbox cards.",
+	"attributes": {
+		"category": { "type": "string", "default": "" },
+		"title": { "type": "string", "default": "" },
+		"yearFilter": { "type": "boolean", "default": false },
+		"tint": { "type": "boolean", "default": false },
+		"curatedOrder": { "type": "boolean", "default": false },
+		"lightbox": { "type": "boolean", "default": false }
+	},
+	"supports": { "html": false },
+	"textdomain": "stjo",
+	"editorScript": "stjo-stories-section-editor",
+	"render": "file:./render.php"
+}

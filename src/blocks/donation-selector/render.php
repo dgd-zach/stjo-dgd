@@ -28,7 +28,9 @@ $default_form_id = 'once' === $default_freq ? $form_once : $form_monthly;
 		data-base-url="<?php echo esc_url( $base_url ); ?>"
 		data-lo-form-id="<?php echo esc_attr( $default_form_id ); ?>"
 		data-lo-form-id-monthly="<?php echo esc_attr( $form_monthly ); ?>"
-		data-lo-form-id-once="<?php echo esc_attr( $form_once ); ?>">
+		data-lo-form-id-once="<?php echo esc_attr( $form_once ); ?>"
+		<?php // A dedicated monthly form implies the frequency, so setFreq is skipped. ?>
+		data-monthly-form="<?php echo empty( $attributes['loFormIdMonthly'] ) ? '0' : '1'; ?>">
 
 		<?php if ( ! empty( $attributes['eyebrow'] ) ) : ?>
 			<p class="is-style-eyebrow"><?php echo esc_html( $attributes['eyebrow'] ); ?></p>

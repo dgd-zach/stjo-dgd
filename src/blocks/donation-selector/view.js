@@ -44,9 +44,13 @@
 			var base = form.dataset.baseUrl || '';
 			var params = new URLSearchParams( {
 				df_id: formId(),
-				setFreq: freq(),
 				setAmount: amount()
 			} );
+			// A dedicated monthly form already implies the frequency, so only
+			// send setFreq when one shared form handles both.
+			if ( '1' !== form.dataset.monthlyForm ) {
+				params.set( 'setFreq', freq() );
+			}
 			window.location.assign( base + ( base.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString() );
 		} );
 		update();

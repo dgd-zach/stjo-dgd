@@ -22,22 +22,16 @@
 						PanelBody,
 						{ title: 'Luminate Online' },
 						el( TextControl, {
-							label: 'Monthly form ID (df_id)',
-							help: 'Used when Give Monthly is selected.',
-							value: a.loFormIdMonthly,
-							onChange: function ( v ) { props.setAttributes( { loFormIdMonthly: v } ); }
-						} ),
-						el( TextControl, {
-							label: 'One-time form ID (df_id)',
-							help: 'Used when Give Once is selected.',
-							value: a.loFormIdOnce,
-							onChange: function ( v ) { props.setAttributes( { loFormIdOnce: v } ); }
-						} ),
-						el( TextControl, {
-							label: 'Fallback form ID',
-							help: 'Used when a frequency-specific ID above is left blank.',
+							label: 'Form ID (df_id)',
+							help: 'Used for one-time gifts, and for monthly unless overridden below.',
 							value: a.loFormId,
 							onChange: function ( v ) { props.setAttributes( { loFormId: v } ); }
+						} ),
+						el( TextControl, {
+							label: 'Monthly form ID (df_id)',
+							help: 'Use only if monthly uses a different form ID than above.',
+							value: a.loFormIdMonthly,
+							onChange: function ( v ) { props.setAttributes( { loFormIdMonthly: v } ); }
 						} ),
 						el( SelectControl, {
 							label: 'Default frequency',

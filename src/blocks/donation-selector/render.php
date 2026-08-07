@@ -8,10 +8,11 @@
  */
 
 $uid        = wp_unique_id( 'stjo-donsel-' );
-$lo_form_id = $attributes['loFormId'] ?? '';
-// Per-frequency form IDs fall back to the generic loFormId when left blank.
+// loFormId is the primary form ID: used for one-time gifts and as the
+// fallback. Monthly optionally overrides it.
+$lo_form_id   = $attributes['loFormId'] ?? '';
+$form_once    = $lo_form_id;
 $form_monthly = ! empty( $attributes['loFormIdMonthly'] ) ? $attributes['loFormIdMonthly'] : $lo_form_id;
-$form_once    = ! empty( $attributes['loFormIdOnce'] ) ? $attributes['loFormIdOnce'] : $lo_form_id;
 $default_freq = 'once' === ( $attributes['defaultFrequency'] ?? 'monthly' ) ? 'once' : 'monthly';
 $base_url     = $attributes['baseUrl'] ?? '';
 $amounts      = array_map( 'strval', (array) ( $attributes['amounts'] ?? array() ) );

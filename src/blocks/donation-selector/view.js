@@ -44,8 +44,8 @@
 			var base = form.dataset.baseUrl || '';
 			var params = new URLSearchParams( {
 				df_id: formId(),
-				FREQ: freq(),
-				AMOUNT: amount()
+				setFreq: freq(),
+				setAmount: amount()
 			} );
 			window.location.assign( base + ( base.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString() );
 		} );

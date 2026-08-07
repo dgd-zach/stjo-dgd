@@ -14,7 +14,7 @@ function stjo_register_custom_blocks() {
 		'stjo-donation-selector-editor',
 		get_template_directory_uri() . '/src/blocks/donation-selector/edit.js',
 		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render' ),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/src/blocks/donation-selector/edit.js' ), // mtime version: stale copies stick in the editor on STJO_VERSION
 		true
 	);
 	register_block_type( get_template_directory() . '/src/blocks/donation-selector' );

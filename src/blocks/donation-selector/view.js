@@ -31,12 +31,19 @@
 				r.addEventListener( 'change', function () { other.value = ''; } );
 			} );
 		}
+		// Each frequency can point at its own LO form; fall back to the
+		// generic id (data-lo-form-id) when a per-frequency one is blank.
+		var formId = function () {
+			var f = freq();
+			var perFreq = 'once' === f ? form.dataset.loFormIdOnce : form.dataset.loFormIdMonthly;
+			return perFreq || form.dataset.loFormId || '';
+		};
 		form.addEventListener( 'submit', function ( e ) {
 			e.preventDefault();
 			update();
 			var base = form.dataset.baseUrl || '';
 			var params = new URLSearchParams( {
-				df_id: form.dataset.loFormId || '',
+				df_id: formId(),
 				FREQ: freq(),
 				AMOUNT: amount()
 			} );

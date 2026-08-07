@@ -6,6 +6,7 @@
 	var useBlockProps = wp.blockEditor.useBlockProps;
 	var PanelBody = wp.components.PanelBody;
 	var TextControl = wp.components.TextControl;
+	var SelectControl = wp.components.SelectControl;
 	var ServerSideRender = wp.serverSideRender;
 
 	registerBlockType( 'stjo/donation-selector', {
@@ -21,9 +22,31 @@
 						PanelBody,
 						{ title: 'Luminate Online' },
 						el( TextControl, {
-							label: 'LO form ID (df_id)',
+							label: 'Monthly form ID (df_id)',
+							help: 'Used when Give Monthly is selected.',
+							value: a.loFormIdMonthly,
+							onChange: function ( v ) { props.setAttributes( { loFormIdMonthly: v } ); }
+						} ),
+						el( TextControl, {
+							label: 'One-time form ID (df_id)',
+							help: 'Used when Give Once is selected.',
+							value: a.loFormIdOnce,
+							onChange: function ( v ) { props.setAttributes( { loFormIdOnce: v } ); }
+						} ),
+						el( TextControl, {
+							label: 'Fallback form ID',
+							help: 'Used when a frequency-specific ID above is left blank.',
 							value: a.loFormId,
 							onChange: function ( v ) { props.setAttributes( { loFormId: v } ); }
+						} ),
+						el( SelectControl, {
+							label: 'Default frequency',
+							value: a.defaultFrequency,
+							options: [
+								{ label: 'Give Monthly', value: 'monthly' },
+								{ label: 'Give Once', value: 'once' }
+							],
+							onChange: function ( v ) { props.setAttributes( { defaultFrequency: v } ); }
 						} ),
 						el( TextControl, {
 							label: 'Donation base URL',

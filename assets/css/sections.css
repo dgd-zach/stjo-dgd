@@ -159,15 +159,26 @@ a.stjo-give-tile:focus-visible img.is-masked {
 	margin-bottom: var(--stjo--spacing--xs);
 }
 .stjo-stat__label { font-size: var(--stjo--font-size--small, 14px); }
-/* Circle photo above each stat. The design's scalloped ring is an exported
-   asset (stat-ring.svg / per-photo export from asset_pipeline); the border
-   below is the no-asset fallback approximation. */
-.stjo-stat__photo img {
+/* Circle photo above each stat, ringed by the design's scalloped border
+   asset (stat-ring.png) overlaid over the photo edge. The ring's transparent
+   center is 89% of its diameter, so the overlay sits at ~112% of the 200px
+   photo to line its inner edge up with the photo edge. */
+.stjo-stat__photo { position: relative; width: 200px; margin-inline: auto; }
+/* Two-class selector so the circle wins even if an editor left the Rounded
+   image style on the photo — the ring is circular, so the photo must be too. */
+.wp-block-image.stjo-stat__photo img {
+	display: block;
 	width: 200px; height: 200px; object-fit: cover;
 	border-radius: 50%;
-	border: 5px solid var(--wp--preset--color--yellow, #ffd520);
-	outline: 3px dotted var(--wp--preset--color--blue-900, #003566);
-	outline-offset: -6px;
+}
+.stjo-stat__photo::after {
+	content: "";
+	position: absolute;
+	top: 50%; left: 50%;
+	width: 112%; height: 112%;
+	transform: translate(-50%, -50%);
+	background: url("../images/stat-ring.png") center / contain no-repeat;
+	pointer-events: none;
 }
 
 /* ── component: story-card ── */

@@ -339,6 +339,21 @@ hr.stjo-zigzag, .stjo-zigzag {
 	margin-right: var(--stjo--spacing--sm, 16px);
 }
 
+/* Full-width separators must stretch to the viewport on capped pages too.
+   The zigzag rule pins the separator to width:100%, which only equals the
+   viewport when the parent already is full width (the front page). On an
+   interior page .entry-content caps at 1146, so width:100% = 1146 and the
+   alignfull breakout margins just shift it. width:auto lets those margins
+   fill the viewport everywhere. Matches the zigzag rule's specificity and
+   wins by load order (sections.css after main.css). */
+.wp-block-separator.alignfull:not(.is-style-basic):not(.is-style-dots) {
+	width: auto;
+	max-width: none;
+	/* the zigzag rule sets margin:0, which cancels the alignfull breakout;
+	   restore the negative inline margins so it spans the viewport */
+	margin-inline: calc(50% - 50vw);
+}
+
 /* Accordion: native Details blocks as white rounded bars. */
 .stjo-accordion .wp-block-details {
 	background: var(--wp--preset--color--white, #fff);
@@ -413,17 +428,33 @@ hr.stjo-zigzag, .stjo-zigzag {
 	transition: transform 150ms ease;
 }
 .wp-block-yoast-faq-block.is-style-accordion .schema-faq-section.is-open .schema-faq-question::after { transform: rotate(180deg); }
-.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer,
-.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer-wrap {
-	margin-block: var(--stjo--spacing--sm, 16px) 0;
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer {
 	color: var(--stjo--color--neutral-700, #4d4d4d);
 }
-.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer-wrap > .schema-faq-answer { margin: 0; }
-/* Collapse only once JS has wired the toggles (progressive enhancement). */
-.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap { display: none; }
-.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-wrap { display: block; }
+/* No-JS: answers sit below the question with a little space, always shown. */
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer-wrap { margin-block: var(--stjo--spacing--sm, 16px) 0; }
+
+/* Enhanced: the wrap becomes a grid whose single row animates 0fr↔1fr; the
+   inner clips overflow so the height transition is smooth. Spacing lives on
+   the inner so a collapsed panel truly measures 0 (no ghost gap). */
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap {
+	display: grid;
+	grid-template-rows: 0fr;
+	margin-block: 0;
+	transition: grid-template-rows 250ms ease;
+}
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-wrap { grid-template-rows: 1fr; }
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-inner {
+	overflow: hidden;
+	min-height: 0;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+}
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-inner {
+	padding-top: var(--stjo--spacing--sm, 16px);
+}
 @media (prefers-reduced-motion: reduce) {
-	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question::after { transition: none; }
+	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question::after,
+	.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap { transition: none; }
 }
 
 /* Pull quote: yellow rules, large serif quote. */

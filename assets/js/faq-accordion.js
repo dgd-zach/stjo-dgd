@@ -19,28 +19,34 @@
 			if ( ! question ) {
 				return;
 			}
-			// Everything after the question is the answer; wrap it so one id
-			// controls the whole panel regardless of how many blocks it holds.
+			// Everything after the question is the answer. Two nested wrappers:
+			// the outer .wrap is the grid whose row track animates 0fr↔1fr; the
+			// inner clips its overflow so the height transition reads smoothly.
 			var panel = document.createElement( 'div' );
 			panel.className = 'schema-faq-answer-wrap';
 			panel.id = 'stjo-faq-panel-' + ( ++uid );
+			var inner = document.createElement( 'div' );
+			inner.className = 'schema-faq-answer-inner';
 			var node = question.nextSibling;
 			while ( node ) {
 				var next = node.nextSibling;
-				panel.appendChild( node );
+				inner.appendChild( node );
 				node = next;
 			}
+			panel.appendChild( inner );
 			section.appendChild( panel );
 
 			question.setAttribute( 'role', 'button' );
 			question.setAttribute( 'tabindex', '0' );
 			question.setAttribute( 'aria-expanded', 'false' );
 			question.setAttribute( 'aria-controls', panel.id );
+			panel.inert = true; // collapsed: out of tab order + hidden from AT
 
 			function toggle() {
 				var open = ! section.classList.contains( 'is-open' );
 				section.classList.toggle( 'is-open', open );
 				question.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+				panel.inert = ! open;
 			}
 			question.addEventListener( 'click', toggle );
 			question.addEventListener( 'keydown', function ( e ) {

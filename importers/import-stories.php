@@ -3,8 +3,8 @@
  * Student story CSV importer. DEV TOOL — delete before launch (like seed.php).
  *
  * Usage (from the WP root, with this site's --exec socket define):
- *   wp eval-file wp-content/themes/stjo-dgd/importers/import-stories.php <csv> <story-tag> [story-category] [excerpt-words]
- *   e.g. wp eval-file .../import-stories.php eigth-grade.csv "Eighth Grade"
+ *   wp eval-file wp-content/themes/stjo-dgd/importers/import-stories.php <csv> <story-category> [excerpt-words]
+ *   e.g. wp eval-file .../import-stories.php eigth-grade.csv "Eighth Grade Graduates"
  *
  * CSV columns: year, name, image_url, content.
  * Each row becomes a published student-story:
@@ -14,14 +14,14 @@
  *              (minus row-index minutes, so CSV order = date order within a year)
  *   image   -> sideloaded into the media library once per URL (dedupes on the
  *              _source_url meta WP stores), set as featured image, alt = name
- * Always: story-category (default Student) + the given story-tag.
+ * Always: story-category (the section the story renders in).
  * Idempotent: rows whose title + year already exist are skipped.
  *
  * @package stjo
  */
 
 if ( empty( $args[0] ) || empty( $args[1] ) ) {
-	echo "Usage: wp eval-file import-stories.php <csv> <story-tag> [story-category] [excerpt-words]\n";
+	echo "Usage: wp eval-file import-stories.php <csv> <story-category> [excerpt-words]\n";
 	exit( 1 );
 }
 
@@ -36,18 +36,15 @@ if ( ! file_exists( $csv_path ) ) {
 	exit( 1 );
 }
 
-$tag_name      = $args[1];
-$cat_name      = isset( $args[2] ) ? $args[2] : 'Student';
-$excerpt_words = isset( $args[3] ) ? max( 1, (int) $args[3] ) : 36;
+$cat_name      = $args[1];
+$excerpt_words = isset( $args[2] ) ? max( 1, (int) $args[2] ) : 36;
 
 require_once ABSPATH . 'wp-admin/includes/media.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
-foreach ( array( 'story-category' => $cat_name, 'story-tag' => $tag_name ) as $tax => $term ) {
-	if ( ! term_exists( $term, $tax ) ) {
-		wp_insert_term( $term, $tax );
-	}
+if ( ! term_exists( $cat_name, 'story-category' ) ) {
+	wp_insert_term( $cat_name, 'story-category' );
 }
 
 $fh      = fopen( $csv_path, 'r' );
@@ -108,7 +105,6 @@ while ( ( $cols = fgetcsv( $fh ) ) !== false ) {
 	}
 
 	wp_set_object_terms( $post_id, $cat_name, 'story-category' );
-	wp_set_object_terms( $post_id, $tag_name, 'story-tag' );
 	wp_set_object_terms( $post_id, $year, 'story-year' );
 
 	if ( $img_url ) {

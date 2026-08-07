@@ -64,7 +64,10 @@ function stjo_register_timeline_event() {
 		'show_in_rest'       => false, // hidden from the editor sidebar — synced from the Year field.
 		'meta_box_cb'        => false,
 		'show_in_quick_edit' => false,
-		'show_admin_column'  => true,
+		// No admin column: it's synced from the Year field, and the sortable
+		// "Year" meta column already shows the value (a duplicate column read
+		// as confusing).
+		'show_admin_column'  => false,
 		'rewrite'            => false,
 	) );
 

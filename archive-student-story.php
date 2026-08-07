@@ -25,11 +25,8 @@ get_header();
  * pass 'menu_order' for hand-curated sequences (Alumni mirrors the order of
  * the client's alumni page via each post's Order attribute).
  */
-function stjo_stories_query( $cat, $tag = '', $year = '', $orderby = 'date' ) {
+function stjo_stories_query( $cat, $year = '', $orderby = 'date' ) {
 	$tax = array( array( 'taxonomy' => 'story-category', 'field' => 'slug', 'terms' => $cat ) );
-	if ( $tag ) {
-		$tax[] = array( 'taxonomy' => 'story-tag', 'field' => 'slug', 'terms' => $tag );
-	}
 	if ( $year ) {
 		$tax[] = array( 'taxonomy' => 'story-year', 'field' => 'slug', 'terms' => $year );
 	}
@@ -108,7 +105,7 @@ function stjo_story_card( $post, $lightbox = false ) {
 /**
  * One section band: heading, optional year pills, carousel of 6-card pages.
  *
- * @param array $args id, title, cat, tag, filter_key (empty = no filter),
+ * @param array $args id, title, cat, filter_key (empty = no filter),
  *                    tint (cream band), active (all active filters by key),
  *                    orderby ('date' default, or 'menu_order' for curated).
  */
@@ -116,8 +113,8 @@ function stjo_stories_section( $args ) {
 	$key    = $args['filter_key'];
 	$sort   = ! empty( $args['orderby'] ) ? $args['orderby'] : 'date';
 	$year   = $key && ! empty( $args['active'][ $key ] ) ? $args['active'][ $key ] : '';
-	$all    = stjo_stories_query( $args['cat'], $args['tag'], '', $sort );
-	$posts  = $year ? stjo_stories_query( $args['cat'], $args['tag'], $year, $sort ) : $all;
+	$all    = stjo_stories_query( $args['cat'], '', $sort );
+	$posts  = $year ? stjo_stories_query( $args['cat'], $year, $sort ) : $all;
 	$pages  = array_chunk( $posts, 6 );
 	$h_id   = $args['id'] . '-heading';
 
@@ -186,8 +183,9 @@ function stjo_stories_section( $args ) {
 	<?php
 }
 
+// Class Year filtering is grad-only (Eighth Grade + High School sections).
 $stjo_active = array();
-foreach ( array( 'students', 'eighth', 'high' ) as $stjo_k ) {
+foreach ( array( 'eighth', 'high' ) as $stjo_k ) {
 	$stjo_v = isset( $_GET[ 'y_' . $stjo_k ] ) ? sanitize_text_field( wp_unslash( $_GET[ 'y_' . $stjo_k ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$stjo_active[ $stjo_k ] = preg_match( '/^\d{4}$/', $stjo_v ) ? $stjo_v : '';
 }
@@ -232,8 +230,8 @@ stjo_stories_section( array(
 	// "(placeholders)": current cards are blog pulls pending the client's real picks.
 	'title'      => __( 'Student Stories (placeholders)', 'stjo' ),
 	'cat'        => 'student-stories',
-	'tag'        => '',
-	'filter_key' => 'students',
+	// No Class Year filter here — that's grad-only.
+	'filter_key' => '',
 	'tint'       => false,
 	'active'     => $stjo_active,
 ) );
@@ -242,7 +240,6 @@ stjo_stories_section( array(
 	'id'         => 'eighth-grade-graduates',
 	'title'      => __( 'Eighth Grade Graduates', 'stjo' ),
 	'cat'        => 'eighth-grade-graduates',
-	'tag'        => '',
 	'filter_key' => 'eighth',
 	'tint'       => true,
 	'active'     => $stjo_active,
@@ -254,7 +251,6 @@ stjo_stories_section( array(
 	'id'         => 'high-school-graduates',
 	'title'      => __( 'High School Graduates', 'stjo' ),
 	'cat'        => 'high-school-graduates',
-	'tag'        => '',
 	'filter_key' => 'high',
 	'tint'       => false,
 	'active'     => $stjo_active,
@@ -265,7 +261,6 @@ stjo_stories_section( array(
 	'id'         => 'alumni-stories',
 	'title'      => __( 'Alumni Stories', 'stjo' ),
 	'cat'        => 'alumni',
-	'tag'        => '',
 	'filter_key' => '',
 	'tint'       => true,
 	'active'     => $stjo_active,

@@ -26,9 +26,10 @@ function stjo_register_student_story() {
 		'rewrite'      => array( 'slug' => 'student-stories', 'with_front' => false ),
 	) );
 
-	// Category drives which archive section a story renders in (Student vs
-	// Alumni bands, per the design); Tag holds grade-level labels; Year
-	// powers the archive's filter pills for the Student section.
+	// Category drives which archive section a story renders in (Student
+	// Stories vs the two Graduates sections vs Alumni, per the design); Year
+	// powers the archive's filter pills. (A separate Story Tag taxonomy was
+	// removed 2026-08-07 — it duplicated the grade-level categories.)
 	register_taxonomy( 'story-category', 'student-story', array(
 		'labels'            => array(
 			'name'          => __( 'Story Categories', 'stjo' ),
@@ -42,23 +43,11 @@ function stjo_register_student_story() {
 		'rewrite'           => false,
 	) );
 
-	register_taxonomy( 'story-tag', 'student-story', array(
-		'labels'            => array(
-			'name'          => __( 'Story Tags', 'stjo' ),
-			'singular_name' => __( 'Story Tag', 'stjo' ),
-		),
-		'hierarchical'      => false,
-		'public'            => false,
-		'show_ui'           => true,
-		'show_in_rest'      => true,
-		'show_admin_column' => true,
-		'rewrite'           => false,
-	) );
-
+	// "Class Year" = the graduating class year; used by the Graduates sections.
 	register_taxonomy( 'story-year', 'student-story', array(
 		'labels'            => array(
-			'name'          => __( 'Years', 'stjo' ),
-			'singular_name' => __( 'Year', 'stjo' ),
+			'name'          => __( 'Class Year', 'stjo' ),
+			'singular_name' => __( 'Class Year', 'stjo' ),
 		),
 		'hierarchical'      => false,
 		'public'            => false,

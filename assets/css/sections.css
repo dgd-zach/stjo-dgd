@@ -378,6 +378,54 @@ hr.stjo-zigzag, .stjo-zigzag {
 	.stjo-accordion summary::after { transition: none; }
 }
 
+/* Yoast FAQ block, "Accordion" style: same white rounded bars as the native
+   Details accordion. Markup is <div.schema-faq-section> > <strong.question> +
+   answer(s); faq-accordion.js wraps the answers in .schema-faq-answer-wrap,
+   makes the question a role=button, toggles .is-open, and sets .is-enhanced
+   on the block. Answers only collapse once enhanced, so no-JS keeps them
+   readable. */
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-section {
+	background: var(--wp--preset--color--white, #fff);
+	border-radius: var(--stjo--radius--lg, 16px);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+	padding: var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
+	margin-bottom: var(--stjo--spacing--sm, 16px);
+}
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--stjo--spacing--sm, 16px);
+	font-size: 21px;
+	line-height: 1.3;
+	font-weight: 700;
+	color: var(--wp--preset--color--brand-dark, #0053a0);
+}
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question { cursor: pointer; }
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question::after {
+	content: "";
+	flex: 0 0 20px;
+	width: 20px;
+	height: 20px;
+	background: currentColor;
+	-webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
+	mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
+	transition: transform 150ms ease;
+}
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-section.is-open .schema-faq-question::after { transform: rotate(180deg); }
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer,
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer-wrap {
+	margin-block: var(--stjo--spacing--sm, 16px) 0;
+	color: var(--stjo--color--neutral-700, #4d4d4d);
+}
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-answer-wrap > .schema-faq-answer { margin: 0; }
+/* Collapse only once JS has wired the toggles (progressive enhancement). */
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap { display: none; }
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-wrap { display: block; }
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question::after { transition: none; }
+}
+
 /* Pull quote: yellow rules, large serif quote. */
 .stjo-pull-quote {
 	border-top: 4px solid var(--wp--preset--color--yellow, #ffd520);

@@ -81,6 +81,14 @@ function stjo_register_block_styles() {
 		'label' => __( 'Count Up', 'stjo' ),
 	) );
 
+	// Yoast FAQ block as a collapsible accordion (matches the native-Details
+	// accordion look). faq-accordion.js supplies the toggle behavior; without
+	// JS the answers stay visible.
+	register_block_style( 'yoast/faq-block', array(
+		'name'  => 'accordion',
+		'label' => __( 'Accordion', 'stjo' ),
+	) );
+
 }
 add_action( 'init', 'stjo_register_block_styles' );
 

@@ -123,6 +123,7 @@ span.stjo-lightbox-card__link { cursor: default; }
 	width: 100%;
 	height: 300px;
 	object-fit: cover;
+	object-position: 50% 25%;
 }
 
 .stjo-lightbox__inner { padding: var(--stjo--spacing--lg, 32px); }

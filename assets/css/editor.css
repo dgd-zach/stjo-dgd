@@ -16,6 +16,18 @@
 .editor-styles-wrapper a { color: var(--wp--preset--color--primary, #1a6db8); }
 .editor-styles-wrapper a:hover { color: var(--wp--preset--color--brand-dark, #0053a0); }
 
-/* Separator default override. */
-.editor-styles-wrapper .wp-block-separator { border-color: var(--wp--preset--color--neutral-200, #cccccc); border-width: 1px; }
+/* Separator default = zigzag ribbon, mirroring the frontend (main.css §5).
+   Match core's `.wp-block-separator:not(.is-style-wide)` specificity so the
+   classless default (Wide Line is isDefault but serializes no class) renders
+   full-width in the canvas without needing a click. */
+.editor-styles-wrapper .wp-block-separator:not(.is-style-basic):not(.is-style-dots),
+.editor-styles-wrapper .wp-block-separator.is-style-wide {
+	border: 0;
+	height: 24px;
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	background: url('../images/divider-zigzag.png') repeat-x center / auto 24px;
+}
+.editor-styles-wrapper .wp-block-separator.is-style-basic { border-color: var(--wp--preset--color--neutral-200, #cccccc); border-width: 1px; }
 

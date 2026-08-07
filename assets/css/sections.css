@@ -226,7 +226,7 @@ a.stjo-give-tile:focus-visible img.is-masked {
 }
 .stjo-story-card:hover { box-shadow: var(--stjo--shadow--elevated); }
 .stjo-story-card > .wp-block-image { margin: 0; }
-.stjo-story-card > .wp-block-image img { width: 100%; height: 200px; object-fit: cover; border-radius: 0; }
+.stjo-story-card > .wp-block-image img { width: 100%; height: 200px; object-fit: cover; object-position: 50% 25%; border-radius: 0; }
 .stjo-story-card__body { padding: var(--stjo--spacing--md); display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .stjo-story-card__body h3 { font-size: var(--wp--preset--font-size--medium, 24px); color: var(--wp--preset--color--blue-900, #003566); margin: 0; }
 .stjo-story-card__body p { color: var(--wp--preset--color--neutral-700, #4d4d4d); margin: 0; font-size: var(--wp--preset--font-size--base, 16px); line-height: 1.3; }

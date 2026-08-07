@@ -13,12 +13,12 @@
 .stjo-donation-band { min-height: 512px; } /* harness:_stjo-donation-band_min-height */
 .stjo-donation-band h2.wp-block-heading { font-size: 32px; } /* harness:_stjo-donation-band_h2_wp-block-heading_font-size */
 .stjo-video-band h2.wp-block-heading { font-size: 32px; } /* harness:_stjo-video-band_h2_wp-block-heading_font-size */
-.stjo-blog-band { padding-top: 32px; } /* harness:_stjo-blog-band_padding-top */
-.stjo-blog-band { padding-right: 96px; } /* harness:_stjo-blog-band_padding-right */
-.stjo-blog-band { padding-bottom: 96px; } /* harness:_stjo-blog-band_padding-bottom */
-.stjo-blog-band { padding-left: 96px; } /* harness:_stjo-blog-band_padding-left */
+/* .stjo-blog-band { padding-top: 32px; } harness:_stjo-blog-band_padding-top */
+/* .stjo-blog-band { padding-right: 96px; } harness:_stjo-blog-band_padding-right */
+/* .stjo-blog-band { padding-bottom: 96px; } harness:_stjo-blog-band_padding-bottom */
+/* .stjo-blog-band { padding-left: 96px; } harness:_stjo-blog-band_padding-left */
 .stjo-blog-band { gap: 24px; } /* harness:_stjo-blog-band_gap */
-.stjo-blog-band { background-color: rgb(243, 243, 230); } /* harness:_stjo-blog-band_background-color */
+/* .stjo-blog-band { background-color: rgb(243, 243, 230); } harness:_stjo-blog-band_background-color */
 .stjo-blog-band { min-height: 890px; } /* harness:_stjo-blog-band_min-height */
 .stjo-generosity h2.wp-block-heading { font-size: 64px; } /* harness:_stjo-generosity_h2_wp-block-heading_font-size */
 .stjo-testimonial-band { padding-top: 48px; } /* harness:_stjo-testimonial-band_padding-top */

@@ -25,8 +25,8 @@
     <div style="height:var(--wp--preset--spacing--small)" aria-hidden="true" class="wp-block-spacer"></div>
     <!-- /wp:spacer -->
 
-    <!-- wp:columns -->
-    <div class="wp-block-columns"><!-- wp:column -->
+    <!-- wp:columns {"isStackedOnMobile":false} -->
+    <div class="wp-block-columns stjo-give-row"><!-- wp:column -->
         <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-4.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
             <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-4.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
@@ -118,11 +118,11 @@
     <!-- /wp:columns -->
 
     <!-- wp:html -->
-    <div class="wp-block-columns">
-        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('article-person.png')); ?>" alt="" aria-hidden="true"><span class="stjo-give-tile__title">Planned Giving</span><span class="stjo-give-tile__sub">Leave a lasting legacy</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('directions-car.png')); ?>" alt="" aria-hidden="true"><span class="stjo-give-tile__title">Donate Your Vehicle</span><span class="stjo-give-tile__sub">Turn your car into hope</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('local-mall.png')); ?>" alt="" aria-hidden="true"><span class="stjo-give-tile__title">Our Shop</span><span class="stjo-give-tile__sub">Shop handmade Lakota crafts</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('redeem.png')); ?>" alt="" aria-hidden="true"><span class="stjo-give-tile__title">Wishlists &amp; Gift Cards</span><span class="stjo-give-tile__sub">Give specific items students need</span></a></div>
+    <div class="wp-block-columns stjo-give-row">
+        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('article-person.png')); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Planned Giving</span><span class="stjo-give-tile__sub">Leave a lasting legacy</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('directions-car.png')); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Donate Your Vehicle</span><span class="stjo-give-tile__sub">Turn your car into hope</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('local-mall.png')); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Our Shop</span><span class="stjo-give-tile__sub">Shop handmade Lakota crafts</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url(stjo_asset('redeem.png')); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Wishlists &amp; Gift Cards</span><span class="stjo-give-tile__sub">Give specific items students need</span></a></div>
     </div>
     <!-- /wp:html -->
 

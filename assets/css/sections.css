@@ -133,8 +133,25 @@ a.stjo-give-tile:focus-visible img.is-masked {
 	margin: 0;
 }
 .stjo-give-tile__sub { color: var(--wp--preset--color--neutral-200, #ccc); margin: 0; font-size: var(--wp--preset--font-size--base, 16px); }
+/* Both band rows: 4 across on desktop, wrapping to 2 at 768 then 1 on phones.
+   Targets the band's columns directly (not a hand-added class) because the
+   band renders through do_blocks on some pages, which regenerates the
+   wp:columns markup and drops custom classes. Grid drives it: display:grid
+   !important beats core's flex with no specificity fight, and grid tracks
+   ignore the flex-basis:100% core stacks children to on mobile. */
+.stjo-generosity .wp-block-columns {
+	display: grid !important;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--stjo--spacing--md, 24px);
+}
+.stjo-generosity .wp-block-columns > .wp-block-column { margin: 0 !important; width: auto !important; }
+
 @media (max-width: 768px) {
 	.stjo-give-tile { min-height: 150px; }
+	.stjo-generosity .wp-block-columns { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+	.stjo-generosity .wp-block-columns { grid-template-columns: 1fr; }
 }
 
 /* ── component: hero ── */

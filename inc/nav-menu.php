@@ -278,7 +278,7 @@ function stjo_nav_assets() {
 		'stjo-icon-mask',
 		get_template_directory_uri() . '/assets/js/icon-mask.js',
 		array(),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/assets/js/icon-mask.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	if ( is_page_template( 'page-pattern-library.php' ) ) {

@@ -52,13 +52,30 @@ function stjo_enqueue_styles() {
 	wp_enqueue_style( 'stjo-fonts', $uri . '/assets/css/fonts.css', array(), STJO_VERSION );
 	wp_enqueue_style( 'stjo-tokens', $uri . '/assets/css/tokens.css', array( 'stjo-fonts' ), STJO_VERSION );
 	wp_enqueue_style( 'stjo-style', get_stylesheet_uri(), array( 'stjo-tokens' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-main', $uri . '/assets/css/main.css', array( 'stjo-style' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-palette-buttons', $uri . '/assets/css/palette-buttons.css', array( 'stjo-main' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-sections', $uri . '/assets/css/sections.css', array( 'stjo-palette-buttons' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-hover', $uri . '/assets/css/hover.css', array( 'stjo-sections' ), STJO_VERSION );
-	wp_enqueue_style( 'stjo-overrides', $uri . '/assets/css/overrides.css', array( 'stjo-hover' ), STJO_VERSION );
+	// filemtime versioning on the frequently-edited CSS so edits actually
+	// cache-bust (STJO_VERSION is static, so its URL never changes and
+	// browsers keep serving a stale copy).
+	$mtime = function ( $rel ) {
+		return (string) filemtime( get_template_directory() . $rel );
+	};
+	wp_enqueue_style( 'stjo-main', $uri . '/assets/css/main.css', array( 'stjo-style' ), $mtime( '/assets/css/main.css' ) );
+	wp_enqueue_style( 'stjo-palette-buttons', $uri . '/assets/css/palette-buttons.css', array( 'stjo-main' ), $mtime( '/assets/css/palette-buttons.css' ) );
+	wp_enqueue_style( 'stjo-sections', $uri . '/assets/css/sections.css', array( 'stjo-palette-buttons' ), $mtime( '/assets/css/sections.css' ) );
+	wp_enqueue_style( 'stjo-hover', $uri . '/assets/css/hover.css', array( 'stjo-sections' ), $mtime( '/assets/css/hover.css' ) );
+	wp_enqueue_style( 'stjo-overrides', $uri . '/assets/css/overrides.css', array( 'stjo-hover' ), $mtime( '/assets/css/overrides.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'stjo_enqueue_styles' );
+
+/**
+ * Load core block styles on every page. WP 5.8+ only enqueues a block's
+ * stylesheet when that block appears in the parsed POST content, but the
+ * site-wide pre-footer (Ways to Give) is raw cover/columns/button markup in a
+ * template part, which that detection never sees. Without this, interior
+ * pages whose content has no cover block render the band unstyled (cover
+ * images don't fill, text drops below the photo). Loading the combined
+ * stylesheet guarantees the band looks identical everywhere.
+ */
+add_filter( 'should_load_separate_core_block_assets', '__return_false' );
 
 /**
  * Editor styles — same files, same order, as the frontend chain so the canvas matches.

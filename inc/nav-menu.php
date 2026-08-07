@@ -120,14 +120,19 @@ function stjo_mega_nav_section( $section, $tree ) {
 			$loose[] = $child;
 		}
 	}
-	// The section itself leads its own submenu (the top-level trigger is a
-	// button and never navigates, so this is the way to the landing page).
+	// The section itself leads its submenu (the top-level trigger is a button
+	// and never navigates, so this is the way to the landing page). It goes in
+	// as the first link of the first existing group, not its own group.
+	$stjo_self = null;
 	if ( ! empty( $section->url ) && '#' !== $section->url ) {
-		$stjo_self                = clone $section;
-		$stjo_self->stjo_is_self  = true;
-		array_unshift( $loose, $stjo_self );
+		$stjo_self               = clone $section;
+		$stjo_self->stjo_is_self = true;
 	}
 	if ( $loose ) {
+		if ( $stjo_self ) {
+			array_unshift( $loose, $stjo_self );
+			$stjo_self = null;
+		}
 		echo '<div class="mega-panel__group">';
 		stjo_mega_nav_links( $loose );
 		echo '</div>';
@@ -147,6 +152,11 @@ function stjo_mega_nav_section( $section, $tree ) {
 			);
 		} else {
 			echo '<p class="mega-panel__group-heading">' . esc_html( $child->title ) . '</p>';
+		}
+		// No loose group existed, so the self link leads this first group.
+		if ( $stjo_self ) {
+			array_unshift( $grandchildren, $stjo_self );
+			$stjo_self = null;
 		}
 		stjo_mega_nav_links( $grandchildren );
 		echo '</div>';

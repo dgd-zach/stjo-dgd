@@ -63,6 +63,8 @@ function stjo_enqueue_styles() {
 	wp_enqueue_style( 'stjo-sections', $uri . '/assets/css/sections.css', array( 'stjo-palette-buttons' ), $mtime( '/assets/css/sections.css' ) );
 	wp_enqueue_style( 'stjo-hover', $uri . '/assets/css/hover.css', array( 'stjo-sections' ), $mtime( '/assets/css/hover.css' ) );
 	wp_enqueue_style( 'stjo-overrides', $uri . '/assets/css/overrides.css', array( 'stjo-hover' ), $mtime( '/assets/css/overrides.css' ) );
+	// Utility classes load last so they reliably override defaults.
+	wp_enqueue_style( 'stjo-utilities', $uri . '/assets/css/utilities.css', array( 'stjo-overrides' ), $mtime( '/assets/css/utilities.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'stjo_enqueue_styles' );
 
@@ -90,6 +92,7 @@ function stjo_editor_styles() {
 		'assets/css/sections.css',
 		'assets/css/hover.css',
 		'assets/css/overrides.css',
+		'assets/css/utilities.css',
 	) );
 }
 add_action( 'after_setup_theme', 'stjo_editor_styles' );

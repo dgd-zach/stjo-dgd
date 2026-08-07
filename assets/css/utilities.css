@@ -1,0 +1,62 @@
+/*
+ * utilities.css — global utility classes. Loaded LAST in the style chain
+ * (frontend + editor) so it reliably overrides defaults.
+ */
+
+/* ── Heading-size utilities ────────────────────────────────────────────────
+ * Put .h1–.h6 on any element (or a heading of a different level) to give it
+ * that level's type styles WITHOUT changing the tag — e.g. <h2 class="h1">
+ * reads as an h1 but keeps the h2 in the document outline. Each rule pairs a
+ * bare class (beats plain hN element selectors, 0,0,1) with .wp-block-heading.hN
+ * (beats the theme's hN.wp-block-heading rules, 0,1,1). Mirrors the heading
+ * rules in main.css §Typography. Colour and margins are left to the element so
+ * its own colour classes (has-white-color, etc.) still win.
+ */
+.h1, .wp-block-heading.h1 {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--stjo--h1--font-size, var(--wp--preset--font-size--xxl, 64px));
+	line-height: var(--stjo--h1--line-height, var(--stjo--line-height--tight, 1.15));
+	letter-spacing: var(--stjo--h1--letter-spacing, normal);
+	font-weight: var(--stjo--h1--font-weight, 400);
+}
+.h2, .wp-block-heading.h2 {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--stjo--h2--font-size, var(--wp--preset--font-size--xl, 48px));
+	line-height: var(--stjo--h2--line-height, var(--stjo--line-height--heading, 1.3));
+	letter-spacing: var(--stjo--h2--letter-spacing, normal);
+	font-weight: var(--stjo--h2--font-weight, 400);
+}
+.h3, .wp-block-heading.h3 {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--stjo--h3--font-size, var(--wp--preset--font-size--large, 32px));
+	line-height: var(--stjo--h3--line-height, var(--stjo--line-height--heading, 1.3));
+	font-weight: var(--stjo--h3--font-weight, 700);
+}
+.h4, .wp-block-heading.h4 {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--stjo--h4--font-size, var(--wp--preset--font-size--medium, 24px));
+	line-height: var(--stjo--h4--line-height, var(--stjo--line-height--heading, 1.3));
+	font-weight: var(--stjo--h4--font-weight, 700);
+}
+.h5, .wp-block-heading.h5 {
+	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
+	font-size: var(--stjo--h5--font-size, var(--stjo--font-size--h5, 21px));
+	/* real h5 sets no line-height and inherits body 1.5; pin it so .h5 matches
+	   regardless of the host element's own line-height. */
+	line-height: var(--stjo--line-height--body, 1.5);
+	font-weight: var(--stjo--h5--font-weight, 400);
+}
+/* The theme has no distinct h6; define a sensible smallest heading a step
+   below h5 so .h6 is usable. */
+.h6, .wp-block-heading.h6 {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--stjo--h6--font-size, 18px);
+	line-height: var(--stjo--line-height--heading, 1.3);
+	font-weight: 700;
+}
+
+/* Match the responsive shrink the real h1/h2 get in main.css. */
+@media (max-width: 768px) {
+	.h1, .wp-block-heading.h1 { font-size: var(--wp--preset--font-size--xl, 48px); }
+	.h2, .wp-block-heading.h2 { font-size: var(--wp--preset--font-size--large, 32px); }
+}

@@ -55,8 +55,16 @@
 	font-weight: 700;
 }
 
-/* Match the responsive shrink the real h1/h2 get in main.css. */
+/* Match the mobile heading scale the real hN get in main.css. */
 @media (max-width: 768px) {
-	.h1, .wp-block-heading.h1 { font-size: var(--wp--preset--font-size--xl, 48px); }
-	.h2, .wp-block-heading.h2 { font-size: var(--wp--preset--font-size--large, 32px); }
+	.h1, .wp-block-heading.h1 { font-size: 40px; }
+	.h2, .wp-block-heading.h2 { font-size: 30px; }
+	.h3, .wp-block-heading.h3 { font-size: 24px; }
+	.h4, .wp-block-heading.h4 { font-size: 20px; }
+	.h5, .wp-block-heading.h5 { font-size: 18px; }
+	.h6, .wp-block-heading.h6 { font-size: 16px; }
+}
+@media (max-width: 480px) {
+	.h1, .wp-block-heading.h1 { font-size: 34px; }
+	.h2, .wp-block-heading.h2 { font-size: 26px; }
 }

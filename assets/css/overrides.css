@@ -38,3 +38,12 @@
 .stjo-generosity h2.wp-block-heading { line-height: 73.6px; } /* harness:_stjo-generosity_h2_wp-block-heading_line-height */
 .stjo-testimonial__quote { line-height: 27.34px; } /* harness:_stjo-testimonial_quote_line-height */
 .stjo-hero .wp-block-button__link { border-color: rgb(255, 255, 255); } /* harness:_stjo-hero_wp-block-button_link_border-color */
+
+/* Mobile step-down for the harness-set band heading sizes above (they keep
+   their fixed desktop size/line-height otherwise — the generosity heading
+   stays 64px on phones). */
+@media (max-width: 768px) {
+	.stjo-generosity h2.wp-block-heading { font-size: 36px; line-height: 1.15; }
+	.stjo-donation-band h2.wp-block-heading,
+	.stjo-video-band h2.wp-block-heading { font-size: 28px; line-height: 1.2; }
+}

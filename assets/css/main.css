@@ -1296,6 +1296,13 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 #stjo-blog-results:focus { outline: none; }
 #stjo-blog-results.is-loading { opacity: .5; pointer-events: none; transition: opacity .15s ease; }
 .stjo-blog-empty { text-align: center; color: var(--stjo--color--neutral-700, #4d4d4d); padding-block: var(--stjo--spacing--xl, 48px); }
+/* Blog cards go three-up on desktop (the shared .stjo-story-grid is two-up).
+   The base rules still give 2-up on tablet and 1-up on phones. */
+@media (min-width: 1025px) {
+	#stjo-blog-results .stjo-story-grid > .wp-block-column {
+		flex-basis: calc((100% - 2 * var(--stjo--spacing--md, 24px)) / 3) !important;
+	}
+}
 
 .stjo-stories-band { padding-block: var(--stjo--spacing--xl, 48px); }
 .stjo-stories-band--tint { background: var(--wp--preset--color--light, #f3f3e6); }

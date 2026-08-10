@@ -295,6 +295,13 @@ function stjo_nav_assets() {
 		(string) filemtime( get_template_directory() . '/assets/js/faq-accordion.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
+	wp_enqueue_script(
+		'stjo-play-video',
+		get_template_directory_uri() . '/assets/js/play-video.js',
+		array(),
+		(string) filemtime( get_template_directory() . '/assets/js/play-video.js' ),
+		array( 'strategy' => 'defer', 'in_footer' => true )
+	);
 	if ( is_page_template( 'page-pattern-library.php' ) ) {
 		wp_enqueue_script(
 			'stjo-pattern-library',

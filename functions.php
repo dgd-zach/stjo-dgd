@@ -150,4 +150,5 @@ require_once get_template_directory() . '/inc/stories.php';
 require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
+require_once get_template_directory() . '/inc/video-facade.php';
 require_once get_template_directory() . '/inc/chatbot.php';

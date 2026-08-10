@@ -193,6 +193,8 @@ a:focus-visible { outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
    blue and follows any custom text color the editor picks. */
 :root {
 	--stjo-caret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M7 4l5 5-5 5' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	/* Design's play-box icon (masked so it recolors); used on video blocks. */
+	--stjo-play-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 165 165'%3E%3Cpath d='M65.3125 113.438L113.438 82.5L65.3125 51.5625V113.438ZM34.375 144.375C30.5938 144.375 27.3568 143.029 24.6641 140.336C21.9714 137.643 20.625 134.406 20.625 130.625V34.375C20.625 30.5938 21.9714 27.3568 24.6641 24.6641C27.3568 21.9714 30.5938 20.625 34.375 20.625H130.625C134.406 20.625 137.643 21.9714 140.336 24.6641C143.029 27.3568 144.375 30.5938 144.375 34.375V130.625C144.375 134.406 143.029 137.643 140.336 140.336C137.643 143.029 134.406 144.375 130.625 144.375H34.375ZM34.375 130.625H130.625V34.375H34.375V130.625Z' fill='%23000'/%3E%3C/svg%3E");
 }
 
 /* Arrow-link style (e.g. "See Our Mission ›", "More") and its caret-less
@@ -1082,6 +1084,13 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)),
 	.wp-block-group.has-background.alignfull > .alignwide,
 	.wp-block-group.has-background.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)) { max-width: 100%; }
+
+	/* Spacers halve on mobile. The attribute selectors match a spacer's inline
+	   height:var(--wp--preset--spacing--X) and recompute it at half the preset,
+	   so only spacers shrink (not padding/gaps that share the presets). */
+	.wp-block-spacer[style*="spacing--small"] { height: calc(var(--wp--preset--spacing--small, 16px) / 2) !important; }
+	.wp-block-spacer[style*="spacing--medium"] { height: calc(var(--wp--preset--spacing--medium, 24px) / 2) !important; }
+	.wp-block-spacer[style*="spacing--large"] { height: calc(var(--wp--preset--spacing--large, 48px) / 2) !important; }
 
 	/* Headings step down on tablet/phone — the desktop scale runs too large. */
 	h1, h1.wp-block-heading { font-size: 40px; }

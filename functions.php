@@ -170,3 +170,43 @@ function stjo_posts_pagination() {
 		)
 	);
 }
+
+/**
+ * A page that exists in the sitemap but hasn't been designed yet: either empty
+ * or still carrying the seeded "coming soon" placeholder. These get the default
+ * internal hero (see stjo_page_hero / page.php).
+ */
+function stjo_page_is_stub( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return false;
+	}
+	$content = trim( $post->post_content );
+	if ( '' === $content ) {
+		return true;
+	}
+	return false !== strpos( $content, 'built out during the content phase' );
+}
+
+/**
+ * Default internal page hero: the full-width blue title band (parent-section
+ * eyebrow + page H1) used across built pages, followed by the zigzag divider.
+ * Rendered by page.php for stub pages so every created-but-unbuilt page still
+ * has the branded hero. Mirrors the .stjo-page-title-band markup that built
+ * pages carry in their own content.
+ */
+function stjo_page_hero( $post = null ) {
+	$post   = get_post( $post );
+	$parent = ( $post && $post->post_parent ) ? get_the_title( $post->post_parent ) : '';
+	?>
+	<div class="wp-block-group alignfull stjo-page-title-band has-white-color has-text-color">
+		<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
+		<?php if ( $parent ) : ?>
+			<p class="has-text-align-center is-style-eyebrow has-white-color has-text-color"><?php echo esc_html( $parent ); ?></p>
+		<?php endif; ?>
+		<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color"><?php echo esc_html( get_the_title( $post ) ); ?></h1>
+		<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
+	</div>
+	<hr class="wp-block-separator has-alpha-channel-opacity alignfull" />
+	<?php
+}

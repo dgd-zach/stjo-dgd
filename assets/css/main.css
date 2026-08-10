@@ -1283,6 +1283,11 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-page-title-band h1.wp-block-heading { margin-bottom: var(--stjo--spacing--sm);}
 .stjo-page-title-band .stjo-stories-hero__intro { color: var(--wp--preset--color--light, #f3f3e6); max-width: 600px;}
 
+/* Not-built-out (stub) page: the default hero is followed by the seeded
+   "coming soon" note; centre it and give it room under the band. */
+.stjo-stub .entry-content { text-align: center; padding-block: var(--stjo--spacing--xl, 48px); }
+.stjo-stub .entry-content > * { margin-inline: auto; }
+
 .stjo-stories-band { padding-block: var(--stjo--spacing--xl, 48px); }
 .stjo-stories-band--tint { background: var(--wp--preset--color--light, #f3f3e6); }
 

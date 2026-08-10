@@ -217,7 +217,8 @@
 					init(carousel);
 				}
 				var cards = fresh.querySelectorAll('.stjo-story-card').length;
-				var title = fresh.querySelector('h2') ? fresh.querySelector('h2').textContent : '';
+				var heading = fresh.querySelector('.stjo-stories-band__head h3, .stjo-stories-band__head h2');
+				var title = heading ? heading.textContent : '';
 				announce(cards + ' stories shown in ' + title);
 				if (focusYear) {
 					var pill = Array.prototype.slice.call(fresh.querySelectorAll('.stjo-pills a')).filter(function (a) {

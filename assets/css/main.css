@@ -1176,7 +1176,7 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-stories-band--tint { background: var(--wp--preset--color--light, #f3f3e6); }
 
 .stjo-stories-band__head { margin-bottom: var(--stjo--spacing--md, 24px); }
-.stjo-stories-band__head h2 { margin: 0; }
+.stjo-stories-band__head h2, .stjo-stories-band__head h3 { margin: 0; }
 
 .stjo-pills a[aria-current="true"] {
 	background: var(--wp--preset--color--brand-dark, #0053a0);

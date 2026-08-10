@@ -18,6 +18,28 @@
 		return;
 	}
 
+	// cubic-bezier(0.16, 1, 0.3, 1): a strong ease-out so the number decelerates
+	// noticeably as it nears the final value. Newton-Raphson to solve x → t.
+	function cubicBezier(x1, y1, x2, y2) {
+		function ax(a, b) { return 1 - 3 * b + 3 * a; }
+		function bx(a, b) { return 3 * b - 6 * a; }
+		function cx(a) { return 3 * a; }
+		function calc(t, a, b) { return ((ax(a, b) * t + bx(a, b)) * t + cx(a)) * t; }
+		function slope(t, a, b) { return 3 * ax(a, b) * t * t + 2 * bx(a, b) * t + cx(a); }
+		return function (x) {
+			if (x <= 0) { return 0; }
+			if (x >= 1) { return 1; }
+			var t = x;
+			for (var i = 0; i < 5; i++) {
+				var s = slope(t, x1, x2);
+				if (0 === s) { break; }
+				t -= (calc(t, x1, x2) - x) / s;
+			}
+			return calc(t, y1, y2);
+		};
+	}
+	var ease = cubicBezier(.06,.01,0,1);
+
 	function parseFigure(text) {
 		var m = text.match(/^([^0-9]*)([0-9][0-9,]*)([^0-9]*)$/);
 		if (!m) {
@@ -38,7 +60,7 @@
 				startTime = now;
 			}
 			var progress = Math.min((now - startTime) / DURATION, 1);
-			var eased = 1 - Math.pow(1 - progress, 3);
+			var eased = ease(progress);
 			var value = Math.round(eased * spec.target);
 			el.textContent = spec.prefix + (spec.grouped ? value.toLocaleString('en-US') : String(value)) + spec.suffix;
 			if (progress < 1) {

@@ -251,7 +251,7 @@ function stjo_nav_assets() {
 		'stjo-count-up',
 		get_template_directory_uri() . '/assets/js/count-up.js',
 		array(),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/assets/js/count-up.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(

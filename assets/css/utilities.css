@@ -55,6 +55,20 @@
 	font-weight: 700;
 }
 
+/* ── Measure ────────────────────────────────────────────────────────────
+ * Cap a text block to a comfortable reading width inside a wide/side-by-side
+ * column, then release it to the full column once columns stack (<=768, the
+ * theme's column-stacking breakpoint). Put `stjo-measure` in the block's
+ * Advanced > Additional CSS class(es) — no wrapper group needed. A constrained
+ * group can't do this: its generated max-width is a fixed px value that stays
+ * capped when the column goes full-width on mobile. Tune per use by setting
+ * --stjo-measure (defaults to 25rem / 400px, matching the design's measure).
+ */
+.stjo-measure { max-width: var(--stjo-measure, 25rem); }
+@media (max-width: 768px) {
+	.stjo-measure { max-width: none; }
+}
+
 /* Match the mobile heading scale the real hN get in main.css. */
 @media (max-width: 768px) {
 	.h1, .wp-block-heading.h1 { font-size: 40px; }

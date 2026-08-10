@@ -35,6 +35,7 @@
 	justify-content: center;
 	padding: 12px var(--stjo--spacing--md);
 	font-weight: 600;
+	line-height: 1.2;
 	color: var(--wp--preset--color--dark, #333);
 	cursor: pointer;
 	transition: color .25s ease;

@@ -21,6 +21,22 @@
 .stjo-blog-grid .wp-block-post-excerpt { margin: 0; }
 .stjo-blog-grid .wp-block-post-excerpt__more-text a,
 .stjo-blog-grid .wp-block-read-more { color: var(--wp--preset--color--blue-900, #003566); font-weight: 600; text-decoration: none; }
+/* Caret after the read-more, matching the story/info cards. */
+.stjo-blog-grid .wp-block-post-excerpt__more-text a::after,
+.stjo-blog-grid .wp-block-read-more::after {
+	content: "";
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin-left: 2px;
+	vertical-align: -4px;
+	background-color: currentColor;
+	-webkit-mask: var(--stjo-caret) center / contain no-repeat;
+	mask: var(--stjo-caret) center / contain no-repeat;
+	transition: translate 0.2s ease;
+}
+.stjo-blog-grid .wp-block-post-template > li:hover .wp-block-read-more::after,
+.stjo-blog-grid .wp-block-post-template > li:focus-within .wp-block-read-more::after { translate: 4px 0; }
 
 /* Whole post card is clickable (stretched title link) with a brand ring. */
 .stjo-blog-grid .wp-block-post-template > li { position: relative; transition: box-shadow .2s ease; }
@@ -210,16 +226,21 @@ a.stjo-give-tile:focus-visible img.is-masked {
 /* Fluid frame: caps at 200px but shrinks to the column on narrower
    viewports; aspect-ratio keeps it square so the image and ring stay in
    proportion at every width. */
-.stjo-stat__photo { position: relative; width: min(200px, 100%); aspect-ratio: 1; margin-inline: auto; }
+/* The same treatment is exposed as the "Bordered" image block style
+   (is-style-bordered), so any image can wear the scalloped ring. */
+.stjo-stat__photo,
+.wp-block-image.is-style-bordered { position: relative; width: min(200px, 100%); aspect-ratio: 1; margin-inline: auto; }
 /* Two-class selector so the circle wins even if an editor left the Rounded
    image style on the photo — the ring is circular, so the photo must be too. */
-.wp-block-image.stjo-stat__photo img {
+.wp-block-image.stjo-stat__photo img,
+.wp-block-image.is-style-bordered img {
 	position: absolute; inset: 0; /* out of flow so a portrait source can't stretch the square frame */
 	display: block;
 	width: 100%; height: 100%; object-fit: cover;
 	border-radius: 50%;
 }
-.stjo-stat__photo::after {
+.stjo-stat__photo::after,
+.wp-block-image.is-style-bordered::after {
 	content: "";
 	position: absolute;
 	top: 50%; left: 50%;
@@ -227,6 +248,20 @@ a.stjo-give-tile:focus-visible img.is-masked {
 	transform: translate(-50%, -50%);
 	background: url("../images/stat-ring.png") center / contain no-repeat;
 	pointer-events: none;
+}
+/* Contrast guard: on desktop the sky photo fades to light behind the stats,
+   but once the columns stack the content runs far past that light zone, so
+   the dark figures/labels land on the mid-blue sky and wash out. When
+   stacked, drop the photo for a solid light band and make all the band text
+   dark — legibility no longer depends on where the photo crops. */
+@media (max-width: 768px) {
+	.stjo-stats { background-color: var(--wp--preset--color--light, #f3f3e6); }
+	.stjo-stats > .wp-block-cover__background,
+	.stjo-stats > img.wp-block-cover__image-background { display: none; }
+	.stjo-stats .wp-block-cover__inner-container :where(h2, h3, p, .is-style-eyebrow) {
+		color: var(--wp--preset--color--blue-900, #003566) !important;
+	}
+	.stjo-stats .stjo-stat__label { color: var(--stjo--color--neutral-700, #4d4d4d) !important; }
 }
 
 /* ── component: story-card ── */

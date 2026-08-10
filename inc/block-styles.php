@@ -36,6 +36,12 @@ function stjo_register_block_styles() {
 		'label' => __( 'Rounded', 'stjo' ),
 	) );
 
+	// Scalloped yellow ring (the impact-stats photo treatment) on any image.
+	register_block_style( 'core/image', array(
+		'name'  => 'bordered',
+		'label' => __( 'Bordered', 'stjo' ),
+	) );
+
 	// Pill / ghost link arrow button ("See Our Mission ›", "More").
 	register_block_style( 'core/button', array(
 		'name'  => 'arrow-link',

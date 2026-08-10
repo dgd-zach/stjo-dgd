@@ -598,6 +598,9 @@ hr.stjo-zigzag, .stjo-zigzag {
 	font-size: var(--wp--preset--font-size--base, 16px);
 	color: var(--wp--preset--color--dark, #333);
 }
+@media (max-width: 768px) {
+	.stjo-pull-quote .wp-block-quote p { font-size: var(--wp--preset--font-size--medium, 24px); }
+}
 
 /* Full-width image band. */
 .stjo-full-width-image img { width: 100%; height: clamp(320px, 42vw, 600px); object-fit: cover; }

@@ -55,6 +55,35 @@ function stjo_blog_categories() {
 }
 
 /**
+ * Display category for a post: the Yoast primary category if set, else the
+ * first non-default category. Used as the single-post hero eyebrow.
+ */
+function stjo_post_primary_category( $post ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return '';
+	}
+	$primary = (int) get_post_meta( $post->ID, '_yoast_wpseo_primary_category', true );
+	if ( $primary ) {
+		$term = get_term( $primary, 'category' );
+		if ( $term && ! is_wp_error( $term ) ) {
+			return $term->name;
+		}
+	}
+	$cats = get_the_category( $post->ID );
+	if ( ! $cats ) {
+		return '';
+	}
+	$default = (int) get_option( 'default_category' );
+	foreach ( $cats as $cat ) {
+		if ( (int) $cat->term_id !== $default ) {
+			return $cat->name;
+		}
+	}
+	return $cats[0]->name;
+}
+
+/**
  * One blog post card — same markup/behaviour as the story/search cards
  * (whole card clickable via the stretched Read More link).
  */

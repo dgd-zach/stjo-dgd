@@ -193,22 +193,41 @@ function stjo_page_is_stub( $post = null ) {
 }
 
 /**
- * Default internal page hero: the full-width blue title band (parent-section
- * eyebrow + page H1) used across built pages, followed by the zigzag divider.
- * Rendered by page.php for stub pages so every created-but-unbuilt page still
- * has the branded hero. Mirrors the .stjo-page-title-band markup that built
- * pages carry in their own content.
+ * Default internal page hero: the full-width blue title band (eyebrow + H1)
+ * used across built pages, followed by the zigzag divider. Rendered by page.php
+ * for stub pages, home.php for the blog index, and single.php for blog posts.
+ *
+ * @param int|WP_Post|null $post Post to title from.
+ * @param array            $args {
+ *     @type string $eyebrow Eyebrow label. Defaults to the parent page title.
+ *     @type string $title   H1 text. Defaults to the post title.
+ *     @type int    $cover   Attachment id to use as a full-bleed cover image
+ *                           (with a scrim) instead of the flat blue band.
+ * }
  */
-function stjo_page_hero( $post = null ) {
-	$post   = get_post( $post );
-	$parent = ( $post && $post->post_parent ) ? get_the_title( $post->post_parent ) : '';
+function stjo_page_hero( $post = null, $args = array() ) {
+	$post = get_post( $post );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'eyebrow' => ( $post && $post->post_parent ) ? get_the_title( $post->post_parent ) : '',
+			'title'   => $post ? get_the_title( $post ) : '',
+			'cover'   => 0,
+		)
+	);
+
+	$cover_url = $args['cover'] ? wp_get_attachment_image_url( (int) $args['cover'], 'full' ) : '';
+	$classes   = 'wp-block-group alignfull stjo-page-title-band has-white-color has-text-color';
+	if ( $cover_url ) {
+		$classes .= ' stjo-page-title-band--cover';
+	}
 	?>
-	<div class="wp-block-group alignfull stjo-page-title-band has-white-color has-text-color">
+	<div class="<?php echo esc_attr( $classes ); ?>"<?php echo $cover_url ? ' style="background-image:url(' . esc_url( $cover_url ) . ')"' : ''; ?>>
 		<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
-		<?php if ( $parent ) : ?>
-			<p class="has-text-align-center is-style-eyebrow has-white-color has-text-color"><?php echo esc_html( $parent ); ?></p>
+		<?php if ( $args['eyebrow'] ) : ?>
+			<p class="has-text-align-center is-style-eyebrow has-white-color has-text-color"><?php echo esc_html( $args['eyebrow'] ); ?></p>
 		<?php endif; ?>
-		<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color"><?php echo esc_html( get_the_title( $post ) ); ?></h1>
+		<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color"><?php echo esc_html( $args['title'] ); ?></h1>
 		<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 	</div>
 	<hr class="wp-block-separator has-alpha-channel-opacity alignfull" />

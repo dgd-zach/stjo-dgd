@@ -1283,6 +1283,25 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-page-title-band h1.wp-block-heading { margin-bottom: var(--stjo--spacing--sm);}
 .stjo-page-title-band .stjo-stories-hero__intro { color: var(--wp--preset--color--light, #f3f3e6); max-width: 600px;}
 
+/* Cover variant (single blog posts): the featured image fills the band behind
+   a blue scrim that keeps the white title/eyebrow readable over any photo. */
+.stjo-page-title-band--cover {
+	position: relative;
+	isolation: isolate;
+	background-size: cover;
+	background-position: center;
+	min-height: clamp(260px, 32vw, 420px);
+	display: grid;
+	align-content: center;
+}
+.stjo-page-title-band--cover::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(0deg, rgba(0, 53, 102, .92) 0%, rgba(0, 53, 102, .55) 100%);
+}
+
 /* Not-built-out (stub) page: the default hero is followed by the seeded
    "coming soon" note; centre it and give it room under the band. */
 .stjo-stub .entry-content { text-align: center; padding-block: var(--stjo--spacing--xl, 48px); }

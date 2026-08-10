@@ -302,6 +302,15 @@ function stjo_nav_assets() {
 		(string) filemtime( get_template_directory() . '/assets/js/play-video.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
+	if ( is_home() ) {
+		wp_enqueue_script(
+			'stjo-blog-filter',
+			get_template_directory_uri() . '/assets/js/blog-filter.js',
+			array(),
+			(string) filemtime( get_template_directory() . '/assets/js/blog-filter.js' ),
+			array( 'strategy' => 'defer', 'in_footer' => true )
+		);
+	}
 	if ( is_page_template( 'page-pattern-library.php' ) ) {
 		wp_enqueue_script(
 			'stjo-pattern-library',

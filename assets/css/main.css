@@ -1288,6 +1288,15 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-stub .entry-content { text-align: center; padding-block: var(--stjo--spacing--xl, 48px); }
 .stjo-stub .entry-content > * { margin-inline: auto; }
 
+/* ── Blog archive (/blog/) ──────────────────────────────────────────────
+   Pills centered under the hero; card grid + pagination reuse .stjo-story-grid
+   and .pagination. blog-filter.js swaps #stjo-blog-results in place. */
+.stjo-blog-filterbar { display: flex; justify-content: center; }
+#stjo-blog-results { scroll-margin-top: var(--stjo--spacing--lg, 32px); }
+#stjo-blog-results:focus { outline: none; }
+#stjo-blog-results.is-loading { opacity: .5; pointer-events: none; transition: opacity .15s ease; }
+.stjo-blog-empty { text-align: center; color: var(--stjo--color--neutral-700, #4d4d4d); padding-block: var(--stjo--spacing--xl, 48px); }
+
 .stjo-stories-band { padding-block: var(--stjo--spacing--xl, 48px); }
 .stjo-stories-band--tint { background: var(--wp--preset--color--light, #f3f3e6); }
 

@@ -568,9 +568,9 @@ hr.stjo-zigzag, .stjo-zigzag {
 	.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap { transition: none; }
 }
 
-/* Pull quote: yellow rules, large serif quote. Mobile keeps just the
-   top/bottom rules; desktop frames it on all four sides (side borders would
-   crowd a narrow column, so they're added with inline padding at >=769). */
+/* Pull quote: the yellow rules flip orientation by breakpoint — side rules
+   (left/right) on desktop, top/bottom rules on mobile (side rules would crowd
+   a narrow column). */
 .stjo-pull-quote {
 	border-top: 4px solid var(--wp--preset--color--yellow, #ffd520);
 	border-bottom: 4px solid var(--wp--preset--color--yellow, #ffd520);
@@ -578,6 +578,8 @@ hr.stjo-zigzag, .stjo-zigzag {
 }
 @media (min-width: 769px) {
 	.stjo-pull-quote {
+		border-top: 0;
+		border-bottom: 0;
 		border-left: 4px solid var(--wp--preset--color--yellow, #ffd520);
 		border-right: 4px solid var(--wp--preset--color--yellow, #ffd520);
 		padding-inline: var(--stjo--spacing--xl, 48px);

@@ -152,3 +152,21 @@ require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 require_once get_template_directory() . '/inc/video-facade.php';
 require_once get_template_directory() . '/inc/chatbot.php';
+
+/**
+ * Posts pagination styled like the site's carousel nav: centered, numbered,
+ * with round chevron arrows (same SVG as carousel.js) instead of prev/next
+ * text. Shared by search.php and index.php; styled via .pagination in main.css.
+ */
+function stjo_posts_pagination() {
+	$prev = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false"><path d="M11 4 6 9l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	$next = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	the_posts_pagination(
+		array(
+			'mid_size'           => 1,
+			'prev_text'          => $prev . '<span class="screen-reader-text">' . esc_html__( 'Previous page', 'stjo' ) . '</span>',
+			'next_text'          => $next . '<span class="screen-reader-text">' . esc_html__( 'Next page', 'stjo' ) . '</span>',
+			'screen_reader_text' => __( 'Pagination', 'stjo' ),
+		)
+	);
+}

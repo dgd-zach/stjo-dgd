@@ -28,7 +28,7 @@ get_header();
 			endwhile;
 			?>
 		</div>
-		<?php the_posts_pagination(); ?>
+		<?php stjo_posts_pagination(); ?>
 	<?php else : ?>
 		<p><?php esc_html_e( 'Nothing found.', 'stjo' ); ?></p>
 	<?php endif; ?>

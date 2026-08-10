@@ -847,12 +847,17 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	position: relative;
 	padding: var(--stjo--spacing--lg, 32px);
 }
-.search-modal__form {
+.search-modal__form,
+.stjo-search-form {
 	display: flex;
 	gap: var(--stjo--spacing--sm, 16px);
 	align-items: center;
 }
-.search-modal__input {
+/* Inline search form on the results/404 page: same look as the modal,
+   centered and capped at the modal width. */
+.stjo-search-form { max-width: 602px; margin-inline: auto; }
+.search-modal__input,
+.stjo-search-form__input {
 	flex: 1 1 0;
 	min-width: 0;
 	height: var(--stjo--input--height, 48px);
@@ -863,11 +868,13 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	font-size: var(--wp--preset--font-size--base, 16px);
 	color: var(--wp--preset--color--dark, #333);
 }
-.search-modal__input:focus-visible {
+.search-modal__input:focus-visible,
+.stjo-search-form__input:focus-visible {
 	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
 	outline-offset: 1px;
 }
-.search-modal__submit { flex: 0 0 auto; }
+.search-modal__submit,
+.stjo-search-form__submit { flex: 0 0 auto; }
 .search-modal__close {
 	position: absolute;
 	top: 6px;
@@ -893,9 +900,78 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.search-modal[open] { transition: none; }
 }
 @media (max-width: 480px) {
-	.search-modal__form { flex-wrap: wrap; }
-	.search-modal__submit { flex: 1 1 100%; }
-	.search-modal__submit .wp-block-button__link { width: 100%; }
+	.search-modal__form,
+	.stjo-search-form { flex-wrap: wrap; }
+	.search-modal__submit,
+	.stjo-search-form__submit { flex: 1 1 100%; }
+	.search-modal__submit .wp-block-button__link,
+	.stjo-search-form__submit .wp-block-button__link { width: 100%; }
+}
+
+/* ── Search results ─────────────────────────────────────────────────────
+   Result cards (reuse .stjo-story-card) laid out two-up: the .wp-block-columns
+   flex row wraps and each column takes half the row minus the gap. One column
+   per row on phones. */
+.stjo-story-grid {
+	/* core forces flex-wrap:nowrap!important and inter-column margins at
+	   >=782px, so both need overriding to get a wrapping 2-up grid. */
+	flex-wrap: wrap !important;
+	gap: var(--stjo--spacing--md, 24px);
+}
+.stjo-story-grid > .wp-block-column {
+	flex: 0 1 calc(50% - var(--stjo--spacing--md, 24px) / 2) !important;
+	margin: 0 !important;
+}
+@media (max-width: 768px) {
+	.stjo-story-grid > .wp-block-column { flex-basis: 100% !important; }
+}
+
+/* Pagination styled like the carousel nav: a centered row of round chevron
+   arrows + numbered pills, current page in brand blue. Markup from
+   stjo_posts_pagination() (the_posts_pagination). */
+.pagination { margin-block: var(--stjo--spacing--lg, 32px); }
+.pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+.pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 10px;
+	border-radius: 100px;
+	font-weight: 600;
+	line-height: 1;
+	text-decoration: none;
+	color: var(--wp--preset--color--dark, #333);
+	transition: background-color 150ms ease, color 150ms ease;
+}
+.pagination a.page-numbers:hover { background: var(--stjo--color--neutral-200, #ccc); }
+.pagination .page-numbers.current {
+	background: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+.pagination .page-numbers.dots { min-width: 0; padding: 0 4px; background: none; }
+/* Prev/next: round icon buttons matching the carousel arrows. */
+.pagination .prev.page-numbers,
+.pagination .next.page-numbers {
+	width: 40px;
+	min-width: 40px;
+	padding: 0;
+	border-radius: 50%;
+	background: #ededed;
+	color: var(--wp--preset--color--dark, #333);
+}
+.pagination .prev.page-numbers:hover,
+.pagination .next.page-numbers:hover { background: var(--stjo--color--neutral-200, #ccc); }
+.pagination .page-numbers:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
 }
 
 /* Drawer toggle (hidden on desktop). */

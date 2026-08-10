@@ -36,7 +36,7 @@ get_header();
 				</div>
 			<?php endwhile; ?>
 		</div>
-		<?php the_posts_pagination(); ?>
+		<?php stjo_posts_pagination(); ?>
 	<?php else : ?>
 		<p><?php esc_html_e( 'Nothing found. Try another search.', 'stjo' ); ?></p>
 	<?php endif; ?>

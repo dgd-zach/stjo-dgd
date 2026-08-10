@@ -347,6 +347,17 @@ blockquote, .wp-block-quote {
 .wp-block-group.alignfull > .wp-block-group__inner-container,
 .entry-content--front > .wp-block-group > .wp-block-group__inner-container { padding-inline: var(--stjo--spacing--md); }
 
+/* Media & Text (subsection patterns). Core pads the content cell 0 8% on both
+   sides; on the image-right variant that left padding indents the text from
+   the section edge, so it no longer lines up with the content above/below.
+   Drop it (the right padding still holds the gap to the image). */
+.wp-block-media-text.has-media-on-the-right > .wp-block-media-text__content { padding-left: 0; }
+/* Stacked (<=600, where core stacks is-stacked-on-mobile): the image sits
+   flush against the heading below it — add breathing room under it. */
+@media (max-width: 600px) {
+	.wp-block-media-text.is-stacked-on-mobile > .wp-block-media-text__media { margin-bottom: var(--stjo--spacing--md, 24px); }
+}
+
 
 /* ─── Content Overhang group style ───
    The group's LAST child hangs below the band edge by --overhang. A negative

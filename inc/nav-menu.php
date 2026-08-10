@@ -255,6 +255,13 @@ function stjo_nav_assets() {
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(
+		'stjo-overhang',
+		get_template_directory_uri() . '/assets/js/overhang.js',
+		array(),
+		(string) filemtime( get_template_directory() . '/assets/js/overhang.js' ),
+		array( 'strategy' => 'defer', 'in_footer' => true )
+	);
+	wp_enqueue_script(
 		'stjo-stories-carousel',
 		get_template_directory_uri() . '/assets/js/stories-carousel.js',
 		array(),

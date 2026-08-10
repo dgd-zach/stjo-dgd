@@ -1284,12 +1284,15 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-page-title-band .stjo-stories-hero__intro { color: var(--wp--preset--color--light, #f3f3e6); max-width: 600px;}
 
 /* Cover variant (single blog posts): the featured image fills the band behind
-   a blue scrim that keeps the white title/eyebrow readable over any photo. */
-.stjo-page-title-band--cover {
+   a blue scrim that keeps the white title/eyebrow readable over any photo.
+   Compound selector so these background props beat the base .stjo-page-title-band
+   `background:` shorthand (equal specificity, loaded later in sections.css). */
+.stjo-page-title-band.stjo-page-title-band--cover {
 	position: relative;
 	isolation: isolate;
 	background-size: cover;
 	background-position: center;
+	background-repeat: no-repeat;
 	min-height: clamp(260px, 32vw, 420px);
 	display: grid;
 	align-content: center;

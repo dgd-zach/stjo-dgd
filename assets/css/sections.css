@@ -568,11 +568,20 @@ hr.stjo-zigzag, .stjo-zigzag {
 	.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap { transition: none; }
 }
 
-/* Pull quote: yellow rules, large serif quote. */
+/* Pull quote: yellow rules, large serif quote. Mobile keeps just the
+   top/bottom rules; desktop frames it on all four sides (side borders would
+   crowd a narrow column, so they're added with inline padding at >=769). */
 .stjo-pull-quote {
 	border-top: 4px solid var(--wp--preset--color--yellow, #ffd520);
 	border-bottom: 4px solid var(--wp--preset--color--yellow, #ffd520);
 	padding-block: var(--stjo--spacing--lg, 32px);
+}
+@media (min-width: 769px) {
+	.stjo-pull-quote {
+		border-left: 4px solid var(--wp--preset--color--yellow, #ffd520);
+		border-right: 4px solid var(--wp--preset--color--yellow, #ffd520);
+		padding-inline: var(--stjo--spacing--xl, 48px);
+	}
 }
 .stjo-pull-quote .wp-block-quote { margin: 0; padding: 0; border: 0; }
 .stjo-pull-quote .wp-block-quote p {

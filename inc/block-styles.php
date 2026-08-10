@@ -70,16 +70,9 @@ function stjo_register_block_styles() {
 		'name'  => 'carousel',
 		'label' => __( 'Carousel', 'stjo' ),
 	) );
-	// Number that counts up from zero when scrolled into view (count-up.js).
-	// stjo-stat__figure paragraphs get this behavior automatically.
-	register_block_style( 'core/paragraph', array(
-		'name'  => 'count-up',
-		'label' => __( 'Count Up', 'stjo' ),
-	) );
-	register_block_style( 'core/heading', array(
-		'name'  => 'count-up',
-		'label' => __( 'Count Up', 'stjo' ),
-	) );
+	// (The "Count Up" paragraph/heading block style was removed 2026-08-10 —
+	// too niche to expose. The count-up animation still runs on the impact
+	// band automatically via .stjo-stat__figure in count-up.js.)
 
 	// Yoast FAQ block as a collapsible accordion (matches the native-Details
 	// accordion look). faq-accordion.js supplies the toggle behavior; without

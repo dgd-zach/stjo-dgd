@@ -1,8 +1,7 @@
 /**
  * Count-up stats: when a stat figure scrolls into view, its number animates
  * from zero to the value in the markup. Targets .stjo-stat__figure (impact
- * band) and anything with the "Count Up" block style (.is-style-count-up).
- * The real value stays in the markup (no-JS/SEO safe); prefix and suffix
+ * band). The real value stays in the markup (no-JS/SEO safe); prefix and suffix
  * around the number ($, +, %) and comma grouping are preserved while
  * counting. prefers-reduced-motion leaves the final values in place.
  */
@@ -14,7 +13,7 @@
 	}
 
 	var DURATION = 1400;
-	var els = document.querySelectorAll('.stjo-stat__figure, .is-style-count-up');
+	var els = document.querySelectorAll('.stjo-stat__figure');
 	if (!els.length) {
 		return;
 	}

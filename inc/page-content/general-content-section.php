@@ -82,15 +82,7 @@ echo '<!-- wp:group {"metadata":{"name":"Two-Column Text + FAQ"},"layout":{"type
 include $P . 'two-column-text-list.php';   // Text + Bullet List
 include $P . 'heading-centered-text.php';  // + Text
 
-// Title + Text (title beside a single text column).
-echo '<!-- wp:group {"metadata":{"name":"Title + Text"},"layout":{"type":"constrained"}} -->'
-	. '<div class="wp-block-group">' . $sp( 'medium' )
-	. '<!-- wp:columns --><div class="wp-block-columns">'
-	. '<!-- wp:column --><div class="wp-block-column"><!-- wp:heading {"level":2} --><h2 class="wp-block-heading">Title + Text</h2><!-- /wp:heading --></div><!-- /wp:column -->'
-	. '<!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p>' . $ladv . '</p><!-- /wp:paragraph --></div><!-- /wp:column -->'
-	. '</div><!-- /wp:columns -->'
-	. $sp( 'medium' ) . '</div><!-- /wp:group -->' . "\n";
-
+include $P . 'title-text.php';                   // Title + Text
 include $P . 'title-two-column-text.php';       // Title + 2 Column Text
 include $P . 'two-column-subsection-reversed.php'; // Subsection: text left, image right
 include $P . 'two-column-subsection.php';        // Subsection: image left, text right

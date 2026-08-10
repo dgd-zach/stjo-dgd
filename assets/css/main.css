@@ -1072,6 +1072,17 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.mega-panel__promo { flex: 0 0 min(45%, 420px); }
 }
 @media (max-width: 768px) {
+	/* Standardize the mobile band gutter to 16px. Core adds ~38px of inline
+	   padding to any group with a background (:where(.wp-block-group.has-background),
+	   2.375em), which is far too much on a phone; trim the horizontal to the
+	   16px baseline (keep the vertical). The band's 16px padding IS the gutter,
+	   so its children fill it rather than stacking a second min() gutter (which
+	   pushed content in to ~32px). */
+	.wp-block-group.has-background { padding-left: var(--stjo--spacing--sm, 16px); padding-right: var(--stjo--spacing--sm, 16px); }
+	.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)),
+	.wp-block-group.has-background.alignfull > .alignwide,
+	.wp-block-group.has-background.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)) { max-width: 100%; }
+
 	/* Headings step down on tablet/phone — the desktop scale runs too large. */
 	h1, h1.wp-block-heading { font-size: 40px; }
 	h2, h2.wp-block-heading { font-size: 30px; }

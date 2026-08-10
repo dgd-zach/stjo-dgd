@@ -106,3 +106,19 @@ function stjo_unregister_block_styles() {
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'stjo_unregister_block_styles' );
+
+/**
+ * "Text width" inspector control (measure-control.js): a toggle + range slider
+ * on paragraph/heading/list/group blocks that stamps the stjo-measure class +
+ * --stjo-measure custom property (see utilities.css).
+ */
+function stjo_measure_control_assets() {
+	wp_enqueue_script(
+		'stjo-measure-control',
+		get_template_directory_uri() . '/assets/js/measure-control.js',
+		array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-compose', 'wp-hooks', 'wp-block-editor', 'wp-i18n' ),
+		(string) filemtime( get_template_directory() . '/assets/js/measure-control.js' ),
+		true
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'stjo_measure_control_assets' );

@@ -1176,6 +1176,12 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	h5, h5.wp-block-heading { font-size: 18px; }
 	h6, h6.wp-block-heading { font-size: 16px; }
 	.wp-block-columns { flex-direction: column; }
+	/* A constrained Group's "Content width" (set in the editor) compiles to a
+	   fixed-px max-width on its children. Once the column stacks, release it so
+	   the content fills the now-full-width column — this makes the native Group
+	   Content-width control double as a responsive max-width. (0,3,0) beats the
+	   generated .wp-container-* rule.) */
+	.wp-block-column .wp-block-group.is-layout-constrained > * { max-width: none; }
 	.wp-block-query .wp-block-post-template { grid-template-columns: 1fr; }
 	.site-footer__grid { grid-template-columns: 1fr; gap: var(--stjo--spacing--lg); }
 	.site-header__inner { padding-inline: var(--stjo--spacing--md); }

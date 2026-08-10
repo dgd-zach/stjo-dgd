@@ -231,6 +231,12 @@ a:focus-visible { outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
 .wp-block-button.is-style-arrow-link .wp-block-button__link:focus-visible::after {
 	translate: 4px 0;
 }
+/* Plain link (no caret): underline in the text's own color on hover/focus. */
+.wp-block-button.is-style-plain .wp-block-button__link:hover,
+.wp-block-button.is-style-plain .wp-block-button__link:focus-visible {
+	text-decoration: underline;
+	text-decoration-color: currentColor;
+}
 
 /* Layout-justification classes are carried literally in generated markup so
    template parts (raw output, no do_blocks) center the same as page content. */
@@ -239,6 +245,7 @@ a:focus-visible { outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
 
 /* Form submit buttons reuse the outline-on-dark treatment (no block wrapper). */
 button.stjo-form-button-outline {
+	max-width: 170px;
 	background-color: transparent;
 	color: var(--wp--preset--color--white, #fff);
 	border-color: currentColor;

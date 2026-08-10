@@ -60,8 +60,24 @@
 	opacity: 1 !important;
 }
 
-/* Whole card is clickable: the arrow link stretches over the card. */
-.stjo-card.wp-block-cover { position: relative; }
+/* Whole card is clickable: the arrow link's stretched ::before covers the
+   card. The inner-container is the arrow link's positioned ancestor, so it's
+   stretched to fill the card (content stays bottom-left via flex) — otherwise
+   the hit area is only the text at the bottom. The overlay/image are
+   pointer-events:none so they never intercept, and the whole card shows the
+   pointer cursor. */
+.stjo-card.wp-block-cover { position: relative; cursor: pointer; }
+.stjo-card.wp-block-cover .wp-block-cover__inner-container {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+	padding: var(--stjo--spacing--md);
+}
+.stjo-card .wp-block-cover__background,
+.stjo-card .wp-block-cover__image-background { pointer-events: none; }
 .stjo-card .wp-block-button__link::before {
 	content: "";
 	position: absolute;
@@ -243,7 +259,7 @@ a.stjo-give-tile:focus-visible img.is-masked {
 	mask: var(--stjo-caret) center / contain no-repeat;
 	transition: translate 0.2s ease;
 }
-.stjo-story-card__more:hover { text-decoration: underline; }
+/* .stjo-story-card__more:hover { text-decoration: underline; } */
 .stjo-filterbar { display: flex; flex-wrap: wrap; gap: var(--stjo--spacing--sm); align-items: center; justify-content: space-between; }
 .stjo-filterbar { display: flex; flex-wrap: wrap; gap: var(--stjo--spacing--sm); align-items: center; justify-content: space-between; }
 .stjo-filterbar__label { font-weight: 700; font-size: var(--stjo--font-size--small, 14px); color: var(--wp--preset--color--dark, #333); }
@@ -546,6 +562,25 @@ hr.stjo-zigzag, .stjo-zigzag {
 }
 .stjo-info-card__body .wp-block-read-more:hover { text-decoration: underline; }
 .stjo-info-card__body .wp-block-buttons { margin-top: auto; }
+
+/* Whole card clickable: a click anywhere on the card follows its link
+   (matching the card-wide hover), with the pointer cursor across the card.
+   Manual cards have one Learn More button; Query-loop cards use the post
+   title link as the stretch target (read-more goes to the same post). */
+.stjo-info-card { position: relative; cursor: pointer; }
+.stjo-info-card .wp-block-button__link::before,
+.stjo-info-card .wp-block-read-more::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+.stjo-related-query .wp-block-post-template > li,
+.stjo-blog-grid .wp-block-post-template > li { cursor: pointer; }
+.stjo-related-query .wp-block-post-title a::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
 
 /* Query grid spacing to match the manual columns. */
 .stjo-related-query .wp-block-post-template { gap: var(--stjo--spacing--md, 24px); }

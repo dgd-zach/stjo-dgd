@@ -278,6 +278,38 @@
 				toggle.focus();
 			}
 		});
+
+		// Focus trap for the open drawer. (The search + lightbox modals use a
+		// native <dialog> showModal(), which traps focus on its own; the drawer
+		// is a plain overlay, so contain Tab within the header manually.)
+		function drawerFocusables() {
+			var sel = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+			return Array.prototype.filter.call(header.querySelectorAll(sel), function (el) {
+				return !el.closest('[inert]') && (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0);
+			});
+		}
+		document.addEventListener('keydown', function (event) {
+			if (event.key !== 'Tab' || !drawerMq.matches || !document.body.classList.contains('nav-open')) {
+				return;
+			}
+			var focusables = drawerFocusables();
+			if (!focusables.length) {
+				return;
+			}
+			var first = focusables[0];
+			var last = focusables[focusables.length - 1];
+			var current = document.activeElement;
+			if (!header.contains(current)) {
+				event.preventDefault();
+				first.focus();
+			} else if (event.shiftKey && current === first) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && current === last) {
+				event.preventDefault();
+				first.focus();
+			}
+		});
 	}
 
 	// Crossing the breakpoint resets state and re-homes the panels.

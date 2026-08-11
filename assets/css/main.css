@@ -347,6 +347,19 @@ blockquote, .wp-block-quote {
 .wp-block-group.alignfull > .wp-block-group__inner-container,
 .entry-content--front > .wp-block-group > .wp-block-group__inner-container { padding-inline: var(--stjo--spacing--md); }
 
+/* Home video band: line the video up with the wide-aligned cover cards above
+   it, while the blue band stays full-bleed. Core adds ~38px side padding to any
+   has-background group, which shrinks the video off the grid; drop it, then cap
+   the embed at the cards' exact effective width — the wide band (max wide-size)
+   minus its 16px gutter each side — so the edges match at every viewport. (On
+   classic scrollbars a full-bleed band's inner still sits ~half a scrollbar
+   wider than a wide band's; that's ~0 on overlay-scrollbar devices.) */
+.stjo-video-band.alignfull { padding-inline: 0; }
+.stjo-video-band.alignfull > .wp-block-embed {
+	max-width: calc(min(var(--wp--style--global--wide-size, 1280px), 100%) - 2 * var(--stjo--spacing--sm, 16px));
+	margin-inline: auto;
+}
+
 /* Media & Text (subsection patterns). Core pads the content cell 0 8% on both
    sides; on the image-right variant that left padding indents the text from
    the section edge, so it no longer lines up with the content above/below.
@@ -856,7 +869,7 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 
 .search-modal__card {
 	position: relative;
-	padding: var(--stjo--spacing--lg, 32px);
+	padding: 40px var(--stjo--spacing--lg, 32px) var(--stjo--spacing--lg, 32px);
 }
 .search-modal__form,
 .stjo-search-form {
@@ -888,8 +901,8 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .stjo-search-form__submit { flex: 0 0 auto; }
 .search-modal__close {
 	position: absolute;
-	top: 6px;
-	right: 6px;
+	top: 12px;
+	right: 12px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

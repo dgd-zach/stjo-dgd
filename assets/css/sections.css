@@ -212,7 +212,11 @@ a.stjo-give-tile:focus-visible img.is-masked {
 .stjo-stats__row { gap: var(--stjo--spacing--xl); }
 .stjo-stat__figure {
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
-	font-size: var(--wp--preset--font-size--xl, 48px);
+	/* Fluid figure: scales with the viewport so multi-column figures never
+	   crowd or wrap as the band narrows (the columns don't stack until ~782px).
+	   Caps at the xl preset (48px), floors at 2rem so it stays legible. */
+	font-size: clamp(2rem, 3.75vw, var(--wp--preset--font-size--xl, 48px));
+	white-space: nowrap; /* a single figure (e.g. "$1.2M") never breaks to two lines */
 	color: var(--wp--preset--color--blue-900, #003566);
 	line-height: 1.1; font-weight: 700;
 	margin-bottom: var(--stjo--spacing--xs);
@@ -253,13 +257,11 @@ a.stjo-give-tile:focus-visible img.is-masked {
    the dark figures/labels land on the mid-blue sky and wash out. When
    stacked, drop the photo for a solid light band and make all the band text
    dark — legibility no longer depends on where the photo crops. */
-@media (max-width: 768px) {
+@media (max-width: 781px) { /* matches WP's column-stacking breakpoint */
 	.stjo-stats { background-color: var(--wp--preset--color--light, #f3f3e6); }
 	.stjo-stats > .wp-block-cover__background,
 	.stjo-stats > img.wp-block-cover__image-background { display: none; }
-	.stjo-stats .wp-block-cover__inner-container :where(h2, h3, p, .is-style-eyebrow) {
-		color: var(--wp--preset--color--blue-900, #003566) !important;
-	}
+	
 	.stjo-stats .stjo-stat__label { color: var(--stjo--color--neutral-700, #4d4d4d) !important; }
 }
 

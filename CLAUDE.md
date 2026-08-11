@@ -10,14 +10,19 @@ WordPress path: `~/Local-Sites/stjodevdev/app/public/`
 
 ## WP-CLI
 
-Every Local site shares the DB name `local`, so bare `wp` hits whichever site is first. Always pass the socket:
+Every Local site shares the DB name `local`, so bare `wp` hits whichever site is first. Point PHP at this site's socket:
 
 ```bash
-wp --path=~/Local-Sites/stjodevdev/app/public \
-   --url=http://stjodevdev.local \
-   --db-socket="$HOME/Library/Application Support/Local/run/EkBcVv_pZ/mysql/mysqld.sock" \
-   <subcommand>
+SOCK="$HOME/Library/Application Support/Local/run/EkBcVv_pZ/mysql/mysqld.sock"
+cd ~/Local-Sites/stjodevdev/app/public
+php -d mysqli.default_socket="$SOCK" "$(which wp)" \
+   --url=http://stjodevdev.local <subcommand>
 ```
+
+`--db-socket` / `--dbhost` do **not** work here: wp-config.php defines `DB_HOST` as
+`localhost` before wp-cli can override it, so every such run fails with "Error
+establishing a database connection." Overriding PHP's default mysqli socket is
+what actually connects. MySQL also rejects `127.0.0.1`, so TCP is not a fallback.
 
 Flush page cache after any post_content update:
 

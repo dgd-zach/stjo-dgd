@@ -64,9 +64,9 @@
  * capped when the column goes full-width on mobile. Tune per use by setting
  * --stjo-measure (defaults to 25rem / 400px, matching the design's measure).
  */
-.stjo-measure { max-width: var(--stjo-measure, 25rem); }
+.stjo-measure { max-width: var(--stjo-measure, 25rem) !important; }
 @media (max-width: 768px) {
-	.stjo-measure { max-width: none; }
+	.stjo-measure { max-width: none !important; }
 }
 
 /* Match the mobile heading scale the real hN get in main.css. */

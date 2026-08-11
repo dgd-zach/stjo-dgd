@@ -7,22 +7,32 @@
  * @package stjo
  */
 ?>
-<!-- wp:cover {"metadata":{"name":"Band: Full-bleed CTA Cover"},"url":"<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>","dimRatio":30,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":418,"align":"full","className":"stjo-dreammaker","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull stjo-dreammaker" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-30 has-background-dim"></span><div class="wp-block-cover__inner-container is-layout-constrained wp-block-cover__inner-container-is-layout-constrained"><!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","fontSize":"xxl"} -->
-<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color has-xxl-font-size">Become a DreamMaker</h2>
+<!-- wp:cover {"url":"http://stjodevdev.local/wp-content/uploads/2026/07/cover.jpg","dimRatio":0,"isUserOverlayColor":true,"focalPoint":{"x":0.74,"y":0.93},"minHeight":418,"minHeightUnit":"px","align":"full","className":"stjo-hero-slide stjo-hero-slide\u002d\u002ddark"} -->
+<div class="wp-block-cover alignfull stjo-hero-slide stjo-hero-slide--dark" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="http://stjodevdev.local/wp-content/uploads/2026/07/cover.jpg" style="object-position:74% 93%" data-object-fit="cover" data-object-position="74% 93%"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","justifyContent":"center"}} -->
+<div class="wp-block-group"><!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"420px"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:420px"><!-- wp:heading {"style":{"typography":{"textAlign":"center"}},"textColor":"white"} -->
+<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color">Become a <strong>DreamMaker</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"align":"center","textColor":"white"} -->
+<!-- wp:paragraph {"style":{"typography":{"textAlign":"center"}},"textColor":"white"} -->
 <p class="has-text-align-center has-white-color has-text-color">The DreamMakers are a special group of friends who give automatic monthly gifts to ensure the Lakota (Sioux) children are provided for year-round… <strong>and will help provide dreams for the future.</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons is-layout-flex is-content-justification-center"><!-- wp:button {"className":"is-style-fill","textColor":"brand-dark","backgroundColor":"white"} -->
-<div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-brand-dark-color has-text-color has-white-background-color has-background wp-element-button" href="#">Give Monthly</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"white","textColor":"brand-dark","className":"is-style-fill"} -->
+<div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-brand-dark-color has-white-background-color has-text-color has-background wp-element-button" href="/donate/">Give Monthly</a></div>
 <!-- /wp:button -->
-<!-- wp:button {"className":"is-style-fill","textColor":"brand-dark","backgroundColor":"white"} -->
-<div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-brand-dark-color has-text-color has-white-background-color has-background wp-element-button" href="#">Learn More</a></div>
-<!-- /wp:button -->
-</div>
-<!-- /wp:buttons --></div></div>
+
+<!-- wp:button {"textColor":"white","className":"is-style-outline","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}}} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-white-color has-text-color has-link-color wp-element-button" href="/your-impact/become-a-dreammaker/">Learn More</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":""} -->
+<div class="wp-block-column"></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group --></div></div>
 <!-- /wp:cover -->

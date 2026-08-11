@@ -126,6 +126,25 @@ span.stjo-lightbox-card__link { cursor: default; }
 	object-position: 50% 25%;
 }
 
+/* Story lightboxes (portrait grad photos) render the image as a vertical
+   column on the left with the text on the right — like the History page's
+   vertical images. Below 640 it stacks and the base hero rule (300px cover)
+   handles the image-on-top case. The portrait image drives the row height, so
+   it shows in full (no short crop); the text column sits alongside it. */
+@media (min-width: 640px) {
+	.stjo-lightbox__split {
+		display: grid;
+		grid-template-columns: minmax(0, 320px) 1fr;
+		align-items: start;
+	}
+	.stjo-lightbox__split .stjo-lightbox__hero img {
+		height: auto;
+	}
+	.stjo-lightbox__split .stjo-lightbox__inner {
+		padding-right: var(--stjo--spacing--xl, 48px); /* clear the corner close X */
+	}
+}
+
 .stjo-lightbox__inner { padding: var(--stjo--spacing--lg, 32px); }
 
 .stjo-lightbox__title {

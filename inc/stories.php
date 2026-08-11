@@ -65,8 +65,10 @@ function stjo_story_card( $post, $lightbox = false ) {
 					<?php esc_html_e( 'Read More', 'stjo' ); ?>
 					<span class="screen-reader-text"><?php echo esc_html( sprintf( /* translators: %s: story title */ __( 'about %s', 'stjo' ), get_the_title( $post ) ) ); ?></span>
 				</button>
+				<?php $stjo_has_thumb = has_post_thumbnail( $post ); ?>
 				<template data-stjo-lightbox-template>
-					<?php if ( has_post_thumbnail( $post ) ) : ?>
+					<?php if ( $stjo_has_thumb ) : ?>
+					<div class="stjo-lightbox__split">
 						<figure class="stjo-lightbox__hero"><?php echo get_the_post_thumbnail( $post, 'large', $img_attr ); ?></figure>
 					<?php endif; ?>
 					<div class="stjo-lightbox__inner">
@@ -86,6 +88,9 @@ function stjo_story_card( $post, $lightbox = false ) {
 							<button type="button" class="stjo-lightbox__dismiss" data-stjo-lightbox-close><?php esc_html_e( 'Close', 'stjo' ); ?></button>
 						</div>
 					</div>
+					<?php if ( $stjo_has_thumb ) : ?>
+					</div>
+					<?php endif; ?>
 				</template>
 			<?php else : ?>
 				<a class="stjo-story-card__more" href="<?php echo esc_url( get_permalink( $post ) ); ?>">

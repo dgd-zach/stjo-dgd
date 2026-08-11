@@ -237,7 +237,7 @@ function stjo_nav_assets() {
 		'stjo-nav',
 		get_template_directory_uri() . '/assets/js/nav.js',
 		array(),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/assets/js/nav.js' ),
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(

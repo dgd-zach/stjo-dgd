@@ -305,6 +305,10 @@
 		searchOpen.addEventListener('click', function () {
 			closeAll();
 			searchModal.showModal();
+			// Measure the scrollbar BEFORE locking scroll so body.modal-open can
+			// pad by it and the page doesn't shift sideways when it disappears.
+			var scrollbar = window.innerWidth - document.documentElement.clientWidth;
+			document.documentElement.style.setProperty('--stjo-scrollbar-comp', scrollbar + 'px');
 			document.body.classList.add('modal-open');
 			var input = searchModal.querySelector('input[type="search"]');
 			if (input) {
@@ -313,6 +317,7 @@
 		});
 		searchModal.addEventListener('close', function () {
 			document.body.classList.remove('modal-open');
+			document.documentElement.style.removeProperty('--stjo-scrollbar-comp');
 			searchOpen.focus();
 		});
 		searchModal.addEventListener('click', function (event) {

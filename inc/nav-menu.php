@@ -324,6 +324,14 @@ function stjo_nav_assets() {
 add_action( 'wp_enqueue_scripts', 'stjo_nav_assets' );
 
 function stjo_nav_no_js_class( $output ) {
+	// Front end only. The swap that turns this back into `js` runs on wp_head
+	// (below), which never fires on wp-login.php or in wp-admin. Stamping an
+	// unswapped `no-js` there leaves WP's own `.hide-if-no-js` fields hidden for
+	// good (e.g. the reset-password input) and doubles the <html> class attr in
+	// admin — both places already do their own no-js handling.
+	if ( is_admin() || ( isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) ) {
+		return $output;
+	}
 	return $output . ' class="no-js"';
 }
 add_filter( 'language_attributes', 'stjo_nav_no_js_class' );

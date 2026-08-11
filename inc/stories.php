@@ -150,6 +150,16 @@ function stjo_render_stories_section( $attrs ) {
 
 	$all   = stjo_stories_query( $cat, '', $orderby );
 	$posts = $year ? stjo_stories_query( $cat, $year, $orderby ) : $all;
+
+	// In the block editor the preview comes from ServerSideRender (a REST
+	// request) where the carousel JS never runs, so every 6-card page would
+	// stack — too much. Preview only the first 6 and note how many more the
+	// live carousel holds. The front end (not a REST request) is unaffected.
+	$preview_more = 0;
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && count( $posts ) > 6 ) {
+		$preview_more = count( $posts ) - 6;
+		$posts        = array_slice( $posts, 0, 6 );
+	}
 	$pages = array_chunk( $posts, 6 );
 
 	// Pills come from the years present in the section's unfiltered set.
@@ -216,6 +226,11 @@ function stjo_render_stories_section( $attrs ) {
 					</div>
 				</div>
 			</div>
+			<?php if ( $preview_more ) : ?>
+				<p class="stjo-stories-band__more-note" style="text-align:center;margin:0;padding:16px 0;color:#4d4d4d;font-style:italic;">
+					<?php echo esc_html( sprintf( /* translators: %d: number of additional stories */ _n( '+ %d more story — shown in the carousel on the live page', '+ %d more stories — shown in the carousel on the live page', $preview_more, 'stjo' ), $preview_more ) ); ?>
+				</p>
+			<?php endif; ?>
 		<?php endif; ?>
 	</section>
 	<?php

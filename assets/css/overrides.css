@@ -39,6 +39,7 @@
 .stjo-testimonial__quote { line-height: 27.34px; } /* harness:_stjo-testimonial_quote_line-height */
 .stjo-hero .wp-block-button__link { border-color: rgb(255, 255, 255); } /* harness:_stjo-hero_wp-block-button_link_border-color */
 
+.stjo-no-marg {margin-bottom: 0 !important} /* editor mirror in editor.css */
 /* Mobile step-down for the harness-set band heading sizes above (they keep
    their fixed desktop size/line-height otherwise — the generosity heading
    stays 64px on phones). */

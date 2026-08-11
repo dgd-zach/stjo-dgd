@@ -31,3 +31,9 @@
 }
 .editor-styles-wrapper .wp-block-separator.is-style-basic { border-color: var(--wp--preset--color--neutral-200, #cccccc); border-width: 1px; }
 
+/* Utility parity: mirror overrides.css `.stjo-no-marg` into the canvas. It's
+   already fed to the editor via add_editor_style(overrides.css), but that path
+   isn't version-busted so edits go stale in the canvas; this file IS enqueued
+   with STJO_VERSION, so defining it here keeps the class live after edits. */
+.editor-styles-wrapper .stjo-no-marg { margin-bottom: 0 !important; }
+

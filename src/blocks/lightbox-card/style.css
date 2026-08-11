@@ -98,6 +98,10 @@ span.stjo-lightbox-card__link { cursor: default; }
 	font-family: var(--wp--preset--font-family--base, "DM Sans", sans-serif);
 }
 
+/* Story modals (image + text split) are wider so the ~25% image column leaves
+   plenty of room for the text. Only these; the card modals keep their width. */
+.stjo-lightbox:has(.stjo-lightbox__split) { width: min(920px, calc(100vw - 32px)); }
+
 .stjo-lightbox__close {
 	position: absolute;
 	top: 12px;
@@ -126,21 +130,29 @@ span.stjo-lightbox-card__link { cursor: default; }
 	object-position: 50% 25%;
 }
 
-/* Story lightboxes (portrait grad photos) render the image as a vertical
-   column on the left with the text on the right — like the History page's
-   vertical images. Below 640 it stacks and the base hero rule (300px cover)
-   handles the image-on-top case. The portrait image drives the row height, so
-   it shows in full (no short crop); the text column sits alongside it. */
+/* Story lightboxes (portrait grad photos): a slim vertical image column on the
+   left that covers the modal height, with the text taking the rest. The modal
+   is a fixed height and the TEXT column scrolls (not the whole modal), so the
+   image covers a steady height instead of stretching with long content. Below
+   640 it stacks and the base hero rule (300px cover) keeps the image
+   horizontal on top. */
 @media (min-width: 640px) {
+	.stjo-lightbox:has(.stjo-lightbox__split) { overflow: hidden; }
 	.stjo-lightbox__split {
 		display: grid;
-		grid-template-columns: minmax(0, 320px) 1fr;
-		align-items: start;
+		grid-template-columns: 35% 1fr;
+		height: min(520px, calc(100vh - 64px));
+	}
+	.stjo-lightbox__split .stjo-lightbox__hero,
+	.stjo-lightbox__split .stjo-lightbox__hero img {
+		height: 100%;
 	}
 	.stjo-lightbox__split .stjo-lightbox__hero img {
-		height: auto;
+		object-fit: cover;
 	}
 	.stjo-lightbox__split .stjo-lightbox__inner {
+		height: 100%;
+		overflow-y: auto;
 		padding-right: var(--stjo--spacing--xl, 48px); /* clear the corner close X */
 	}
 }

@@ -7,8 +7,8 @@
  * @package stjo
  */
 ?>
-<!-- wp:cover {"url":"http://stjodevdev.local/wp-content/uploads/2026/07/cover.jpg","dimRatio":0,"isUserOverlayColor":true,"focalPoint":{"x":0.74,"y":0.93},"minHeight":418,"minHeightUnit":"px","align":"full","className":"stjo-hero-slide stjo-hero-slide\u002d\u002ddark"} -->
-<div class="wp-block-cover alignfull stjo-hero-slide stjo-hero-slide--dark" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="http://stjodevdev.local/wp-content/uploads/2026/07/cover.jpg" style="object-position:74% 93%" data-object-fit="cover" data-object-position="74% 93%"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","justifyContent":"center"}} -->
+<!-- wp:cover {"url":"/wp-content/uploads/2026/07/cover.jpg","dimRatio":0,"isUserOverlayColor":true,"focalPoint":{"x":0.74,"y":0.93},"minHeight":418,"minHeightUnit":"px","align":"full","className":"stjo-hero-slide stjo-hero-slide\u002d\u002ddark"} -->
+<div class="wp-block-cover alignfull stjo-hero-slide stjo-hero-slide--dark" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/uploads/2026/07/cover.jpg" style="object-position:74% 93%" data-object-fit="cover" data-object-position="74% 93%"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","justifyContent":"center"}} -->
 <div class="wp-block-group"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"center","width":"420px"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:420px"><!-- wp:heading {"style":{"typography":{"textAlign":"center"}},"textColor":"white"} -->

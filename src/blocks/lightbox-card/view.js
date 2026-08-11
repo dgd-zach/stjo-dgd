@@ -1,9 +1,10 @@
 /* Lightbox cards: each card ships its prescribed lightbox (hero, heading,
    content, link) in an inert inline <template>; activating the card clones
    that into one shared <dialog>. Native showModal() supplies modality
-   (focus trap, Escape, inert background, focus restore on close); this adds
-   the body scroll lock with scrollbar-width compensation (no layout jump)
-   and backdrop close. Open/close easing lives in style.css. */
+   (Escape, inert background, focus restore on close); this adds a wrapping
+   Tab focus trap (showModal alone lets focus step out to the browser UI at
+   the ends), the body scroll lock with scrollbar-width compensation (no
+   layout jump), and backdrop close. Open/close easing lives in style.css. */
 ( function () {
 	'use strict';
 
@@ -34,6 +35,29 @@
 		dialog.addEventListener( 'close', function () {
 			document.body.classList.remove( 'modal-open' );
 			document.documentElement.style.removeProperty( '--stjo-scrollbar-comp' );
+		} );
+		// showModal() inerts the page but lets Tab step out to the browser UI at
+		// the ends — wrap it so focus stays inside the dialog.
+		dialog.addEventListener( 'keydown', function ( event ) {
+			if ( event.key !== 'Tab' ) {
+				return;
+			}
+			var focusables = Array.prototype.filter.call(
+				dialog.querySelectorAll( 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])' ),
+				function ( el ) { return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0; }
+			);
+			if ( ! focusables.length ) {
+				return;
+			}
+			var first = focusables[ 0 ];
+			var last = focusables[ focusables.length - 1 ];
+			if ( event.shiftKey && document.activeElement === first ) {
+				event.preventDefault();
+				last.focus();
+			} else if ( ! event.shiftKey && document.activeElement === last ) {
+				event.preventDefault();
+				first.focus();
+			}
 		} );
 		document.body.appendChild( dialog );
 	}

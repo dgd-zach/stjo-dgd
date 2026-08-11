@@ -326,7 +326,8 @@
 
 	// ── Search modal ─────────────────────────────────────────────────────
 	// Native <dialog>: showModal() gives real modality (background inert,
-	// Tab stays inside, Escape closes via the cancel event). We add: focus
+	// Escape closes via the cancel event). We add: a wrapping Tab focus trap
+	// (showModal alone lets Tab step out to the browser UI at the ends), focus
 	// into the input on open, focus restored to the opener on close, body
 	// scroll lock, and backdrop-click close (a click whose target is the
 	// dialog itself can only land on the backdrop, the card covers the rest).
@@ -363,5 +364,28 @@
 				searchModal.close();
 			});
 		}
+		// Native showModal() inerts the page but lets Tab step out to the browser
+		// UI at the ends — wrap it so focus stays inside the dialog.
+		searchModal.addEventListener('keydown', function (event) {
+			if (event.key !== 'Tab') {
+				return;
+			}
+			var focusables = Array.prototype.filter.call(
+				searchModal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+				function (el) { return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0; }
+			);
+			if (!focusables.length) {
+				return;
+			}
+			var first = focusables[0];
+			var last = focusables[focusables.length - 1];
+			if (event.shiftKey && document.activeElement === first) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault();
+				first.focus();
+			}
+		});
 	}
 })();

@@ -224,5 +224,3 @@ echo $card(
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div></div>
 <!-- /wp:cover -->
-
-<?php echo $zigzag; ?>

@@ -94,4 +94,4 @@ include $P . 'pull-quote.php';
 include $P . 'band-cover-cta.php';               // DreamMaker CTA
 include $P . 'full-width-image.php';
 include $P . 'related-content-cards-manual.php'; // Keep Reading + 4 cards
-include $P . 'divider-zigzag.php';               // transition to the generosity pre-footer
+// (No trailing zigzag — the pre-footer template part now carries it.)

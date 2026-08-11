@@ -210,5 +210,3 @@ echo $day( 'Saturday, Sept. 19', $saturday );
 
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
-
-<?php echo $zigzag; ?>

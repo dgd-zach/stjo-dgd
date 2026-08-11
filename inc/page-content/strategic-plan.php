@@ -160,5 +160,3 @@ echo $priority(
 
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
-
-<?php echo $zigzag; ?>

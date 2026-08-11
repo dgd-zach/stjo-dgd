@@ -118,5 +118,3 @@ echo $group(
 
 <?php echo $sp( 'medium' ); ?></div>
 <!-- /wp:group -->
-
-<?php echo $zigzag; ?>

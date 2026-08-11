@@ -8,6 +8,9 @@
  * @package stjo
  */
 ?>
+<!-- Zigzag transition into the band. Lives here so every page gets it for free
+     — pages no longer carry a trailing separator of their own. -->
+<hr class="wp-block-separator has-alpha-channel-opacity alignfull" />
 <!-- wp:group {"align":"full","className":"stjo-generosity","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull stjo-generosity"><!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
     <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>

@@ -16,10 +16,6 @@
 <h2 class="wp-block-heading has-text-align-center">Option Video Title</h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
 <!-- wp:image {"sizeSlug":"large","align":"center","className":"is-style-rounded stjo-video"} -->
 <figure class="wp-block-image aligncenter size-large is-style-rounded stjo-video"><img src="<?php echo esc_url( stjo_asset( 'video-placer.png' ) ); ?>" alt=""/></figure>
 <!-- /wp:image -->

@@ -20,10 +20,6 @@
 <h2 class="wp-block-heading">Related Content Section</h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
 <!-- wp:query {"queryId":2,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"className":"stjo-related-query"} -->
 <div class="wp-block-query stjo-related-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":4}} -->
 <!-- wp:post-featured-image {"isLink":true,"height":"200px"} /-->

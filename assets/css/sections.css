@@ -531,7 +531,7 @@ hr.stjo-zigzag, .stjo-zigzag {
 	gap: var(--stjo--spacing--sm, 16px);
 	font-size: 21px;
 	line-height: 1.3;
-	font-weight: 700;
+	font-weight: 400; /* QA: unbold the questions (design: regular weight) */
 	color: var(--wp--preset--color--brand-dark, #0053a0);
 }
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question { cursor: pointer; }
@@ -872,4 +872,242 @@ hr.stjo-zigzag, .stjo-zigzag {
 		padding-left: calc(var(--stjo-tl-pad, 24px) + var(--stjo-tl-label-col, 240px) + var(--stjo-tl-col-gap, 56px));
 		max-width: 1520px !important;
 	}
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INTERNAL QA — Home Page edits
+   Asana: [St. Joe WP] Internal QA Edits > Home Page edits (1217509158696837)
+   Design: Figma SJIS-Homepage node 5136:2706
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* "3 card section" + "Your Generosity > Border missing when hovering over the
+   image cards". The yellow ring already existed for :focus-within only, so
+   keyboard users got it and mouse users did not. Same rule, both triggers. */
+.stjo-card.wp-block-cover:hover {
+	box-shadow: inset 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
+}
+
+/* "Your Generosity > Can you break the title into two lines?"
+   The heading is "Your Generosity <strong>Changes Everything</strong>";
+   in Figma (5136:2795) it is 148px tall, i.e. two lines. Breaking on the
+   <strong> keeps it two lines at any width without hard-coding a <br>, so it
+   holds for the pre-footer template part and the homepage copy alike. */
+.stjo-generosity h2 strong { display: block; }
+
+/* "Your Generosity > Background in the design fades dark blue/black to blue."
+   Figma variables on that band: color/blue/900 #003566 and color/blue/700
+   #0053a0 (the previous flat fill). */
+.stjo-generosity {
+	background: linear-gradient(180deg,
+		var(--wp--preset--color--blue-900, #003566) 0%,
+		var(--wp--preset--color--brand-dark, #0053a0) 100%);
+}
+
+/* "Your Impact > Can you bold the numbers?"
+   Caecilia ships an 85 Heavy face at weight 800 (fonts.css), so this picks up
+   a real cut rather than a synthesised bold. */
+.stjo-stat__figure { font-weight: 800; }
+
+/* "Your Impact > Tighten up the spacing between subheading below the numbers
+   and the copy" — e.g. "Free Books" and "were given to 1,300 adults...".
+   The stat headings inherit the 24px h3 margin; the design sits them ~8px
+   above their label. */
+.stjo-stats .stjo-stats__row h3 { margin-bottom: var(--stjo--spacing--xs, 8px); }
+
+/* "Your Impact > Can the divider line be longer?"
+   core's is-style-basic separator is a fixed 100px. In Figma the rule spans
+   1143 of a 1248 container; 1146px lines it up with the card and video bands
+   directly above. Scoped to the stats band so the global style is untouched. */
+.stjo-stats .wp-block-separator.is-style-basic {
+	width: min(1146px, 100%);
+	max-width: min(1146px, 100%);
+}
+
+/* Stats band on a phone: the cover photo is a wide landscape that is deep
+   blue at the top and cream at the bottom. Cropped to a ~500px-wide band it
+   keeps only the cream half, so the white heading, eyebrow and intro set for
+   the blue region become unreadable. Recolour them to the band's own dark
+   palette below the stacking breakpoint. Same effect as the
+   .stjo-text-dark-mobile utility, applied here so no content edit is needed.
+   Asana: Home Page edits > Mobile. */
+@media (max-width: 768px) {
+	.stjo-stats h2,
+	.stjo-stats .is-style-eyebrow,
+	.stjo-stats > .wp-block-cover__inner-container > .wp-block-group p {
+		color: var(--wp--preset--color--blue-900, #003566) !important;
+	}
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INTERNAL QA — sitewide edits (non-homepage)
+   Asana: [St. Joe WP] Internal QA Edits (1214592552381206)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* "Subsection modules > Dividing line should be the same width as the
+   container." Core caps a default separator at 100px via a 3-class rule;
+   match its specificity so the basic (thin) line spans its container
+   everywhere. (The stats-band rule above still pins that one instance
+   to the 1146 grid.) */
+.wp-block-separator.is-style-basic:not(.is-style-dots):not(.is-style-wide) {
+	width: 100%;
+	max-width: 100%;
+}
+
+/* "FAQ > Add divider line between question and answer — like in the design."
+   Native Details accordion: the open summary carries the rule. */
+.stjo-accordion .wp-block-details[open] > summary {
+	border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc);
+	padding-bottom: var(--stjo--spacing--sm, 16px);
+}
+/* Yoast FAQ accordion: the rule rides the answer panel so it appears/leaves
+   with the open state (the inner already gets padding-top when open). */
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-inner {
+	border-top: 1px solid var(--stjo--color--neutral-200, #ccc);
+}
+/* 16px of air between the question and the divider — only while open (the
+   closed bar keeps its tight height). The transition matches the panel's
+   250ms so the row grows with the answer instead of jumping. */
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question { transition: padding-bottom 250ms ease; }
+.wp-block-yoast-faq-block.is-style-accordion .schema-faq-section.is-open .schema-faq-question {
+	padding-bottom: var(--stjo--spacing--sm, 16px);
+}
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question { transition: none; }
+}
+/* No-JS (never enhanced): answers always show — draw the rule statically. */
+.wp-block-yoast-faq-block.is-style-accordion:not(.is-enhanced) .schema-faq-answer-wrap {
+	border-top: 1px solid var(--stjo--color--neutral-200, #ccc);
+	padding-top: var(--stjo--spacing--sm, 16px);
+}
+
+/* "Overall: tighten space between headings and section below." Patterns put
+   an explicit Spacer under their headings, which stacked on the heading's own
+   24px bottom margin (~48px total). When a Spacer directly follows, the
+   spacer is the gap — drop the heading margin to the xs step. */
+.wp-block-heading:has(+ .wp-block-spacer) {
+	margin-bottom: var(--stjo--spacing--xs, 8px);
+}
+
+/* "Subsection Modules > tighten the space between the Title and subhead."
+   The subhead reads as part of the title lockup (design: ~8px apart). */
+.wp-block-heading:has(+ p.stjo-subhead) {
+	margin-bottom: var(--stjo--spacing--xs, 8px);
+}
+
+/* "Content Block updates > hero is missing the branded lineage at the bottom"
+   + "Pattern Library > Heros > missing line below": the design closes every
+   page hero with the zigzag ribbon. Drawn as an ::after on the cover (which
+   is position:relative from core), so every existing page picks it up with
+   no content edit. The ribbon hangs BELOW the hero (top:100%), not inside it,
+   so it never crowds the bottom-aligned title; the margin reserves its strip
+   (!important: the root-level margin reset in main.css §6 zeroes it otherwise). */
+.stjo-page-hero {
+	margin-bottom: 24px !important;
+	overflow: visible; /* core clips the cover, which would cut the hanging ribbon */
+}
+.stjo-page-hero::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%;
+	height: 24px;
+	background: url('../images/divider-zigzag.png') repeat-x center / auto 24px;
+	pointer-events: none;
+	z-index: 1;
+}
+
+/* "Content blocks hold their width": a cover-card row with fewer than three
+   cards must keep the 3-wide card size, not stretch to fill — and a partial
+   row centers under the heading. A wrapping flex row with a fixed 1/3 basis
+   does both (a grid would keep its empty third track and pin two cards left).
+   !importants beat core's flex-wrap:nowrap!important and the theme's
+   grow-to-fill column default. Scoped to the cards band so other column
+   layouts keep native behavior. */
+.stjo-cards-band .wp-block-columns {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	justify-content: center;
+	gap: var(--stjo--spacing--md, 24px);
+}
+.stjo-cards-band .wp-block-columns > .wp-block-column {
+	flex: 0 0 calc((100% - 2 * var(--stjo--spacing--md, 24px)) / 3) !important;
+	margin: 0 !important;
+	width: auto !important;
+}
+@media (max-width: 768px) {
+	.stjo-cards-band .wp-block-columns > .wp-block-column { flex-basis: 100% !important; }
+}
+
+/* "Min height: can the 3-column cover cards be a little shorter?" The
+   patterns (and existing page content) carry an inline min-height:400px, so
+   !important is the only way a stylesheet can retune them all. */
+.stjo-card.wp-block-cover { min-height: 340px !important; }
+
+/* "Lightbox Row two > missing hover effect": the image lightbox cards only
+   ringed on keyboard focus; give the mouse the same feedback (the caret slide
+   and image zoom already ride :hover in main.css). */
+.stjo-lightbox-card { transition: box-shadow .2s ease; }
+.stjo-lightbox-card:hover {
+	box-shadow: 0 0 0 3px var(--wp--preset--color--brand-dark, #0053a0);
+}
+
+/* "Blocks > Can you create a block with only the quote on it?" — Quote Band
+   pattern (inc/patterns/quote-band.php): centered heading-font quote on the
+   cream band, no rules, no attribution required. */
+/* Band padding token: the theme owns the inline padding of colored groups
+   instead of core's em-based default (1.25em 2.375em; :where()-wrapped, so
+   this wins with no specificity fight). 38px = core's 2.375em at the 16px
+   base, so nothing moves — but now there's ONE value to retune band gutters
+   site-wide, it no longer scales with a band's font size, and the
+   wide-in-wide bleed below reads the same property instead of mirroring a
+   magic number. The 16px step-down replaces main.css's old mobile trim.
+   Vertical padding stays core's 1.25em (patterns carry their own spacers). */
+.wp-block-group.has-background {
+	--stjo-group-pad-x: 38px;
+	padding-inline: var(--stjo-group-pad-x);
+}
+@media (max-width: 768px) {
+	.wp-block-group.has-background { --stjo-group-pad-x: var(--stjo--spacing--sm, 16px); }
+}
+
+/* Wide-in-wide: an alignwide block directly inside an alignwide group spans
+   the PARENT's full width, so their backgrounds meet edge to edge. The
+   parent-scoped hop matters: --stjo-parent-pad-x exists only when the direct
+   parent is a padded group (an unpadded parent falls back to 0 and the child
+   simply fills the parent's content box). Reading --stjo-group-pad-x straight
+   off the child would misfire when the child has a background but the parent
+   doesn't. */
+.wp-block-group.has-background > .alignwide { --stjo-parent-pad-x: var(--stjo-group-pad-x, 38px); }
+.wp-block-group.alignwide > .alignwide {
+	max-width: none;
+	/* !important: core's constrained layout centers children with
+	   margin-inline auto !important, which would swallow the bleed. */
+	margin-inline: calc(-1 * var(--stjo-parent-pad-x, 0px)) !important;
+}
+
+.stjo-quote-band { text-align: center; }
+.stjo-quote-band .wp-block-quote {
+	border: 0;
+	margin: 0 auto;
+	padding: 0;
+	max-width: 900px;
+}
+.stjo-quote-band .wp-block-quote p {
+	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
+	font-size: var(--wp--preset--font-size--xl, 48px);
+	line-height: 1.3;
+	font-weight: 700;
+	color: var(--wp--preset--color--primary, #1a6db8);
+	margin-bottom: 0;
+}
+.stjo-quote-band .wp-block-quote cite {
+	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
+	font-size: var(--wp--preset--font-size--base, 16px);
+	color: var(--wp--preset--color--dark, #333);
+}
+@media (max-width: 768px) {
+	.stjo-quote-band .wp-block-quote p { font-size: var(--wp--preset--font-size--large, 32px); }
 }

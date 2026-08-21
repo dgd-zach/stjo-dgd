@@ -20,10 +20,6 @@
 <h2 class="wp-block-heading">Related Content Section</h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
 <!-- wp:columns {"className":"stjo-related-cards"} -->
 <div class="wp-block-columns stjo-related-cards"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"className":"stjo-info-card"} -->

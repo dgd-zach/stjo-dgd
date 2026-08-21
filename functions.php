@@ -152,6 +152,7 @@ require_once get_template_directory() . '/inc/hero-slide-controls.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 require_once get_template_directory() . '/inc/video-facade.php';
+require_once get_template_directory() . '/inc/share-bar.php';
 require_once get_template_directory() . '/inc/blog.php';
 require_once get_template_directory() . '/inc/chatbot.php';
 

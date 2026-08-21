@@ -19,6 +19,12 @@ $stjo_lb_label   = '' !== $stjo_lb_label ? $stjo_lb_label : __( 'Explore', 'stjo
 $stjo_lb_is_text = false !== strpos( $attributes['className'] ?? '', 'is-style-text' );
 $stjo_lb_media   = ! empty( $attributes['mediaUrl'] ) ? $attributes['mediaUrl'] : '';
 $stjo_lb_link    = trim( $attributes['linkUrl'] ?? '' );
+// A bare "#" is a placeholder, not a destination (the pattern demos shipped
+// with it and pages built from them carry it) — treat it as no link so the
+// lightbox CTA hides instead of rendering a dead button. QA: Youth Programs.
+if ( '#' === $stjo_lb_link ) {
+	$stjo_lb_link = '';
+}
 $stjo_lb_new_tab = ! empty( $attributes['linkNewTab'] );
 
 // SSR previews come through the REST block renderer; that plus wp-admin

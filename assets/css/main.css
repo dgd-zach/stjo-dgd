@@ -1122,9 +1122,16 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.primary-menu > li:last-child { border-bottom: 0; }
 	.primary-menu > li > .menu-item__link {
 		display: block;
+		/* QA (Navigation): the section triggers are <button>s, which size to
+		   their text even at display:block — unlike the childless <a>s. Fill
+		   the row so the whole strip is tappable, not just the label. */
+		width: 100%;
+		text-align: left;
 		padding: var(--stjo--spacing--sm) var(--stjo--spacing--md);
 		border-bottom: 0;
 		white-space: normal;
+		width: 100%;
+    text-align: left;
 	}
 	.primary-menu > li.is-current > .menu-item__link,
 	.primary-menu > li > .menu-item__link[aria-expanded="true"] { color: var(--wp--preset--color--brand-dark, #0053a0); }
@@ -1172,15 +1179,15 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.mega-panel__columns { flex-direction: column; gap: var(--stjo--spacing--md); }
 	/* Promo card keeps its desktop look on the panel's right side. */
 	.mega-panel__promo { flex: 0 0 min(45%, 420px); }
+
+	.mega-panel__group { max-width: unset}
 }
 @media (max-width: 768px) {
-	/* Standardize the mobile band gutter to 16px. Core adds ~38px of inline
-	   padding to any group with a background (:where(.wp-block-group.has-background),
-	   2.375em), which is far too much on a phone; trim the horizontal to the
-	   16px baseline (keep the vertical). The band's 16px padding IS the gutter,
-	   so its children fill it rather than stacking a second min() gutter (which
-	   pushed content in to ~32px). */
-	.wp-block-group.has-background { padding-left: var(--stjo--spacing--sm, 16px); padding-right: var(--stjo--spacing--sm, 16px); }
+	/* Colored-band inline padding is owned by the --stjo-group-pad-x token in
+	   sections.css (38px desktop, 16px under 768 — the mobile trim that used
+	   to live here as a padding override). The band's 16px mobile padding IS
+	   the gutter, so its children fill it rather than stacking a second min()
+	   gutter (which pushed content in to ~32px): */
 	.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)),
 	.wp-block-group.has-background.alignfull > .alignwide,
 	.wp-block-group.has-background.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)) { max-width: 100%; }

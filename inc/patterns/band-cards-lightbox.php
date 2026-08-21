@@ -23,17 +23,13 @@ $stjo_lb_demo_card    = 'Daily language classes ensure the sacred words of their
 <p class="has-text-align-center">Subhead</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
 <!-- wp:columns {"className":"stjo-lightbox-band__sublinks"} -->
 <div class="wp-block-columns stjo-lightbox-band__sublinks"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"className":"is-style-text","title":"Sublink","content":"<?php echo $stjo_lb_demo_sublink; ?>","linkText":"Learn More","linkUrl":"#"} /--></div>
+<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"className":"is-style-text","title":"Sublink","content":"<?php echo $stjo_lb_demo_sublink; ?>"} /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"className":"is-style-text","title":"Sublink","content":"<?php echo $stjo_lb_demo_sublink; ?>","linkText":"Learn More","linkUrl":"#","backgroundColor":"blue-900","textColor":"white"} /--></div>
+<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"className":"is-style-text","title":"Sublink","content":"<?php echo $stjo_lb_demo_sublink; ?>","backgroundColor":"blue-900","textColor":"white"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
@@ -43,15 +39,15 @@ $stjo_lb_demo_card    = 'Daily language classes ensure the sacred words of their
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","linkText":"Learn More","linkUrl":"#","mediaUrl":"<?php echo esc_url( stjo_asset( 'card.png' ) ); ?>"} /--></div>
+<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","mediaUrl":"<?php echo esc_url( stjo_asset( 'card.png' ) ); ?>"} /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","linkText":"Learn More","linkUrl":"#","mediaUrl":"<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>"} /--></div>
+<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","mediaUrl":"<?php echo esc_url( stjo_asset( 'card-2.png' ) ); ?>"} /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","linkText":"Learn More","linkUrl":"#","mediaUrl":"<?php echo esc_url( stjo_asset( 'card-3.png' ) ); ?>"} /--></div>
+<div class="wp-block-column"><!-- wp:stjo/lightbox-card {"title":"Lightbox Link","content":"<?php echo $stjo_lb_demo_card; ?>","mediaUrl":"<?php echo esc_url( stjo_asset( 'card-3.png' ) ); ?>"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 

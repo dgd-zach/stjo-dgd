@@ -477,6 +477,16 @@
 		height: 220px;
 	}
 
+	/* QA (History Page > mobile): on a phone the text column usually runs
+	 * taller than the image's natural height, leaving a white gap under the
+	 * photo. Let the image cover its stretched column instead — the focus
+	 * point still steers the crop. Desktop keeps the never-crop behavior. */
+	.stjo-timeline-card--vertical .stjo-timeline-card__media { display: flex; }
+	.stjo-timeline-card--vertical .stjo-timeline-card__media img {
+		height: 100%;
+		object-fit: cover;
+	}
+
 	.stjo-timeline-card__body {
 		padding: var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px) var(--stjo--spacing--md, 24px);
 	}

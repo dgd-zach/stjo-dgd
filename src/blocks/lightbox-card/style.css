@@ -204,6 +204,10 @@ span.stjo-lightbox-card__link { cursor: default; }
 .stjo-lightbox__cta:hover {
 	background: var(--wp--preset--color--blue-900, #003566);
 	border-color: var(--wp--preset--color--blue-900, #003566);
+	/* QA (LightBox Button Hover): the theme's global a:hover (0,1,1) outranks
+	   the class's resting color (0,1,0), turning the label dark blue on the
+	   navy hover fill — near-invisible text. Re-pin it. */
+	color: var(--wp--preset--color--white, #fff);
 }
 
 .stjo-lightbox__dismiss {

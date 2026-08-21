@@ -18,9 +18,5 @@
 
 <!-- wp:heading {"textAlign":"center","level":2} -->
 <h2 class="wp-block-heading has-text-align-center">Frequently Asked Questions</h2>
-<!-- /wp:heading -->
-
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer --></div>
+<!-- /wp:heading --></div>
 <!-- /wp:group -->

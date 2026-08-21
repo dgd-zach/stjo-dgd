@@ -14,10 +14,6 @@
 <h2 class="wp-block-heading has-text-align-center has-light-color has-text-color">Here's What Happens <strong>When You Give</strong></h2>
 <!-- /wp:heading -->
 
-<!-- wp:spacer {"height":"var:preset|spacing|medium"} -->
-<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
 <!-- wp:columns {"className":"stjo-stats__row"} -->
 <div class="wp-block-columns stjo-stats__row"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","className":"stjo-stat__photo"} -->

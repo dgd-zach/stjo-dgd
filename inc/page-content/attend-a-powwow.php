@@ -131,7 +131,7 @@ $list = function ( $items ) {
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons is-layout-flex is-content-justification-center"><!-- wp:button {"className":"is-style-fill"} -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-fill"} -->
 <div class="wp-block-button is-style-fill"><a class="wp-block-button__link wp-element-button" href="https://give.stjo.org/site/SPageNavigator/wp_powwow_registration.html">Register to Attend</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
@@ -189,7 +189,7 @@ echo $day( 'Saturday, Sept. 19', $saturday );
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Learn More about Powwow &amp; Dance"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Learn More about Powwow & Dance"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-light-background-color has-background"><?php echo $sp( 'large' ); ?>
 
 <!-- wp:media-text {"mediaPosition":"right","mediaType":"image","className":"is-style-rounded"} -->

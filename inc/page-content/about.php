@@ -8,7 +8,17 @@
  * intro, FAQ, Our Mission + sub-page cards, Our Organization cards, ways to
  * support. Bands alternate white / light down the page.
  *
- * Copy is verbatim from stjo.org/about/ and its child pages. The header,
+ * Copy is verbatim from stjo.org/about/ and its child pages, with two card
+ * blurbs deliberately reselected: stjo.org states 20 homes on /about/faq/ but 21
+ * on /native-american-children/ and /programs/, and 68 cents per dollar on
+ * /about/faq/ but 66% on /about/faq/financial-report/. Both pairs are the
+ * client's own and both were verbatim here, but the build had them one screen
+ * apart. The FAQ answers are untouched; the cards now use sentences from the
+ * same sources that carry no competing figure. Flag both with the client.
+ * Also unresolved for the client: Jennifer Renner-Meyer is CEO on
+ * /about/board-of-directors/ and Chief Operating Officer in the strategic plan
+ * quote on /about/. Both are carried verbatim on their respective pages.
+ * The header,
  * breadcrumbs, generosity pre-footer, and footer are template parts and are
  * not part of this content.
  *
@@ -125,7 +135,7 @@ $faq_items = array(
 	),
 	array(
 		'What percentage of my donation goes towards the children&#8217;s needs?',
-		'Of each dollar raised, 68 cents goes to the children in our care and for future planned program growth. Our annual financial report is available online.',
+		'Of each dollar raised, 68 cents goes to the children in our care and for future planned program growth. Our <a href="/about/accountability-reports/">annual financial report</a> is available online.',
 	),
 );
 ?>
@@ -229,7 +239,7 @@ echo $cover_card(
 echo $cover_card(
 	'card.png',
 	'About our Children',
-	'Students are not required to be Catholic to attend St. Joseph&#8217;s, though over half are. Native American students fill our school&#8217;s 21 homes.',
+	'Students are not required to be Catholic to attend St. Joseph&#8217;s, though over half are. To be admitted, children must be of Native American heritage, and be in grades one through 12.',
 	'/about/our-children/',
 	'Our Children'
 );
@@ -306,7 +316,7 @@ echo $card(
 	'card-6.png',
 	'A student smiling on a playground swing',
 	'Accountability &amp; Reports',
-	'For every dollar raised, 66% goes directly to the children attending St. Joseph&#8217;s Indian School, their families living in reservation communities, and toward cultural and faith development.',
+	'Thanks to the generosity of many, admission and all services to Native American children and families remain free-of-charge.',
 	'/about/accountability-reports/',
 	'View Our Reports'
 );

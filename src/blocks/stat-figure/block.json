@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/stat-figure",
+	"title": "Stat Figure",
+	"category": "text",
+	"icon": "chart-bar",
+	"description": "A large impact number that counts up when it scrolls into view. Symbols and words around the number are kept while counting, and decimals count in the places shown: $275,000, 98.6%, $1.2M, 1,300+, \"12,000 hours\".",
+	"keywords": [
+		"number",
+		"counter",
+		"count up",
+		"stat",
+		"impact",
+		"figure",
+		"percent",
+		"currency"
+	],
+	"attributes": {
+		"value": {
+			"type": "string",
+			"default": ""
+		},
+		"duration": {
+			"type": "number",
+			"default": 4000
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "center"
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"color": {
+			"text": true,
+			"background": false,
+			"link": false
+		},
+		"spacing": {
+			"margin": true
+		}
+	},
+	"textdomain": "stjo",
+	"editorScript": "stjo-stat-figure-editor",
+	"render": "file:./render.php"
+}

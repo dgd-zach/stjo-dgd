@@ -1547,3 +1547,101 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 	margin-inline: 2px;
 	color: var(--wp--preset--color--primary, #1a6db8);
 }
+
+/* ── Hero slide framing (Slide framing / Slide scrim sidebar panels) ───────
+   Rendered as custom properties by inc/hero-slide-controls.php.
+
+   Zoom scales the background image about its own focal point, so zooming in
+   does not slide the subject out of frame — transform-origin follows the same
+   object-position the focal point sets. The cover already clips, so the
+   overflow is hidden.
+
+   The focal point is mirrored into --stjo-focus by the PHP filter, so the
+   zoom origin and the crop agree. On phones --stjo-focus-sm takes over when
+   a separate phone focal point is set.
+   ──────────────────────────────────────────────────────────────────────── */
+.wp-block-cover.has-slide-zoom > .wp-block-cover__image-background,
+.wp-block-cover.has-slide-zoom > video.wp-block-cover__video-background {
+	transform: scale(var(--stjo-slide-zoom, 1));
+	/* --stjo-focus mirrors the slide's own focal point (set in PHP, because
+	   core writes it as an inline object-position that CSS cannot read). */
+	transform-origin: var(--stjo-focus, center center);
+	will-change: transform;
+}
+
+/* ── Subject anchoring on desktop ──────────────────────────────────────────
+   Puts the subject at a chosen point across the band — "the boy's head in the
+   centre of the empty left column" — which the focal point cannot do here.
+
+   Every hero photo is narrower than the band (2.37:1 to 2.78:1 against 2.9:1
+   at 1440px and wider above), so object-fit: cover fits them by WIDTH. That
+   leaves zero horizontal overflow, and object-position can only pan into
+   overflow, so the focal-point dot does nothing sideways on desktop no matter
+   where it is dragged. Zoom creates the slack; the shift spends it.
+
+   PHP solves both numbers (see stjo_hero_slide_framing) and passes them down.
+   translateX is a percentage of the element's own width, which is the band's
+   width, so the shift is in the same units the solver works in.
+
+   object-position X is forced back to the centre because the solver assumes a
+   symmetric crop. It still matters below ~1170px, where the band finally gets
+   narrow enough that the photo is fitted by height instead; centring keeps the
+   error there second-order rather than letting an inline 91% throw the subject
+   right across the band. The vertical axis is left to the focal point, which
+   works normally — that is the axis with the overflow.
+   ──────────────────────────────────────────────────────────────────────── */
+/* ── Sideways nudge on desktop ─────────────────────────────────────────────
+   Moving a subject sideways cannot be done with the focal point here: every
+   hero photo is narrower than the band (2.37:1 to 2.78:1 against 2.9:1 at
+   1440px and wider above), so object-fit: cover fits them by width, leaving no
+   horizontal overflow for object-position to pan into. A transform is the only
+   lever, and --stjo-slide-x is it — translateX is a percentage of the element's
+   own width, which is the band's width, so the slider's number is literally
+   how far the photo moves.
+
+   object-position X is forced back to centre so the slider is the only thing
+   moving the photo horizontally. Without that, the focal point would still pan
+   below ~1170px (where the band finally gets narrow enough that the photo is
+   fitted by height instead) and the two would compound. The vertical axis is
+   left to the focal point, which works normally — that is the axis with the
+   overflow.
+
+   Moving the photo necessarily uncovers a strip of the band, since there is no
+   spare image to slide into view. It opens on the side the photo moved away
+   from, which is the side the text sits on, which is where the scrim is
+   anchored — so the scrim hides it. That only holds if what shows through is
+   the scrim's own colour: covers are transparent by default, so the strip was
+   showing the white page behind, which reads as a grey band under a dark
+   scrim. Painting the scrim's base colour onto the cover makes the two agree.
+   ──────────────────────────────────────────────────────────────────────── */
+.wp-block-cover.has-slide-shift.has-auto-scrim--light { background-color: #fff; }
+.wp-block-cover.has-slide-shift.has-auto-scrim--dark { background-color: #001b33; }
+
+@media (min-width: 783px) {
+	.wp-block-cover.has-slide-shift > .wp-block-cover__image-background,
+	.wp-block-cover.has-slide-shift > video.wp-block-cover__video-background {
+		/* !important: core writes object-position inline, and an inline style
+		   beats a stylesheet rule at any specificity. */
+		object-position: 50% var(--stjo-focus-y, 50%) !important;
+		transform: translateX(var(--stjo-slide-x, 0)) scale(var(--stjo-slide-zoom, 1));
+		transform-origin: 50% var(--stjo-focus-y, 50%);
+		will-change: transform;
+	}
+}
+
+@media (max-width: 782px) {
+	/* Phone zoom overrides the desktop value when one was set. Shifted slides
+	   are included: the nudge lines a subject up with a side column, and the
+	   phone crop has no side column, so phones fall back to focal point + zoom. */
+	.wp-block-cover.has-slide-zoom-sm > .wp-block-cover__image-background,
+	.wp-block-cover.has-slide-zoom-sm > video.wp-block-cover__video-background {
+		transform: scale(var(--stjo-slide-zoom-sm, var(--stjo-slide-zoom, 1)));
+		/* Phone focal point wins here when one is set; otherwise the slide's
+		   own focal point still anchors the zoom. */
+		transform-origin: var(--stjo-focus-sm, var(--stjo-focus, center center));
+	}
+}
+
+/* Scrim turned off for this slide: carousel.js skips injecting the element,
+   but kill any editor-set overlay dim too so "off" means off. */
+.wp-block-cover.no-auto-scrim > .stjo-slide-scrim { display: none; }

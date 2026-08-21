@@ -17,7 +17,7 @@
 
 /* Card → Property 1=Variant2 (home) */
 .stjo-card.wp-block-cover { transition: box-shadow .2s ease; }
-.stjo-card.wp-block-cover:hover { box-shadow: inset 0 0 0 4px rgb(255, 213, 32) !important; }
+.stjo-card.wp-block-cover:hover { box-shadow: 0 0 0 4px rgb(255, 213, 32) !important; }
 
 /* Filters → Property 1=Hover (student-stories) */
 .stjo-pills a, .stjo-pill { transition: background-color .2s ease, border-color .2s ease; }

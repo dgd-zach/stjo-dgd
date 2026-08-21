@@ -82,3 +82,31 @@
 	.h1, .wp-block-heading.h1 { font-size: 34px; }
 	.h2, .wp-block-heading.h2 { font-size: 26px; }
 }
+
+
+/* ── Mobile text colour ───────────────────────────────────────────────────
+   Swap text colour below a breakpoint. For bands whose background art
+   changes character as it narrows: a wide cover photo that is dark blue at
+   the top and cream at the bottom crops to the cream half on a phone, so
+   white text set for the dark region disappears.
+
+   Apply the class to the band (or to a single block) in the editor. Override
+   the colour per instance with --stjo-mobile-text.
+
+     <div class="stjo-text-dark-mobile">   white copy -> blue-900 under 768px
+     <div class="stjo-text-light-mobile">  dark copy  -> white    under 768px
+
+   Buttons keep their own palette, so they are excluded. !important is needed
+   to beat the block editor's own has-*-color classes.
+   ──────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+	.stjo-text-dark-mobile,
+	.stjo-text-dark-mobile :not(.wp-element-button):not(.wp-block-button__link) {
+		color: var(--stjo-mobile-text, var(--wp--preset--color--blue-900, #003566)) !important;
+	}
+
+	.stjo-text-light-mobile,
+	.stjo-text-light-mobile :not(.wp-element-button):not(.wp-block-button__link) {
+		color: var(--stjo-mobile-text, var(--wp--preset--color--white, #fff)) !important;
+	}
+}

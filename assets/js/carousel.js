@@ -44,6 +44,12 @@
 	// inserted after the image and before the editor's overlay span — cover
 	// layers are all z-index auto in this WP, so DOM order IS the stacking.
 	function applyScrim(slide) {
+		// Per-slide opt-out. The Slide scrim panel sets this (rendered as a
+		// class by inc/hero-slide-controls.php) for slides whose photo already
+		// carries the text, or where the editor is handling the overlay.
+		if (slide.classList.contains('no-auto-scrim')) {
+			return;
+		}
 		var inner = slide.querySelector('.wp-block-cover__inner-container');
 		var text = inner && inner.querySelector('h1, h2, h3, h4, h5, h6, p');
 		if (!text) {

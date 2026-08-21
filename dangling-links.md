@@ -7,7 +7,7 @@ do not hand-edit. Scans every published page on the local build.
 - **anchor** — `#target` with no matching `id` on that page
 - **broken** — internal URL that does not return 200
 
-_Last run: 2026-08-11 12:06_
+_Last run: 2026-08-13 17:21_
 
 ## Needs attention
 

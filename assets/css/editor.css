@@ -37,3 +37,50 @@
    with STJO_VERSION, so defining it here keeps the class live after edits. */
 .editor-styles-wrapper .stjo-no-marg { margin-bottom: 0 !important; }
 
+
+/* Stat photos / the "Bordered" image style in the canvas.
+   sections.css sizes the <figure> to a 200px square (aspect-ratio: 1) and
+   absolutely positions the <img> inside it. In the editor the image block
+   carries inline width/height and, when selected, a ResizableBox wrapper, and
+   those beat the stylesheet — the figure grows to its natural height, so the
+   circular crop stretches into an oval and the scalloped ring lands off the
+   photo. Re-assert the square box and neutralise the wrapper. */
+.editor-styles-wrapper .stjo-stat__photo,
+.editor-styles-wrapper .wp-block-image.is-style-bordered {
+	position: relative !important;
+	width: min(200px, 100%) !important;
+	height: auto !important;
+	aspect-ratio: 1 !important;
+	margin-inline: auto !important;
+}
+/* Any wrapper the editor injects between figure and img (ResizableBox) is
+   flattened to the figure box so `inset: 0` on the img resolves correctly. */
+.editor-styles-wrapper .stjo-stat__photo > :not(figcaption),
+.editor-styles-wrapper .wp-block-image.is-style-bordered > :not(figcaption) {
+	position: absolute !important;
+	inset: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+}
+.editor-styles-wrapper .stjo-stat__photo img,
+.editor-styles-wrapper .wp-block-image.is-style-bordered img {
+	position: absolute !important;
+	inset: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+/* Utility parity: mirror the mobile text-colour utilities into the canvas so
+   the editor preview matches the frontend at narrow canvas widths. */
+@media (max-width: 768px) {
+	.editor-styles-wrapper .stjo-text-dark-mobile,
+	.editor-styles-wrapper .stjo-text-dark-mobile :not(.wp-element-button):not(.wp-block-button__link) {
+		color: var(--stjo-mobile-text, var(--wp--preset--color--blue-900, #003566)) !important;
+	}
+	.editor-styles-wrapper .stjo-text-light-mobile,
+	.editor-styles-wrapper .stjo-text-light-mobile :not(.wp-element-button):not(.wp-block-button__link) {
+		color: var(--stjo-mobile-text, var(--wp--preset--color--white, #fff)) !important;
+	}
+}

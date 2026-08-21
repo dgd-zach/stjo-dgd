@@ -12,58 +12,102 @@
 		return;
 	}
 
-	var DURATION = 1400;
+	// Default when a figure carries no data-count-duration (hand-written
+	// .stjo-stat__figure paragraphs). The Stat Figure block sets its own.
+	var DEFAULT_DURATION = 4000;
+
 	var els = document.querySelectorAll('.stjo-stat__figure');
 	if (!els.length) {
 		return;
 	}
 
-	// cubic-bezier(0.16, 1, 0.3, 1): a strong ease-out so the number decelerates
-	// noticeably as it nears the final value. Newton-Raphson to solve x → t.
-	function cubicBezier(x1, y1, x2, y2) {
-		function ax(a, b) { return 1 - 3 * b + 3 * a; }
-		function bx(a, b) { return 3 * b - 6 * a; }
-		function cx(a) { return 3 * a; }
-		function calc(t, a, b) { return ((ax(a, b) * t + bx(a, b)) * t + cx(a)) * t; }
-		function slope(t, a, b) { return 3 * ax(a, b) * t * t + 2 * bx(a, b) * t + cx(a); }
-		return function (x) {
-			if (x <= 0) { return 0; }
-			if (x >= 1) { return 1; }
-			var t = x;
-			for (var i = 0; i < 5; i++) {
-				var s = slope(t, x1, x2);
-				if (0 === s) { break; }
-				t -= (calc(t, x1, x2) - x) / s;
-			}
-			return calc(t, y1, y2);
-		};
-	}
-	var ease = cubicBezier(.06,.01,0,1);
-
+	// Split a figure into what comes before the number, the number, and what
+	// comes after it. Anything non-numeric on either side is carried through
+	// untouched, so $275,000, £500, 98%, 1,300+, ~200 and "12,000 hours" all
+	// work. The number itself may carry comma grouping and a decimal part.
+	//
+	// A figure with two numbers in it (24/7) deliberately fails to parse and is
+	// left alone — there is nothing sensible to count to.
 	function parseFigure(text) {
-		var m = text.match(/^([^0-9]*)([0-9][0-9,]*)([^0-9]*)$/);
+		var m = text.match(/^(\D*?)(\d[\d,]*(?:\.\d+)?)(\D*)$/);
 		if (!m) {
 			return null;
 		}
+		var digits   = m[2];
+		var dot      = digits.indexOf('.');
+		var decimals = -1 === dot ? 0 : digits.length - dot - 1;
+		var scale    = Math.pow(10, decimals);
+
 		return {
 			prefix: m[1],
-			target: parseInt(m[2].replace(/,/g, ''), 10),
-			grouped: m[2].indexOf(',') !== -1,
-			suffix: m[3]
+			suffix: m[3],
+			// Count in the smallest unit the figure actually shows — whole
+			// numbers for 22,610, tenths for 1.2, cents for $9.99 — so the
+			// one-by-one tail steps through values the reader can see change.
+			units: Math.round(parseFloat(digits.replace(/,/g, '')) * scale),
+			scale: scale,
+			decimals: decimals,
+			grouped: -1 !== digits.indexOf(',')
 		};
 	}
 
-	function animate(el, spec) {
+	// Rebuild the figure from a count in smallest units, keeping the original
+	// grouping and decimal places.
+	function format(spec, units) {
+		var n = units / spec.scale;
+		var body = spec.grouped
+			? n.toLocaleString('en-US', {
+				minimumFractionDigits: spec.decimals,
+				maximumFractionDigits: spec.decimals
+			})
+			: n.toFixed(spec.decimals);
+		return spec.prefix + body + spec.suffix;
+	}
+
+	// Per-block duration, set by the Stat Figure block's sidebar control.
+	function readDuration(el) {
+		var raw = parseInt(el.getAttribute('data-count-duration'), 10);
+		return (raw >= 500 && raw <= 20000) ? raw : DEFAULT_DURATION;
+	}
+
+	function animate(el, spec, duration) {
+		var lastText  = null;
 		var startTime = null;
+
+		// One continuous law, no phases: the distance still to travel halves
+		// every `halfLife` ms. Closing a single unit therefore takes
+		// halfLife / (remaining * ln2) — so each successive number takes a
+		// constant ratio longer than the one before it. That constant ratio is
+		// what reads as an exponential slowdown, and because it is a ratio the
+		// deceleration is smooth all the way in rather than switching gear.
+		//
+		// halfLife comes from the figure's own size, so the behaviour is
+		// proportional rather than tuned to particular values: 3,707 and
+		// 275,000 both run through log2(target) halvings, show the same gap
+		// ratios at the same points, and land at the same moment.
+		var halvings = Math.log(spec.units) / Math.LN2;
+		var halfLife = duration / halvings;
+
+		function paint(units) {
+			var text = format(spec, units);
+			if (text !== lastText) {
+				el.textContent = text;
+				lastText = text;
+			}
+		}
+
 		function frame(now) {
 			if (startTime === null) {
 				startTime = now;
 			}
-			var progress = Math.min((now - startTime) / DURATION, 1);
-			var eased = ease(progress);
-			var value = Math.round(eased * spec.target);
-			el.textContent = spec.prefix + (spec.grouped ? value.toLocaleString('en-US') : String(value)) + spec.suffix;
-			if (progress < 1) {
+			var remaining = spec.units * Math.pow(2, -(now - startTime) / halfLife);
+			// Flooring `remaining` means the shown value rises by exactly one
+			// each time it crosses an integer, so the last stretch is one by one
+			// with nothing skipped. Early on it crosses many per frame, which is
+			// fine — it is unreadable at that speed anyway.
+			var value = remaining < 1 ? spec.units : spec.units - Math.floor(remaining);
+			paint(value);
+			if (value < spec.units) {
 				window.requestAnimationFrame(frame);
 			}
 		}
@@ -77,8 +121,8 @@
 			}
 			observer.unobserve(entry.target);
 			var spec = parseFigure(entry.target.textContent.trim());
-			if (spec && spec.target > 0) {
-				animate(entry.target, spec);
+			if (spec && spec.units > 1) {
+				animate(entry.target, spec, readDuration(entry.target));
 			}
 		});
 	}, { threshold: 0.5 });

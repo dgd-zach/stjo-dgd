@@ -153,7 +153,7 @@ echo $priority(
 <?php echo $sp( 'medium' ); ?>
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons is-layout-flex is-content-justification-center"><!-- wp:button {"className":"is-style-arrow-link"} -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link"} -->
 <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="/about/board-of-directors/">Meet the Board of Directors</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->

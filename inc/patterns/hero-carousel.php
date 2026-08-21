@@ -12,14 +12,25 @@
  * - carousel.js adds a guaranteed-contrast scrim to every slide (light scrim
  *   under dark text, dark under light), anchored to the text's column side,
  *   flat on phones. Editor-set overlays stack on top as art direction.
- * - Set each slide's FOCAL POINT on the subject — object-position keeps it
- *   in frame at every viewport. Slides without one default to 50% 30% on
- *   phones; focus-sm-{top,bottom,left,right,center,top-left,...} classes on
- *   a Cover force a phone-only position when the desktop focal point crops
- *   badly, and focus-sm-{X}-{Y} (e.g. focus-sm-23-62) sets an exact
- *   "X% Y%" position (carousel.js parses it).
- * - Phone scrim strength is tunable per slide: add scrim-sm-{0..100 in tens}
- *   to the Cover's Additional CSS class (scrim-sm-0 = no phone scrim).
+ * - Set each slide's FOCAL POINT on the subject. Vertically this is all you
+ *   need: object-position keeps that point in frame at every viewport.
+ *   Slides without one default to 50% 30% on phones;
+ *   focus-sm-{top,bottom,left,right,center,top-left,...} classes on a Cover
+ *   force a phone-only position when the desktop focal point crops badly,
+ *   and focus-sm-{X}-{Y} (e.g. focus-sm-23-62) sets an exact "X% Y%"
+ *   position (carousel.js parses it).
+ * - HORIZONTALLY the focal point does nothing on desktop, and no setting will
+ *   change that: every hero photo is narrower than the band (2.37:1 to 2.78:1
+ *   against 2.9:1 at 1440px and wider above), so object-fit: cover fits them
+ *   by width, leaving no horizontal overflow for object-position to pan into.
+ *   Use "Move image sideways" in the Slide framing panel instead. The number
+ *   is literally how far the photo moves, as a percent of the band's width;
+ *   negative is left. Slide 1 sits right at -11%, which centres the boy in the
+ *   empty column.
+ * - Moving the photo leaves that much of the band bare on the far side, which
+ *   is the side the text and scrim sit on, so the scrim hides it (the cover is
+ *   painted the scrim's own colour so the two agree). Add Image zoom only if a
+ *   strip still shows. See inc/hero-slide-controls.php.
  *
  * @package stjo
  */

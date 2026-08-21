@@ -10,7 +10,16 @@
  *
  * The six cards match the six Lakota Culture children in the primary nav.
  * Oceti Sakowin and the Seven Lakota Rites exist on stjo.org but have no page
- * in this sitemap, so they run inline as subsections above the grid.
+ * in this sitemap, so they run inline as media & text above the grid. Both are
+ * dead ends here: on stjo.org each teaser links to a fuller, sourced account
+ * (Black Elk citations on the Rites page) that the rebuild has nowhere to put.
+ * If those pages are never built, the client should know this page is now the
+ * site's whole treatment of both subjects.
+ *
+ * The Seven Lakota Rites photo is an inípi lodge (one of the seven rites),
+ * from stjo.org's own Inipi page. It replaces a photo of Our Lady of the Sioux
+ * Chapel, which paired a Catholic chapel with the seven traditional Lakota
+ * ceremonies — a conflation the client's own copy avoids.
  *
  * Seed source only — edit live content in the WP editor after seeding.
  *
@@ -27,7 +36,7 @@ $sp = function ( $size ) {
 		. '<!-- /wp:spacer -->';
 };
 
-$zigzag = '<!-- wp:separator {"className":"alignfull"} --><hr class="wp-block-separator has-alpha-channel-opacity alignfull"/><!-- /wp:separator -->';
+$zigzag = '<!-- wp:separator {"align":"full"} --><hr class="wp-block-separator alignfull has-alpha-channel-opacity"/><!-- /wp:separator -->';
 
 /**
  * Image-topped info card: photo, H3, short description, arrow link. Link text
@@ -85,7 +94,7 @@ $card = function ( $img, $alt, $title, $text, $href, $cta ) {
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Here at St. Joseph's Indian School, we have had the privilege of working with Native American families and communities since 1927. In 1991, the Akta Lakota Museum &amp; Cultural Center was established on our campus to honor and preserve the historical artifacts and contemporary art that tell the story of the Lakota (Sioux) people of the Northern Plains.</p>
+<p>Here at St. Joseph's Indian School, we have had the privilege of working with Native American families and communities since 1927. In 1991, the Akt&aacute; Lakota Museum &amp; Cultural Center was established on our campus to honor and preserve the historical artifacts and contemporary art that tell the story of the Lakota (Sioux) people of the Northern Plains.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -103,12 +112,12 @@ $card = function ( $img, $alt, $title, $text, $href, $cta ) {
 <div class="wp-block-group alignfull"><?php echo $sp( 'medium' ); ?>
 
 <!-- wp:media-text {"mediaType":"image","className":"is-style-rounded"} -->
-<div class="wp-block-media-text is-stacked-on-mobile is-style-rounded"><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>" alt="Open sky over the Northern Plains"/></figure><div class="wp-block-media-text__content"><!-- wp:heading {"level":2} -->
+<div class="wp-block-media-text is-stacked-on-mobile is-style-rounded"><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( stjo_asset( 'columns.png' ) ); ?>" alt="Open sky over the Northern Plains"/></figure><div class="wp-block-media-text__content"><!-- wp:heading -->
 <h2 class="wp-block-heading">Oceti Sakowin — Seven Council Fires</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>What is known today as the Great Sioux Nation is made up of the bands and dialects of the Seven Council Fires or Oceti Sakowin, in Lakota.</p>
+<p>The proper name for the people commonly known as the Sioux is Oceti Sakowin, meaning Seven Council Fires. What is known today as the Great Sioux Nation is made up of the bands and dialects of the Seven Council Fires or Oceti Sakowin, in Lakota.</p>
 <!-- /wp:paragraph --></div></div>
 <!-- /wp:media-text -->
 
@@ -117,13 +126,13 @@ $card = function ( $img, $alt, $title, $text, $href, $cta ) {
 
 <!-- wp:group {"metadata":{"name":"Seven Lakota Rites"},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"mediaPosition":"right","mediaType":"image","className":"is-style-rounded"} -->
-<div class="wp-block-media-text has-media-on-the-right is-stacked-on-mobile is-style-rounded"><div class="wp-block-media-text__content"><!-- wp:heading {"level":2} -->
+<div class="wp-block-media-text has-media-on-the-right is-stacked-on-mobile is-style-rounded"><div class="wp-block-media-text__content"><!-- wp:heading -->
 <h2 class="wp-block-heading">Seven Lakota Rites</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Long ago, the Sacred White Buffalo Calf Woman came to Earth and gave the Lakota people a Sacred Pipe and a small round stone. These two gifts would be used for the Seven Lakota Rites.</p>
-<!-- /wp:paragraph --></div><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( stjo_asset( 'card-7.png' ) ); ?>" alt="Our Lady of the Sioux Chapel on the St. Joseph&#8217;s campus, framed by autumn leaves"/></figure></div>
+<p>As legend states, long ago, the Sacred White Buffalo Calf Woman came to Earth and gave the Lakota people a Sacred Pipe and a small round stone. These gifts would be used for the Seven Lakota Rites.</p>
+<!-- /wp:paragraph --></div><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( stjo_asset( 'inipi-lodge.jpg' ) ); ?>" alt="A covered in&iacute;pi lodge standing in a grassy clearing at the edge of the trees"/></figure></div>
 <!-- /wp:media-text -->
 
 <?php echo $sp( 'medium' ); ?></div>
@@ -209,8 +218,8 @@ echo $card(
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:cover {"metadata":{"name":"Akt&aacute; Lakota Museum CTA"},"url":"<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>","dimRatio":70,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":418,"align":"full","className":"stjo-dreammaker","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull stjo-dreammaker" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-70 has-background-dim"></span><div class="wp-block-cover__inner-container is-layout-constrained wp-block-cover__inner-container-is-layout-constrained"><!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","fontSize":"xxl"} -->
+<!-- wp:cover {"metadata":{"name":"Aktá Lakota Museum CTA"},"url":"<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>","dimRatio":70,"overlayColor":"blue-900","isUserOverlayColor":true,"minHeight":418,"align":"full","className":"stjo-dreammaker","layout":{"type":"constrained"}} -->
+<div class="wp-block-cover alignfull stjo-dreammaker" style="min-height:418px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'cover.png' ) ); ?>" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-70 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","fontSize":"xxl"} -->
 <h2 class="wp-block-heading has-text-align-center has-white-color has-text-color has-xxl-font-size">Akt&aacute; Lakota Museum &amp; Cultural Center</h2>
 <!-- /wp:heading -->
 
@@ -219,8 +228,10 @@ echo $card(
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons is-layout-flex is-content-justification-center"><!-- wp:button {"className":"is-style-fill","textColor":"brand-dark","backgroundColor":"white"} -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-fill","textColor":"brand-dark","backgroundColor":"white"} -->
 <div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-brand-dark-color has-text-color has-white-background-color has-background wp-element-button" href="https://aktalakota.stjo.org/">Visit the Museum</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div></div>
 <!-- /wp:cover -->
+
+<?php echo $zigzag; ?>

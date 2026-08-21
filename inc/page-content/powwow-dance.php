@@ -37,6 +37,9 @@ $zigzag = '<!-- wp:separator {"className":"alignfull"} --><hr class="wp-block-se
 /**
  * One dance style: native Media & Text, image side alternating down the page.
  * $side is 'left' or 'right' and refers to where the photo sits.
+ *
+ * Stacked media-text blocks always get a medium spacer between them (house
+ * rule) — see $stack below, which is what joins them.
  */
 $style_block = function ( $side, $img, $alt, $title, $paras, $media_width = 50 ) {
 	$src   = esc_url( stjo_asset( $img ) );
@@ -64,6 +67,15 @@ $style_block = function ( $side, $img, $alt, $title, $paras, $media_width = 50 )
 	return '<!-- wp:media-text ' . $attrs . ' -->'
 		. '<div class="' . $cls . '"' . $grid . '>' . $inner . '</div>'
 		. '<!-- /wp:media-text -->';
+};
+
+/**
+ * Join stacked media & text blocks with a medium spacer between each. Two
+ * media-text blocks butted straight together read as one run-on band, so the
+ * gap is required, not decorative.
+ */
+$stack = function ( array $blocks ) use ( $sp ) {
+	return implode( $sp( 'medium' ), $blocks );
 };
 
 // Yoast FAQ block styled as an accordion, matching the site's other FAQs.
@@ -101,7 +113,7 @@ $etiquette = array(
 	),
 	array(
 		'Show Respect',
-		'Items carried or worn by dancers should be called outfits or regalia. Dancers dress to honor the spiritual connection they have with nature and Wak&#341;&#225;&#331; T&#341;&#225;&#331;ka — Great Spirit. Outfits can sometimes take years to put together. Each piece is intricate; they can be costly and may be family heirlooms. Please do not refer to these cherished possessions as a &#8220;costume.&#8221; Spectators should also show respect for dancers by asking permission before taking a photo or touching any part of their regalia.',
+		'Items carried or worn by dancers should be called outfits or regalia. Dancers dress to honor the spiritual connection they have with nature and Wak&#543;&#225;&#331; T&#543;&#225;&#331;ka — Great Spirit. Outfits can sometimes take years to put together. Each piece is intricate; they can be costly and may be family heirlooms. Please do not refer to these cherished possessions as a &#8220;costume.&#8221; Spectators should also show respect for dancers by asking permission before taking a photo or touching any part of their regalia. Politely ask permission if you want to use a camera or record video. Pictures or recordings should only be used for personal purposes — not commercial. Alcohol and drug use are not allowed.',
 	),
 	array(
 		'Participate',
@@ -138,7 +150,7 @@ $etiquette = array(
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Powwows began mainly as religious ceremonies to gain wisdom from and give thanks to Wak&#341;&#225;&#331; T&#341;&#225;&#331;ka — Great Spirit. Though many of today's powwows have evolved into social and contest-oriented dances, religious and ceremonial dances are still performed.</p>
+<p>Powwows began mainly as religious ceremonies to gain wisdom from and give thanks to Wak&#543;&#225;&#331; T&#543;&#225;&#331;ka — Great Spirit. Though many of today's powwows have evolved into social and contest-oriented dances, religious and ceremonial dances are still performed.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -190,38 +202,40 @@ $etiquette = array(
 <?php echo $sp( 'medium' ); ?>
 
 <?php
-echo $style_block(
-	'left',
-	'womens-traditional-dance.jpg',
-	'A young woman in deep red traditional regalia holds a folded shawl over her arm, standing before a bed of flowers',
-	'Traditional Dance',
-	array(
-		'Native American women are regarded as the life-giving force that nurtures the next generation of youth. Traditional dancers wear long, beautiful buckskin dresses or trade cloth adorned with meaningful designs made from beads, animal teeth, quillwork, shells and ribbon.',
-		'During the honor beats — the stronger, louder and slower beats heard in the song — they lift their feather fan to show their pride and appreciation for the Creator&#8217;s blessings.',
-	)
-);
-echo $style_block(
-	'right',
-	'womens-fancy-shawl-dance.jpg',
-	'A fancy shawl dancer spreads a bright pink fringed shawl wide like wings mid-dance',
-	'Fancy Shawl Dance',
-	array(
-		'The first impression people often have of the women&#8217;s fancy dancers is that of butterflies. Dancers wear decorated shawls that complement a satin dress and knee-high beaded moccasins or decorated leggings.',
-		'The faster pace of the drum challenges dancers to keep in time with the beat while coordinating their fancy footwork and graceful movements.',
-	)
-);
-echo $style_block(
-	'left',
-	'womens-jingle-dress-dance.jpg',
-	'A young jingle dress dancer in blue and teal regalia stands with her hands on her hips at the powwow',
-	'Jingle Dress Dance',
-	array(
-		'The Jingle Dress Dance came by way of a holy man&#8217;s vision. In his dream, four girls wearing dresses adorned with tiny cones — which made a very distinct sound — danced for the healing of a sick little girl. Upon his awakening, he instructed his wife to make dresses and found girls to dance. The sick girl was healed!',
-		'This dance style is very popular among young female dancers. You can hear them coming from a distance as their many metal cones make a unique jingle sound!',
-	)
-,
-	32
-);
+echo $stack( array(
+	$style_block(
+		'left',
+		'womens-traditional-dance.jpg',
+		'A young woman in deep red traditional regalia holds a folded shawl over her arm, standing before a bed of flowers',
+		'Traditional Dance',
+		array(
+			'Native American women are regarded as the life-giving force that nurtures the next generation of youth. Traditional dancers wear long, beautiful buckskin dresses or trade cloth adorned with meaningful designs made from beads, animal teeth, quillwork, shells and ribbon. Most dancers carry a shawl draped over their arm and a feathered fan in their hand as they move in a stationary manner on the outside of the circle.',
+			'During the honor beats — the stronger, louder and slower beats heard in the song — they lift their feather fan to show their pride and appreciation for the Creator&#8217;s blessings.',
+		)
+	),
+	$style_block(
+		'right',
+		'womens-fancy-shawl-dance.jpg',
+		'A fancy shawl dancer spreads a bright pink fringed shawl wide like wings mid-dance',
+		'Fancy Shawl Dance',
+		array(
+			'The first impression people often have of the women&#8217;s fancy dancers is that of butterflies. Dancers wear decorated shawls that complement a satin dress and knee-high beaded moccasins or decorated leggings.',
+			'The faster pace of the drum challenges dancers to keep in time with the beat while coordinating their fancy footwork and graceful movements.',
+		)
+	),
+	$style_block(
+		'left',
+		'womens-jingle-dress-dance.jpg',
+		'A young jingle dress dancer in blue and teal regalia stands with her hands on her hips at the powwow',
+		'Jingle Dress Dance',
+		array(
+			'The Jingle Dress Dance came by way of a holy man&#8217;s vision. The holy man was providing care for a sick girl when a dream came to him. In his dream, four girls wearing dresses adorned with tiny cones — which made a very distinct sound — danced for the healing of the little girl. Upon his awakening, he instructed his wife to make dresses and found girls to dance. The sick girl was healed!',
+			'The Jingle Dress Dance has been around for approximately 100 years. Tribes of the Plains borrowed the dance from the Chippewa tribes of the Great Lakes region. This dance style is very popular among young female dancers. You can hear them coming from a distance as their many metal cones make a unique jingle sound!',
+		)
+	,
+		32
+	),
+) );
 ?>
 
 <?php echo $sp( 'large' ); ?></div>
@@ -236,43 +250,45 @@ echo $style_block(
 
 <!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Long ago, the Lakota (Sioux) people would dance to celebrate the coming of spring and their relationship with the Earth. Dance was a form of prayer thanking Wak&#341;&#225;&#331; T&#341;&#225;&#331;ka — Great Spirit — for another year of life.</p>
+<p class="has-text-align-center">Long ago, the Lakota (Sioux) people would dance to celebrate the coming of spring and their relationship with the Earth. Dance was a form of prayer thanking Wak&#543;&#225;&#331; T&#543;&#225;&#331;ka — Great Spirit — for another year of life.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
 <?php echo $sp( 'medium' ); ?>
 
 <?php
-echo $style_block(
-	'left',
-	'mens-traditional-dance.jpg',
-	'A traditional dancer in a bone breastplate and white feather headdress dances before a seated crowd',
-	'Traditional Dance',
-	array(
-		'The men&#8217;s Traditional Dance provides an image of past warriors who would return from hunting or battle and tell their story through dance. The feathers worn by the dancers are arranged in a single bustle and worn on their lower back, symbolic of a dancer&#8217;s relationship with nature and connection to the Great Spirit.',
-		'Some regalia takes years to complete; some is handed down through generations of a family and may be over 100 years old. Songs for this dance are sung at a slower pace as the words reflect the honor traditional dancers feel when asked to protect the people.',
-	)
-);
-echo $style_block(
-	'right',
-	'mens-fancy-dance.jpg',
-	'A fancy dancer in green, blue and white feather bustles steps out with his arms extended',
-	'Fancy Dance',
-	array(
-		'This contemporary dance style is FAST, exciting and full of color! The Fancy Dance was introduced during the reservation era when tribes from the southern plains conducted large gatherings for spectators who wanted to witness a war dance.',
-		'The dancers carry twirling spinners as they hop, jump, skip and perform acrobatic movements throughout the dance. The best dancers are able to keep in time to the extremely fast drumbeat and stop on the last beat of the drum.',
-	)
-);
-echo $style_block(
-	'left',
-	'mens-grass-dance.jpg',
-	'A grass dancer in orange and yellow fringed regalia turns mid-step on the powwow grounds',
-	'Grass Dance',
-	array(
-		'The Grass Dance, or Omaha Dance, was originally a ceremonial dance to celebrate the people&#8217;s relationship with Mother Earth. The regalia is unique because it has almost no feathers; it consists of a shirt and trousers with colorful fringe attached.',
-		'Today, the Grass Dance is very popular among younger dancers. The dancers try to emulate the movement of the grass blowing in the breezes of the Great Plains as they sway from side to side.',
-	)
-);
+echo $stack( array(
+	$style_block(
+		'left',
+		'mens-traditional-dance.jpg',
+		'A traditional dancer in a bone breastplate and white feather headdress dances before a seated crowd',
+		'Traditional Dance',
+		array(
+			'The men&#8217;s Traditional Dance provides an image of past warriors who would return from hunting or battle and tell their story through dance. The feathers worn by the dancers are arranged in a single bustle and worn on their lower back. The bustles and other regalia are symbolic of a dancer&#8217;s relationship with nature and connection to the Great Spirit.',
+			'Some regalia takes years to complete; some is handed down through generations of a family and may be over 100 years old. Songs for this dance are sung at a slower pace as the words reflect the honor traditional dancers feel when asked to protect the people.',
+		)
+	),
+	$style_block(
+		'right',
+		'mens-fancy-dance.jpg',
+		'A fancy dancer in green, blue and white feather bustles steps out with his arms extended',
+		'Fancy Dance',
+		array(
+			'This contemporary dance style is FAST, exciting and full of color! The Fancy Dance was introduced during the reservation era when tribes from the southern plains conducted large gatherings for spectators who wanted to witness a war dance.',
+			'The dancers carry twirling spinners as they hop, jump, skip and perform acrobatic movements throughout the dance. The best dancers are able to keep in time to the extremely fast drumbeat and stop on the last beat of the drum.',
+		)
+	),
+	$style_block(
+		'left',
+		'mens-grass-dance.jpg',
+		'A grass dancer in orange and yellow fringed regalia turns mid-step on the powwow grounds',
+		'Grass Dance',
+		array(
+			'The Grass Dance, or Omaha Dance, was originally a ceremonial dance to celebrate the people&#8217;s relationship with Mother Earth. The regalia is unique because it has almost no feathers; it consists of a shirt and trousers with colorful fringe attached.',
+			'Today, the Grass Dance is very popular among younger dancers. The dancers try to emulate the movement of the grass blowing in the breezes of the Great Plains as they sway from side to side.',
+		)
+	),
+) );
 ?>
 
 <?php echo $sp( 'large' ); ?></div>
@@ -303,7 +319,7 @@ echo $style_block(
 <?php echo $sp( 'medium' ); ?>
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons is-layout-flex is-content-justification-center"><!-- wp:button {"className":"is-style-outline"} -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} -->
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="https://give.stjo.org/site/SPageNavigator/wp_powwow_booklet.html">Download the Free Powwow Booklet</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>

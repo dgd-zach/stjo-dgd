@@ -34,7 +34,7 @@
 .stjo-timeline__inner::before {
 	content: "";
 	position: absolute;
-	top: 0;
+	top: 270px;
 	bottom: 0;
 	left: var(--stjo-tl-line-x);
 	width: 2px;
@@ -113,6 +113,66 @@
 	max-width: 900px;
 }
 
+/* ── Alternating layout (Figma 5136:3026) ──────────────────────────────────
+   The line runs down the middle and decades take turns either side of it:
+   odd decades put the card on the right with the watermark facing it from the
+   left, even decades swap. The watermark always hugs the line, so the two
+   halves read as one column of content rather than two lists.
+
+   Desktop only, deliberately. Below 901px the existing block moves the line to
+   the far left and collapses to a single column, which is the only thing that
+   works once a card needs the full width — so this stays out of its way rather
+   than being unwound rule by rule.
+
+   nth-of-type, not nth-child: .stjo-timeline__end is a span sibling after the
+   last section, and only the sections should be counted.
+
+   Widths follow the design: a 1100px track with a 96px gutter leaves 502px a
+   side, which is what the mock's cards sit in.
+   ────────────────────────────────────────────────────────────────────────── */
+@media (min-width: 901px) {
+	:root {
+		--stjo-tl-line-x: 50%;
+		--stjo-tl-gutter: clamp(48px, 7vw, 96px);
+	}
+
+	.stjo-timeline__inner {
+		max-width: calc(1100px + 2 * var(--stjo-tl-pad));
+	}
+
+	.stjo-timeline__decade {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		column-gap: var(--stjo-tl-gutter);
+	}
+
+	/* The dot is absolute inside the section, whose content box is narrower
+	   than the inner's padding box — same centre, different width, so it needs
+	   its own 50% rather than the shared --stjo-tl-line-x. */
+	.stjo-timeline__node {
+		left: 50%;
+	}
+
+	.stjo-timeline__cards {
+		max-width: none;
+	}
+
+	.stjo-timeline__decade:nth-of-type(odd) > .stjo-timeline__decade-label {
+		grid-column: 1;
+		text-align: right;
+	}
+	.stjo-timeline__decade:nth-of-type(odd) > .stjo-timeline__cards {
+		grid-column: 2;
+	}
+
+	.stjo-timeline__decade:nth-of-type(even) > .stjo-timeline__cards {
+		grid-column: 1;
+	}
+	.stjo-timeline__decade:nth-of-type(even) > .stjo-timeline__decade-label {
+		grid-column: 2;
+		text-align: left;
+	}
+}
+
 /* Default (no JS / editor preview): stacked cards, all readable */
 .stjo-timeline__track {
 	display: grid;
@@ -144,6 +204,9 @@
 .stjo-timeline-card {
 	position: relative; /* anchors the editor-only Edit pill */
 	background: var(--wp--preset--color--white, #fff);
+	/* 1px brand-dark, sampled off the Figma render (rgb(0, 83, 160)). Sits
+	   outside overflow:hidden so it wraps the image's rounded top corners too. */
+	border: 1px solid var(--wp--preset--color--brand-dark, #0053a0);
 	border-radius: var(--stjo--radius--lg, 16px);
 	box-shadow: var(--stjo--shadow--card, 0 2px 8px rgba(0, 0, 0, 0.1));
 	overflow: hidden;
@@ -258,7 +321,12 @@
 .stjo-timeline-card__text p:last-child { margin-bottom: 0; }
 
 .stjo-timeline-card__text.is-clamped {
-	max-height: 4.5em; /* exactly 3 lines at 1.5 line-height — the JS overflow check relies on this */
+	/* 4 lines at 1.5 line-height, which is about the text area the design gives
+	   a card (105px of a 236px body). Was 3 lines, which clipped most entries
+	   once the alternating layout halved the card width. The JS reads
+	   clientHeight rather than assuming a line count, so this can be retuned
+	   here alone. */
+	max-height: 6em;
 	overflow: hidden;
 	-webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 98%);
 	mask-image: linear-gradient(180deg, #000 55%, transparent 98%);

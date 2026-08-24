@@ -269,17 +269,35 @@
 		var label = btn.querySelector( '.stjo-timeline-card__more-label' );
 		var expanded = false;
 
-		// Clamp only when the text actually overflows three lines; a text that
-		// fits stays unclamped so the fade mask never dims complete copy.
+		// How much has to be hidden before clamping earns its keep, in lines.
+		// Clamping on any overflow at all read badly: the fade mask starts at
+		// 55%, so half the copy dimmed and a Read More appeared to hide one or
+		// two short lines, on a card with visible room to spare. With a 4-line
+		// clamp this lets anything up to 6 lines render in full, and reserves
+		// the control for entries long enough that hiding them buys something.
+		var WORTH_CLAMPING_LINES = 2;
+
 		function evaluate() {
 			if ( expanded ) {
 				text.style.maxHeight = text.scrollHeight + 'px'; // re-fit after resize
 				return;
 			}
+			// Measure unclamped first: scrollHeight on a clamped element already
+			// reports the full content, but reading it while unclamped also
+			// survives any future change to how the clamp is applied.
+			text.classList.remove( 'is-clamped' );
+			var full = text.scrollHeight;
 			text.classList.add( 'is-clamped' );
-			var overflowing = text.scrollHeight > text.clientHeight + 1;
-			btn.hidden = ! overflowing;
-			if ( ! overflowing ) {
+			var visible = text.clientHeight;
+
+			var line = parseFloat( window.getComputedStyle( text ).lineHeight );
+			if ( ! line || isNaN( line ) ) {
+				line = 24; // 16px base at the 1.5 line-height the clamp assumes
+			}
+			var worthIt = ( full - visible ) > line * WORTH_CLAMPING_LINES;
+
+			btn.hidden = ! worthIt;
+			if ( ! worthIt ) {
 				text.classList.remove( 'is-clamped' );
 			}
 		}

@@ -44,12 +44,12 @@
 	// inserted after the image and before the editor's overlay span — cover
 	// layers are all z-index auto in this WP, so DOM order IS the stacking.
 	function applyScrim(slide) {
-		// Per-slide opt-out. The Slide scrim panel sets this (rendered as a
-		// class by inc/hero-slide-controls.php) for slides whose photo already
-		// carries the text, or where the editor is handling the overlay.
-		if (slide.classList.contains('no-auto-scrim')) {
-			return;
-		}
+		// The no-auto-scrim opt-out (set by the Slide scrim panel, rendered as
+		// a class by inc/hero-slide-controls.php) is handled in CSS, not here:
+		// the element and its classes are still built so the phone scrim can
+		// work independently. Desktop-only side gradients are what get turned
+		// off, because on phones the text sits over the middle of the photo and
+		// still needs its own contrast. main.css hides it above 783px.
 		var inner = slide.querySelector('.wp-block-cover__inner-container');
 		var text = inner && inner.querySelector('h1, h2, h3, h4, h5, h6, p');
 		if (!text) {
@@ -255,4 +255,19 @@
 	}
 
 	document.querySelectorAll('.wp-block-group.is-style-carousel').forEach(init);
+
+	// Standalone covers that opted in (Contrast scrim toggle -> wants-auto-scrim
+	// from inc/hero-slide-controls.php). Same guaranteed-contrast treatment as a
+	// slide, no carousel behaviour. Opt-in rather than automatic: every card and
+	// full-width band on the site is a Cover, and scrimming them all would
+	// restyle work that is already signed off.
+	//
+	// The carousel pass above already handled its own children, so skip anything
+	// inside one instead of building a second scrim over the first.
+	document.querySelectorAll('.wp-block-cover.wants-auto-scrim').forEach(function (cover) {
+		if (cover.closest('.wp-block-group.is-style-carousel')) {
+			return;
+		}
+		applyScrim(cover);
+	});
 })();

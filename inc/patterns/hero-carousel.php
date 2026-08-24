@@ -12,13 +12,16 @@
  * - carousel.js adds a guaranteed-contrast scrim to every slide (light scrim
  *   under dark text, dark under light), anchored to the text's column side,
  *   flat on phones. Editor-set overlays stack on top as art direction.
- * - Set each slide's FOCAL POINT on the subject. Vertically this is all you
- *   need: object-position keeps that point in frame at every viewport.
- *   Slides without one default to 50% 30% on phones;
- *   focus-sm-{top,bottom,left,right,center,top-left,...} classes on a Cover
- *   force a phone-only position when the desktop focal point crops badly,
- *   and focus-sm-{X}-{Y} (e.g. focus-sm-23-62) sets an exact "X% Y%"
- *   position (carousel.js parses it).
+ * - Set each slide's FOCAL POINT on the subject. On desktop that governs the
+ *   vertical crop; object-position keeps the point in frame as the band
+ *   reflows. Slides without one default to 50% 30% on phones. The
+ *   focus-sm-{top,bottom,left,...} and focus-sm-{X}-{Y} classes still work for
+ *   anything already set that way (carousel.js parses the digits).
+ * - The two "on phones" sliders are the discoverable route, and work like the
+ *   desktop one: 0 is centred, the number is how far the photo moves. Note the
+ *   axes swap on a phone — a tall narrow band crops these landscape photos by
+ *   height, so sideways is free and up/down is the axis that leaves a strip
+ *   bare.
  * - HORIZONTALLY the focal point does nothing on desktop, and no setting will
  *   change that: every hero photo is narrower than the band (2.37:1 to 2.78:1
  *   against 2.9:1 at 1440px and wider above), so object-fit: cover fits them

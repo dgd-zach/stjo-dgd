@@ -48,3 +48,97 @@
 	.stjo-donation-band h2.wp-block-heading,
 	.stjo-video-band h2.wp-block-heading { font-size: 28px; line-height: 1.2; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TOUCH FEEDBACK — mirror the hover/focus states onto :active
+   ═══════════════════════════════════════════════════════════════════════
+   On a touch screen there is no hover, so tapping a button or card gave no
+   visual acknowledgement at all (and where a browser does synthesise hover,
+   it sticks after the tap until you touch something else). :active is the
+   honest signal there: it lasts exactly as long as the finger is down.
+
+   Gated on (hover: none) rather than a width, because this is about the input
+   device, not the viewport — a narrow desktop window still has a real pointer
+   and should keep its hover states unchanged.
+
+   Containers are matched with :has(:active) as well as :active, because iOS
+   Safari only fires :active on elements it considers interactive; a card is a
+   div wrapping a link, so the wrapper itself never lights up on its own.
+
+   Hand-maintained: assets/css/hover.css is generated from the Figma prototype
+   and says not to edit it, and its generator lives in the shared
+   figma-to-wp-4.0 skill. This file loads after it, so these win. Declarations
+   are copied from hover.css, main.css and sections.css — if a hover state
+   changes there, change it here too.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (hover: none) {
+
+	/* ── Buttons ── */
+	.wp-block-button.is-style-fill .wp-block-button__link:active,
+	.wp-block-button:not([class*='is-style']) .wp-block-button__link:active,
+	.site-header__actions .wp-block-button.is-style-fill .wp-block-button__link:active {
+		background-color: rgb(26, 109, 184) !important;
+	}
+	/* Yellow CTA flips to white, same as hover and keyboard focus. */
+	.wp-block-button:not(.is-style-outline) .wp-block-button__link.has-yellow-background-color:active {
+		background-color: rgb(255, 255, 255) !important;
+		border-color: rgb(255, 255, 255) !important;
+	}
+	.wp-block-button .wp-block-button__link:active { border-color: transparent; }
+	.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):not(.has-background):active {
+		background-color: var(--wp--preset--color--brand-dark, #0053a0) !important;
+		color: var(--wp--preset--color--white, #fff);
+	}
+
+	/* ── Text and arrow links ── */
+	.stjo-breadcrumbs a:active,
+	.wp-block-read-more:active,
+	.stjo-story-card__more:active,
+	.wp-block-button.is-style-arrow-link .wp-block-button__link:active {
+		color: rgb(0, 83, 160) !important;
+	}
+	.stjo-card .wp-block-button.is-style-arrow-link .wp-block-button__link:active {
+		color: rgb(255, 213, 32) !important;
+	}
+
+	/* ── Cover photo cards: ring, and the blurb that unfolds under the title ── */
+	.stjo-card.wp-block-cover:active,
+	.stjo-card.wp-block-cover:has(:active) {
+		box-shadow: 0 0 0 4px rgb(255, 213, 32) !important;
+	}
+	.stjo-card.wp-block-cover:active .stjo-card__reveal,
+	.stjo-card.wp-block-cover:has(:active) .stjo-card__reveal {
+		max-height: 6em;
+		opacity: 1;
+		margin-bottom: var(--stjo--spacing--xs);
+	}
+
+	/* ── Ways-to-give tiles ── */
+	a.stjo-give-tile:active {
+		box-shadow: inset 0 0 0 4px rgb(255, 213, 32) !important;
+		background: color-mix(in srgb, var(--wp--preset--color--blue-900, #003566) 85%, black);
+	}
+	a.stjo-give-tile:active img:not(.is-masked) {
+		filter: brightness(0) saturate(100%) invert(81%) sepia(48%) saturate(1104%) hue-rotate(358deg) brightness(102%) contrast(103%);
+	}
+	a.stjo-give-tile:active img.is-masked {
+		background-color: var(--wp--preset--color--yellow, #ffd520);
+	}
+
+	/* ── Caret slide, all card flavours ── */
+	.stjo-story-card:has(:active) .stjo-story-card__more::after,
+	.stjo-info-card:has(:active) .wp-block-read-more::after,
+	.stjo-related-query .wp-block-post-template > li:has(:active) .wp-block-read-more::after,
+	.stjo-card.wp-block-cover:has(:active) .wp-block-button__link::after { translate: 4px 0; }
+}
+
+/* Image zoom on tap. Split out because the hover version is gated on
+   no-preference, and a zoom is exactly what someone asking for less motion
+   does not want — the ring and colour changes above still apply either way. */
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+	.stjo-story-card:has(:active) > .wp-block-image img,
+	.stjo-lightbox-card:has(:active) .stjo-lightbox-card__media img,
+	.stjo-blog-grid .wp-block-post-template > li:has(:active) .wp-block-post-featured-image img,
+	.stjo-related-query .wp-block-post-template > li:has(:active) .wp-block-post-featured-image img,
+	.stjo-info-card:has(:active) > .wp-block-image img { transform: scale(1.06); }
+}

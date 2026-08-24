@@ -26,8 +26,14 @@ foreach ( $stjo_tl_posts as $stjo_tl_post ) {
 		continue;
 	}
 	$stjo_tl_events[] = array(
-		'post' => $stjo_tl_post,
-		'year' => $stjo_tl_year,
+		'post'  => $stjo_tl_post,
+		// Sorting and decade grouping use the start year only, so a span never
+		// lands in two decades. The label is what the card and chip show.
+		'year'  => $stjo_tl_year,
+		'label' => stjo_timeline_year_label(
+			$stjo_tl_year,
+			get_post_meta( $stjo_tl_post->ID, 'stjo_timeline_end_year', true )
+		),
 	);
 }
 
@@ -112,7 +118,7 @@ $stjo_tl_uid = wp_unique_id( 'stjo-tl-' );
 										if ( $stjo_tl_edit_link ) :
 											?>
 											<a class="stjo-timeline-card__edit" href="<?php echo esc_url( $stjo_tl_edit_link ); ?>" target="_blank" rel="noopener">
-												<?php echo esc_html( sprintf( /* translators: %s: event year */ __( 'Edit %s', 'stjo' ), $stjo_tl_event['year'] ) ); ?> ↗
+												<?php echo esc_html( sprintf( /* translators: %s: event year or year range */ __( 'Edit %s', 'stjo' ), $stjo_tl_event['label']['display'] ) ); ?> ↗
 											</a>
 											<?php
 										endif;
@@ -122,7 +128,10 @@ $stjo_tl_uid = wp_unique_id( 'stjo-tl-' );
 										<figure class="stjo-timeline-card__media"><?php echo $stjo_tl_image; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
 									<?php endif; ?>
 									<div class="stjo-timeline-card__body">
-										<span class="stjo-timeline-card__year"><?php echo esc_html( $stjo_tl_event['year'] ); ?></span>
+										<span class="stjo-timeline-card__year">
+											<span aria-hidden="true"><?php echo esc_html( $stjo_tl_event['label']['display'] ); ?></span>
+											<span class="screen-reader-text"><?php echo esc_html( $stjo_tl_event['label']['spoken'] ); ?></span>
+										</span>
 										<h3 class="stjo-timeline-card__title"><?php echo esc_html( get_the_title( $stjo_tl_post ) ); ?></h3>
 										<div class="stjo-timeline-card__text" id="<?php echo esc_attr( $stjo_tl_text_id ); ?>">
 											<?php echo apply_filters( 'the_content', $stjo_tl_post->post_content ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
@@ -145,8 +154,11 @@ $stjo_tl_uid = wp_unique_id( 'stjo-tl-' );
 									class="stjo-timeline__chip<?php echo 0 === $stjo_tl_i ? ' is-active' : ''; ?>"
 									id="<?php echo esc_attr( $stjo_tl_uid . '-tab-' . $stjo_tl_event['post']->ID ); ?>"
 									data-index="<?php echo esc_attr( $stjo_tl_i ); ?>"
-									data-card="<?php echo esc_attr( $stjo_tl_uid . '-card-' . $stjo_tl_event['post']->ID ); ?>">
-									<?php echo esc_html( $stjo_tl_event['year'] ); ?>
+									data-card="<?php echo esc_attr( $stjo_tl_uid . '-card-' . $stjo_tl_event['post']->ID ); ?>"
+									<?php if ( $stjo_tl_event['label']['is_range'] ) : ?>
+										aria-label="<?php echo esc_attr( $stjo_tl_event['label']['spoken'] ); ?>"
+									<?php endif; ?>>
+									<?php echo esc_html( $stjo_tl_event['label']['display'] ); ?>
 								</button>
 							<?php endforeach; ?>
 						</div>

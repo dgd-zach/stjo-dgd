@@ -1637,9 +1637,7 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 }
 
 @media (max-width: 782px) {
-	/* Phone zoom overrides the desktop value when one was set. Shifted slides
-	   are included: the nudge lines a subject up with a side column, and the
-	   phone crop has no side column, so phones fall back to focal point + zoom. */
+	/* Phone zoom on its own (no phone nudge set). */
 	.wp-block-cover.has-slide-zoom-sm > .wp-block-cover__image-background,
 	.wp-block-cover.has-slide-zoom-sm > video.wp-block-cover__video-background {
 		transform: scale(var(--stjo-slide-zoom-sm, var(--stjo-slide-zoom, 1)));
@@ -1647,8 +1645,44 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 		   own focal point still anchors the zoom. */
 		transform-origin: var(--stjo-focus-sm, var(--stjo-focus, center center));
 	}
+
+	/* Phone nudge. 0 is centred and the slider moves the photo, same feel as
+	   the desktop slider, but the two axes need different levers because the
+	   geometry inverts on a phone: a tall narrow band crops these landscape
+	   photos by HEIGHT, leaving lots of spare width inside the image and no
+	   spare height.
+
+	   Sideways is object-position, which pans WITHIN the element box: it walks
+	   through that spare width and clamps at the image edge, so it can never
+	   open a gap. A translate here would be wrong — the box is exactly
+	   band-sized (inset:0; width:100%), so translating it slides the box off
+	   the edge and leaves a bare strip while the spare width goes unused.
+
+	   Up/down has no spare to pan into, so it stays a translate and needs phone
+	   zoom to make room — the mirror of the desktop case.
+
+	   Last in the file and opt-in by class, so the focus-sm-* utilities and
+	   plain phone zoom above are untouched unless a slide asks for this. */
+	.wp-block-cover.has-shift-sm > .wp-block-cover__image-background,
+	.wp-block-cover.has-shift-sm > video.wp-block-cover__video-background {
+		object-position: var(--stjo-slide-sm-ox, 50%) 50% !important;
+		transform:
+			translateY(var(--stjo-slide-sm-y, 0))
+			scale(var(--stjo-slide-zoom-sm, var(--stjo-slide-zoom, 1)));
+		transform-origin: 50% 50%;
+	}
 }
 
-/* Scrim turned off for this slide: carousel.js skips injecting the element,
-   but kill any editor-set overlay dim too so "off" means off. */
-.wp-block-cover.no-auto-scrim > .stjo-slide-scrim { display: none; }
+/* An up/down phone nudge can leave a strip bare top or bottom (sideways cannot).
+   Same treatment as the desktop case: show the scrim's colour, not the page. */
+.wp-block-cover.has-shift-sm.has-auto-scrim--light { background-color: #fff; }
+.wp-block-cover.has-shift-sm.has-auto-scrim--dark { background-color: #001b33; }
+
+/* Scrim turned off for this slide — DESKTOP ONLY. The phone scrim is a
+   separate decision: a photo that carries dark text fine in its own side
+   column often cannot once the columns stack and the text sits over the middle
+   of it. So the element is still built (carousel.js) and the phone rules above
+   still reach it; set "Scrim strength on phones" to 0 to turn that off too. */
+@media (min-width: 783px) {
+	.wp-block-cover.no-auto-scrim > .stjo-slide-scrim { display: none; }
+}

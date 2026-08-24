@@ -36,6 +36,7 @@
 	padding: 12px var(--stjo--spacing--md);
 	font-weight: 600;
 	line-height: 1.2;
+	text-align: center;
 	color: var(--wp--preset--color--dark, #333);
 	cursor: pointer;
 	transition: color .25s ease;
@@ -71,7 +72,10 @@
 	cursor: pointer;
 	transition: background-color .2s ease, color .2s ease;
 }
-.stjo-donation-selector__amount:hover { background: var(--wp--preset--color--neutral-200, #ccc); }
+/* :active twin so a tap on a phone acknowledges the amount chip — there is no
+   hover there, and on a pointer device :hover is already true while pressed. */
+.stjo-donation-selector__amount:hover,
+.stjo-donation-selector__amount:active { background: var(--wp--preset--color--neutral-200, #ccc); }
 .stjo-donation-selector__amount:has(input:checked) {
 	background: var(--wp--preset--color--brand-dark, #0053a0);
 	color: var(--wp--preset--color--white, #fff);
@@ -97,4 +101,11 @@
 	margin: 0;
 	font-size: var(--stjo--font-size--small, 14px);
 	color: var(--wp--preset--color--neutral-700, #4d4d4d);
+}
+
+/* Phones: the card sits close to the viewport edges, so lg padding eats the
+   width the amount buttons need. Matches the 782px edge the rest of the theme
+   uses for "columns have stacked". */
+@media (max-width: 782px) {
+	.stjo-donation-selector { padding: 16px; }
 }

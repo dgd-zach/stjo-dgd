@@ -81,6 +81,19 @@ function stjo_register_timeline_event() {
 		},
 	) );
 
+	// End of a span, e.g. a building project running 1927-1930. Absent or 0
+	// means a single year. There is no separate "is a range" flag: a valid end
+	// year IS the range, so the two cannot contradict each other.
+	register_post_meta( 'timeline-event', 'stjo_timeline_end_year', array(
+		'type'              => 'integer',
+		'single'            => true,
+		'sanitize_callback' => 'absint',
+		'show_in_rest'      => true,
+		'auth_callback'     => function () {
+			return current_user_can( 'edit_posts' );
+		},
+	) );
+
 	register_post_meta( 'timeline-event', 'stjo_timeline_image_layout', array(
 		'type'              => 'string',
 		'single'            => true,
@@ -104,6 +117,36 @@ function stjo_register_timeline_event() {
 	) );
 }
 add_action( 'init', 'stjo_register_timeline_event' );
+
+/**
+ * How a year or year span should read.
+ *
+ * Returns both forms because they differ: sighted readers want the en dash
+ * ("1927-1930" with a proper en dash), screen readers want a word, since a
+ * bare dash is either announced as punctuation or swallowed entirely.
+ *
+ * @param int $start Start year.
+ * @param int $end   End year, 0 for a single year.
+ * @return array{display: string, spoken: string, is_range: bool}
+ */
+function stjo_timeline_year_label( $start, $end = 0 ) {
+	$start = absint( $start );
+	$end   = absint( $end );
+	if ( ! $start ) {
+		return array( 'display' => '', 'spoken' => '', 'is_range' => false );
+	}
+	// An end year at or before the start is not a span; the save handler drops
+	// those, but seeds and REST writes can still get here.
+	if ( $end > $start ) {
+		return array(
+			'display'  => $start . "\u{2013}" . $end,
+			/* translators: 1: start year, 2: end year */
+			'spoken'   => sprintf( __( '%1$s to %2$s', 'stjo' ), $start, $end ),
+			'is_range' => true,
+		);
+	}
+	return array( 'display' => (string) $start, 'spoken' => (string) $start, 'is_range' => false );
+}
 
 function stjo_timeline_sanitize_layout( $value ) {
 	return in_array( $value, array( 'horizontal', 'vertical' ), true ) ? $value : 'horizontal';
@@ -165,19 +208,73 @@ function stjo_timeline_add_meta_box() {
 add_action( 'add_meta_boxes', 'stjo_timeline_add_meta_box' );
 
 function stjo_timeline_render_meta_box( $post ) {
-	$year   = get_post_meta( $post->ID, 'stjo_timeline_year', true );
-	$layout = get_post_meta( $post->ID, 'stjo_timeline_image_layout', true );
-	$layout = stjo_timeline_sanitize_layout( $layout ? $layout : 'horizontal' );
+	$year     = absint( get_post_meta( $post->ID, 'stjo_timeline_year', true ) );
+	$end_year = absint( get_post_meta( $post->ID, 'stjo_timeline_end_year', true ) );
+	$is_range = $end_year > $year;
+	$layout   = get_post_meta( $post->ID, 'stjo_timeline_image_layout', true );
+	$layout   = stjo_timeline_sanitize_layout( $layout ? $layout : 'horizontal' );
 	wp_nonce_field( 'stjo_timeline_details', 'stjo_timeline_details_nonce' );
 	?>
 	<p>
-		<label for="stjo-timeline-year"><strong><?php esc_html_e( 'Year', 'stjo' ); ?></strong></label><br>
+		<label for="stjo-timeline-year">
+			<strong id="stjo-timeline-year-label"><?php
+				echo esc_html( $is_range ? __( 'Start Year', 'stjo' ) : __( 'Year', 'stjo' ) );
+			?></strong>
+		</label><br>
 		<input type="number" id="stjo-timeline-year" name="stjo_timeline_year"
 			value="<?php echo esc_attr( $year ? $year : '' ); ?>"
 			min="1900" max="2100" step="1" style="width:100%"
 			placeholder="<?php esc_attr_e( 'e.g. 1927', 'stjo' ); ?>">
 	</p>
-	<p class="description"><?php esc_html_e( 'The decade group and year chip come from this field. Events sort oldest first; use Order (Attributes) to break ties within the same year.', 'stjo' ); ?></p>
+	<p>
+		<label>
+			<input type="checkbox" id="stjo-timeline-has-range" name="stjo_timeline_has_range"
+				value="1" <?php checked( $is_range ); ?>>
+			<?php esc_html_e( 'Add a range', 'stjo' ); ?>
+		</label>
+	</p>
+	<p id="stjo-timeline-end-year-row"<?php echo $is_range ? '' : ' hidden'; ?>>
+		<label for="stjo-timeline-end-year"><strong><?php esc_html_e( 'End Year', 'stjo' ); ?></strong></label><br>
+		<input type="number" id="stjo-timeline-end-year" name="stjo_timeline_end_year"
+			value="<?php echo esc_attr( $end_year ? $end_year : '' ); ?>"
+			min="1900" max="2100" step="1" style="width:100%"
+			placeholder="<?php esc_attr_e( 'e.g. 1930', 'stjo' ); ?>">
+	</p>
+	<p class="description"><?php esc_html_e( 'A range shows as "1927-1930" on the card and its chip. The decade group and sort order always come from the start year, so a span crossing decades still files under the one it began in.', 'stjo' ); ?></p>
+	<p class="description"><?php esc_html_e( 'Events sort oldest first; use Order (Attributes) to break ties within the same year.', 'stjo' ); ?></p>
+	<script>
+	/* Progressive: with JS off both fields render and both still save, so the
+	   feature degrades to "fill in End Year to make it a range". */
+	( function () {
+		var box   = document.getElementById( 'stjo-timeline-has-range' );
+		var row   = document.getElementById( 'stjo-timeline-end-year-row' );
+		var label = document.getElementById( 'stjo-timeline-year-label' );
+		var start = document.getElementById( 'stjo-timeline-year' );
+		var end   = document.getElementById( 'stjo-timeline-end-year' );
+		if ( ! box || ! row || ! label || ! start || ! end ) { return; }
+
+		var LABEL_SINGLE = <?php echo wp_json_encode( __( 'Year', 'stjo' ) ); ?>;
+		var LABEL_RANGE  = <?php echo wp_json_encode( __( 'Start Year', 'stjo' ) ); ?>;
+
+		function sync() {
+			var on = box.checked;
+			row.hidden = ! on;
+			label.textContent = on ? LABEL_RANGE : LABEL_SINGLE;
+			// Let the browser reject an end year that is not after the start,
+			// so the mistake is caught in the form instead of silently dropped
+			// by the save handler.
+			end.min = start.value ? ( parseInt( start.value, 10 ) + 1 ) : 1900;
+			if ( on ) { end.setAttribute( 'required', 'required' ); }
+			else { end.removeAttribute( 'required' ); }
+		}
+		box.addEventListener( 'change', function () {
+			sync();
+			if ( box.checked ) { end.focus(); }
+		} );
+		start.addEventListener( 'input', sync );
+		sync();
+	}() );
+	</script>
 	<fieldset>
 		<legend><strong><?php esc_html_e( 'Featured image layout', 'stjo' ); ?></strong></legend>
 		<p>
@@ -213,6 +310,18 @@ function stjo_timeline_save_meta( $post_id ) {
 		delete_post_meta( $post_id, 'stjo_timeline_year' );
 	}
 
+	// The checkbox is UI only — nothing stores it. A range exists when there is
+	// an end year later than the start, which means the two can never disagree.
+	// Unticking therefore has to clear the value, or a hidden end year would
+	// keep rendering a span.
+	$wants_range = ! empty( $_POST['stjo_timeline_has_range'] );
+	$end_year    = isset( $_POST['stjo_timeline_end_year'] ) ? absint( $_POST['stjo_timeline_end_year'] ) : 0;
+	if ( $wants_range && $year && $end_year > $year ) {
+		update_post_meta( $post_id, 'stjo_timeline_end_year', $end_year );
+	} else {
+		delete_post_meta( $post_id, 'stjo_timeline_end_year' );
+	}
+
 	$layout = isset( $_POST['stjo_timeline_image_layout'] ) ? sanitize_key( $_POST['stjo_timeline_image_layout'] ) : 'horizontal';
 	update_post_meta( $post_id, 'stjo_timeline_image_layout', stjo_timeline_sanitize_layout( $layout ) );
 
@@ -227,6 +336,9 @@ add_action( 'save_post_timeline-event', 'stjo_timeline_save_meta' );
  * Callable directly (seed scripts) as well as from the save handler.
  */
 function stjo_timeline_sync_terms( $post_id ) {
+	// Start year only, deliberately. A span that crosses a decade boundary
+	// (1928-1935) files under the decade it began in and carries its start year
+	// as the year term, so an event never appears in two decade groups.
 	$year = absint( get_post_meta( $post_id, 'stjo_timeline_year', true ) );
 	if ( ! $year ) {
 		wp_set_object_terms( $post_id, array(), 'timeline-year' );
@@ -247,7 +359,7 @@ function stjo_timeline_columns( $columns ) {
 	foreach ( $columns as $key => $label ) {
 		$out[ $key ] = $label;
 		if ( 'title' === $key ) {
-			$out['stjo_year'] = __( 'Year', 'stjo' );
+			$out['stjo_year'] = __( 'Year', 'stjo' ); // shows a span as "1927-1930"; sorts on the start year
 		}
 	}
 	return $out;
@@ -256,8 +368,16 @@ add_filter( 'manage_timeline-event_posts_columns', 'stjo_timeline_columns' );
 
 function stjo_timeline_column_content( $column, $post_id ) {
 	if ( 'stjo_year' === $column ) {
-		$year = absint( get_post_meta( $post_id, 'stjo_timeline_year', true ) );
-		echo $year ? esc_html( $year ) : '<span aria-hidden="true">—</span><span class="screen-reader-text">' . esc_html__( 'No year set', 'stjo' ) . '</span>';
+		$label = stjo_timeline_year_label(
+			get_post_meta( $post_id, 'stjo_timeline_year', true ),
+			get_post_meta( $post_id, 'stjo_timeline_end_year', true )
+		);
+		if ( '' === $label['display'] ) {
+			echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . esc_html__( 'No year set', 'stjo' ) . '</span>';
+			return;
+		}
+		echo '<span aria-hidden="true">' . esc_html( $label['display'] ) . '</span>';
+		echo '<span class="screen-reader-text">' . esc_html( $label['spoken'] ) . '</span>';
 	}
 }
 add_action( 'manage_timeline-event_posts_custom_column', 'stjo_timeline_column_content', 10, 2 );

@@ -224,7 +224,7 @@ a.stjo-give-tile:focus-visible img.is-masked {
 	white-space: nowrap; /* a single figure (e.g. "$1.2M") never breaks to two lines */
 	color: var(--wp--preset--color--blue-900, #003566);
 	line-height: 1.1; font-weight: 700;
-	margin-bottom: var(--stjo--spacing--xs);
+	margin: var(--stjo--spacing--md) 0 var(--stjo--spacing--xs);
 }
 .stjo-stat__label { font-size: var(--stjo--font-size--small, 14px); }
 /* Circle photo above each stat, ringed by the design's scalloped border
@@ -951,8 +951,7 @@ hr.stjo-zigzag, .stjo-zigzag {
    everywhere. (The stats-band rule above still pins that one instance
    to the 1146 grid.) */
 .wp-block-separator.is-style-basic:not(.is-style-dots):not(.is-style-wide) {
-	width: 100%;
-	max-width: 100%;
+	width: unset;	
 }
 
 /* "FAQ > Add divider line between question and answer — like in the design."
@@ -1003,11 +1002,13 @@ hr.stjo-zigzag, .stjo-zigzag {
    no content edit. The ribbon hangs BELOW the hero (top:100%), not inside it,
    so it never crowds the bottom-aligned title; the margin reserves its strip
    (!important: the root-level margin reset in main.css §6 zeroes it otherwise). */
-.stjo-page-hero {
+.stjo-page-hero,
+.stjo-page-title-band {
 	margin-bottom: 24px !important;
 	overflow: visible; /* core clips the cover, which would cut the hanging ribbon */
 }
-.stjo-page-hero::after {
+.stjo-page-hero::after,
+.stjo-page-title-band::after {
 	content: "";
 	position: absolute;
 	left: 0;

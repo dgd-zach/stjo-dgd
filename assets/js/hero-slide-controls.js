@@ -32,15 +32,21 @@
 
 	var withHeroSlideControls = createHigherOrderComponent( function ( BlockEdit ) {
 		return function ( props ) {
-			if ( 'core/cover' !== props.name || ! isSlide( props ) ) {
+			if ( 'core/cover' !== props.name ) {
 				return el( BlockEdit, props );
 			}
 
 			var a = props.attributes;
 			var set = props.setAttributes;
 
-			// Phone focal point is either explicitly set (both axes) or off.
-			var hasPhoneFocal = 'number' === typeof a.stjoFocalSmX && 'number' === typeof a.stjoFocalSmY;
+			// Framing is a carousel-slide idea (it lines a subject up with the
+			// text column beside it), so it stays scoped to slides. The scrim is
+			// useful on any cover with text over a photo, so it is offered on
+			// all of them — but a slide has it by default and a standalone cover
+			// has to be switched on, which is what flips the toggle's meaning.
+			var slide = isSlide( props );
+			var scrimOn = slide ? ( 'off' !== a.stjoScrim ) : ( 'on' === a.stjoScrim );
+
 
 			return el(
 				Fragment,
@@ -49,7 +55,7 @@
 				el(
 					InspectorControls,
 					{},
-					el(
+					slide && el(
 						PanelBody,
 						{ title: 'Slide framing', initialOpen: false },
 
@@ -93,32 +99,22 @@
 							__next40pxDefaultSize: true
 						} ),
 
-						el( ToggleControl, {
-							label: 'Set a separate focal point for phones',
-							checked: hasPhoneFocal,
-							onChange: function ( on ) {
-								set( on
-									? { stjoFocalSmX: 50, stjoFocalSmY: 30 }
-									: { stjoFocalSmX: undefined, stjoFocalSmY: undefined } );
-							},
-							help: 'Off uses the slide’s own focal point. Turn on when the desktop crop puts the subject off-frame on a phone.',
-							__nextHasNoMarginBottom: true
-						} ),
-
-						hasPhoneFocal && el( RangeControl, {
-							label: 'Phone focal point — horizontal (%)',
-							value: a.stjoFocalSmX,
-							onChange: function ( v ) { set( { stjoFocalSmX: 'number' === typeof v ? v : 50 } ); },
-							min: 0, max: 100, step: 1,
+						el( RangeControl, {
+							label: 'Move image sideways on phones (%)',
+							value: a.stjoShiftSmX || 0,
+							onChange: function ( v ) { set( { stjoShiftSmX: 'number' === typeof v ? v : 0 } ); },
+							min: -50, max: 50, step: 1,
+							help: 'Free to use, and cannot leave a gap: a phone crop has spare width inside the photo, so this pans through it and stops at the edge.',
 							__nextHasNoMarginBottom: true,
 							__next40pxDefaultSize: true
 						} ),
 
-						hasPhoneFocal && el( RangeControl, {
-							label: 'Phone focal point — vertical (%)',
-							value: a.stjoFocalSmY,
-							onChange: function ( v ) { set( { stjoFocalSmY: 'number' === typeof v ? v : 30 } ); },
-							min: 0, max: 100, step: 1,
+						el( RangeControl, {
+							label: 'Move image up or down on phones (%)',
+							value: a.stjoShiftSmY || 0,
+							onChange: function ( v ) { set( { stjoShiftSmY: 'number' === typeof v ? v : 0 } ); },
+							min: -50, max: 50, step: 1,
+							help: 'Negative moves it up. Unlike sideways there is no spare height on a phone, so this leaves that much of the band bare at the opposite edge — add phone zoom above to make room.',
 							__nextHasNoMarginBottom: true,
 							__next40pxDefaultSize: true
 						} )
@@ -126,27 +122,31 @@
 
 					el(
 						PanelBody,
-						{ title: 'Slide scrim', initialOpen: false },
+						{ title: slide ? 'Slide scrim' : 'Contrast scrim', initialOpen: false },
 
 						el( ToggleControl, {
 							label: 'Automatic contrast scrim',
-							checked: 'off' !== a.stjoScrim,
-							onChange: function ( on ) { set( { stjoScrim: on ? 'auto' : 'off' } ); },
-							help: 'On: a scrim is added behind the text, light under dark copy and dark under light, anchored to the text’s side. Turn off if the photo already carries the text or you are handling the overlay yourself.',
+							checked: scrimOn,
+							onChange: function ( on ) {
+								set( { stjoScrim: slide ? ( on ? 'auto' : 'off' ) : ( on ? 'on' : 'auto' ) } );
+							},
+							help: slide
+								? 'Desktop only. On: a scrim is added behind the text, light under dark copy and dark under light, anchored to the text’s side. Turn off if the photo already carries the text there. Phones keep their own setting below.'
+								: 'Off by default on covers outside the carousel. On: a scrim is added behind the text, light under dark copy and dark under light, anchored to the text’s column (flat if there are no columns). Guarantees the text stays readable whatever photo is swapped in.',
 							__nextHasNoMarginBottom: true
 						} ),
 
-						'off' !== a.stjoScrim && el( RangeControl, {
+						( slide || scrimOn ) && el( RangeControl, {
 							label: 'Scrim strength on phones (%)',
 							value: 'number' === typeof a.stjoScrimSm ? a.stjoScrimSm : 50,
 							onChange: function ( v ) { set( { stjoScrimSm: 'number' === typeof v ? v : undefined } ); },
 							min: 0, max: 100, step: 5,
-							help: 'On phones the scrim goes flat across the whole slide, because the text sits over the middle of the photo rather than to one side. 0 removes it.',
+							help: 'Independent of the toggle above: on phones the columns stack and the text sits over the middle of the photo, so it usually still needs a scrim even when desktop does not. 0 removes it.',
 							__nextHasNoMarginBottom: true,
 							__next40pxDefaultSize: true
 						} ),
 
-						'off' !== a.stjoScrim && 'number' === typeof a.stjoScrimSm && el( Button, {
+						( slide || scrimOn ) && 'number' === typeof a.stjoScrimSm && el( Button, {
 							variant: 'tertiary',
 							onClick: function () { set( { stjoScrimSm: undefined } ); }
 						}, 'Reset phone scrim to default' )
@@ -157,4 +157,58 @@
 	}, 'withHeroSlideControls' );
 
 	addFilter( 'editor.BlockEdit', 'stjo/hero-slide-controls', withHeroSlideControls );
+
+	/**
+	 * Show the sideways move in the editor canvas too.
+	 *
+	 * The frontend gets --stjo-slide-x from the render_block filter in
+	 * inc/hero-slide-controls.php, but the editor never runs render_block — it
+	 * builds the cover from JS — so without this the slider looked inert until
+	 * you previewed. main.css is already loaded into the canvas via
+	 * add_editor_style(), so all that is missing is the class and the custom
+	 * properties; put those on the block wrapper and the same rules apply.
+	 */
+	var withHeroSlideStyles = createHigherOrderComponent( function ( BlockListBlock ) {
+		return function ( props ) {
+			if ( 'core/cover' !== props.name || ! isSlide( props ) ) {
+				return el( BlockListBlock, props );
+			}
+			var a = props.attributes || {};
+			var shift = 'number' === typeof a.stjoShiftX ? a.stjoShiftX : 0;
+			var smX = 'number' === typeof a.stjoShiftSmX ? a.stjoShiftSmX : 0;
+			var smY = 'number' === typeof a.stjoShiftSmY ? a.stjoShiftSmY : 0;
+			var inRange = function ( n ) { return n >= -100 && n <= 100; };
+			if ( ! inRange( shift ) || ! inRange( smX ) || ! inRange( smY ) ) {
+				return el( BlockListBlock, props );
+			}
+			if ( ! shift && ! smX && ! smY ) {
+				return el( BlockListBlock, props );
+			}
+			var zoom = ( 'number' === typeof a.stjoZoom && a.stjoZoom > 1 && a.stjoZoom <= 3 ) ? a.stjoZoom : 1;
+			// Only the vertical half of the focal point survives a shift — the
+			// slider owns the horizontal axis, same as on the frontend.
+			var focalY = ( a.focalPoint && 'number' === typeof a.focalPoint.y ) ? a.focalPoint.y * 100 : 50;
+			var existing = props.wrapperProps || {};
+
+			var added = [];
+			if ( shift ) { added.push( 'has-slide-shift' ); }
+			if ( smX || smY ) { added.push( 'has-shift-sm' ); }
+
+			return el( BlockListBlock, Object.assign( {}, props, {
+				className: [ props.className ].concat( added ).filter( Boolean ).join( ' ' ),
+				wrapperProps: Object.assign( {}, existing, {
+					style: Object.assign( {}, existing.style, {
+						'--stjo-slide-x': shift + '%',
+						'--stjo-slide-sm-ox': ( 50 - smX ) + '%',
+						'--stjo-slide-sm-y': smY + '%',
+						'--stjo-slide-zoom': zoom,
+						'--stjo-slide-zoom-sm': ( 'number' === typeof a.stjoZoomSm && a.stjoZoomSm > 1 ) ? a.stjoZoomSm : zoom,
+						'--stjo-focus-y': focalY + '%'
+					} )
+				} )
+			} ) );
+		};
+	}, 'withHeroSlideStyles' );
+
+	addFilter( 'editor.BlockListBlock', 'stjo/hero-slide-styles', withHeroSlideStyles );
 }( window.wp ) );

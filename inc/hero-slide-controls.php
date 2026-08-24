@@ -6,7 +6,7 @@
  * (inc/patterns/hero-carousel.php). Everything an editor needed to control
  * framing used to live in magic "Additional CSS class" strings —
  * focus-sm-23-62, scrim-sm-40 — which nobody can discover and which are easy
- * to mistype. This registers real attributes on core/cover and renders them as
+ * to mistype. The classes still work; these are the discoverable route. This registers real attributes on core/cover and renders them as
  * CSS custom properties, so the same behaviour gets a sidebar panel
  * (assets/js/hero-slide-controls.js).
  *
@@ -40,9 +40,10 @@ function stjo_hero_slide_attributes( $args, $name ) {
 			'stjoShiftX'  => array( 'type' => 'number', 'default' => 0 ),
 			// Phone scale. 0 means "use the desktop value".
 			'stjoZoomSm'  => array( 'type' => 'number', 'default' => 0 ),
-			// Phone focal point, 0-100. null = fall back to the theme default.
-			'stjoFocalSmX' => array( 'type' => 'number' ),
-			'stjoFocalSmY' => array( 'type' => 'number' ),
+			// Move the photo on phones, in percent of the band. Same idea as
+			// stjoShiftX: 0 is centred, negative is left / up.
+			'stjoShiftSmX' => array( 'type' => 'number', 'default' => 0 ),
+			'stjoShiftSmY' => array( 'type' => 'number', 'default' => 0 ),
 			// Auto scrim: 'auto' keeps the contrast-guaranteed scrim,
 			// 'off' opts this slide out entirely.
 			'stjoScrim'   => array( 'type' => 'string', 'default' => 'auto' ),
@@ -108,16 +109,39 @@ function stjo_hero_slide_render( $block_content, $block ) {
 
 	// Phone focal point. Same custom property the focus-sm-X-Y classes feed,
 	// so the two routes cannot disagree.
-	$fx = isset( $attrs['stjoFocalSmX'] ) ? (float) $attrs['stjoFocalSmX'] : null;
-	$fy = isset( $attrs['stjoFocalSmY'] ) ? (float) $attrs['stjoFocalSmY'] : null;
-	if ( null !== $fx && null !== $fy && $fx >= 0 && $fx <= 100 && $fy >= 0 && $fy <= 100 ) {
-		$vars[]    = '--stjo-focus-sm:' . round( $fx, 2 ) . '% ' . round( $fy, 2 ) . '%';
-		$classes[] = 'has-focus-sm';
+	// Phone nudge. The geometry inverts on a phone: the band is tall and narrow,
+	// so cover fits these landscape photos by HEIGHT. That leaves a lot of
+	// spare width inside the image and no spare height at all, which is why the
+	// two axes need different levers.
+	//
+	// Sideways uses object-position, which pans WITHIN the element box and so
+	// can never open a gap — it just walks through the spare width and clamps at
+	// the edge. (A translate would slide the band-sized box itself off the edge
+	// and leave a bare strip while ignoring the spare width entirely.) 50% is
+	// centred; subtracting means a positive slider moves the photo right, the
+	// same direction as the desktop slider.
+	//
+	// Up/down has no spare to pan into, so it stays a translate and needs phone
+	// zoom to make room. That mirrors the desktop case exactly.
+	$sm_x = isset( $attrs['stjoShiftSmX'] ) ? (float) $attrs['stjoShiftSmX'] : 0.0;
+	$sm_y = isset( $attrs['stjoShiftSmY'] ) ? (float) $attrs['stjoShiftSmY'] : 0.0;
+	$sm_x = ( $sm_x >= -50 && $sm_x <= 50 ) ? $sm_x : 0.0;
+	$sm_y = ( $sm_y >= -50 && $sm_y <= 50 ) ? $sm_y : 0.0;
+	if ( abs( $sm_x ) > 0.01 || abs( $sm_y ) > 0.01 ) {
+		$vars[]    = '--stjo-slide-sm-ox:' . round( 50 - $sm_x, 2 ) . '%';
+		$vars[]    = '--stjo-slide-sm-y:' . round( $sm_y, 2 ) . '%';
+		$classes[] = 'has-shift-sm';
 	}
 
-	if ( isset( $attrs['stjoScrim'] ) && 'off' === $attrs['stjoScrim'] ) {
-		// carousel.js checks for this before injecting a scrim element.
+	// Carousel slides get the scrim by default, so they only need the opt-OUT.
+	// Standalone covers get nothing by default — switching them on wholesale
+	// would restyle every card and band on the site — so they need an opt-IN,
+	// which carousel.js picks up in a second pass.
+	$scrim = isset( $attrs['stjoScrim'] ) ? (string) $attrs['stjoScrim'] : 'auto';
+	if ( 'off' === $scrim ) {
 		$classes[] = 'no-auto-scrim';
+	} elseif ( 'on' === $scrim ) {
+		$classes[] = 'wants-auto-scrim';
 	}
 
 	$scrim_sm = isset( $attrs['stjoScrimSm'] ) ? (float) $attrs['stjoScrimSm'] : null;

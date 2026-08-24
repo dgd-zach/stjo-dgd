@@ -16,6 +16,8 @@
 	--stjo-tl-node-travel: 80px; /* how far a decade dot rides up the line before settling */
 	--stjo-tl-wm-size: clamp(56px, 8vw, 120px);
 	--stjo-tl-line-x: calc(var(--stjo-tl-pad) + var(--stjo-tl-label-col) + var(--stjo-tl-col-gap) / 2);
+	/* No-JS stand-in for "half a card down", used to trim the line ends. */
+	--stjo-tl-cap: calc(var(--stjo--spacing--xl, 48px) + var(--stjo-tl-wm-size) / 2);
 }
 
 .stjo-timeline {
@@ -30,12 +32,19 @@
 	padding-bottom: var(--stjo--spacing--lg, 32px);
 }
 
-/* Continuous vertical line + scroll-progress fill */
+/* Continuous vertical line + scroll-progress fill.
+
+   The line spans the first card's vertical centre to the last card's, so it
+   reads as a spine threaded through the cards rather than a rule running past
+   them. Both offsets are measured in view.js (--stjo-tl-line-top / -bottom):
+   card height depends on the copy, the slider's active slide and whether
+   read-more is expanded, none of which CSS can see. --stjo-tl-cap is the
+   no-JS fallback, roughly half a card down. */
 .stjo-timeline__inner::before {
 	content: "";
 	position: absolute;
-	top: 270px;
-	bottom: 0;
+	top: var(--stjo-tl-line-top, var(--stjo-tl-cap));
+	bottom: var(--stjo-tl-line-bottom, var(--stjo-tl-cap));
 	left: var(--stjo-tl-line-x);
 	width: 2px;
 	transform: translateX(-50%);
@@ -45,7 +54,7 @@
 .stjo-timeline__inner::after {
 	content: "";
 	position: absolute;
-	top: 0;
+	top: var(--stjo-tl-line-top, var(--stjo-tl-cap));
 	height: var(--stjo-tl-progress, 0px);
 	left: var(--stjo-tl-line-x);
 	width: 2px;
@@ -57,7 +66,9 @@
 	position: absolute;
 	/* The decade section's origin sits inside the inner padding, so subtract it */
 	left: calc(var(--stjo-tl-line-x) - var(--stjo-tl-pad));
-	top: calc(var(--stjo--spacing--xl, 48px) + var(--stjo-tl-wm-size) / 2);
+	/* --stjo-tl-card-mid (view.js) is this card's centre, measured from the
+	   section top. The fallback keeps the dot beside the heading with no JS. */
+	top: var(--stjo-tl-card-mid, var(--stjo-tl-cap));
 	width: 16px;
 	height: 16px;
 	/* Rides up the line and scales 0→1 as --stjo-tl-vis climbs, settling at
@@ -75,7 +86,11 @@
 .stjo-timeline__end {
 	position: absolute;
 	left: var(--stjo-tl-line-x);
-	bottom: 0;
+	/* Centred on the end of the line, i.e. the last card's centre. The -8px is
+	   half the dot: `bottom` positions its bottom edge, and the offset lives
+	   here rather than in transform because the reveal rules and pulse
+	   keyframes below both replace transform outright. */
+	bottom: calc(var(--stjo-tl-line-bottom, var(--stjo-tl-cap)) - 8px);
 	width: 16px;
 	height: 16px;
 	transform: translateX(-50%);
@@ -156,8 +171,27 @@
 		max-width: none;
 	}
 
+	/* The line ends on the last card's centre, which is also where that
+	   decade's travelling dot settles — two dots stacked on the same point.
+	   The pulsing end dot is the one that belongs there. */
+	.stjo-timeline__decade:last-of-type > .stjo-timeline__node {
+		display: none;
+	}
+
+	/* Out of the grid so it resolves against the section's padding box, the
+	   same origin --stjo-tl-card-mid is measured in and the dot already uses.
+	   It is decorative, so dropping it from flow costs nothing, and the row
+	   height then follows the cards alone. Width matches one grid column:
+	   two columns and a gutter across 100%. */
+	.stjo-timeline__decade-label {
+		position: absolute;
+		top: var(--stjo-tl-card-mid, var(--stjo-tl-cap));
+		width: calc(50% - var(--stjo-tl-gutter) / 2);
+		transform: translateY(-50%);
+	}
+
 	.stjo-timeline__decade:nth-of-type(odd) > .stjo-timeline__decade-label {
-		grid-column: 1;
+		left: 0;
 		text-align: right;
 	}
 	.stjo-timeline__decade:nth-of-type(odd) > .stjo-timeline__cards {
@@ -168,7 +202,7 @@
 		grid-column: 1;
 	}
 	.stjo-timeline__decade:nth-of-type(even) > .stjo-timeline__decade-label {
-		grid-column: 2;
+		right: 0;
 		text-align: left;
 	}
 }
@@ -274,8 +308,9 @@
 
 .stjo-timeline-card--vertical .stjo-timeline-card__media img {
 	display: block;
-	width: 100%;
-	height: auto;
+	width: auto;
+	height:100%;
+	object-fit: cover;
 }
 
 .stjo-timeline-card--vertical .stjo-timeline-card__body {
@@ -441,17 +476,12 @@
 
 	@keyframes stjo-tl-end-pulse-inner {
 		0%, 
-		
 		100% {
-			
 			transform: translateX(-50%) scale(1);
 		}
 
-		40%
-		
-		 {
+		40% {
 			transform: translateX(-50%) scale(1.2);
-			
 		}
 	}
 	@keyframes stjo-tl-end-pulse {
@@ -534,6 +564,24 @@
 	.stjo-timeline__node {
 		left: calc(var(--stjo-tl-line-x) - var(--stjo-tl-pad));
 		top: calc(var(--stjo--spacing--lg, 32px) + var(--stjo-tl-wm-size) / 2);
+	}
+
+	/* Full-height line here. The heading sits above its card rather than
+	   beside it, so trimming to the first card's centre would leave the first
+	   one off the line entirely. view.js clears the two custom properties
+	   below this width; these resets make that explicit rather than relying
+	   on it, so the fallbacks cannot leak in. */
+	.stjo-timeline__inner::before {
+		top: 0;
+		bottom: 0;
+	}
+
+	.stjo-timeline__inner::after {
+		top: 0;
+	}
+
+	.stjo-timeline__end {
+		bottom: 0;
 	}
 }
 

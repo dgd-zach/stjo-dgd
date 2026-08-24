@@ -71,11 +71,84 @@
 		} );
 		var ticking = false;
 
+		/* ── Spine geometry ───────────────────────────────────────────────
+		 * The line runs between the first and last cards' vertical centres
+		 * rather than the full height of the block, and every node dot and
+		 * watermark sits on that same centre beside its own card.
+		 *
+		 * These are measurements, not constants: card height moves with the
+		 * copy, the slider's active slide, and whether read-more is expanded.
+		 * CSS cannot read any of that, so it comes down as custom properties.
+		 * The stylesheet keeps standalone fallbacks for no-JS.
+		 * ────────────────────────────────────────────────────────────────── */
+		var spineTop = 0;
+		var spineLen = 0;
+		var spineRaf = 0;
+
+		function measureSpine() {
+			var firstMid = null;
+			var lastMid = null;
+
+			decades.forEach( function ( d ) {
+				var vp = d.section.querySelector( '.stjo-timeline__viewport' );
+				if ( ! vp ) {
+					return;
+				}
+				var sr = d.section.getBoundingClientRect();
+				var vr = vp.getBoundingClientRect();
+				if ( ! vr.height ) {
+					return;
+				}
+				// Offset from the section's own top edge, which is the origin
+				// both the dot and the watermark resolve their top against.
+				// In slider mode the viewport carries symmetric bleed padding,
+				// so its centre is still the card's centre.
+				d.section.style.setProperty(
+					'--stjo-tl-card-mid',
+					( vr.top - sr.top + vr.height / 2 ).toFixed( 1 ) + 'px'
+				);
+				var mid = vr.top + vr.height / 2;
+				if ( null === firstMid ) {
+					firstMid = mid;
+				}
+				lastMid = mid;
+			} );
+
+			var ir = inner.getBoundingClientRect();
+
+			// Mobile keeps the full-height line: the heading sits above its card
+			// there rather than beside it, so trimming to the first card's
+			// centre would strand it off the line. A lone decade has no span to
+			// draw between either.
+			if ( mobile.matches || null === firstMid || firstMid === lastMid ) {
+				inner.style.removeProperty( '--stjo-tl-line-top' );
+				inner.style.removeProperty( '--stjo-tl-line-bottom' );
+				spineTop = 0;
+				spineLen = ir.height;
+				return;
+			}
+
+			spineTop = firstMid - ir.top;
+			spineLen = lastMid - firstMid;
+			inner.style.setProperty( '--stjo-tl-line-top', spineTop.toFixed( 1 ) + 'px' );
+			inner.style.setProperty( '--stjo-tl-line-bottom', ( ir.bottom - lastMid ).toFixed( 1 ) + 'px' );
+		}
+
+		function remeasure() {
+			cancelAnimationFrame( spineRaf );
+			spineRaf = requestAnimationFrame( function () {
+				measureSpine();
+				update();
+			} );
+		}
+
 		function update() {
 			ticking = false;
 			var rect = inner.getBoundingClientRect();
 			var focusY = window.innerHeight / 2;
-			var fill = Math.max( 0, Math.min( focusY - rect.top, rect.height ) );
+			// Measured from the top of the spine, not the top of the block, so
+			// the fill still reaches the end exactly as the last card centres.
+			var fill = Math.max( 0, Math.min( focusY - ( rect.top + spineTop ), spineLen ) );
 			inner.style.setProperty( '--stjo-tl-progress', fill.toFixed( 1 ) + 'px' );
 
 			var span = window.innerHeight * 0.45;
@@ -144,8 +217,23 @@
 		}
 
 		window.addEventListener( 'scroll', requestUpdate, { passive: true } );
-		window.addEventListener( 'resize', requestUpdate );
+		window.addEventListener( 'resize', remeasure );
+
+		measureSpine();
 		update();
+
+		// Card height changes on slide change, read-more toggling, font load and
+		// image decode. One observer per viewport catches the lot, instead of
+		// hooking each of those call sites.
+		if ( window.ResizeObserver ) {
+			var ro = new ResizeObserver( remeasure );
+			root.querySelectorAll( '.stjo-timeline__viewport' ).forEach( function ( vp ) {
+				ro.observe( vp );
+			} );
+		}
+		if ( document.fonts && document.fonts.ready ) {
+			document.fonts.ready.then( remeasure );
+		}
 	}
 
 	function initDecade( section ) {

@@ -2,19 +2,25 @@
 /**
  * Search results template.
  *
+ * Uses the shared page hero (stjo_page_hero) so results are framed like every
+ * other interior page: blue title band, eyebrow, H1, zigzag ribbon. The hand
+ * built band this replaced carried .stjo-page-hero, which has no background of
+ * its own, so the heading rendered on bare white.
+ *
  * @package stjo
  */
 
 get_header();
+
+stjo_page_hero(
+	null,
+	array(
+		'eyebrow' => __( 'Search', 'stjo' ),
+		/* translators: %s: the search term. Raw query: stjo_page_hero() escapes the title. */
+		'title'   => sprintf( __( 'Search results for “%s”', 'stjo' ), get_search_query( false ) ),
+	)
+);
 ?>
-<div class="wp-block-group alignfull stjo-page-hero">
-	<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-	<h1 class="wp-block-heading has-text-align-center">
-		<?php printf( esc_html__( 'Search results for “%s”', 'stjo' ), esc_html( get_search_query() ) ); ?>
-	</h1>
-	<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
-</div>
-<?php // No separator here: the zigzag ribbon is an ::after on the hero (sections.css). ?>
 <div class="entry-content">
 	<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 	<?php get_search_form(); ?>

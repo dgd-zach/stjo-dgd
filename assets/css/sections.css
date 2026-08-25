@@ -997,13 +997,24 @@ hr.stjo-zigzag, .stjo-zigzag {
 
 /* "Content Block updates > hero is missing the branded lineage at the bottom"
    + "Pattern Library > Heros > missing line below": the design closes every
-   page hero with the zigzag ribbon. Drawn as an ::after on the cover (which
-   is position:relative from core), so every existing page picks it up with
-   no content edit. The ribbon hangs BELOW the hero (top:100%), not inside it,
-   so it never crowds the bottom-aligned title; the margin reserves its strip
-   (!important: the root-level margin reset in main.css §6 zeroes it otherwise). */
+   page hero with the zigzag ribbon, drawn as an ::after so every existing page
+   picks it up with no content edit. The ribbon hangs BELOW the hero (top:100%),
+   not inside it, so it never crowds the bottom-aligned title; the margin
+   reserves its strip (!important: the root-level margin reset in main.css §6
+   zeroes it otherwise).
+
+   position:relative is load-bearing, not decoration. top:100% on the absolute
+   ::after has to resolve against the band itself. This used to rely on the band
+   being position:relative already, which is true for a core/cover and for the
+   editor's constrained-layout group (both get it from core), but NOT for the
+   plain group that stjo_page_hero() prints for stub pages. There the ribbon fell
+   back to the initial containing block, so top:100% meant one viewport height
+   from the document origin: it detached from the hero, landed on top of the
+   pre-footer, and moved as the window resized. Setting it here makes the band
+   the containing block on every page instead of by accident on some. */
 .stjo-page-hero,
 .stjo-page-title-band {
+	position: relative;
 	margin-bottom: 24px !important;
 	overflow: visible; /* core clips the cover, which would cut the hanging ribbon */
 }

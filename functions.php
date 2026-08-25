@@ -196,8 +196,13 @@ function stjo_page_is_stub( $post = null ) {
 
 /**
  * Default internal page hero: the full-width blue title band (eyebrow + H1)
- * used across built pages, followed by the zigzag divider. Rendered by page.php
- * for stub pages, home.php for the blog index, and single.php for blog posts.
+ * used across built pages. Rendered by page.php for stub pages, home.php for
+ * the blog index, and single.php for blog posts.
+ *
+ * The zigzag ribbon that closes the band is NOT printed here. It is an ::after
+ * on .stjo-page-title-band (sections.css), so it applies to built pages and this
+ * one alike without a content edit. Printing a core/separator here as well would
+ * stack a second ribbon under the first.
  *
  * @param int|WP_Post|null $post Post to title from.
  * @param array            $args {
@@ -232,6 +237,5 @@ function stjo_page_hero( $post = null, $args = array() ) {
 		<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color"><?php echo esc_html( $args['title'] ); ?></h1>
 		<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
 	</div>
-	<hr class="wp-block-separator has-alpha-channel-opacity alignfull" />
 	<?php
 }

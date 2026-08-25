@@ -578,35 +578,52 @@ hr.stjo-zigzag, .stjo-zigzag {
 /* Pull quote: the yellow rules flip orientation by breakpoint — side rules
    (left/right) on desktop, top/bottom rules on mobile (side rules would crowd
    a narrow column). */
-.stjo-pull-quote {
+/* Doubled class throughout: core ships .wp-block-pullquote { padding: 4em 0 }
+   plus its own citation rules, so a single .stjo-pull-quote would depend on
+   load order to win. .wp-block-pullquote.stjo-pull-quote beats them outright. */
+.wp-block-pullquote.stjo-pull-quote {
 	border-top: 4px solid var(--wp--preset--color--yellow, #ffd520);
 	border-bottom: 4px solid var(--wp--preset--color--yellow, #ffd520);
-	padding-block: var(--stjo--spacing--lg, 32px);
+	padding: var(--stjo--spacing--lg, 32px) 0;
+	margin-block: 0;
 }
 @media (min-width: 769px) {
-	.stjo-pull-quote {
+	.wp-block-pullquote.stjo-pull-quote {
 		border-top: 0;
 		border-bottom: 0;
 		border-left: 4px solid var(--wp--preset--color--yellow, #ffd520);
 		border-right: 4px solid var(--wp--preset--color--yellow, #ffd520);
-		padding-inline: var(--stjo--spacing--xl, 48px);
+		padding: var(--stjo--spacing--lg, 32px) var(--stjo--spacing--xl, 48px);
 	}
 }
-.stjo-pull-quote .wp-block-quote { margin: 0; padding: 0; border: 0; }
-.stjo-pull-quote .wp-block-quote p {
+/* main.css styles bare `blockquote` (yellow left rule + indent). Inside the
+   figure that doubles up on the rules the figure already draws. */
+.wp-block-pullquote.stjo-pull-quote blockquote {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	max-width: none;
+}
+.wp-block-pullquote.stjo-pull-quote p {
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
 	font-size: var(--wp--preset--font-size--large, 32px);
+	font-weight: 700;
+	text-align: center;
 	line-height: 1.3;
-	color: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--blue-900, #003566);
 	margin-bottom: var(--stjo--spacing--sm, 16px);
 }
-.stjo-pull-quote .wp-block-quote cite {
+.wp-block-pullquote.stjo-pull-quote cite {
+	display: block;
 	font-style: normal;
 	font-size: var(--wp--preset--font-size--base, 16px);
+	font-weight: 400;
 	color: var(--wp--preset--color--dark, #333);
+	text-align: center;
+	text-transform: none; /* core uppercases pullquote citations */
 }
 @media (max-width: 768px) {
-	.stjo-pull-quote .wp-block-quote p { font-size: var(--wp--preset--font-size--medium, 24px); }
+	.wp-block-pullquote.stjo-pull-quote p { font-size: var(--wp--preset--font-size--medium, 24px); }
 }
 
 /* Full-width image band. */

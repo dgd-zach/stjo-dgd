@@ -88,6 +88,14 @@ function stjo_register_block_styles() {
 		'label' => __( 'Accordion', 'stjo' ),
 	) );
 
+	// Opt-in: centre this heading on phones, whatever its desktop alignment.
+	// Deliberately NOT registered isDefault — a default style serialises no
+	// class, which would silently recentre every heading on the site.
+	register_block_style( 'core/heading', array(
+		'name'  => 'center-mobile',
+		'label' => __( 'Centered on Mobile', 'stjo' ),
+	) );
+
 }
 add_action( 'init', 'stjo_register_block_styles' );
 

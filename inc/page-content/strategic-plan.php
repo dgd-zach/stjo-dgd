@@ -71,13 +71,9 @@ $priority = function ( $title, $text ) {
 <?php echo $sp( 'medium' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"wide","className":"stjo-pull-quote","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignwide stjo-pull-quote"><!-- wp:quote -->
-<blockquote class="wp-block-quote"><!-- wp:paragraph -->
-<p>&#8220;This plan reflects both the strength of our foundation and the responsibility we carry for the future. We are building on nearly a century of mission-driven work while continuing to grow and evolve to meet the changing needs of Native American children and families.&#8221;</p>
-<!-- /wp:paragraph --><cite>Jennifer Renner-Meyer, Chief Operating Officer</cite></blockquote>
-<!-- /wp:quote --></div>
-<!-- /wp:group -->
+<!-- wp:pullquote {"align":"wide","className":"stjo-pull-quote"} -->
+<figure class="wp-block-pullquote alignwide stjo-pull-quote"><blockquote><p>&#8220;This plan reflects both the strength of our foundation and the responsibility we carry for the future. We are building on nearly a century of mission-driven work while continuing to grow and evolve to meet the changing needs of Native American children and families.&#8221;</p><cite>Jennifer Renner-Meyer, Chief Operating Officer</cite></blockquote></figure>
+<!-- /wp:pullquote -->
 
 <!-- wp:group {"metadata":{"name":"Strategic Framework"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-light-background-color has-background"><?php echo $sp( 'large' ); ?>

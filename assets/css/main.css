@@ -50,10 +50,15 @@ body { overflow-x: clip; }
 /* ═══════════════════════════════════════════════════════════════════════
    2. TYPOGRAPHY
    ═══════════════════════════════════════════════════════════════════════ */
+/* Headings are blue-900 (#003566), not brand-dark. brand-dark is #0053a0 —
+   the same value as blue-700, despite the name — and it stays the colour for
+   buttons, pills, link hovers and nav states, so this rule is deliberately the
+   only place the heading colour is set. Most blocks already carry an explicit
+   textColor of blue-900; this makes the inherited default agree with them. */
 h1, h2, h3, h4, h5, h6,
 .wp-block-heading {
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
-	color: var(--wp--preset--color--brand-dark, #0053a0);
+	color: var(--wp--preset--color--blue-900, #003566);
 	margin: 0 0 var(--stjo--spacing--md);
 	font-weight: 700;
 }
@@ -102,7 +107,7 @@ p:last-child:not(:only-child) { margin-bottom: 0; }
 	margin-bottom: var(--stjo--spacing--sm);
 }
 /* Default color only when the block hasn't set an explicit text color. */
-.is-style-eyebrow:not(.has-text-color) { color: var(--wp--preset--color--primary, #1a6db8); }
+/* .is-style-eyebrow:not(.has-text-color) { color: var(--wp--preset--color--primary, #1a6db8); } */
 
 /* ═══════════════════════════════════════════════════════════════════════
    3. LINKS
@@ -274,6 +279,13 @@ blockquote, .wp-block-quote {
 }
 .wp-block-quote cite { display: block; margin-top: var(--stjo--spacing--sm); font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base)); font-size: var(--stjo--font-size--small, 14px); font-style: normal; }
 
+/* Quote and Pull Quote default to centred text. Deliberately keyed on the
+   block classes, not bare `blockquote`, so a hand-written quote in raw HTML is
+   untouched. Picking an alignment in the editor still wins: core emits
+   .has-text-align-*, one class more specific than this. */
+.wp-block-quote,
+.wp-block-pullquote { text-align: center; }
+
 .wp-block-image img { display: block; }
 .wp-block-image.is-style-rounded img,
 .is-style-rounded img { border-radius: var(--stjo--radius--lg, 16px); }
@@ -369,6 +381,15 @@ blockquote, .wp-block-quote {
    flush against the heading below it — add breathing room under it. */
 @media (max-width: 600px) {
 	.wp-block-media-text.is-stacked-on-mobile > .wp-block-media-text__media { margin-bottom: var(--stjo--spacing--md, 24px); }
+
+	/* Once stacked there is no image beside the text, so core's left padding is
+	   just an indent that pushes the copy out of line with everything above and
+	   below it. The image-right variant already reads flush (its left padding is
+	   dropped at every width, above); this brings the default variant into line.
+	   Scoped to is-stacked-on-mobile on purpose: a media-text left un-stacked
+	   stays side by side even on a phone, and there the left padding is still
+	   the gap to the image. */
+	.wp-block-media-text.is-stacked-on-mobile > .wp-block-media-text__content { padding-left: 0; }
 }
 
 
@@ -604,6 +625,14 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 .wp-block-columns { display: flex; flex-wrap: wrap; gap: var(--stjo--spacing--md); }
 .wp-block-column { flex: 1 1 0; min-width: 0; }
 
+/* A column's last child drops its bottom margin. When the column lays its
+   children out with a gap, that margin stacks on top of the gap and the space
+   below the final block reads as too deep. Same trim as the p:last-child rule
+   in §2, widened to whatever block happens to land last.
+   Not !important: a margin set on the block in the editor serialises inline
+   and should still win. */
+.wp-block-column > *:last-child { margin-bottom: 0; }
+
 .wp-block-query .wp-block-post-template {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -625,7 +654,7 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--stjo--spacing--md);
-	max-width: var(--stjo--layout--wide--max-width, 1440px);
+	/* max-width: var(--stjo--layout--wide--max-width, 1440px); */
 	margin-inline: auto;
 	padding: var(--stjo--spacing--sm) var(--stjo--spacing--lg);
 }
@@ -1206,6 +1235,14 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	h4, h4.wp-block-heading { font-size: 20px; }
 	h5, h5.wp-block-heading { font-size: 18px; }
 	h6, h6.wp-block-heading { font-size: 16px; }
+
+	/* Opt-in block style "Centered on Mobile" (block-styles.php): centre this
+	   heading on phones whatever its desktop alignment. Two classes deep on
+	   purpose — it has to outrank core's .has-text-align-* (one class), since
+	   a heading deliberately left- or right-aligned for desktop is exactly the
+	   one worth recentring on a phone. */
+	.wp-block-heading.is-style-center-mobile { text-align: center; }
+
 	.wp-block-columns { flex-direction: column; }
 	/* A constrained Group's "Content width" (set in the editor) compiles to a
 	   fixed-px max-width on its children. Once the column stacks, release it so

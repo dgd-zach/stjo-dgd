@@ -18,7 +18,7 @@ get_header();
 			<h1 class="wp-block-heading has-text-align-center"><?php the_title(); ?></h1>
 			<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 		</div>
-		<hr class="wp-block-separator has-alpha-channel-opacity stjo-zigzag alignfull"/>
+		<?php // No separator here: the zigzag ribbon is an ::after on the hero (sections.css). ?>
 
 		<div class="entry-content">
 			<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>

@@ -7,9 +7,15 @@
  * @package stjo
  */
 ?>
+
+
+<!-- wp:spacer {"height":"var:preset|spacing|small"} -->
+<div style="height:var(--wp--preset--spacing--small)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
 <!-- wp:group {"metadata":{"name":"Share Bar"},"className":"stjo-share-bar","layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-group stjo-share-bar"><!-- wp:paragraph -->
-<p><strong>Share this Story:</strong></p>
+<div class="wp-block-group stjo-share-bar">
+<!-- wp:paragraph -->
+<p>Share this Story:</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"layout":{"type":"flex"}} -->
@@ -26,3 +32,6 @@
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
+ <!-- wp:spacer {"height":"var:preset|spacing|small"} -->
+<div style="height:var(--wp--preset--spacing--small)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->

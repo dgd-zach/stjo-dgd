@@ -291,6 +291,36 @@ blockquote, .wp-block-quote {
 .is-style-rounded img { border-radius: var(--stjo--radius--lg, 16px); }
 .wp-element-caption, .wp-block-image figcaption { font-size: var(--stjo--font-size--small, 14px); color: var(--wp--preset--color--neutral-700, #4d4d4d); }
 
+/* ── Vertical rhythm belongs to Spacer blocks ─────────────────────────────
+   Core ships its block margins :where()-wrapped — :where(.wp-block-columns)
+   { margin-bottom: 1.75em } and friends — which carries ZERO specificity, and
+   the browser plus the element rules above add more. Between them, the gap
+   between two blocks depended on which blocks they happened to be (measured on
+   one page: p at 16 and 24, h2 at 8, 16 and 24, columns at 28). Zero the
+   defaults so a Spacer is what opens vertical space.
+
+   margin-bottom only: WP already zeroes margin-block-start, so nothing carries
+   a top margin and there is none to fight.
+
+   :where() is doing real work here — it holds this at one-class specificity,
+   which is enough to beat core's :where() defaults, the UA, and the element
+   rules above, while still LOSING to component rules (.stjo-card h3, give
+   tiles, share bar, list items) so their internal spacing survives. No
+   !important either, so a margin set on a block in the editor still wins.
+
+   Headings and paragraphs are deliberately EXEMPT — they keep the spacing
+   declared for them in §2. The :not()s are load-bearing: core stamps
+   .wp-block-heading and .wp-block-paragraph onto them, so without the
+   exclusions the [class*="wp-block-"] arm would zero them straight back out. */
+.entry-content :where(ul, ol, dl, dd, pre, figure, blockquote, table,
+                      [class*="wp-block-"]:not(.wp-block-heading):not(.wp-block-paragraph)) {
+	margin-bottom: 0;
+}
+/* A paragraph keeps its rhythm mid-flow and only drops the trailing margin when
+   it ends its container — so the gap BELOW a block of copy is the Spacer's job,
+   while the gaps inside it stay the paragraph's own. */
+.entry-content p:last-child { margin-bottom: 0; }
+
 /* DEFAULT separator = the zigzag ribbon (design's signature divider).
    "Wide Line" is registered isDefault, but a default block style serializes
    NO class, so a fresh separator is just .wp-block-separator. Core's
@@ -376,10 +406,6 @@ blockquote, .wp-block-quote {
 	max-width: min(var(--wp--style--global--wide-size, 1280px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
 	margin-inline: auto;
 }
-/* Horizontal gutter for band content. */
-.wp-block-group.alignfull > .wp-block-group__inner-container,
-.entry-content--front > .wp-block-group > .wp-block-group__inner-container { padding-inline: var(--stjo--spacing--md); }
-
 /* Home video band: line the video up with the wide-aligned cover cards above
    it, while the blue band stays full-bleed. Core adds ~38px side padding to any
    has-background group, which shrinks the video off the grid; drop it, then cap
@@ -387,8 +413,18 @@ blockquote, .wp-block-quote {
    minus its 16px gutter each side — so the edges match at every viewport. (On
    classic scrollbars a full-bleed band's inner still sits ~half a scrollbar
    wider than a wide band's; that's ~0 on overlay-scrollbar devices.) */
-.stjo-video-band.alignfull { padding-inline: 0; }
-.stjo-video-band.alignfull > .wp-block-embed {
+/* No longer keyed on .alignfull: the pattern and the home seed both declare
+   align:full, but the block as it stands in the DB has had that removed in the
+   editor, so the .stjo-video-band.alignfull form matched nothing and the band
+   kept the very 38px gutter this rule exists to drop. Three classes deep
+   because it has to outrank .wp-block-group.has-background in sections.css,
+   which sets that 38px and loads after this file. */
+.wp-block-group.has-background.stjo-video-band { padding-inline: 0; }
+/* Descendant, not child: the embed sits inside an inner constrained group, so
+   the `>` form matched nothing and core's
+   `.is-layout-constrained > :where(...)` capped the video at content-size.
+   Two classes beats that rule's one. */
+.stjo-video-band .wp-block-embed {
 	max-width: calc(min(var(--wp--style--global--wide-size, 1280px), 100%) - 2 * var(--stjo--spacing--sm, 16px));
 	margin-inline: auto;
 }

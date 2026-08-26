@@ -439,7 +439,7 @@ hr.stjo-zigzag, .stjo-zigzag {
 .stjo-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d4d4d); }
 
 /* Share bar: small pill share buttons with thin separators. */
-.stjo-share-bar { padding-block: var(--stjo--spacing--sm, 16px); }
+.stjo-share-bar { gap: 24px; }
 .stjo-share-bar p { margin: 0; }
 .stjo-share-btn .wp-block-button__link {
 	font-size: 13px;
@@ -451,9 +451,14 @@ hr.stjo-zigzag, .stjo-zigzag {
 .stjo-share-bar .wp-block-button { display: flex; align-items: center; }
 .stjo-share-bar .wp-block-button:not(:first-child)::before {
 	content: "";
-	width: 1px;
+	width: 2px;
+	/* The button is a flex container, so this pseudo-element is a flex ITEM and
+	   shrinks like one. Without this it gets squeezed by however much room its
+	   own button has left, which is why the pipes rendered at different widths
+	   (0.73px next to "X", 1.5px next to "LinkedIn") despite both asking for 2px. */
+	flex-shrink: 0;
 	height: 23px;
-	background: var(--stjo--color--neutral-200, #ccc);
+	background: var(--stjo--color--primary, #1A6DB8);
 	margin-right: var(--stjo--spacing--sm, 16px);
 }
 
@@ -1093,10 +1098,14 @@ hr.stjo-zigzag, .stjo-zigzag {
    site-wide, it no longer scales with a band's font size, and the
    wide-in-wide bleed below reads the same property instead of mirroring a
    magic number. The 16px step-down replaces main.css's old mobile trim.
-   Vertical padding stays core's 1.25em (patterns carry their own spacers). */
+   Vertical padding is zeroed: core's :where(.wp-block-group.has-background)
+   ships `padding: 1.25em 2.375em`, and the 1.25em top/bottom used to survive
+   because this rule only replaced the inline half. Bands carry their own
+   Spacers, so that 20px was an extra gap on top of an explicit one. */
 .wp-block-group.has-background {
 	--stjo-group-pad-x: 38px;
 	padding-inline: var(--stjo-group-pad-x);
+	padding-block: 0;
 }
 @media (max-width: 768px) {
 	.wp-block-group.has-background { --stjo-group-pad-x: var(--stjo--spacing--sm, 16px); }

@@ -193,7 +193,7 @@ a.stjo-give-tile:focus-visible img.is-masked {
 }
 .stjo-generosity .wp-block-columns > .wp-block-column { margin: 0 !important; width: auto !important; }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
 	.stjo-give-tile { min-height: 150px; }
 	.stjo-generosity .wp-block-columns { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1102,13 +1102,19 @@ hr.stjo-zigzag, .stjo-zigzag {
    ships `padding: 1.25em 2.375em`, and the 1.25em top/bottom used to survive
    because this rule only replaced the inline half. Bands carry their own
    Spacers, so that 20px was an extra gap on top of an explicit one. */
+/* Band padding is the shared layout gutter at every width, not a separate
+   38px. That 38px (core's 2.375em) was only ever VISIBLE between ~769px and
+   ~1222px: below that the mobile step-down replaced it, and above it a band's
+   children cap at content-size and centre far inside the padding (measured
+   147px in from a 1440px viewport, nowhere near 38). So the only widths it
+   affected were tablet ones — exactly where it made a padded band's content
+   sit 38px in while everything around it sat on the gutter. One value now, and
+   the wide-in-wide bleed below still cancels whatever the padding actually is,
+   since it reads this same property. */
 .wp-block-group.has-background {
-	--stjo-group-pad-x: 38px;
+	--stjo-group-pad-x: var(--stjo-gutter);
 	padding-inline: var(--stjo-group-pad-x);
 	padding-block: 0;
-}
-@media (max-width: 768px) {
-	.wp-block-group.has-background { --stjo-group-pad-x: var(--stjo--spacing--sm, 16px); }
 }
 
 /* Wide-in-wide: an alignwide block directly inside an alignwide group spans

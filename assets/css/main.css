@@ -349,6 +349,30 @@ blockquote, .wp-block-quote {
 /* ═══════════════════════════════════════════════════════════════════════
    6. LAYOUT — wrapper, alignments, cascade (load-bearing)
    ═══════════════════════════════════════════════════════════════════════ */
+/* ONE gutter for the whole layout. Every rule that keeps content off the
+   viewport edge reads this — the wrapper's padding, the front page's per-block
+   padding, and the alignfull/alignwide clamps below. They used to disagree:
+   the wrapper was on spacing--md (24px) while the align clamps were on
+   spacing--sm (16px), so on a phone an alignfull or alignwide band sat 8px
+   closer to the edge than ordinary in-flow content. Change it here, once.
+
+   16px on phones, 24px from tablet up. 769px is the theme's dominant
+   breakpoint (the bands and the heading scale already turn there), so the
+   gutter turns with them rather than introducing a fourth edge. */
+:root { --stjo-gutter: var(--stjo--spacing--sm, 16px); }
+@media (min-width: 769px) {
+	:root { --stjo-gutter: var(--stjo--spacing--md, 24px); }
+}
+
+/* Covers were the last holdout: core ships them 1em (16px) of inline padding,
+   so a full-bleed cover's content sat 8px closer to the edge than the in-flow
+   content around it. Deliberately NOT inside a media query — a cover is
+   full-bleed at every width, so its padding IS the only thing holding its
+   content off the edge, and pinning it to the gutter is what keeps the two in
+   step once the gutter starts changing. Single class on purpose: the card
+   treatment (.stjo-card.wp-block-cover) is two and still wins. */
+.wp-block-cover { padding-inline: var(--stjo-gutter); }
+
 .entry-content {
 	/* content-box: the 1146px cap measures the CONTENT, with the gutter
 	   padding outside it. In-flow content then sits on the same 1146 grid
@@ -357,13 +381,13 @@ blockquote, .wp-block-quote {
 	box-sizing: content-box;
 	max-width: var(--wp--style--global--content-size, 1146px);
 	margin-inline: auto;
-	padding-inline: var(--stjo--spacing--md, 24px);
+	padding-inline: var(--stjo-gutter);
 }
 /* The front page is a stack of full-bleed bands; let them span edge to edge.
    Any top-level block that is NOT alignfull still gets the 16px gutter so
    its content can't touch the viewport edge on small screens. */
 .entry-content--front { max-width: none; padding-inline: 0; }
-.entry-content--front > :where(:not(.alignfull)) { padding-inline: var(--stjo--spacing--sm, 16px); }
+.entry-content--front > :where(:not(.alignfull)) { padding-inline: var(--stjo-gutter); }
 
 .entry-content > .alignwide,
 .wp-block-group.alignwide { max-width: var(--wp--style--global--wide-size, 1280px); margin-inline: auto; }
@@ -382,7 +406,7 @@ blockquote, .wp-block-quote {
    normally), so one expression covers both. The min() hands the viewport the
    final say, keeping a 16px gutter on small screens. */
 .entry-content > .alignwide {
-	--stjo-wide-w: min(var(--wp--style--global--wide-size, 1280px), calc(100vw - 2 * var(--stjo--spacing--sm, 16px)));
+	--stjo-wide-w: min(var(--wp--style--global--wide-size, 1280px), calc(100vw - 2 * var(--stjo-gutter)));
 	max-width: none;
 	width: var(--stjo-wide-w);
 	margin-inline: calc((100% - var(--stjo-wide-w)) / 2);
@@ -393,7 +417,7 @@ blockquote, .wp-block-quote {
    is not itself alignfull can never touch the viewport edge. */
 .wp-block-group.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)),
 .wp-block-group.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)) {
-	max-width: min(var(--wp--style--global--content-size, 1146px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
+	max-width: min(var(--wp--style--global--content-size, 1146px), calc(100% - 2 * var(--stjo-gutter)));
 	margin-inline: auto;
 }
 
@@ -403,8 +427,23 @@ blockquote, .wp-block-quote {
    already handles that case (max-width:none, plus a negative margin that
    cancels a padded band's gutter so the two backgrounds meet). */
 .wp-block-group.alignfull > .alignwide {
-	max-width: min(var(--wp--style--global--wide-size, 1280px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
+	max-width: min(var(--wp--style--global--wide-size, 1280px), calc(100% - 2 * var(--stjo-gutter)));
 	margin-inline: auto;
+}
+
+/* A PADDED band already holds its content off the viewport edge, so its
+   children must not subtract a second gutter on top of that padding. They did,
+   and it showed up at tablet widths: 38px of band padding + a 16px clamp put
+   content at 54 while everything around it sat at 16. Cap at the tier width
+   only, with no gutter term. The ≤768 rule further down then relaxes these to
+   100%, because there the band's padding IS the gutter and its children should
+   fill it outright. Desktop is untouched either way — once the band's content
+   box exceeds ~1178px the tier width wins and the gutter term never applied. */
+.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide)) {
+	max-width: min(var(--wp--style--global--content-size, 1146px), 100%);
+}
+.wp-block-group.has-background.alignfull > .alignwide {
+	max-width: min(var(--wp--style--global--wide-size, 1280px), 100%);
 }
 /* Home video band: line the video up with the wide-aligned cover cards above
    it, while the blue band stays full-bleed. Core adds ~38px side padding to any
@@ -425,7 +464,7 @@ blockquote, .wp-block-quote {
    `.is-layout-constrained > :where(...)` capped the video at content-size.
    Two classes beats that rule's one. */
 .stjo-video-band .wp-block-embed {
-	max-width: calc(min(var(--wp--style--global--wide-size, 1280px), 100%) - 2 * var(--stjo--spacing--sm, 16px));
+	max-width: calc(min(var(--wp--style--global--wide-size, 1280px), 100%) - 2 * var(--stjo-gutter));
 	margin-inline: auto;
 }
 
@@ -634,7 +673,11 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 		padding: var(--stjo--spacing--md, 24px);
 		border-radius: var(--stjo--radius--md, 8px);
 	}
-	.stjo-hero-slide--dark .wp-block-cover__inner-container { padding-inline: var(--stjo--spacing--md, 24px); }
+	/* The dark slides' gutter used to be added here, on the inner container.
+	   The cover itself now carries --stjo-gutter, so this stacked on top of it
+	   and those slides sat a full gutter further in than the rest of the page
+	   (24 + 24 = 48; it was 16 + 24 = 40 before the cover moved onto the
+	   token, so it was always doubled — just less obviously). */
 }
 
 /* ─── Mobile subject alignment for cover images ───
@@ -1104,7 +1147,16 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .site-footer a:hover { color: var(--wp--preset--color--yellow, #ffd520); }
 .site-footer a[href^="tel:"],
 .site-footer a[href^="mailto:"] { text-decoration: underline; }
-.site-footer__inner { max-width: var(--stjo--layout--wide--max-width, 1440px); margin-inline: auto; padding: var(--stjo--spacing--xxl) var(--stjo--spacing--xl) var(--stjo--spacing--xl); }
+/* Inline padding is the shared layout gutter, so the footer's copy lines up
+   with the page's. It was a flat 48px at every width, which on a phone put the
+   footer 32px further in than the content above it. Vertical padding is
+   unchanged — that is the band's own rhythm, not the layout edge. */
+.site-footer__inner {
+	max-width: var(--stjo--layout--wide--max-width, 1440px);
+	margin-inline: auto;
+	padding-block: var(--stjo--spacing--xxl) var(--stjo--spacing--xl);
+	padding-inline: var(--stjo-gutter);
+}
 .site-footer__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--stjo--spacing--xl); padding-bottom: var(--stjo--spacing--xl); border-top: 1px solid rgba(255,255,255,.2); padding-top: var(--stjo--spacing--xl); }
 
 .site-footer__org { font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading)); font-size: var(--wp--preset--font-size--medium, 24px); color: var(--wp--preset--color--white, #fff); margin: 0 0 var(--stjo--spacing--xs); }

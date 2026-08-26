@@ -881,7 +881,7 @@ html.no-js .menu-item--section:focus-within > .mega-panel {
 	display: flex;
 	align-items: flex-start;
 	gap: var(--stjo--spacing--xl, 40px);
-	max-width: var(--stjo--layout--wide--max-width, 1440px);
+	max-width: var(--stjo--layout--wide--max-width, 1280px);
 	margin-inline: auto;
 	padding: var(--stjo--spacing--xl, 40px) var(--stjo--spacing--lg, 32px) 48px;
 }
@@ -1358,9 +1358,9 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	/* Spacers halve on mobile. The attribute selectors match a spacer's inline
 	   height:var(--wp--preset--spacing--X) and recompute it at half the preset,
 	   so only spacers shrink (not padding/gaps that share the presets). */
-	.wp-block-spacer[style*="spacing--small"] { height: calc(var(--wp--preset--spacing--small, 16px) / 2) !important; }
-	.wp-block-spacer[style*="spacing--medium"] { height: calc(var(--wp--preset--spacing--medium, 24px) / 2) !important; }
-	.wp-block-spacer[style*="spacing--large"] { height: calc(var(--wp--preset--spacing--large, 48px) / 2) !important; }
+	.wp-block-spacer[style*="spacing--small"]:not(.dont-shrink) { height: calc(var(--wp--preset--spacing--small, 16px) / 2) !important; }
+	.wp-block-spacer[style*="spacing--medium"]:not(.dont-shrink) { height: calc(var(--wp--preset--spacing--medium, 24px) / 2) !important; }
+	.wp-block-spacer[style*="spacing--large"]:not(.dont-shrink) { height: calc(var(--wp--preset--spacing--large, 48px) / 2) !important; }
 
 	/* Headings step down on tablet/phone — the desktop scale runs too large. */
 	h1, h1.wp-block-heading { font-size: 40px; }

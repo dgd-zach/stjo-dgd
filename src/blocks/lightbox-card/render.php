@@ -65,7 +65,7 @@ $stjo_lb_wrapper = get_block_wrapper_attributes( array( 'class' => 'stjo-lightbo
 				<?php endif; ?>
 				<div class="stjo-lightbox__inner">
 					<?php if ( $stjo_lb_title ) : ?>
-						<h2 class="stjo-lightbox__title"><?php echo esc_html( $stjo_lb_title ); ?></h2>
+						<h3 class="stjo-lightbox__title"><?php echo esc_html( $stjo_lb_title ); ?></h3>
 					<?php endif; ?>
 					<div class="stjo-lightbox__body">
 						<?php echo wpautop( esc_html( $stjo_lb_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped then paragraph-wrapped. ?>

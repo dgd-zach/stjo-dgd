@@ -21,7 +21,7 @@
 
     <div style="height:var(--wp--preset--spacing--small)" aria-hidden="true" class="wp-block-spacer"></div>
 
-    <div class="wp-block-columns stjo-give-row">
+    <div class="wp-block-columns alignwide stjo-give-row">
         <div class="wp-block-column">
             <div class="wp-block-cover stjo-card" style="min-height:340px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-4.png' ) ); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container">
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="wp-block-columns stjo-give-row">
+    <div class="wp-block-columns alignwide stjo-give-row">
         <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url( stjo_asset( 'article-person.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Planned Giving</span><span class="stjo-give-tile__sub">Leave a lasting legacy</span></a></div>
         <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url( stjo_asset( 'directions-car.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Donate Your Vehicle</span><span class="stjo-give-tile__sub">Turn your car into hope</span></a></div>
         <div class="wp-block-column"><a class="stjo-give-tile" href="#"><img src="<?php echo esc_url( stjo_asset( 'local-mall.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Our Shop</span><span class="stjo-give-tile__sub">Shop handmade Lakota crafts</span></a></div>

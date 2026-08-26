@@ -360,7 +360,7 @@ blockquote, .wp-block-quote {
    breakpoint (the bands and the heading scale already turn there), so the
    gutter turns with them rather than introducing a fourth edge. */
 :root { --stjo-gutter: var(--stjo--spacing--sm, 16px); }
-@media (min-width: 769px) {
+@media (min-width: 783px) {
 	:root { --stjo-gutter: var(--stjo--spacing--md, 24px); }
 }
 
@@ -1152,7 +1152,12 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
    footer 32px further in than the content above it. Vertical padding is
    unchanged — that is the band's own rhythm, not the layout edge. */
 .site-footer__inner {
-	max-width: var(--stjo--layout--wide--max-width, 1440px);
+	/* content-box, for the same reason .entry-content uses it: the cap should
+	   measure the CONTENT, with the gutter sitting outside it. On border-box
+	   the gutter ate into the cap and footer content came out at 1232 while an
+	   alignwide block beside it was 1280, so the two never lined up. */
+	box-sizing: content-box;
+	max-width: var(--stjo--layout--wide--max-width, 1280px);
 	margin-inline: auto;
 	padding-block: var(--stjo--spacing--xxl) var(--stjo--spacing--xl);
 	padding-inline: var(--stjo-gutter);

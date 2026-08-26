@@ -129,3 +129,40 @@
 }
 .editor-styles-wrapper .wp-block-cover.has-shift-sm { background-color: #fff; }
 .editor-styles-wrapper .wp-block-cover.has-shift-sm.stjo-hero-slide--dark { background-color: #001b33; }
+
+/* Editor-only badge for the Cover block style "Overlay on Mobile Only".
+   main.css is scoped into the canvas, so at a desktop canvas width the overlay
+   genuinely disappears while editing. This labels the block so that reads as
+   deliberate rather than broken. It replaces a core/notices version: a label on
+   the block is where the eye already is, and it needs no JS at all.
+
+   ::before, deliberately — .stjo-page-hero::after is the zigzag ribbon
+   (sections.css), and page heroes are the likeliest covers to carry this style,
+   so ::after would fight it. top-left rather than bottom-left for the same kind
+   of reason: these covers are bottom-aligned, so a bottom badge lands on the
+   title. pointer-events:none so it can never swallow a click meant for the
+   block.
+
+   Trade-off worth knowing: CSS content is not translatable and is not a live
+   region, so this is author-facing editor chrome rather than an announcement. */
+.editor-styles-wrapper .wp-block-cover.is-style-overlay-mobile-only::before {
+	content: "Overlay shows on mobile only";
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	padding: 0.25em 0.6em;
+	font-family: var(--wp--preset--font-family--base, sans-serif);
+	font-size: 12px;
+	line-height: 1.5;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	pointer-events: none;
+}
+/* Core stamps has-background-dim-0 on the overlay span when the opacity is 0,
+   so the "this will show nothing anywhere" case is detectable in CSS too —
+   the one thing the JS notice did beyond labelling. */
+.editor-styles-wrapper .wp-block-cover.is-style-overlay-mobile-only:has(.has-background-dim-0)::before {
+	content: "Overlay is 0% — nothing will show, even on mobile";
+	background: #8a2e00;
+}

@@ -30,6 +30,15 @@ function stjo_register_block_styles() {
 		'label' => __( 'Eyebrow (Caps)', 'stjo' ),
 	) );
 
+	// Subhead under a section title. Same treatment the subsection patterns get
+	// from .stjo-subhead, exposed so it can be applied to any paragraph — both
+	// selectors are paired in sections.css, including the rule that tightens a
+	// heading directly above one.
+	register_block_style( 'core/paragraph', array(
+		'name'  => 'subhead',
+		'label' => __( 'Sub Header', 'stjo' ),
+	) );
+
 	// Rounded image (cards, media).
 	register_block_style( 'core/image', array(
 		'name'  => 'rounded',
@@ -96,6 +105,18 @@ function stjo_register_block_styles() {
 		'label' => __( 'Centered on Mobile', 'stjo' ),
 	) );
 
+	// Cover whose overlay renders on phones only — the colour and opacity set
+	// in the Overlay panel still apply, they just stop above the phone
+	// breakpoint (main.css). For a hero that needs a scrim for legibility on a
+	// narrow crop but reads better as a clean photo on desktop.
+	// editor.css badges the block with "Overlay shows on mobile only", because
+	// the canvas previews this honestly and the overlay vanishing at desktop
+	// width otherwise looks like a bug.
+	register_block_style( 'core/cover', array(
+		'name'  => 'overlay-mobile-only',
+		'label' => __( 'Overlay on Mobile Only', 'stjo' ),
+	) );
+
 }
 add_action( 'init', 'stjo_register_block_styles' );
 
@@ -130,3 +151,10 @@ function stjo_measure_control_assets() {
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'stjo_measure_control_assets' );
+
+/*
+ * The Cover "Overlay on Mobile Only" style used to ship a JS notice here
+ * (core/notices). It is a CSS badge on the block instead now — see the
+ * .is-style-overlay-mobile-only::before rule in editor.css. Same information,
+ * on the block where the eye already is, and no script to maintain.
+ */

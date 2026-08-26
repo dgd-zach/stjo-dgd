@@ -356,9 +356,8 @@ blockquote, .wp-block-quote {
    spacing--sm (16px), so on a phone an alignfull or alignwide band sat 8px
    closer to the edge than ordinary in-flow content. Change it here, once.
 
-   16px on phones, 24px from tablet up. 769px is the theme's dominant
-   breakpoint (the bands and the heading scale already turn there), so the
-   gutter turns with them rather than introducing a fourth edge. */
+   16px on phones, 24px from tablet up, turning at 783px — WP's own mobile
+   breakpoint, and the one the hero rules already use (782/783). */
 :root { --stjo-gutter: var(--stjo--spacing--sm, 16px); }
 @media (min-width: 783px) {
 	:root { --stjo-gutter: var(--stjo--spacing--md, 24px); }
@@ -372,6 +371,27 @@ blockquote, .wp-block-quote {
    step once the gutter starts changing. Single class on purpose: the card
    treatment (.stjo-card.wp-block-cover) is two and still wins. */
 .wp-block-cover { padding-inline: var(--stjo-gutter); }
+
+/* Cover block style "Overlay on Mobile Only" (block-styles.php). The overlay's
+   colour and opacity stay whatever the Overlay panel set — they simply stop
+   applying above the phone breakpoint. For a hero that needs a scrim to stay
+   legible on a narrow crop, but reads better as a clean photo on desktop.
+   783px so the overlay turns on the same edge as the gutter rather than
+   inventing another one.
+   !important is load-bearing, not laziness: core sets the dim opacity with
+   .wp-block-cover .wp-block-cover__background.has-background-dim.has-background-dim-N,
+   which is four classes (0,4,0). Any selector that beats it on specificity
+   alone has to name the dim classes too, and would then have to be repeated
+   for every dim step. Same lever the card gradient uses against this same
+   mechanism.
+   editor.css badges the block with "Overlay shows on mobile only": main.css is
+   scoped into the editor canvas, so at a desktop canvas width the overlay
+   really does vanish, and that reads as a bug unless someone says otherwise. */
+@media (min-width: 783px) {
+	.wp-block-cover.is-style-overlay-mobile-only > .wp-block-cover__background {
+		opacity: 0 !important;
+	}
+}
 
 .entry-content {
 	/* content-box: the 1146px cap measures the CONTENT, with the gutter

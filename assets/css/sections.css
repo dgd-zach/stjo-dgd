@@ -372,9 +372,35 @@ hr.stjo-zigzag, .stjo-zigzag {
 
 .stjo-page-hero .wp-block-heading { margin-bottom: 0; }
 
+/* The hero scrim is drawn on the .hero-content group, not on the cover's
+   overlay. The pattern sets dimRatio:0, so the cover tints nothing itself.
+   Putting it here is what makes the scrim self-sizing: it is exactly as tall as
+   the eyebrow + heading actually are, so it still fits when the title wraps to
+   two or three lines on a phone. Percentage stops on the cover cannot do that —
+   they drift the moment the text length or the hero's minHeight changes, which
+   is why they needed retuning every time either moved.
+   The fade is a fixed 72px rather than a percentage, so its softness reads the
+   same at every screen size, and below it the blue is fully solid — which is
+   what small white caps need to stay legible over whatever photo an editor
+   picks. rgba() rather than the token because a gradient needs per-stop alpha;
+   0/53/102 is blue-900 (#003566). */
+.stjo-page-hero .hero-content {
+	/* Cancel the cover's gutter so the scrim reaches the viewport edges, then
+	   re-add it as padding so the text still sits on the gutter. */
+	margin-inline: calc(-1 * var(--stjo-gutter));
+	padding-inline: var(--stjo-gutter);
+	padding-block: 72px var(--stjo--spacing--lg, 32px);
+	background: linear-gradient( to bottom, rgba(0, 53, 102, 0) 0, rgba(0, 53, 102, 0.92) 45%, rgba(0, 53, 102, 1) 58% );
+}
+/* Core pads a cover 1em on every side. The block half would leave a strip of
+   un-scrimmed photo below the group; the inline half is the gutter the rule
+   above cancels and re-adds, so only the block padding goes. */
+.stjo-page-hero.wp-block-cover { padding-block: 0; }
+
 /* Subsection link bar: centered links with pipe separators. */
 .stjo-subsection-links { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; }
-.stjo-subsection-links a { font-weight: 500; }
+.stjo-subsection-links a { font-weight: 500; color: var(--stjo--color--blue-900); }
+/* .stjo-subsection-links a:hover {color: var(--wp--preset--color--primary); } */
 .stjo-subsection-links a:not(:first-child)::before {
 	content: "";
 	display: inline-block;
@@ -436,7 +462,13 @@ hr.stjo-zigzag, .stjo-zigzag {
 }
 
 /* Subsection subhead under h3 titles. */
-.stjo-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d4d4d); }
+/* .stjo-subhead is what the subsection patterns hard-code; is-style-subhead is
+   the "Sub Header" block style (block-styles.php) that exposes the same
+   treatment for any paragraph. Paired rather than duplicated so the two can
+   never drift — see also the heading-tightening rule further down, which pairs
+   them again. */
+.stjo-subhead,
+p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d4d4d); }
 
 /* Share bar: small pill share buttons with thin separators. */
 .stjo-share-bar { gap: 24px; }
@@ -1013,7 +1045,8 @@ hr.stjo-zigzag, .stjo-zigzag {
 
 /* "Subsection Modules > tighten the space between the Title and subhead."
    The subhead reads as part of the title lockup (design: ~8px apart). */
-.wp-block-heading:has(+ p.stjo-subhead) {
+.wp-block-heading:has(+ p.stjo-subhead),
+.wp-block-heading:has(+ p.is-style-subhead) {
 	margin-bottom: var(--stjo--spacing--xs, 8px);
 }
 

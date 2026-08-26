@@ -341,6 +341,23 @@ blockquote, .wp-block-quote {
 .entry-content > .alignfull,
 .wp-block-group.alignfull { max-width: none; margin-inline: calc(50% - 50vw); }
 
+/* Wide blocks have to BREAK OUT of the content column, not just be allowed to
+   grow into it. .entry-content caps its content box at content-size (1146px),
+   and no child can exceed its containing block, so the wide-size max-width
+   above was inert — the block measured 1146 while reporting max-width:1280.
+   Symmetric margins do the real work, the same trick alignfull uses directly
+   above; this is just the wide tier of it.
+   (100% - W)/2 is negative while the parent is narrower than W (pulls out
+   evenly, staying centred) and positive once the parent is wider (centres
+   normally), so one expression covers both. The min() hands the viewport the
+   final say, keeping a 16px gutter on small screens. */
+.entry-content > .alignwide {
+	--stjo-wide-w: min(var(--wp--style--global--wide-size, 1280px), calc(100vw - 2 * var(--stjo--spacing--sm, 16px)));
+	max-width: none;
+	width: var(--stjo-wide-w);
+	margin-inline: calc((100% - var(--stjo-wide-w)) / 2);
+}
+
 /* Full-bleed band → inner content returns to wrapper width & centres.
    The min() keeps a 16px gutter each side on small screens: any block that
    is not itself alignfull can never touch the viewport edge. */
@@ -350,7 +367,11 @@ blockquote, .wp-block-quote {
 	margin-inline: auto;
 }
 
-/* Wide children of full bands get the same guarantee at the wide tier. */
+/* Wide children of full bands get the same guarantee at the wide tier.
+   Deliberately NOT extended to .alignwide > .alignwide: a wide block inside a
+   wide group should fill its parent, not be re-capped inside it. sections.css
+   already handles that case (max-width:none, plus a negative margin that
+   cancels a padded band's gutter so the two backgrounds meet). */
 .wp-block-group.alignfull > .alignwide {
 	max-width: min(var(--wp--style--global--wide-size, 1280px), calc(100% - 2 * var(--stjo--spacing--sm, 16px)));
 	margin-inline: auto;
@@ -1573,7 +1594,7 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 
 .stjo-breadcrumbs__inner {
 	box-sizing: content-box; /* same 1146 grid as .entry-content */
-	max-width: var(--wp--style--global--content-size, 1146px);
+	max-width: var(--wp--style--global--wide-size, 1280px);
 	margin-inline: auto;
 	padding: 14px var(--stjo--spacing--md, 24px);
 }

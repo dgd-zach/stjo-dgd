@@ -3,7 +3,9 @@
  * NICE CXone (inContact) chat widget — the client's existing chat provider,
  * embed per Asana task 1215191045199661. The loader snippet is theirs
  * verbatim except sitelocation: their old CMS filled a per-page merge tag
- * ("{FAQ}"); here it reports the current document title. Disable via
+ * ("{FAQ}"); here it reports the plain page name (post title, archive term,
+ * front page's site-facing name) so agents see "FAQ", not
+ * "FAQ - St. Joseph's Indian School". Disable via
  * add_filter( 'stjo_enable_chatbot', '__return_false' ).
  *
  * @package stjo
@@ -17,7 +19,21 @@ function stjo_chatbot_embed() {
 	if ( ! apply_filters( 'stjo_enable_chatbot', true ) ) {
 		return;
 	}
-	$sitelocation = wp_json_encode( wp_get_document_title() );
+	if ( is_front_page() ) {
+		$stjo_location = 'Home';
+	} elseif ( is_singular() ) {
+		$stjo_location = get_the_title();
+	} elseif ( is_archive() ) {
+		$stjo_location = get_the_archive_title();
+	} elseif ( is_search() ) {
+		$stjo_location = 'Search';
+	} elseif ( is_404() ) {
+		$stjo_location = '404';
+	} else {
+		$stjo_location = wp_get_document_title();
+	}
+	$sitelocation = wp_json_encode( wp_strip_all_tags( (string) $stjo_location ) );
+	var_dump($sitelocation);
 	?>
 	<!-- NICE CXone chat -->
 	<script>

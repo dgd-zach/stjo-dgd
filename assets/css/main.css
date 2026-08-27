@@ -1937,3 +1937,13 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 	font-size: var(--stjo--font-size--small, 14px);
 	margin: 0 0 var(--stjo--spacing--xs, 8px);
 }
+
+/* Footer newsletter confirmation (AJAX swaps it in where the Sign Up button
+   was; the no-JS fallback renders it above the form from ?newsletter=thanks). */
+.site-footer__form-thanks {
+	margin: 0;
+	padding: 10px 0;
+	font-weight: 600;
+	color: var(--wp--preset--color--white, #fff);
+}
+.site-footer__form-thanks:focus { outline: none; }

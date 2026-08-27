@@ -309,6 +309,13 @@ function stjo_nav_assets() {
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(
+		'stjo-newsletter',
+		get_template_directory_uri() . '/assets/js/newsletter.js',
+		array(),
+		(string) filemtime( get_template_directory() . '/assets/js/newsletter.js' ),
+		array( 'strategy' => 'defer', 'in_footer' => true )
+	);
+	wp_enqueue_script(
 		'stjo-faq-accordion',
 		get_template_directory_uri() . '/assets/js/faq-accordion.js',
 		array(),

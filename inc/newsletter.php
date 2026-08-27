@@ -36,24 +36,32 @@ function stjo_newsletter_api_ready() {
 /**
  * Handle the footer form POST (logged-in and anonymous visitors alike).
  */
-function stjo_newsletter_submit() {
-	$thanks = home_url( (string) stjo_config_get( 'footer.newsletter.next_url', '/' ) );
-	$back   = wp_get_referer() ? wp_get_referer() : home_url( '/' );
-	$back   = add_query_arg( 'newsletter', 'error', $back ) . '#footer-newsletter';
+/**
+ * Finish the request: JSON for the AJAX path (assets/js/newsletter.js), a
+ * redirect back to the referring page for the no-JS fallback, where the
+ * footer renders the same message from the query arg.
+ */
+function stjo_newsletter_finish( $ok ) {
+	if ( ! empty( $_POST['stjo_ajax'] ) ) {
+		wp_send_json( array( 'ok' => (bool) $ok ) );
+	}
+	$back = wp_get_referer() ? wp_get_referer() : home_url( '/' );
+	wp_safe_redirect( add_query_arg( 'newsletter', $ok ? 'thanks' : 'error', $back ) . '#footer-newsletter' );
+	exit;
+}
 
-	// Honeypot: humans leave it empty. Bots that fill it get the thank-you
-	// page and nothing else, so they learn nothing from the response.
+function stjo_newsletter_submit() {
+	// Honeypot: humans leave it empty. Bots that fill it get a success
+	// response and nothing else, so they learn nothing from it.
 	if ( ! empty( $_POST['denySubmit'] ) ) {
-		wp_safe_redirect( $thanks );
-		exit;
+		stjo_newsletter_finish( true );
 	}
 
 	$email = isset( $_POST['cons_email'] ) ? sanitize_email( wp_unslash( $_POST['cons_email'] ) ) : '';
 	$first = isset( $_POST['cons_first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['cons_first_name'] ) ) : '';
 	$last  = isset( $_POST['cons_last_name'] ) ? sanitize_text_field( wp_unslash( $_POST['cons_last_name'] ) ) : '';
 	if ( ! is_email( $email ) || ! stjo_newsletter_api_ready() ) {
-		wp_safe_redirect( $back );
-		exit;
+		stjo_newsletter_finish( false );
 	}
 
 	// Soft rate limit so the public form cannot be used to hammer the
@@ -61,8 +69,7 @@ function stjo_newsletter_submit() {
 	$bucket = 'stjo_nl_' . md5( (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
 	$count  = (int) get_transient( $bucket );
 	if ( $count >= 5 ) {
-		wp_safe_redirect( $back );
-		exit;
+		stjo_newsletter_finish( false );
 	}
 	set_transient( $bucket, $count + 1, HOUR_IN_SECONDS );
 
@@ -87,8 +94,7 @@ function stjo_newsletter_submit() {
 	}
 	if ( '' === $auth ) {
 		error_log( 'stjo newsletter: getLoginUrl failed: ' . ( is_wp_error( $login ) ? $login->get_error_message() : wp_remote_retrieve_body( $login ) ) ); // phpcs:ignore
-		wp_safe_redirect( $back );
-		exit;
+		stjo_newsletter_finish( false );
 	}
 
 	// Step 2: submit as a survey response on that session. The jsessionid has
@@ -133,8 +139,7 @@ function stjo_newsletter_submit() {
 		error_log( 'stjo newsletter: relay failed: ' . $response->get_error_message() ); // phpcs:ignore
 	}
 
-	wp_safe_redirect( $ok ? $thanks : $back );
-	exit;
+	stjo_newsletter_finish( $ok );
 }
 add_action( 'admin_post_stjo_newsletter', 'stjo_newsletter_submit' );
 add_action( 'admin_post_nopriv_stjo_newsletter', 'stjo_newsletter_submit' );

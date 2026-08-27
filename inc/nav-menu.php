@@ -20,7 +20,7 @@
  * mobile route to the landing page. A section whose menu URL is empty or
  * "#" falls back to the old button-only trigger. Panels render inside
  * their <li>; on desktop nav.js moves them into the header's .mega-panels
- * band, which opens in flow (pushing content down) and crossfades between
+ * band, which floats over the page content and crossfades between
  * sections.
  *
  * @package stjo

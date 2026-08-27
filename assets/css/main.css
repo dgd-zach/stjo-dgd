@@ -873,12 +873,17 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 
 /* ─── Mega panel band ───
    .mega-panels is a header-level band that nav.js moves every section panel
-   into on desktop. It opens IN FLOW: its height animates (set inline by
-   nav.js) and pushes the page content down instead of floating over it.
-   Switching sections keeps the band open; the stacked panels inside just
-   crossfade, so the band itself never fades out/in. */
+   into on desktop. It FLOATS over the page content: absolutely positioned
+   under the header (which is relative, z-index 20, so the band paints above
+   everything in the page), while its height still animates (set inline by
+   nav.js) as the open/close reveal. Switching sections keeps the band open;
+   the stacked panels inside just crossfade, so the band itself never fades
+   out/in. */
 .mega-panels {
-	position: relative;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
 	height: 0;
 	overflow: hidden;
 	background: var(--wp--preset--color--light, #f3f3e6);

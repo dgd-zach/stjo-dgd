@@ -13,8 +13,9 @@
  *   mirrors both jumps
  *
  * On desktop every section's panel is moved into the single .mega-panels
- * band under the header. The band opens IN FLOW: its height animates and
- * pushes the page down. Switching sections keeps the band open (a pointer
+ * band under the header. The band floats OVER the page content (absolute,
+ * main.css); its height still animates as the reveal. Switching sections
+ * keeps the band open (a pointer
  * flag stops the focusout close that would otherwise bounce it shut) and
  * the contents fade out then in. In the drawer (<=1024px) panels move back
  * under their triggers and behave as plain accordions; body scroll locks

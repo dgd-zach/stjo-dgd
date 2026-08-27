@@ -19,6 +19,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * External blog posts: posts ported from blog.stjo.org carry the article URL
+ * in stjo_external_url meta. Until the blog migrates in, they have no on-site
+ * single: every permalink WP prints for them (post roll, home band, query
+ * loops — anything using get_permalink) points at the external article, and a
+ * direct hit on the local single URL 302s out the same way (temporary on
+ * purpose: drop both hooks when the blog goes native).
+ */
+function stjo_external_post_link( $permalink, $post ) {
+	$external = get_post_meta( $post->ID, 'stjo_external_url', true );
+	return $external ? $external : $permalink;
+}
+add_filter( 'post_link', 'stjo_external_post_link', 10, 2 );
+
+function stjo_external_post_redirect() {
+	if ( ! is_singular( 'post' ) ) {
+		return;
+	}
+	$external = get_post_meta( get_queried_object_id(), 'stjo_external_url', true );
+	if ( $external ) {
+		wp_redirect( esc_url_raw( $external ), 302 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'stjo_external_post_redirect' );
+
+/**
  * Filter the main blog query by the ?category slug (so filtered URLs and their
  * pagination resolve server-side).
  */

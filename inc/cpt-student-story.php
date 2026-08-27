@@ -19,14 +19,18 @@ function stjo_register_student_story() {
 			'edit_item'     => __( 'Edit Student Story', 'stjo' ),
 		),
 		'public'       => true,
+		// No single URLs: grad cards open in the lightbox and the other sections
+		// link off-site, so nothing points at a single. This also keeps the CPT
+		// out of Yoast's sitemap.
+		'publicly_queryable' => false,
+		'exclude_from_search' => true,
 		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-groups',
 		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ), // custom-fields: REST meta for the image-focus panel
 		// No auto-archive: the /student-stories/ page (built from stjo/stories-section
-		// blocks) is the archive now. Singles live under /student-story/ (singular)
-		// so they don't collide with that page's URL.
+		// blocks) is the archive now.
 		'has_archive'  => false,
-		'rewrite'      => array( 'slug' => 'student-story', 'with_front' => false ),
+		'rewrite'      => false,
 	) );
 
 	// Category drives which archive section a story renders in (Student

@@ -92,7 +92,7 @@ function stjo_story_card( $post, $lightbox = false ) {
 					</div>
 					<?php endif; ?>
 				</template>
-			<?php else : ?>
+			<?php elseif ( is_post_publicly_viewable( $post ) ) : // CPT singles are off (publicly_queryable false), so only link when a real URL exists ?>
 				<a class="stjo-story-card__more" href="<?php echo esc_url( get_permalink( $post ) ); ?>">
 					<?php esc_html_e( 'Read More', 'stjo' ); ?>
 					<span class="screen-reader-text"><?php echo esc_html( sprintf( /* translators: %s: story title */ __( 'about %s', 'stjo' ), get_the_title( $post ) ) ); ?></span>

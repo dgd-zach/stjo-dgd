@@ -137,7 +137,7 @@ function stjo_unregister_block_styles() {
 add_action( 'enqueue_block_editor_assets', 'stjo_unregister_block_styles' );
 
 /**
- * "Text width" inspector control (measure-control.js): a toggle + range slider
+ * "Element Max-width" inspector control (measure-control.js): a toggle + range slider
  * on paragraph/heading/list/group blocks that stamps the stjo-measure class +
  * --stjo-measure custom property (see utilities.css).
  */

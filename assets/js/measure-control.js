@@ -1,7 +1,7 @@
 /**
- * "Text width" block control — a tactile max-width slider in the inspector.
+ * "Element Max-width" block control — a tactile max-width slider in the inspector.
  *
- * Adds a Text width panel (toggle + range slider) to paragraph / heading /
+ * Adds an Element Max-width panel (toggle + range slider) to paragraph / heading /
  * list / group blocks. Setting it stamps the block with the `stjo-measure`
  * class + an inline `--stjo-measure` custom property; utilities.css caps the
  * block at that width on desktop and releases it to full width once columns
@@ -58,10 +58,10 @@
 					{},
 					el(
 						PanelBody,
-						{ title: __( 'Text width', 'stjo' ), initialOpen: false },
+						{ title: __( 'Element Max-width', 'stjo' ), initialOpen: false },
 						el( ToggleControl, {
 							label: __( 'Limit width', 'stjo' ),
-							help: __( 'Caps the text to a readable width on desktop and releases to full width once columns stack on mobile.', 'stjo' ),
+							help: __( 'Caps the block to a set max-width on desktop (Full width on mobile)', 'stjo' ),
 							checked: value > 0,
 							onChange: function ( on ) {
 								props.setAttributes( { stjoMeasure: on ? DEFAULT : 0 } );

@@ -815,6 +815,7 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 }
 .primary-menu > li > .menu-item__link:hover,
 .primary-menu > li > .menu-item__link[aria-expanded="true"],
+.primary-menu > li.is-open > .menu-item__link,
 .primary-menu > li.is-current > .menu-item__link {
 	border-bottom-color: var(--wp--preset--color--brand-dark, #0053a0);
 }
@@ -824,6 +825,46 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 }
 @media (prefers-reduced-motion: reduce) {
 	.primary-menu > li > .menu-item__link { transition: none; }
+}
+
+/* Section rows are link + chevron toggle (the panel is a wrapping third child
+   in the drawer, where nav.js homes it back under its trigger). */
+.menu-item--section {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 2px;
+}
+.menu-item__toggle {
+	appearance: none;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+	flex: none;
+	width: 20px;
+	height: 20px;
+	display: inline-grid;
+	place-items: center;
+	color: var(--wp--preset--color--dark, #333);
+}
+.menu-item__toggle::after {
+	content: "";
+	width: 12px;
+	height: 12px;
+	background-color: currentColor;
+	-webkit-mask: var(--stjo-caret) center / contain no-repeat;
+	mask: var(--stjo-caret) center / contain no-repeat;
+	transform: rotate(90deg);
+	transition: transform 200ms ease;
+}
+.menu-item__toggle[aria-expanded="true"]::after { transform: rotate(-90deg); }
+.menu-item__toggle:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.menu-item__toggle::after { transition: none; }
 }
 
 /* ─── Mega panel band ───
@@ -1285,18 +1326,29 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.primary-menu > li:last-child { border-bottom: 0; }
 	.primary-menu > li > .menu-item__link {
 		display: block;
-		/* QA (Navigation): the section triggers are <button>s, which size to
-		   their text even at display:block — unlike the childless <a>s. Fill
-		   the row so the whole strip is tappable, not just the label. */
+		/* QA (Navigation): fill the row so the whole strip is tappable, not
+		   just the label. Section rows flex the link instead (below). */
 		width: 100%;
 		text-align: left;
 		padding: var(--stjo--spacing--sm) var(--stjo--spacing--md);
 		border-bottom: 0;
 		white-space: normal;
-		width: 100%;
-    text-align: left;
 	}
+	/* Section rows: label link fills the row, chevron toggle sits at the right
+	   edge with a real touch target; the panel wraps to a full-width row. */
+	.primary-menu > li.menu-item--section { gap: 0; }
+	.primary-menu > li.menu-item--section > .menu-item__link {
+		flex: 1;
+		width: auto;
+	}
+	.menu-item__toggle {
+		width: 44px;
+		min-height: 44px;
+		align-self: stretch;
+	}
+	.menu-item--section > .mega-panel { width: 100%; }
 	.primary-menu > li.is-current > .menu-item__link,
+	.primary-menu > li.is-open > .menu-item__link,
 	.primary-menu > li > .menu-item__link[aria-expanded="true"] { color: var(--wp--preset--color--brand-dark, #0053a0); }
 
 	/* Panels flow in place as accordions (nav.js moves them back under their

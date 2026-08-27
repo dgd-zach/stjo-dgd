@@ -11,13 +11,17 @@
  *            plain link in an implicit first column.
  *   depth 2  links inside a group.
  *
- * Top-level items with children are disclosure BUTTONS, not links: click
- * (or Enter/Space) toggles the panel, ArrowDown opens and focuses the first
- * link, Escape closes (assets/js/nav.js). They never navigate; link a
- * section landing page from inside the panel (group heading URL or a link
- * item) when one exists. Panels render inside their <li>; on desktop nav.js
- * moves them into the header's .mega-panels band, which opens in flow
- * (pushing content down) and crossfades between sections.
+ * Top-level items with children render as a LINK plus a chevron toggle
+ * BUTTON (QA round 3, Sarah's ask). Desktop: hovering the item opens its
+ * panel, clicking the link navigates to the section landing page, and the
+ * button (Enter/Space/ArrowDown) is the keyboard path into the panel.
+ * Drawer: nav.js intercepts the link click so the whole row toggles the
+ * accordion, exactly as before; the panel's leading self-link is the
+ * mobile route to the landing page. A section whose menu URL is empty or
+ * "#" falls back to the old button-only trigger. Panels render inside
+ * their <li>; on desktop nav.js moves them into the header's .mega-panels
+ * band, which opens in flow (pushing content down) and crossfades between
+ * sections.
  *
  * @package stjo
  */
@@ -95,11 +99,25 @@ function stjo_mega_nav_section( $section, $tree ) {
 	$panel_id = 'mega-panel-' . ( $section->post_name ? $section->post_name : $section->ID );
 
 	printf(
-		'<li class="menu-item menu-item--section%1$s"><button type="button" class="menu-item__link" aria-expanded="false" aria-controls="%2$s" data-mega-trigger>%3$s</button>',
-		$current ? ' is-current' : '',
-		esc_attr( $panel_id ),
-		esc_html( $section->title )
+		'<li class="menu-item menu-item--section%1$s">',
+		$current ? ' is-current' : ''
 	);
+	if ( ! empty( $section->url ) && '#' !== $section->url ) {
+		printf(
+			'<a class="menu-item__link" href="%1$s" data-mega-link>%2$s</a><button type="button" class="menu-item__toggle" aria-expanded="false" aria-controls="%3$s" data-mega-trigger><span class="screen-reader-text">%4$s</span></button>',
+			esc_url( $section->url ),
+			esc_html( $section->title ),
+			esc_attr( $panel_id ),
+			/* translators: %s: menu section name */
+			esc_attr( sprintf( __( 'Open %s menu', 'stjo' ), $section->title ) )
+		);
+	} else {
+		printf(
+			'<button type="button" class="menu-item__link" aria-expanded="false" aria-controls="%1$s" data-mega-trigger>%2$s</button>',
+			esc_attr( $panel_id ),
+			esc_html( $section->title )
+		);
+	}
 
 	echo '<div class="mega-panel" id="' . esc_attr( $panel_id ) . '" data-mega-panel>';
 	echo '<div class="mega-panel__inner">';
@@ -120,9 +138,10 @@ function stjo_mega_nav_section( $section, $tree ) {
 			$loose[] = $child;
 		}
 	}
-	// The section itself leads its submenu (the top-level trigger is a button
-	// and never navigates, so this is the way to the landing page). It goes in
-	// as the first link of the first existing group, not its own group.
+	// The section itself leads its submenu. In the drawer the top-level link is
+	// intercepted to toggle the accordion, so this stays the mobile way to the
+	// landing page. It goes in as the first link of the first existing group,
+	// not its own group.
 	$stjo_self = null;
 	if ( ! empty( $section->url ) && '#' !== $section->url ) {
 		$stjo_self               = clone $section;

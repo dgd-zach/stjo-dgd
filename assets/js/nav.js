@@ -1,8 +1,13 @@
 /**
- * Mega menu behavior. Top-level section items are disclosure buttons:
- *   click / Enter / Space toggles the panel (native button activation)
- *   ArrowDown opens and focuses the first link, ArrowUp closes
- *   Escape closes and restores focus to the trigger
+ * Mega menu behavior. Top-level section items are a link + a chevron
+ * disclosure button (data-mega-trigger):
+ *   desktop hover (hover-capable pointers only) opens the panel with a short
+ *   intent delay; moving off the item AND its panel closes it
+ *   clicking the link navigates to the section landing page (desktop); in
+ *   the drawer the link click is intercepted and toggles the accordion, so
+ *   the whole row keeps working as before on mobile
+ *   the button: click / Enter / Space toggles, ArrowDown opens and focuses
+ *   the first link, ArrowUp closes, Escape closes and restores focus
  *   Tab from an open trigger enters the panel; Tab from the last panel item
  *   moves on to the next parent item (and the panel closes); Shift+Tab
  *   mirrors both jumps
@@ -26,10 +31,13 @@
 	}
 
 	var drawerMq = window.matchMedia('(max-width: 1024px)');
+	var hoverMq = window.matchMedia('(hover: hover) and (pointer: fine)');
 	var items = Array.prototype.slice.call(nav.querySelectorAll('[data-mega-trigger]')).map(function (trigger) {
+		var li = trigger.closest('li');
 		return {
 			trigger: trigger,
-			li: trigger.closest('li'),
+			li: li,
+			link: li ? li.querySelector('[data-mega-link]') : null,
 			panel: document.getElementById(trigger.getAttribute('aria-controls'))
 		};
 	}).filter(function (it) {
@@ -127,7 +135,101 @@
 		});
 	}
 
+	// Hover intent: on hover-capable desktop the band opens on pointer hover
+	// and closes when the pointer has left both the item and its (relocated)
+	// panel. Timers give a short grace period for the trigger-to-panel hop and
+	// never close a panel that holds keyboard focus.
+	var openTimer = null;
+	var closeTimer = null;
+
+	// Arriving on a page with the cursor already parked on the item you just
+	// clicked would pop its panel straight back open (the browser hit-tests
+	// the element under the cursor on the first pointer event after load).
+	// Hover-open stays disarmed until the pointer is seen OUTSIDE a section
+	// item once, so the panel only opens after a real leave-and-return.
+	var hoverArmed = false;
+	function armHover(event) {
+		if (!event.target.closest || !event.target.closest('.menu-item--section, .mega-panel')) {
+			hoverArmed = true;
+			document.removeEventListener('pointermove', armHover);
+		}
+	}
+	document.addEventListener('pointermove', armHover);
+
+	function hovering() {
+		return hoverArmed && hoverMq.matches && usingHost();
+	}
+
+	function scheduleClose(it) {
+		window.clearTimeout(closeTimer);
+		closeTimer = window.setTimeout(function () {
+			if (active !== it) {
+				return;
+			}
+			var focused = document.activeElement;
+			if (it.li.contains(focused) || it.panel.contains(focused)) {
+				return;
+			}
+			closeItem(it);
+		}, 220);
+	}
+
 	items.forEach(function (it) {
+		it.li.addEventListener('pointerenter', function (event) {
+			if (!hovering() || 'touch' === event.pointerType) {
+				return;
+			}
+			window.clearTimeout(closeTimer);
+			window.clearTimeout(openTimer);
+			openTimer = window.setTimeout(function () {
+				openItem(it);
+			}, 80);
+		});
+		it.li.addEventListener('pointerleave', function (event) {
+			if (!hovering() || 'touch' === event.pointerType) {
+				return;
+			}
+			window.clearTimeout(openTimer);
+			scheduleClose(it);
+		});
+		it.panel.addEventListener('pointerenter', function (event) {
+			if (!hovering() || 'touch' === event.pointerType) {
+				return;
+			}
+			window.clearTimeout(closeTimer);
+		});
+		it.panel.addEventListener('pointerleave', function (event) {
+			if (!hovering() || 'touch' === event.pointerType) {
+				return;
+			}
+			scheduleClose(it);
+		});
+
+		// The section link navigates on desktop; in the drawer the row acts as
+		// the accordion toggle it always was, so intercept and toggle instead.
+		if (it.link) {
+			it.link.addEventListener('click', function (event) {
+				if (drawerMq.matches) {
+					event.preventDefault();
+					if (isOpen(it)) {
+						closeItem(it);
+					} else {
+						openItem(it);
+					}
+				}
+			});
+			it.link.addEventListener('keydown', function (event) {
+				if (event.key === 'ArrowDown') {
+					event.preventDefault();
+					openItem(it);
+					var first = panelFocusables(it.panel)[0];
+					if (first) {
+						first.focus();
+					}
+				}
+			});
+		}
+
 		it.trigger.addEventListener('click', function () {
 			pointerSwitch = false;
 			if (isOpen(it)) {

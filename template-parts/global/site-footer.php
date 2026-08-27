@@ -109,22 +109,21 @@ $social_icons = array(
 					// Posts straight into the client's Luminate Online email-signup
 					// survey; field names mirror the live SSurvey form (cons_*).
 					$stjo_nl_survey = stjo_config_get( 'footer.newsletter.survey_id' );
-					// Where Luminate sends the visitor after a successful submit.
-					// Per Blackbaud KB 63194 NEXTURL rides the form action's query
-					// string, URL-encoded; next_url in theme-config is site-relative
-					// so it works on every environment.
-					$stjo_nl_action = (string) stjo_config_get( 'footer.newsletter.action', '#' );
-					$stjo_nl_next   = (string) stjo_config_get( 'footer.newsletter.next_url', '' );
-					if ( $stjo_nl_next && '#' !== $stjo_nl_action ) {
-						$stjo_nl_action = add_query_arg( 'NEXTURL', rawurlencode( home_url( $stjo_nl_next ) ), $stjo_nl_action );
-					}
+					// Where Luminate sends the visitor after a successful submit:
+					// NEXTURL as a hidden input (Zach's call; LO reads it from the
+					// POST body the same as from the action's query string).
+					// next_url in theme-config is site-relative so every
+					// environment resolves its own absolute thank-you URL.
+					$stjo_nl_next = (string) stjo_config_get( 'footer.newsletter.next_url', '' );
 					?>
-					<form class="site-footer__form" action="<?php echo esc_url( $stjo_nl_action ); ?>" method="POST">
+					<form class="site-footer__form" action="<?php echo esc_url( stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="POST">
 						<?php if ( $stjo_nl_survey ) : ?>
 							<input type="hidden" name="SURVEY_ID" value="<?php echo esc_attr( $stjo_nl_survey ); ?>">
 							<input type="hidden" name="cons_info_component" value="t">
 							<input type="hidden" name="ACTION_SUBMIT_SURVEY_RESPONSE" value="Submit">
-							<?php // NEXTURL lives on the form action above (KB 63194). ?>
+							<?php if ( $stjo_nl_next ) : ?>
+							<input type="hidden" name="NEXTURL" value="<?php echo esc_url( home_url( $stjo_nl_next ) ); ?>">
+						<?php endif; ?>
 							<?php // LO honeypot: humans leave it empty, scripts that fill it get denied. ?>
 							<input type="hidden" name="denySubmit" value="">
 							<?php if ( stjo_config_get( 'footer.newsletter.s_src' ) ) : ?>

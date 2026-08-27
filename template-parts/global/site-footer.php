@@ -109,7 +109,7 @@ $social_icons = array(
 					// survey; field names mirror the live SSurvey form (cons_*).
 					$stjo_nl_survey = stjo_config_get( 'footer.newsletter.survey_id' );
 					?>
-					<form class="site-footer__form" action="<?php echo esc_url( stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="post">
+					<form class="site-footer__form" action="<?php echo esc_url( stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="POST">
 						<?php if ( $stjo_nl_survey ) : ?>
 							<input type="hidden" name="SURVEY_ID" value="<?php echo esc_attr( $stjo_nl_survey ); ?>">
 							<input type="hidden" name="cons_info_component" value="t">

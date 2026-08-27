@@ -84,11 +84,9 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
         <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_wishlist ); ?>"><img src="<?php echo esc_url( stjo_asset( 'redeem.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Wishlists &amp; Gift Cards</span><span class="stjo-give-tile__sub">Give specific items students need</span></a></div>
     </div>
 
-    <div style="height:var(--wp--preset--spacing--small)" aria-hidden="true" class="wp-block-spacer"></div>
+    <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 
     <div class="wp-block-buttons is-layout-flex is-content-justification-center">
-        <div class="wp-block-button"><a class="wp-block-button__link has-blue-900-color has-text-color has-yellow-background-color has-background wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>">Donate Now</a></div>
+        <div class="wp-block-button"><a class="wp-block-button__link has-blue-900-color has-yellow-background-color has-text-color has-background has-medium-font-size has-custom-font-size wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>">Donate Now</a></div>
     </div>
-
-    <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 </div>

@@ -1942,8 +1942,19 @@ button.stjo-story-card__more:focus-visible { outline: none; }
    was; the no-JS fallback renders it above the form from ?newsletter=thanks). */
 .site-footer__form-thanks {
 	margin: 0;
-	padding: 10px 0;
+	padding: 8px 0;
 	font-weight: 600;
+	font-size: var(--stjo--font-size--h5, 21px);
 	color: var(--wp--preset--color--white, #fff);
 }
 .site-footer__form-thanks:focus { outline: none; }
+
+/* Rises in as it appears — runs on insertion for the AJAX swap and on page
+   load for the no-JS fallback render. */
+@keyframes stjo-nl-thanks-in {
+	from { opacity: 0; translate: 0 14px; }
+	to   { opacity: 1; translate: 0 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+	.site-footer__form-thanks { animation: stjo-nl-thanks-in 0.45s ease-out both; }
+}

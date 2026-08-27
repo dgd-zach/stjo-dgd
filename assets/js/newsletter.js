@@ -51,6 +51,20 @@
 		} );
 	}
 
+	// Console helper: preview the inline states without submitting anything
+	// to Luminate. stjoNewsletterPreview() shows the thank-you swap,
+	// stjoNewsletterPreview('error') the failure alert.
+	window.stjoNewsletterPreview = function ( kind ) {
+		if ( 'error' === kind ) {
+			showError();
+			return;
+		}
+		var button = form.querySelector( 'button[type="submit"]' );
+		if ( button ) {
+			showThanks( button );
+		}
+	};
+
 	form.addEventListener( 'submit', function ( e ) {
 		e.preventDefault();
 		if ( busy ) {

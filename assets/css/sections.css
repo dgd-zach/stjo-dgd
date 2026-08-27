@@ -988,7 +988,15 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 @media (max-width: 768px) {
 	.stjo-stats h2,
 	.stjo-stats .is-style-eyebrow,
-	.stjo-stats > .wp-block-cover__inner-container > .wp-block-group p {
+	.stjo-stats > .wp-block-cover__inner-container > .wp-block-group p,
+	/* Target by color, not DOM position: home's intro p sits DIRECTLY in the
+	   inner container (no group wrapper, so the arm above misses it), and its
+	   has-light-color preset is the same token as the band's mobile background,
+	   i.e. invisible. Any light/white paragraph in the band goes dark once the
+	   photo drops. (Stat labels already render blue-900 on mobile via the
+	   group-p arm above, which outranks their neutral-700 guard; unchanged.) */
+	.stjo-stats .wp-block-cover__inner-container p.has-light-color,
+	.stjo-stats .wp-block-cover__inner-container p.has-white-color {
 		color: var(--wp--preset--color--blue-900, #003566) !important;
 	}
 }
@@ -1188,3 +1196,21 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 @media (max-width: 768px) {
 	.stjo-quote-band .wp-block-quote p { font-size: var(--wp--preset--font-size--large, 32px); }
 }
+
+/* QA round 3: one consistent gap between the generosity band's card row and
+   tile row, wherever the band renders. The template flavor picks up core's
+   .wp-block-columns bottom margin (raw markup gets block-library CSS) while
+   home's in-content copy gets none, so the two rendered 52px vs 0. Zero the
+   incidental margins and own the rhythm here; no spacer needed in either. */
+.stjo-generosity .wp-block-columns { margin-block: 0 !important; }
+/* Stacked card rows in ANY card band get the same rhythm. Wrapper-scoped
+   selectors for bands whose rows are plain columns; the related-cards row
+   carries its class on the columns block itself (an attr, so do_blocks keeps
+   it), so row + row is the reliable shape there. Deliberately NOT a bare
+   .wp-block-columns + .wp-block-columns: layout columns (subsections, text
+   pairs) space themselves with explicit spacers. */
+.stjo-generosity .wp-block-columns + .wp-block-columns,
+.stjo-lightbox-band .wp-block-columns + .wp-block-columns,
+.stjo-cards-band .wp-block-columns + .wp-block-columns,
+.stjo-related-content-cards-manual .wp-block-columns + .wp-block-columns,
+.stjo-related-cards + .stjo-related-cards { margin-top: var(--stjo--spacing--md, 24px) !important; }

@@ -79,12 +79,12 @@ function stjo_register_block_styles() {
 		'name'  => 'overhang-first-child',
 		'label' => __( 'Overhang First Child', 'stjo' ),
 	) );
-	// Group of Cover blocks presented one at a time (carousel.js adds
-	// controls, ARIA, fades, and swipe). Direct-child Covers = slides.
-	register_block_style( 'core/group', array(
-		'name'  => 'carousel',
-		'label' => __( 'Carousel', 'stjo' ),
-	) );
+	// (The "Carousel" group style was removed from the picker 2026-08-27 — a
+	// relic of the first build-out, and a carousel is not something to opt a
+	// random group into: it needs the hero-carousel pattern's slide structure.
+	// The behavior itself is untouched — carousel.js and main.css key off the
+	// is-style-carousel CLASS, which the pattern and existing content carry in
+	// their className. Only the Styles-panel button is gone.)
 	// (The "Count Up" paragraph/heading block style was removed 2026-08-10 —
 	// too niche to expose. The count-up animation still runs on the impact
 	// band automatically via .stjo-stat__figure in count-up.js.)

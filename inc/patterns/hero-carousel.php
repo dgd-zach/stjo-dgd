@@ -4,8 +4,10 @@
  * Categories: heroes
  * Description: Structure: carousel of full-width cover slides (Campaign, Event, DreamMaker). Apply per-slide imagery and copy in the editor; carousel.js adds controls.
  *
- * Any group with the "Carousel" style behaves this way: each direct-child
- * Cover block is one slide. Campaign and Event photos are placeholder crops
+ * Any group carrying the is-style-carousel class behaves this way: each
+ * direct-child Cover block is one slide. The class rides this pattern's
+ * markup — it is no longer a pickable block style (removed 2026-08-27), so
+ * new carousels start from this pattern. Campaign and Event photos are placeholder crops
  * pending clean asset exports from the design.
  *
  * Readability + mobile framing (automatic, no editor setup needed):

@@ -105,7 +105,7 @@ function stjo_editor_overrides() {
 		'stjo-editor-overrides',
 		get_template_directory_uri() . '/assets/css/editor.css',
 		array( 'wp-edit-blocks' ),
-		STJO_VERSION
+		(string) filemtime( get_template_directory() . '/assets/css/editor.css' )
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'stjo_editor_overrides' );

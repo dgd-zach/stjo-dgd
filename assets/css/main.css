@@ -312,14 +312,18 @@ blockquote, .wp-block-quote {
    declared for them in §2. The :not()s are load-bearing: core stamps
    .wp-block-heading and .wp-block-paragraph onto them, so without the
    exclusions the [class*="wp-block-"] arm would zero them straight back out. */
-.entry-content :where(ul, ol, dl, dd, pre, figure, blockquote, table,
+/* Paired with .is-root-container so the canvas strips the same core default
+   margins the frontend does (same pairing as the root-level rule in §6).
+   :is(), not :where(): the rule needs the class's (0,1,0) to beat core's own
+   .wp-block-columns / figure margins, which load before it at the same level. */
+:is(.entry-content, .is-root-container) :where(ul, ol, dl, dd, pre, figure, blockquote, table,
                       [class*="wp-block-"]:not(.wp-block-heading):not(.wp-block-paragraph)) {
 	margin-bottom: 0;
 }
 /* A paragraph keeps its rhythm mid-flow and only drops the trailing margin when
    it ends its container — so the gap BELOW a block of copy is the Spacer's job,
    while the gaps inside it stay the paragraph's own. */
-.entry-content p:last-child { margin-bottom: 0; }
+:is(.entry-content, .is-root-container) p:last-child { margin-bottom: 0; }
 
 /* DEFAULT separator = the zigzag ribbon (design's signature divider).
    "Wide Line" is registered isDefault, but a default block style serializes

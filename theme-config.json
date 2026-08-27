@@ -105,7 +105,8 @@
     "newsletter": {
       "heading": "Sign up for Email updates from St. Joseph's Indian School",
       "body": "Sign up today and receive email updates, special offers and videos from St. Joseph's Indian School. Join today to see and hear the difference your friendship makes!",
-      "action": "https://give.stjo.org/site/SSurvey",
+      "action": "https://give.stjo.org/site/SSurvey?ACTION_REQUIRED=URI_ACTION_USER_REQUESTS&SURVEY_ID=3720",
+      "next_url": "/newsletter-thank-you/",
       "survey_id": "3720",
       "s_src": "Homepage_Email_Sign-up"
     },

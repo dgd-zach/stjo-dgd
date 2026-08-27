@@ -37,7 +37,7 @@
 	function showThanks( button ) {
 		clearError();
 		var msg = document.createElement( 'p' );
-		msg.className = 'site-footer__form-thanks';
+		msg.className = 'site-footer__form-thanks has-yellow-color';
 		msg.setAttribute( 'role', 'status' );
 		msg.setAttribute( 'tabindex', '-1' );
 		msg.textContent = form.dataset.msgThanks || 'Thank you for subscribing!';

@@ -126,7 +126,7 @@ $social_icons = array(
 					<?php if ( isset( $_GET['newsletter'] ) && 'error' === $_GET['newsletter'] ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
 						<p class="site-footer__form-error" role="alert"><?php esc_html_e( 'Something went wrong with your signup. Please check your email address and try again.', 'stjo' ); ?></p>
 					<?php elseif ( isset( $_GET['newsletter'] ) && 'thanks' === $_GET['newsletter'] ) : // no-JS fallback renders what the AJAX path shows inline. phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
-						<p class="site-footer__form-thanks" role="status"><?php esc_html_e( 'Thank you for subscribing!', 'stjo' ); ?></p>
+						<p class="site-footer__form-thanks has-yellow-color" role="status"><?php esc_html_e( 'Thank you for subscribing!', 'stjo' ); ?></p>
 					<?php endif; ?>
 					<form class="site-footer__form" action="<?php echo esc_url( $stjo_nl_relay ? admin_url( 'admin-post.php' ) : stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="POST"
 						data-msg-thanks="<?php esc_attr_e( 'Thank you for subscribing!', 'stjo' ); ?>"

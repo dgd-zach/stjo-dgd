@@ -2,22 +2,22 @@
 /**
  * Footer newsletter — server-side relay into Luminate Online.
  *
- * Survey 3720 enforces reCAPTCHA v3 on its public form endpoint, so a
- * cross-domain browser POST cannot succeed. The authenticated survey API
- * (CRSurveyAPI submitSurvey) is captcha-free by design, so the footer form
- * posts to admin-post.php and this relays it: the response is recorded as a
- * survey 3720 submission, which keeps the client's LO survey reporting
- * intact, registers the constituent, and opts them into email.
+ * The footer form posts to admin-post.php and this relays it into LO as a
+ * real survey 3720 response (client-mode API: getLoginUrl issues a session +
+ * auth token, submitSurvey rides them). That keeps the client's survey
+ * reporting intact, registers the constituent, and opts them into email.
  *
- * Credentials live in wp-config.php, never in the repo or theme-config:
+ * Only the API key is needed, in wp-config.php, never in the repo:
  *
- *   define( 'STJO_LO_API_KEY',  '...' );
- *   define( 'STJO_LO_API_USER', '...' );  // an LO API user's login_name
- *   define( 'STJO_LO_API_PASS', '...' );
+ *   define( 'STJO_LO_API_KEY', '...' );
  *
- * With any of them missing, the form falls back to posting directly to the
- * LO action from theme-config (the pre-relay behavior), so an environment
- * without credentials degrades instead of breaking.
+ * Without it the form falls back to posting directly at LO (degrades, not
+ * breaks). Server-mode (login_name/login_password) was tried first and is
+ * IP-gated on this instance; client mode needs no whitelist BUT is subject
+ * to the survey's own protections — it works because reCAPTCHA is turned
+ * OFF on survey 3720. If someone re-enables it there, submissions fail with
+ * questionInError 5241 in the logged response body. Also learned the hard
+ * way: LO rejects @example.com addresses behind the generic error 1726.
  *
  * @package stjo
  */
@@ -27,10 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Are all three LO API constants defined?
+ * Is the LO API key defined?
  */
 function stjo_newsletter_api_ready() {
-	return defined( 'STJO_LO_API_KEY' ) && defined( 'STJO_LO_API_USER' ) && defined( 'STJO_LO_API_PASS' );
+	return defined( 'STJO_LO_API_KEY' );
 }
 
 /**
@@ -66,16 +66,42 @@ function stjo_newsletter_submit() {
 	}
 	set_transient( $bucket, $count + 1, HOUR_IN_SECONDS );
 
-	$endpoint = (string) stjo_config_get( 'footer.newsletter.api_endpoint', 'https://give.stjo.org/site/CRSurveyAPI' );
-	$body     = array(
-		'method'          => 'submitSurvey',
-		'api_key'         => STJO_LO_API_KEY,
-		'v'               => '1.0',
-		'response_format' => 'json',
-		'login_name'      => STJO_LO_API_USER,
-		'login_password'  => STJO_LO_API_PASS,
-		'survey_id'       => (string) stjo_config_get( 'footer.newsletter.survey_id', '' ),
-		'cons_email'      => $email,
+	$api_base = (string) stjo_config_get( 'footer.newsletter.api_base', 'https://give.stjo.org/site' );
+
+	// Step 1: a client session + auth token. getLoginUrl needs only the key.
+	$login = wp_remote_post( $api_base . '/CRConsAPI', array(
+		'timeout' => 10,
+		'body'    => array(
+			'method'          => 'getLoginUrl',
+			'api_key'         => STJO_LO_API_KEY,
+			'v'               => '1.0',
+			'response_format' => 'json',
+		),
+	) );
+	$auth  = '';
+	$jsess = '';
+	if ( ! is_wp_error( $login ) ) {
+		$data  = json_decode( wp_remote_retrieve_body( $login ), true );
+		$auth  = (string) ( $data['getLoginUrlResponse']['token'] ?? '' );
+		$jsess = (string) ( $data['getLoginUrlResponse']['JSESSIONID'] ?? '' );
+	}
+	if ( '' === $auth ) {
+		error_log( 'stjo newsletter: getLoginUrl failed: ' . ( is_wp_error( $login ) ? $login->get_error_message() : wp_remote_retrieve_body( $login ) ) ); // phpcs:ignore
+		wp_safe_redirect( $back );
+		exit;
+	}
+
+	// Step 2: submit as a survey response on that session. The jsessionid has
+	// to ride the URL and the cookie or LO drops the auth token's session.
+	$body = array(
+		'method'              => 'submitSurvey',
+		'api_key'             => STJO_LO_API_KEY,
+		'v'                   => '1.0',
+		'response_format'     => 'json',
+		'auth'                => $auth,
+		'survey_id'           => (string) stjo_config_get( 'footer.newsletter.survey_id', '' ),
+		'cons_info_component' => 't',
+		'cons_email'          => $email,
 	);
 	if ( '' !== $first ) {
 		$body['cons_first_name'] = $first;
@@ -87,8 +113,9 @@ function stjo_newsletter_submit() {
 		$body['source'] = (string) stjo_config_get( 'footer.newsletter.s_src' );
 	}
 
-	$response = wp_remote_post( $endpoint, array(
+	$response = wp_remote_post( $api_base . '/CRSurveyAPI;jsessionid=' . rawurlencode( $jsess ), array(
 		'timeout' => 10,
+		'headers' => array( 'Cookie' => 'JSESSIONID=' . $jsess ),
 		'body'    => $body,
 	) );
 

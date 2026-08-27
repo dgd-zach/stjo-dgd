@@ -5,3 +5,4 @@ seed.php
 seed-manifest.json
 error_log
 *.log
+.claude/

@@ -24,7 +24,7 @@
 <!-- wp:column {"verticalAlignment":"center","width":"30%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:30%"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"right"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link"} -->
-<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="/blog/">View All</a></div>
+<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="https://blog.stjo.org/">View All</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column --></div>

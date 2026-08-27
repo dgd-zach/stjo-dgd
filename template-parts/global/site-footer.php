@@ -6,6 +6,8 @@
  * @package stjo
  */
 
+var_dump(blog_url());
+
 $contact_icons = array(
 	'address' => 'fa-solid fa-location-dot',
 	'phone'   => 'fa-solid fa-phone',
@@ -114,6 +116,7 @@ $social_icons = array(
 							<input type="hidden" name="SURVEY_ID" value="<?php echo esc_attr( $stjo_nl_survey ); ?>">
 							<input type="hidden" name="cons_info_component" value="t">
 							<input type="hidden" name="ACTION_SUBMIT_SURVEY_RESPONSE" value="Submit">
+							<input type="hidden" name="NEXTURL" value="">
 							<?php // LO honeypot: humans leave it empty, scripts that fill it get denied. ?>
 							<input type="hidden" name="denySubmit" value="">
 							<?php if ( stjo_config_get( 'footer.newsletter.s_src' ) ) : ?>

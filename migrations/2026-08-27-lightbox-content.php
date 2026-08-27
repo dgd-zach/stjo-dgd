@@ -175,4 +175,24 @@ foreach ( array( 'news', 'culture', 'events' ) as $stjo_mig_slug ) {
 	}
 }
 
+// ── 4. Content links to the retired /blog/ page ────────────────────────────
+// The posts page now 302s to blog.stjo.org (inc/blog.php); links in content
+// should go straight there rather than bounce. Exact-attribute match only.
+global $wpdb;
+$stjo_mig_blog_rows = $wpdb->get_col(
+	"SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_content LIKE '%href=\"/blog/\"%'"
+);
+foreach ( $stjo_mig_blog_rows as $stjo_mig_bid ) {
+	$stjo_mig_bc = get_post_field( 'post_content', $stjo_mig_bid );
+	wp_update_post( array(
+		'ID'           => $stjo_mig_bid,
+		'post_content' => wp_slash( str_replace( 'href="/blog/"', 'href="https://blog.stjo.org/"', $stjo_mig_bc ) ),
+	) );
+	clean_post_cache( (int) $stjo_mig_bid );
+	echo "relinked /blog/ -> blog.stjo.org in post {$stjo_mig_bid}\n";
+}
+if ( ! $stjo_mig_blog_rows ) {
+	echo "no content links to /blog/ found\n";
+}
+
 echo "done\n";

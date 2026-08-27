@@ -19,6 +19,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * The blog lives at blog.stjo.org for now, so the posts page redirects there.
+ * 302, not 301, on purpose: the in-house archive this file powers is built
+ * and waiting, and a cached permanent redirect would fight the cutover when
+ * the blog moves in. Remove this hook to bring /blog/ back to life.
+ */
+function stjo_blog_external_redirect() {
+	if ( is_home() && ! is_front_page() ) {
+		wp_redirect( 'https://blog.stjo.org/', 302 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'stjo_blog_external_redirect' );
+
+/**
  * External blog posts: posts ported from blog.stjo.org carry the article URL
  * in stjo_external_url meta. Until the blog migrates in, they have no on-site
  * single: every permalink WP prints for them (post roll, home band, query

@@ -263,7 +263,7 @@ echo $cover_card(
 	'card-3.png',
 	'Our Blog',
 	'News, student milestones and stories from campus, published throughout the year by the staff at St. Joseph&#8217;s Indian School.',
-	'/blog/',
+	'https://blog.stjo.org/',
 	'Learn more'
 );
 echo $cover_card(

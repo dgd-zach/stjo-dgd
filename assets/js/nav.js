@@ -112,7 +112,11 @@
 	function panelFocusables(panel) {
 		return Array.prototype.slice.call(
 			panel.querySelectorAll('a[href], button:not([disabled])')
-		);
+		).filter(function (el) {
+			// The self-link is display:none on desktop; skip anything hidden so
+			// ArrowDown/Tab land on a link focus() can actually reach.
+			return el.getClientRects().length > 0;
+		});
 	}
 
 	// Header tab stops outside the panels (triggers, plain links, actions).

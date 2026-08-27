@@ -906,6 +906,14 @@ html.no-js .menu-item--section:focus-within > .mega-panel {
 	transition: opacity 180ms ease 160ms, visibility 0s linear 0s;
 }
 
+/* The panel's leading self-link duplicates the parent label. On desktop the
+   label itself navigates now, so the duplicate only serves the drawer, where
+   the label toggles the accordion instead. Hidden here rather than not
+   rendered because one markup pass serves both tiers. */
+@media (min-width: 1025px) {
+	.mega-panel__self-link { display: none; }
+}
+
 /* Fallback position (no JS: panels never leave their <li>): float under the
    header on hover/focus so the nav still works without scripting. */
 .menu-item--section > .mega-panel {

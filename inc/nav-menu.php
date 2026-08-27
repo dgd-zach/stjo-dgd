@@ -140,8 +140,9 @@ function stjo_mega_nav_section( $section, $tree ) {
 	}
 	// The section itself leads its submenu. In the drawer the top-level link is
 	// intercepted to toggle the accordion, so this stays the mobile way to the
-	// landing page. It goes in as the first link of the first existing group,
-	// not its own group.
+	// landing page; on desktop the label itself navigates, so main.css hides
+	// this duplicate there. It goes in as the first link of the first existing
+	// group, not its own group.
 	$stjo_self = null;
 	if ( ! empty( $section->url ) && '#' !== $section->url ) {
 		$stjo_self               = clone $section;

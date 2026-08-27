@@ -59,5 +59,20 @@
 		block.classList.add( 'is-enhanced' );
 	}
 
-	document.querySelectorAll( '.wp-block-yoast-faq-block.is-style-accordion' ).forEach( initBlock );
+	function scan( root ) {
+		root.querySelectorAll( '.wp-block-yoast-faq-block.is-style-accordion:not(.is-enhanced)' ).forEach( initBlock );
+	}
+
+	scan( document );
+
+	// Lightbox content lives in an inert <template> until view.js clones it
+	// into the dialog, so the load-time scan above never sees it — and clones
+	// carry no listeners even when it did. view.js announces each fill with
+	// this event; scanning the dialog wires any FAQ that arrived in it. The
+	// :not(.is-enhanced) guard makes repeat opens idempotent.
+	document.addEventListener( 'stjo:lightbox-open', function ( e ) {
+		if ( e.target && e.target.querySelectorAll ) {
+			scan( e.target );
+		}
+	} );
 } )();

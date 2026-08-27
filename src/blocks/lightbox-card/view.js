@@ -87,6 +87,11 @@
 		}
 		contentEl.innerHTML = '';
 		contentEl.appendChild( template.content.cloneNode( true ) );
+		// Freshly cloned content has never been seen by the page's enhancers
+		// (template content is inert, and clones carry no listeners). Announce
+		// the fill so they can wire what just arrived — faq-accordion.js
+		// listens for this; anything else content pages need can hook it too.
+		contentEl.dispatchEvent( new CustomEvent( 'stjo:lightbox-open', { bubbles: true } ) );
 		var title = contentEl.querySelector( '.stjo-lightbox__title' );
 		dialog.setAttribute( 'aria-label', title ? title.textContent : trigger.textContent.trim() );
 		// Reserve the scrollbar's width before overflow:hidden removes it, so

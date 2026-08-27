@@ -1123,9 +1123,11 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 
 /* "Lightbox Row two > missing hover effect": the image lightbox cards only
    ringed on keyboard focus; give the mouse the same feedback (the caret slide
-   and image zoom already ride :hover in main.css). */
+   and image zoom already ride :hover in main.css). Card styles only: the
+   Arrow Link style is a bare inline link, where a hover ring reads as a
+   misplaced focus outline. */
 .stjo-lightbox-card { transition: box-shadow .2s ease; }
-.stjo-lightbox-card:hover {
+.stjo-lightbox-card:hover:not(.is-style-arrow-link) {
 	box-shadow: 0 0 0 3px var(--wp--preset--color--brand-dark, #0053a0);
 }
 

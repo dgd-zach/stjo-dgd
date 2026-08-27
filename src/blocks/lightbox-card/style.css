@@ -157,7 +157,14 @@ span.stjo-lightbox-card__link { cursor: default; }
 	}
 }
 
-.stjo-lightbox__inner { padding: var(--stjo--spacing--lg, 32px); }
+/* One property owns the inner padding so the alignfull bleed below always
+   cancels it exactly, at every breakpoint. */
+.stjo-lightbox { --stjo-lightbox-pad: var(--stjo--spacing--lg, 32px); }
+@media (max-width: 782px) {
+	.stjo-lightbox { --stjo-lightbox-pad: var(--stjo--spacing--sm, 16px); }
+}
+
+.stjo-lightbox__inner { padding: var(--stjo-lightbox-pad); }
 
 .stjo-lightbox__title {
 	margin: 0 0 var(--stjo--spacing--sm, 16px);
@@ -257,4 +264,74 @@ dialog.stjo-lightbox[open]::backdrop { opacity: 1; }
 		transition-duration: 0.01s;
 	}
 	dialog.stjo-lightbox { translate: 0 0; }
+}
+
+/* "Arrow Link" style: the link label IS the block — no card chrome. For
+   dropping a lightbox trigger into running content (media-text columns,
+   paragraph flow) where a card would be too heavy. Mirrors the arrow-link
+   button/story-card "more" affordance elsewhere in the theme. */
+.wp-block-stjo-lightbox-card.is-style-arrow-link {
+	display: inline-flex;
+	height: auto;
+	/* main.css gives .stjo-lightbox-card the bordered tile look; the arrow
+	   style is a bare link, so none of the tile chrome applies. overflow
+	   especially: the tile clips (rounded corners over the image), but here
+	   the wrapper hugs the link exactly, so clipping swallows the focus
+	   outline, which sits 3px outside the link's box. */
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	padding: 0;
+	overflow: visible;
+}
+.wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__body {
+	padding: 0;
+	gap: 0;
+}
+/* The base style stretches the trigger over the whole card as one click
+   target; here the label is the whole block, so the stretch would spill the
+   hit area into the surrounding text. */
+.wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link::after {
+	content: none;
+}
+.wp-block-stjo-lightbox-card.is-style-arrow-link:focus-within {
+	box-shadow: none;
+}
+/* Visible keyboard focus moves onto the link itself, since the card ring
+   above is disabled. */
+.wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--yellow, #ffd520);
+	outline-offset: 3px;
+}
+.wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link:hover,
+.wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link:active {
+	color: var(--wp--preset--color--primary, #1a6db8);
+}
+
+/* Editor sidebar: air between the Content page picker's help text and the
+   Content field under it. The component margin flags are a no-op on this WP,
+   so the spacing is owned here (this sheet is enqueued in the admin document
+   by inc/blocks.php). Frontend never renders the class. */
+.stjo-lightbox-page-picker {
+	margin-bottom: 16px;
+}
+
+/* Content pages are authored like any page, so they can carry alignfull and
+   alignwide groups — whose breakout technique is viewport-relative
+   (margin-inline: calc(50% - 50vw)), which inside the dialog blows straight
+   past its edges. In here the lightbox IS the canvas: wide and full both mean
+   "the dialog's width", nothing more. The extra .stjo-lightbox ancestor
+   outweighs main.css's two-class breakout rules regardless of sheet order. */
+.stjo-lightbox .stjo-lightbox__body .alignwide {
+	max-width: 100%;
+	width: auto;
+	margin-inline: 0;
+}
+/* Full means the dialog's own edges: bleed through the inner padding by
+   exactly its amount, no further. */
+.stjo-lightbox .stjo-lightbox__body .alignfull {
+	max-width: none;
+	width: auto;
+	margin-inline: calc(-1 * var(--stjo-lightbox-pad));
 }

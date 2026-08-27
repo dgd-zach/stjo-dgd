@@ -115,8 +115,21 @@ $social_icons = array(
 					// next_url in theme-config is site-relative so every
 					// environment resolves its own absolute thank-you URL.
 					$stjo_nl_next = (string) stjo_config_get( 'footer.newsletter.next_url', '' );
+					// With LO API credentials in wp-config the form posts to the
+					// theme's relay (inc/newsletter.php) - authenticated survey
+					// API, no captcha. Without them it falls back to posting at
+					// LO directly, which fails while the survey enforces
+					// reCAPTCHA but degrades rather than breaks.
+					$stjo_nl_relay = function_exists( 'stjo_newsletter_api_ready' ) && stjo_newsletter_api_ready();
 					?>
-					<form class="site-footer__form" action="<?php echo esc_url( stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="POST">
+					<div id="footer-newsletter">
+					<?php if ( isset( $_GET['newsletter'] ) && 'error' === $_GET['newsletter'] ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
+						<p class="site-footer__form-error" role="alert"><?php esc_html_e( 'Something went wrong with your signup. Please check your email address and try again.', 'stjo' ); ?></p>
+					<?php endif; ?>
+					<form class="site-footer__form" action="<?php echo esc_url( $stjo_nl_relay ? admin_url( 'admin-post.php' ) : stjo_config_get( 'footer.newsletter.action', '#' ) ); ?>" method="POST">
+						<?php if ( $stjo_nl_relay ) : ?>
+							<input type="hidden" name="action" value="stjo_newsletter">
+						<?php endif; ?>
 						<?php if ( $stjo_nl_survey ) : ?>
 							<input type="hidden" name="SURVEY_ID" value="<?php echo esc_attr( $stjo_nl_survey ); ?>">
 							<input type="hidden" name="cons_info_component" value="t">
@@ -140,6 +153,7 @@ $social_icons = array(
 						<input id="nl-email" type="email" name="cons_email" autocomplete="email" required placeholder="<?php esc_attr_e( 'Email address', 'stjo' ); ?>">
 						<button class="wp-block-button__link wp-element-button stjo-form-button-outline" type="submit"><?php esc_html_e( 'Sign Up', 'stjo' ); ?></button>
 					</form>
+					</div>
 				<?php endif; ?>
 			</div>
 		</div>

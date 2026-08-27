@@ -1921,3 +1921,14 @@ button.stjo-story-card__more:focus-visible { outline: none; }
 @media (min-width: 783px) {
 	.wp-block-cover.no-auto-scrim > .stjo-slide-scrim { display: none; }
 }
+
+/* Footer newsletter error notice (inc/newsletter.php redirects back with
+   ?newsletter=error when the LO relay rejects a submission). */
+.site-footer__form-error {
+	background: var(--wp--preset--color--yellow, #ffd520);
+	color: var(--wp--preset--color--blue-900, #003566);
+	border-radius: var(--stjo--radius--sm, 4px);
+	padding: 8px 12px;
+	font-size: var(--stjo--font-size--small, 14px);
+	margin: 0 0 var(--stjo--spacing--xs, 8px);
+}

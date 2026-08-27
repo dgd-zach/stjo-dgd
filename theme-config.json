@@ -133,5 +133,15 @@
     ],
     "legal": "© {year} St. Joseph's Indian School. All rights reserved. | St. Joseph's Indian School is a tax-exempt 501(c)(3) organization.",
     "privacy_url": "/privacy-policy/"
+  },
+  "give": {
+    "once_url": "https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1",
+    "monthly_url": "https://give.stjo.org/site/Donation2?mfc_pref=T&idb=283185344&df_id=10023&10023.donation=form1",
+    "daf_url": "https://plannedgiving.stjo.org/donor-advised-funds",
+    "memorial_url": "https://give.stjo.org/site/Donation2?df_id=8943&8943.donation=form1",
+    "planned_url": "https://plannedgiving.stjo.org/",
+    "vehicle_url": "/support-us/donate-your-vehicle/",
+    "shop_url": "/support-us/our-shop/",
+    "wishlists_url": "/support-us/wishlists-gift-cards/"
   }
 }

@@ -143,6 +143,16 @@
     "planned_url": "https://plannedgiving.stjo.org/",
     "vehicle_url": "/support-us/donate-your-vehicle/",
     "shop_url": "/support-us/our-shop/",
-    "wishlists_url": "/support-us/wishlists-gift-cards/"
+    "wishlists_url": "/support-us/wishlists-gift-cards/",
+    "dreammaker_url": "https://give.stjo.org/site/Donation2?mfc_pref=T&idb=444651902&df_id=10023&10023.donation=form1"
+  },
+  "link_outs": {
+    "_comment": "Pages that exist for site structure but whose destination is Luminate Online. inc/link-outs.php rewrites their permalinks to these URLs and 302s direct visits. Key = page slug.",
+    "one-time-gift": "https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1",
+    "become-a-dreammaker": "https://give.stjo.org/site/Donation2?mfc_pref=T&idb=444651902&df_id=10023&10023.donation=form1",
+    "send-a-prayer-request": "https://give.stjo.org/site/SPageNavigator/wp_prayer_request.html?s_src=prayer_nav",
+    "prayer-builder": "https://give.stjo.org/site/SPageNavigator/wp_Prayer_Builder",
+    "prayer-tie": "https://give.stjo.org/site/SPageNavigator/wp_Prayer_Tie_Survey.html?s_src=wp_prayer_pg",
+    "download-prayer-book": "https://give.stjo.org/site/SPageNavigator/wp_prayer_book.html"
   }
 }

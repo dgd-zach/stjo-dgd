@@ -60,9 +60,16 @@ function stjo_youtube_facade( $content, $block ) {
 	);
 	// skip-lazy: Smush's lazy-loader otherwise swaps src for a 1x1 placeholder,
 	// leaving the facade blank (same gotcha as the masked tile icons).
-	$facade .= sprintf(
-		'<img class="stjo-video-facade__poster skip-lazy" src="%1$s" alt="" width="1280" height="720" />',
-		esc_url( $poster )
+	// Not every video has a 1280x720 poster: for older uploads YouTube answers
+	// maxresdefault with a 404 whose body is a 120x90 grey placeholder, which the
+	// browser happily paints (so onerror never fires). Swap to hqdefault, which
+	// always exists, when the loaded image is that placeholder or fails outright.
+	$fallback = 'https://i.ytimg.com/vi/' . rawurlencode( $id ) . '/hqdefault.jpg';
+	$swap     = "if(this.naturalWidth<=120){this.onload=null;this.src='" . esc_url( $fallback ) . "'}";
+	$facade  .= sprintf(
+		'<img class="stjo-video-facade__poster skip-lazy" src="%1$s" alt="" width="1280" height="720" onload="%2$s" onerror="%2$s" />',
+		esc_url( $poster ),
+		esc_attr( $swap )
 	);
 	$facade .= '<button type="button" class="stjo-play" aria-label="' . esc_attr__( 'Play video', 'stjo' ) . '"></button>';
 	$facade .= '</div>';

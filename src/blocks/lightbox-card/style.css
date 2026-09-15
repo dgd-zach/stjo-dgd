@@ -214,13 +214,6 @@ span.stjo-lightbox-card__link { cursor: default; }
 	align-self: stretch;
 }
 
-/* A spacer owns the gap it makes: the paragraph or list before it drops its
-   own bottom margin, so spacer + quote + spacer measures the same above and
-   below the quote (Zach's even-space rule). */
-.stjo-lightbox__body :is(p, ul, ol):has(+ .wp-block-spacer) {
-	margin-bottom: 0;
-}
-
 .stjo-lightbox__body p {
 	margin: 0 0 1em;
 	font-size: var(--wp--preset--font-size--base, 16px);

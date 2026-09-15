@@ -1050,6 +1050,21 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 .wp-block-heading:has(+ .wp-block-spacer) {
 	margin-bottom: var(--stjo--spacing--xs, 8px);
 }
+/* Same idea for copy (Zach, 2026-09-15): a Spacer placed under a paragraph
+   or list owns the gap, so the element's own bottom margin comes off. Keeps
+   spacer-bounded rhythm exact (e.g. the same air above and below a quote
+   wrapped in spacers) and stops the 24px + spacer stack under intros. Site
+   wide, editor canvas included via the shared style chain. */
+:is(p, ul, ol):has(+ .wp-block-spacer) {
+	margin-bottom: 0;
+}
+/* Exception: the Your Generosity band (pre-footer, home, Support Us) was
+   designed with its intro line 48px above the cards: a small spacer plus the
+   paragraph's own margin. It is client-approved on every page, so it keeps
+   that rhythm rather than dropping to the bare 24px spacer. */
+.stjo-generosity :is(p, ul, ol):has(+ .wp-block-spacer) {
+	margin-bottom: var(--stjo--spacing--md, 24px);
+}
 
 /* "Subsection Modules > tighten the space between the Title and subhead."
    The subhead reads as part of the title lockup (design: ~8px apart). */

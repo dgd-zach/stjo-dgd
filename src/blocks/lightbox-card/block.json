@@ -46,6 +46,10 @@
 		"contentPageId": {
 			"type": "number",
 			"default": 0
+		},
+		"hideTitle": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"styles": [

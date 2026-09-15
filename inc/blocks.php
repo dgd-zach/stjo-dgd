@@ -172,6 +172,29 @@ function stjo_lightbox_content_allowed_blocks( $allowed, $context ) {
 add_filter( 'allowed_block_types_all', 'stjo_lightbox_content_allowed_blocks', 10, 2 );
 
 /**
+ * Lightbox content pages: headings start at h3 in the editor.
+ *
+ * In the modal the lightbox's own heading is the h2, so the page copy below
+ * it belongs at h3 and deeper. The block's render demotes anything shallower
+ * anyway (so an h2 typed here still comes out as an h3), but offering only
+ * h3-h6 in the heading block's level picker keeps what editors see honest.
+ * Runs before block-library registers, on the same handle it depends on.
+ */
+function stjo_lightbox_content_heading_levels() {
+	$post = get_post();
+	if ( ! $post || 'page' !== $post->post_type || ! has_term( 'lightbox-content', 'page-category', $post ) ) {
+		return;
+	}
+	$js = "wp.hooks.addFilter( 'blocks.registerBlockType', 'stjo/lightbox-content-heading-levels', function ( settings, name ) {"
+		. " if ( 'core/heading' !== name || ! settings.attributes || ! settings.attributes.levelOptions ) { return settings; }"
+		. " settings.attributes.levelOptions = Object.assign( {}, settings.attributes.levelOptions, { default: [ 3, 4, 5, 6 ] } );"
+		. " settings.attributes.level = Object.assign( {}, settings.attributes.level, { default: 3 } );"
+		. " return settings; } );";
+	wp_add_inline_script( 'wp-blocks', $js, 'after' );
+}
+add_action( 'enqueue_block_editor_assets', 'stjo_lightbox_content_heading_levels' );
+
+/**
  * Editing a lightbox content page must refresh every page whose lightbox
  * shows it: the modal body is baked into each HOST page's HTML, so the host
  * page's cache is what goes stale (this bit twice locally already — the FAQ

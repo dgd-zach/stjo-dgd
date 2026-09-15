@@ -19,6 +19,7 @@
 	var Button = wp.components.Button;
 	var Modal = wp.components.Modal;
 	var ComboboxControl = wp.components.ComboboxControl;
+	var ExternalLink = wp.components.ExternalLink;
 	var useSelect = wp.data.useSelect;
 	var ServerSideRender = wp.serverSideRender;
 
@@ -124,7 +125,6 @@
 						el( ComboboxControl, {
 							className: 'stjo-lightbox-page-picker',
 							label: 'Content page',
-							help: 'Lists published pages in the \u201cLightbox Content\u201d page category. The lightbox shows the chosen page\u2019s content \u2014 headings, images and all \u2014 and editing the page updates the lightbox. Overrides the Content field below.',
 							value: a.contentPageId ? String( a.contentPageId ) : '',
 							options: pageOptions,
 							onChange: function ( v ) {
@@ -132,6 +132,15 @@
 							},
 							__nextHasNoMarginBottom: true
 						} ),
+						// Straight into the chosen page's editor, in a new tab so this
+						// page's unsaved work stays put. Relative to wp-admin, where
+						// every block editor lives. ExternalLink adds the new-tab notice.
+						a.contentPageId ? el( 'p', { className: 'stjo-lightbox-page-picker__edit' },
+							el( ExternalLink, { href: 'post.php?post=' + a.contentPageId + '&action=edit' }, 'Edit Content' )
+						) : null,
+						// Help text lives outside the control so the link can sit between them.
+						el( 'p', { className: 'components-base-control__help stjo-lightbox-page-picker__help' },
+							'Lists published pages in the \u201cLightbox Content\u201d page category. The lightbox shows the chosen page\u2019s content \u2014 headings, images and all \u2014 and editing the page updates the lightbox. Overrides the Content field below.' ),
 						el( TextareaControl, {
 							label: 'Content',
 							help: a.contentPageId
@@ -150,6 +159,12 @@
 							label: 'Link destination (URL)',
 							value: a.linkUrl,
 							onChange: function ( v ) { props.setAttributes( { linkUrl: v } ); }
+						} ),
+						el( ToggleControl, {
+							label: 'Hide heading in lightbox',
+							help: 'Skip the heading at the top of the lightbox when the content page opens with its own. The dialog is still named by the heading text for assistive tech.',
+							checked: !! a.hideTitle,
+							onChange: function ( v ) { props.setAttributes( { hideTitle: !! v } ); }
 						} ),
 						el( ToggleControl, {
 							label: 'Open link in a new tab',

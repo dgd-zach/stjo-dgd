@@ -92,8 +92,11 @@
 		// the fill so they can wire what just arrived — faq-accordion.js
 		// listens for this; anything else content pages need can hook it too.
 		contentEl.dispatchEvent( new CustomEvent( 'stjo:lightbox-open', { bubbles: true } ) );
+		// The heading can be hidden per block (content pages that open with their
+		// own); the template still carries the title so the dialog keeps its name.
 		var title = contentEl.querySelector( '.stjo-lightbox__title' );
-		dialog.setAttribute( 'aria-label', title ? title.textContent : trigger.textContent.trim() );
+		var name  = title ? title.textContent : ( template.getAttribute( 'data-stjo-lightbox-title' ) || trigger.textContent.trim() );
+		dialog.setAttribute( 'aria-label', name );
 		// Reserve the scrollbar's width before overflow:hidden removes it, so
 		// the page doesn't shift sideways (body.modal-open pads by this var).
 		var scrollbar = window.innerWidth - document.documentElement.clientWidth;

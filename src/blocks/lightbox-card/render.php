@@ -11,6 +11,31 @@
  * @package stjo
  */
 
+if ( ! function_exists( 'stjo_lightbox_demote_headings' ) ) {
+	/**
+	 * Shift heading levels so the shallowest heading in $html is $min (h6 caps).
+	 *
+	 * @param string $html Rendered content.
+	 * @param int    $min  Level the shallowest heading should end up at.
+	 * @return string
+	 */
+	function stjo_lightbox_demote_headings( $html, $min = 3 ) {
+		if ( ! preg_match_all( '/<h([1-6])\b/i', $html, $m ) ) {
+			return $html;
+		}
+		$shift = $min - min( array_map( 'intval', $m[1] ) );
+		if ( $shift <= 0 ) {
+			return $html;
+		}
+		return preg_replace_callback(
+			'/(<\/?h)([1-6])(?=[\s>])/i',
+			function ( $t ) use ( $shift ) {
+				return $t[1] . min( 6, (int) $t[2] + $shift );
+			},
+			$html
+		);
+	}
+}
 $stjo_lb_title   = trim( $attributes['title'] ?? '' );
 $stjo_lb_content = trim( $attributes['content'] ?? '' );
 
@@ -27,6 +52,11 @@ if ( ! $stjo_lb_page || 'publish' !== $stjo_lb_page->post_status || 'page' !== $
 $stjo_lb_body_html = '';
 if ( $stjo_lb_page ) {
 	$stjo_lb_body_html = apply_filters( 'the_content', $stjo_lb_page->post_content );
+	// Inside the dialog the lightbox heading is the h2, so page copy starts at
+	// h3: shift every heading down just enough that the shallowest is an h3
+	// (h6 caps). Keeps the page's own hierarchy intact and lets editors write
+	// a content page starting at h2 or h3 without breaking the modal outline.
+	$stjo_lb_body_html = stjo_lightbox_demote_headings( $stjo_lb_body_html, 3 );
 } elseif ( $stjo_lb_content ) {
 	$stjo_lb_body_html = wpautop( esc_html( $stjo_lb_content ) );
 }
@@ -35,6 +65,7 @@ $stjo_lb_excerpt = $stjo_lb_content ? wp_trim_words( $stjo_lb_content, 20, '…'
 if ( '' === $stjo_lb_excerpt && $stjo_lb_page ) {
 	$stjo_lb_excerpt = wp_trim_words( wp_strip_all_tags( $stjo_lb_body_html ), 20, '…' );
 }
+$stjo_lb_hide_title = ! empty( $attributes['hideTitle'] );
 $stjo_lb_label   = trim( $attributes['linkLabel'] ?? '' );
 $stjo_lb_label   = '' !== $stjo_lb_label ? $stjo_lb_label : __( 'Explore', 'stjo' );
 $stjo_lb_is_text  = false !== strpos( $attributes['className'] ?? '', 'is-style-text' );
@@ -96,15 +127,15 @@ $stjo_lb_wrapper = get_block_wrapper_attributes( array( 'class' => 'stjo-lightbo
 			<button type="button" class="stjo-lightbox-card__link" data-stjo-lightbox>
 				<?php echo esc_html( $stjo_lb_label ) . $stjo_lb_arrow; // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?>
 			</button>
-			<template data-stjo-lightbox-template>
+			<template data-stjo-lightbox-template data-stjo-lightbox-title="<?php echo esc_attr( $stjo_lb_title ); ?>">
 				<?php if ( $stjo_lb_hero ) : ?>
 					<figure class="stjo-lightbox__hero">
 						<img src="<?php echo esc_url( $stjo_lb_hero ); ?>" alt="<?php echo esc_attr( $stjo_lb_hero_alt ); ?>" />
 					</figure>
 				<?php endif; ?>
 				<div class="stjo-lightbox__inner">
-					<?php if ( $stjo_lb_title ) : ?>
-						<h3 class="stjo-lightbox__title"><?php echo esc_html( $stjo_lb_title ); ?></h3>
+					<?php if ( $stjo_lb_title && ! $stjo_lb_hide_title ) : ?>
+						<h2 class="stjo-lightbox__title"><?php echo esc_html( $stjo_lb_title ); ?></h2>
 					<?php endif; ?>
 					<div class="stjo-lightbox__body">
 						<?php echo $stjo_lb_body_html; // phpcs:ignore WordPress.Security.EscapeOutput -- page path is the_content (post content, filtered like any page render); field path was esc_html'd + wpautop'd above. ?>

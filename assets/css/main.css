@@ -271,7 +271,10 @@ button.stjo-form-button-outline:hover {
 .wp-block-list li { margin-bottom: var(--stjo--spacing--xs); }
 
 blockquote, .wp-block-quote {
-	margin: 0 0 var(--stjo--spacing--md);
+	/* Same air above and below a quote (Zach's rule): the top margin collapses
+	   with whatever precedes it, so a quote after a paragraph gets 24px on
+	   both sides instead of 16px above / 24px below. */
+	margin: var(--stjo--spacing--md) 0;
 	padding-left: var(--stjo--spacing--md);
 	border-left: 4px solid var(--wp--preset--color--yellow, #ffd520);
 	font-family: var(--wp--preset--font-family--heading, var(--stjo--font-family--heading));
@@ -501,6 +504,12 @@ blockquote, .wp-block-quote {
    flush against the heading below it — add breathing room under it. */
 @media (max-width: 600px) {
 	.wp-block-media-text.is-stacked-on-mobile > .wp-block-media-text__media { margin-bottom: var(--stjo--spacing--md, 24px); }
+	/* Crop-to-fill variant: core gives the figure height:100% of its grid row,
+	   and the row is sized from the figure's margin box, so the figure grows
+	   into its own margin and the 24px above never shows (the copy sat flush
+	   under the photo). Stacked, the figure has no row to fill anyway; let it
+	   take core's 250px minimum and keep the margin. */
+	.wp-block-media-text.is-stacked-on-mobile.is-image-fill-element > .wp-block-media-text__media { height: auto; min-height: 250px; }
 
 	/* Once stacked there is no image beside the text, so core's left padding is
 	   just an indent that pushes the copy out of line with everything above and

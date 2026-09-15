@@ -166,12 +166,59 @@ span.stjo-lightbox-card__link { cursor: default; }
 
 .stjo-lightbox__inner { padding: var(--stjo-lightbox-pad); }
 
+/* Whatever sits first at the top of the dialog (the title, or the content's
+   own first heading when the title is hidden) clears the corner close X. */
+.stjo-lightbox__title,
+.stjo-lightbox__body:first-child > :is(h1, h2, h3, h4, p):first-child {
+	padding-right: var(--stjo--spacing--xl, 48px);
+}
+
 .stjo-lightbox__title {
 	margin: 0 0 var(--stjo--spacing--sm, 16px);
+	/* An h2 for the dialog's outline (content pages start at h3), sized like
+	   the theme h3 so it reads as a modal heading, not a page heading. */
+	font-size: var(--stjo--h3--font-size, var(--wp--preset--font-size--large, 32px));
+	line-height: var(--stjo--h3--line-height, var(--stjo--line-height--heading, 1.3));
 	/* font-family: var(--wp--preset--font-family--heading, Georgia, serif); */
 	/* font-size: var(--wp--preset--font-size--large, 32px); */
 	/* line-height: 1.2; */
 	/* color: var(--wp--preset--color--brand-dark, #0053a0); */
+}
+
+/* Media-text inside a lightbox (image beside its copy, per the layout rules):
+   give it the same breathing room below as a paragraph, so the block that
+   follows never sits on it. */
+.stjo-lightbox__body .wp-block-media-text {
+	margin: 0 0 var(--stjo--spacing--md, 24px);
+	gap: 0 var(--stjo--spacing--md, 24px);
+}
+/* Core pads the copy cell 0 8% on both sides. In the dialog the grid gap is
+   the whole gutter, so drop the padding: the copy lines up with the heading
+   above it and the image-right variant loses its oversized gap. */
+.stjo-lightbox__body .wp-block-media-text > .wp-block-media-text__content {
+	padding-left: 0;
+	padding-right: 0;
+}
+/* Core gives media-text images max-width:unset. Smush's lazy placeholder
+   keeps the original width/height attributes until the image scrolls into
+   view, so a 744px photo below the fold sat 744px wide in a 216px column and
+   gave the dialog a horizontal scrollbar that vanished once you scrolled to
+   it. Pin the image to its column. */
+.stjo-lightbox__body .wp-block-media-text:not(.is-image-fill-element) .wp-block-media-text__media img {
+	max-width: 100%;
+}
+/* Crop-to-fill variant: core positions the img absolutely inside the figure
+   (height 100%, object-fit cover); the figure itself needs the row's height
+   and, stacked on a phone, a real height of its own (core's 250px minimum). */
+.stjo-lightbox__body .wp-block-media-text.is-image-fill-element > .wp-block-media-text__media {
+	align-self: stretch;
+}
+
+/* A spacer owns the gap it makes: the paragraph or list before it drops its
+   own bottom margin, so spacer + quote + spacer measures the same above and
+   below the quote (Zach's even-space rule). */
+.stjo-lightbox__body :is(p, ul, ol):has(+ .wp-block-spacer) {
+	margin-bottom: 0;
 }
 
 .stjo-lightbox__body p {
@@ -313,9 +360,11 @@ dialog.stjo-lightbox[open]::backdrop { opacity: 1; }
    Content field under it. The component margin flags are a no-op on this WP,
    so the spacing is owned here (this sheet is enqueued in the admin document
    by inc/blocks.php). Frontend never renders the class. */
-.stjo-lightbox-page-picker {
-	margin-bottom: 16px;
-}
+.stjo-lightbox-page-picker { margin-bottom: 8px; }
+/* "Edit Content" link sits between the picker and its help text (edit.js
+   renders the help outside the control to make room for it). */
+.stjo-lightbox-page-picker__edit { margin: 0 0 8px; font-size: 12px; }
+.stjo-lightbox-page-picker__help { margin: 0 0 24px; }
 
 /* Content pages are authored like any page, so they can carry alignfull and
    alignwide groups — whose breakout technique is viewport-relative

@@ -78,6 +78,24 @@
 			var heroUrl = a.mediaUrl || ( pageData.chosenMedia && pageData.chosenMedia.source_url ) || '';
 			var heroAlt = a.mediaUrl ? ( a.mediaAlt || '' ) : ( ( pageData.chosenMedia && pageData.chosenMedia.alt_text ) || '' );
 			var hasBody = !! ( a.contentPageId ? pageHtml : a.content );
+			// "Has an image" means a URL is set, not an attachment id: cards
+			// seeded from patterns carry a mediaUrl and no mediaId, and the
+			// card renders that URL, so the sidebar has to agree with it.
+			var hasOwnImage = !! ( a.mediaId || a.mediaUrl );
+			var fileName = function ( url ) {
+				if ( ! url ) {
+					return '';
+				}
+				var base = url.split( '?' )[ 0 ].split( '#' )[ 0 ].split( '/' ).pop();
+				try {
+					return decodeURIComponent( base );
+				} catch ( e ) {
+					return base;
+				}
+			};
+			var ownImageName = hasOwnImage ? fileName( a.mediaUrl ) : '';
+			var fallbackImageName = ! hasOwnImage && pageData.chosenMedia ? fileName( pageData.chosenMedia.source_url ) : '';
+			var imageNameStyle = { fontSize: '12px', margin: '0 0 8px', wordBreak: 'break-all' };
 
 			return el(
 				wp.element.Fragment,
@@ -99,6 +117,10 @@
 							value: a.linkLabel,
 							onChange: function ( v ) { props.setAttributes( { linkLabel: v } ); }
 						} ),
+						ownImageName ? el( 'p', { style: imageNameStyle },
+							el( 'strong', null, 'Image: ' ), ownImageName ) : null,
+						fallbackImageName ? el( 'p', { style: imageNameStyle },
+							el( 'strong', null, 'Using the content page\u2019s featured image: ' ), fallbackImageName ) : null,
 						el( MediaUploadCheck, null, el( MediaUpload, {
 							onSelect: function ( media ) {
 								props.setAttributes( { mediaId: media.id, mediaUrl: media.url, mediaAlt: media.alt || '' } );
@@ -107,10 +129,10 @@
 							value: a.mediaId,
 							render: function ( obj ) {
 								return el( Button, { variant: 'secondary', onClick: obj.open },
-									a.mediaId ? 'Replace image' : 'Choose image' );
+									hasOwnImage ? 'Replace image' : 'Choose image' );
 							}
 						} ) ),
-						a.mediaId ? el( Button, {
+						hasOwnImage ? el( Button, {
 							variant: 'link',
 							isDestructive: true,
 							style: { marginLeft: '12px' },

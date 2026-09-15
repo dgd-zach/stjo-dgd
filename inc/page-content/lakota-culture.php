@@ -63,28 +63,39 @@ $card = function ( $img, $alt, $title, $text, $href, $cta ) {
 		. '</div><!-- /wp:column -->';
 };
 
-// ── Page title band ────────────────────────────────────────────────────────
-// H1 is the hero headline from stjo.org/native-american-culture/.
 ?>
-<!-- wp:group {"metadata":{"name":"Page Title Band"},"align":"full","textColor":"white","className":"stjo-page-title-band","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull stjo-page-title-band has-white-color has-text-color"><!-- wp:spacer {"height":"var:preset|spacing|large"} -->
-<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer -->
-
-<!-- wp:paragraph {"align":"center","textColor":"yellow","className":"is-style-eyebrow"} -->
-<p class="has-text-align-center is-style-eyebrow has-yellow-color has-text-color">Lakota Culture</p>
+<?php
+// Section landings carry the photo hero, not the blue title band. Photo is the
+// homepage carousel's flute player (SlideEvent.jpg), resolved from the library.
+$hero_id  = function_exists( 'stjo_seed_find_attachment_by_filename' ) ? stjo_seed_find_attachment_by_filename( 'SlideEvent.jpg' ) : 0;
+$hero_url = $hero_id ? wp_make_link_relative( wp_get_attachment_url( $hero_id ) ) : '/wp-content/uploads/2026/07/SlideEvent.jpg';
+$hero_alt = $hero_id ? (string) get_post_meta( $hero_id, '_wp_attachment_image_alt', true ) : 'A man playing a traditional flute';
+$hero_cls = $hero_id ? ' wp-image-' . (int) $hero_id : '';
+$hero_att = serialize_block_attributes( array_filter( array(
+	'url'                => $hero_url,
+	'id'                 => (int) $hero_id,
+	'alt'                => $hero_alt,
+	'dimRatio'           => 0,
+	'isUserOverlayColor' => true,
+	'focalPoint'         => array( 'x' => 0.24, 'y' => 0.4 ),
+	'minHeight'          => 450,
+	'contentPosition'    => 'bottom center',
+	'metadata'           => array( 'name' => 'Page Hero' ),
+	'align'              => 'full',
+	'className'          => 'stjo-page-hero',
+) ) );
+?>
+<!-- wp:cover <?php echo $hero_att; ?> -->
+<div class="wp-block-cover alignfull has-custom-content-position is-position-bottom-center stjo-page-hero" style="min-height:450px"><img class="wp-block-cover__image-background<?php echo $hero_cls; ?>" alt="<?php echo esc_attr( $hero_alt ); ?>" src="<?php echo esc_url( $hero_url ); ?>" style="object-position:24% 40%" data-object-fit="cover" data-object-position="24% 40%"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"full","className":"hero-content","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull hero-content"><!-- wp:paragraph {"align":"center","textColor":"white","className":"is-style-eyebrow"} -->
+<p class="has-text-align-center is-style-eyebrow has-white-color has-text-color">Lakota Culture</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"textAlign":"center","level":1,"textColor":"white"} -->
 <h1 class="wp-block-heading has-text-align-center has-white-color has-text-color">Native American (Lakota) Culture</h1>
-<!-- /wp:heading -->
-
-<!-- wp:spacer {"height":"var:preset|spacing|large"} -->
-<div style="height:var(--wp--preset--spacing--large)" aria-hidden="true" class="wp-block-spacer"></div>
-<!-- /wp:spacer --></div>
-<!-- /wp:group -->
-
-<?php echo $zigzag; ?>
+<!-- /wp:heading --></div>
+<!-- /wp:group --></div></div>
+<!-- /wp:cover -->
 
 <!-- wp:group {"metadata":{"name":"Culture Intro"},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><?php echo $sp( 'medium' ); ?>

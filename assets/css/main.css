@@ -801,12 +801,24 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 .primary-menu {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--stjo--spacing--md);
+	gap: 0;
+	/* Spare room above the tightest one-line layout (14px labels, 12px apart:
+	   650px for the six current labels, with slack), capped at the 120px over
+	   which spacing and size ramp back up to full. cqi reads the nav, a size
+	   container from 1025px; the drawer and stacked states reset what derives
+	   from this. If labels change, re-measure 650px: sum of <li> widths at 14px
+	   + 5 x 12px, plus ~15px slack. */
+	--stjo-nav-room: clamp(0px, 100cqi - 650px, 120px);
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+/* The row gives before it breaks: item spacing eases 24px -> 12px and the
+   label size 16px -> 14px together as the nav's spare room runs out. */
+.primary-menu > li + li {
+	margin-inline-start: calc(12px + var(--stjo-nav-room) / 10);
 }
 /* Top-level section triggers: disclosure <button>s (childless items stay
    <a>s), styled identically. Panel links have their own rules below. */
@@ -817,7 +829,7 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 	padding: 0;
 	cursor: pointer;
 	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
-	font-size: var(--wp--preset--font-size--base, 16px);
+	font-size: calc(14px + var(--stjo-nav-room) / 60);
 	font-weight: 500;
 	color: var(--wp--preset--color--dark, #333);
 	text-decoration: none;
@@ -838,6 +850,33 @@ html.js .wp-block-group.is-style-carousel > .wp-block-cover.is-active-slide {
 }
 @media (prefers-reduced-motion: reduce) {
 	.primary-menu > li > .menu-item__link { transition: none; }
+}
+
+/* Below the tightest one-line layout the menu stacks three to a row instead
+   of shedding one item at a time, with no gap between the rows and labels
+   back at full size. The nav is a size container so the switch follows the
+   room the menu actually has, not the viewport. 655px = the 650px floor from
+   --stjo-nav-room plus a few px so the switch lands before anything wraps. */
+@media (min-width: 1025px) {
+	.site-header__nav { container-type: inline-size; }
+	/* No JS leaves the mega panels inside their <li>, and containment would
+	   make the nav their containing block. Opt out; the plain wrap stays. */
+	html.no-js .site-header__nav { container-type: normal; }
+
+	@container (max-width: 655px) {
+		.primary-menu { gap: 0 var(--stjo--spacing--md); }
+		.primary-menu > li + li { margin-inline-start: 0; }
+		.primary-menu > li > .menu-item__link { font-size: var(--wp--preset--font-size--base, 16px); }
+		/* Forced line breaks after items 3 and 6: the ul's pseudo-elements are
+		   ordered between the groups and span the full row. Visual order still
+		   matches DOM and tab order. */
+		.primary-menu::before,
+		.primary-menu::after { content: ""; flex-basis: 100%; height: 0; }
+		.primary-menu::before { order: 1; }
+		.primary-menu > li:nth-child(n + 4) { order: 2; }
+		.primary-menu::after { order: 3; }
+		.primary-menu > li:nth-child(n + 7) { order: 4; }
+	}
 }
 
 /* Section rows are link + chevron toggle (the panel is a wrapping third child
@@ -1348,6 +1387,8 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.site-header__actions { margin-left: auto; }
 
 	.primary-menu { flex-direction: column; align-items: stretch; gap: 0; padding: 0 0 var(--stjo--spacing--sm); }
+	.primary-menu > li + li { margin-inline-start: 0; }
+	.primary-menu > li > .menu-item__link { font-size: var(--wp--preset--font-size--base, 16px); }
 	.primary-menu > li { border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc); }
 	.primary-menu > li:last-child { border-bottom: 0; }
 	.primary-menu > li > .menu-item__link {

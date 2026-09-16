@@ -77,6 +77,15 @@ function stjo_register_custom_blocks() {
 	);
 	register_block_type( get_template_directory() . '/src/blocks/stat-figure' );
 
+	wp_register_script(
+		'stjo-generosity-band-editor',
+		get_template_directory_uri() . '/src/blocks/generosity-band/edit.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render' ),
+		(string) filemtime( get_template_directory() . '/src/blocks/generosity-band/edit.js' ),
+		true
+	);
+	register_block_type( get_template_directory() . '/src/blocks/generosity-band' );
+
 	// block.json assets default to the WP core version string; pin filemtime
 	// so edits actually cache-bust (same stale-script trap as unregister.js).
 	$stjo_lb_view = wp_scripts()->query( 'stjo-lightbox-card-view-script' );

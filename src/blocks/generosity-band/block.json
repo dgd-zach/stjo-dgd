@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "stjo/generosity-band",
+	"title": "Your Generosity Band",
+	"category": "design",
+	"icon": "heart",
+	"description": "The site-wide ways-to-give band: four photo cards, four icon tiles and the Donate button. One source for every page. Copy and destinations come from theme-config.json, so there is nothing to edit here.",
+	"keywords": [ "give", "donate", "generosity", "ways to give", "band" ],
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "full" ],
+		"multiple": false,
+		"reusable": false
+	},
+	"textdomain": "stjo",
+	"editorScript": "stjo-generosity-band-editor",
+	"render": "file:./render.php"
+}

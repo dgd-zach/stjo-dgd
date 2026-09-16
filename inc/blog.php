@@ -24,6 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * and waiting, and a cached permanent redirect would fight the cutover when
  * the blog moves in. Remove this hook to bring /blog/ back to life.
  */
+/**
+ * Auto-generated excerpts end in " …" (space before the ellipsis, house style)
+ * instead of core's " [&hellip;]". Manual excerpts carry their own ending.
+ */
+function stjo_excerpt_more( $more ) {
+	return ' …';
+}
+add_filter( 'excerpt_more', 'stjo_excerpt_more' );
+
 function stjo_blog_external_redirect() {
 	if ( is_home() && ! is_front_page() ) {
 		wp_redirect( 'https://blog.stjo.org/', 302 );
@@ -141,7 +150,7 @@ function stjo_post_card( $post ) {
 			<?php endif; ?>
 			<div class="stjo-story-card__body">
 				<h3><a href="<?php echo esc_url( $permalink ); ?>"><?php echo esc_html( get_the_title( $post ) ); ?></a></h3>
-				<p><?php echo esc_html( wp_trim_words( get_the_excerpt( $post ), 24 ) ); ?></p>
+				<p><?php echo esc_html( wp_trim_words( get_the_excerpt( $post ), 24, ' …' ) ); ?></p>
 				<a class="stjo-story-card__more" href="<?php echo esc_url( $permalink ); ?>"><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
 			</div>
 		</article>

@@ -61,9 +61,9 @@ if ( $stjo_lb_page ) {
 	$stjo_lb_body_html = wpautop( esc_html( $stjo_lb_content ) );
 }
 
-$stjo_lb_excerpt = $stjo_lb_content ? wp_trim_words( $stjo_lb_content, 20, '…' ) : '';
+$stjo_lb_excerpt = $stjo_lb_content ? wp_trim_words( $stjo_lb_content, 20, ' …' ) : '';
 if ( '' === $stjo_lb_excerpt && $stjo_lb_page ) {
-	$stjo_lb_excerpt = wp_trim_words( wp_strip_all_tags( $stjo_lb_body_html ), 20, '…' );
+	$stjo_lb_excerpt = wp_trim_words( wp_strip_all_tags( $stjo_lb_body_html ), 20, ' …' );
 }
 $stjo_lb_hide_title = ! empty( $attributes['hideTitle'] );
 $stjo_lb_label   = trim( $attributes['linkLabel'] ?? '' );

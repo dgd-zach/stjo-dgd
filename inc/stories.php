@@ -54,7 +54,7 @@ function stjo_story_card( $post, $lightbox = false ) {
 		<?php endif; ?>
 		<div class="stjo-story-card__body">
 			<h3><?php echo esc_html( get_the_title( $post ) ); ?></h3>
-			<p><?php echo esc_html( wp_trim_words( get_the_excerpt( $post ), 36 ) ); // hard cap: the design's placeholder excerpt is 36 words ?></p>
+			<p><?php echo esc_html( wp_trim_words( get_the_excerpt( $post ), 36, ' …' ) ); // hard cap: the design's placeholder excerpt is 36 words ?></p>
 			<?php if ( $external ) : ?>
 				<a class="stjo-story-card__more" href="<?php echo esc_url( $external ); ?>" target="_blank" rel="noopener external">
 					<?php esc_html_e( 'Read More', 'stjo' ); ?>
@@ -148,7 +148,25 @@ function stjo_render_stories_section( $attrs ) {
 	}
 	$year = $year_filter && ! empty( $active[ $param_key ] ) ? $active[ $param_key ] : '';
 
-	$all   = stjo_stories_query( $cat, '', $orderby );
+	$all = stjo_stories_query( $cat, '', $orderby );
+
+	// Pills come from the years present in the section's unfiltered set.
+	$years = array();
+	if ( $year_filter && $all ) {
+		$terms = wp_get_object_terms( wp_list_pluck( $all, 'ID' ), 'story-year' );
+		if ( ! is_wp_error( $terms ) ) {
+			foreach ( $terms as $t ) {
+				$years[ $t->slug ] = $t->name;
+			}
+			ksort( $years );
+		}
+	}
+
+	// No year chosen: show the newest class and light its pill, so the section
+	// always says which year is on screen (client QA, Student Stories).
+	if ( $year_filter && '' === $year && $years ) {
+		$year = (string) max( array_keys( $years ) );
+	}
 	$posts = $year ? stjo_stories_query( $cat, $year, $orderby ) : $all;
 
 	// In the block editor the preview comes from ServerSideRender (a REST
@@ -162,17 +180,6 @@ function stjo_render_stories_section( $attrs ) {
 	}
 	$pages = array_chunk( $posts, 6 );
 
-	// Pills come from the years present in the section's unfiltered set.
-	$years = array();
-	if ( $year_filter && $all ) {
-		$terms = wp_get_object_terms( wp_list_pluck( $all, 'ID' ), 'story-year' );
-		if ( ! is_wp_error( $terms ) ) {
-			foreach ( $terms as $t ) {
-				$years[ $t->slug ] = $t->name;
-			}
-			ksort( $years );
-		}
-	}
 
 	// Pills link back to the page they're on; carry every OTHER section's filter.
 	$base  = get_permalink();

@@ -35,7 +35,7 @@ stjo_page_hero(
 					<article <?php post_class( 'stjo-story-card' ); ?>>
 						<div class="stjo-story-card__body">
 							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-							<p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+							<p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24, ' …' ) ); ?></p>
 							<a class="stjo-story-card__more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
 						</div>
 					</article>

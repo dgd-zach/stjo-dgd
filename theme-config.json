@@ -3,7 +3,7 @@
     "ctas": [
       {
         "label": "Log In",
-        "url": "/login/",
+        "url": "https://give.stjo.org/site/UserLogin?NEXTURL=https%3A%2F%2Fgive.stjo.org%2Fsite%2FSPageNavigator%2FMember_Center%2Fmember_center_dashboard.html",
         "style": "ghost"
       },
       {
@@ -104,7 +104,7 @@
       }
     ],
     "newsletter": {
-      "heading": "Sign up for Email updates from St. Joseph's Indian School",
+      "heading": "Sign up for Email updates from St. Joseph's Indian School",
       "body": "Sign up today and receive email updates, special offers and videos from St. Joseph's Indian School. Join today to see and hear the difference your friendship makes!",
       "action": "https://give.stjo.org/site/SSurvey?ACTION_REQUIRED=URI_ACTION_USER_REQUESTS&SURVEY_ID=3720",
       "next_url": "/newsletter-thank-you/",
@@ -142,6 +142,7 @@
     "daf_url": "https://plannedgiving.stjo.org/donor-advised-funds",
     "memorial_url": "https://give.stjo.org/site/Donation2?df_id=8943&8943.donation=form1",
     "planned_url": "https://plannedgiving.stjo.org/",
+      "ira_url": "https://plannedgiving.stjo.org/give-from-your-ira",
     "vehicle_url": "/support-us/donate-your-vehicle/",
     "shop_url": "/support-us/our-shop/",
     "wishlists_url": "/support-us/wishlists-gift-cards/",

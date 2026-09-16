@@ -3,6 +3,9 @@
   "version": 3,
   "settings": {
     "appearanceTools": false,
+    "lightbox": {
+      "allowEditing": true
+    },
     "color": {
       "palette": [
         {

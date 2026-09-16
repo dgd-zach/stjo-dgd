@@ -100,6 +100,40 @@ function stjo_register_custom_blocks() {
 add_action( 'init', 'stjo_register_custom_blocks' );
 
 /**
+ * Query-loop cards are one click target with three links inside (featured
+ * image, title, Read More), so keyboard users hit each card three times and
+ * screen readers hear the same destination three times. Keep the title as the
+ * real link and take the image and Read More links out of the tab order and
+ * the accessibility tree. The card ring (:focus-within) is the focus indicator.
+ * Only demotes when the card actually has a title link to fall back on.
+ */
+function stjo_query_card_single_tab_stop( $content ) {
+	if ( false === strpos( $content, 'wp-block-post-title' ) ) {
+		return $content;
+	}
+	return preg_replace_callback(
+		'~<li\b[^>]*>.*?</li>~s',
+		function ( $m ) {
+			$li = $m[0];
+			if ( ! preg_match( '~<h\d[^>]*class="[^"]*wp-block-post-title[^"]*"[^>]*>\s*<a\b~s', $li ) ) {
+				return $li;
+			}
+			$demote = function ( $tag ) {
+				if ( false !== strpos( $tag, 'tabindex=' ) ) {
+					return $tag;
+				}
+				return substr( $tag, 0, -1 ) . ' tabindex="-1" aria-hidden="true">';
+			};
+			$li = preg_replace_callback( '~(<figure[^>]*class="[^"]*wp-block-post-featured-image[^"]*"[^>]*>\s*)(<a\b[^>]*>)~s', function ( $x ) use ( $demote ) { return $x[1] . $demote( $x[2] ); }, $li );
+			$li = preg_replace_callback( '~<a\b[^>]*class="[^"]*wp-block-read-more[^"]*"[^>]*>~', function ( $x ) use ( $demote ) { return $demote( $x[0] ); }, $li );
+			return $li;
+		},
+		$content
+	);
+}
+add_filter( 'render_block_core/post-template', 'stjo_query_card_single_tab_stop' );
+
+/**
  * The Preview Lightbox modal (wp.components.Modal) lives in the admin
  * document, OUTSIDE the editor canvas iframe, so block styles registered via
  * block.json never reach it. Enqueue the lightbox styles (plus fonts and

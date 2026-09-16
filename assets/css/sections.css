@@ -53,6 +53,10 @@
 .stjo-blog-grid .wp-block-post-template > li:focus-within {
 	box-shadow: 0 0 0 4px var(--wp--preset--color--brand-dark, #0053a0), var(--stjo--shadow--elevated);
 }
+/* The card ring is the focus indicator; the stretched title link drops its
+   own outline (house rule: one ring per card). */
+.stjo-blog-grid .wp-block-post-title a:focus-visible,
+.stjo-related-query .wp-block-post-title a:focus-visible { outline: none; }
 
 /* Cover CTA/hero bands with centered content: cap the supporting paragraph so
    it doesn't run the full band width (the design centers it in a ~600px
@@ -118,10 +122,14 @@
 	opacity: 1;
 	margin-bottom: var(--stjo--spacing--xs);
 }
-/* Ring also appears on keyboard focus, matching hover. */
+/* Ring also appears on keyboard focus, matching hover: same outer 4px yellow
+   ring hover.css draws. House rule: a card's focus ring takes the colour and
+   shape of its hover ring, and the card ring is the focus indicator, so the
+   inner arrow link drops its own outline. */
 .stjo-card.wp-block-cover:focus-within {
-	box-shadow: inset 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
+	box-shadow: 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
 }
+.stjo-card .wp-block-button__link:focus-visible { outline: none; }
 
 /* ── component: donation-widget ── */
 /* Donation widget card (frequency pills + amounts + donate). */
@@ -149,6 +157,13 @@
 	text-decoration: none;
 }
 a.stjo-give-tile:hover { background: color-mix(in srgb, var(--wp--preset--color--blue-900, #003566) 85%, black); }
+/* Keyboard focus mirrors the hover ring (inset yellow, hover.css) instead of
+   the global blue link outline. */
+a.stjo-give-tile:focus-visible {
+	outline: none;
+	box-shadow: inset 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
+	background: color-mix(in srgb, var(--wp--preset--color--blue-900, #003566) 85%, black);
+}
 .stjo-give-tile img { width: 56px; height: 56px; margin-bottom: 16px;}
 /* Icon turns brand yellow on tile hover/focus. icon-mask.js repaints each
    icon <img> as a background-color box masked by its own bitmap (--icon =
@@ -675,6 +690,37 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 	overflow: clip;
 	height: 100%;
 }
+/* Client QA: a brand-blue ring on hover, keyboard focus and touch press so the
+   whole tile reads as one target (Lakota Culture, Prayers). Drawn by a
+   positioned pseudo-element rather than an outline: the photo's hover zoom
+   promotes it to its own layer, which paints over the card's outline and hid
+   the ring across the image. The overlay sits above it and takes no clicks.
+   (The blog grid keeps its own outer box-shadow ring from the blog-grid
+   component above; adding this one there doubled it.) */
+.stjo-info-card,
+.stjo-related-query .wp-block-post-template > li { position: relative; isolation: isolate; }
+.stjo-info-card::after,
+.stjo-related-query .wp-block-post-template > li::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	border: 3px solid transparent;
+	border-radius: inherit;
+	pointer-events: none;
+	transition: border-color .2s ease;
+}
+.stjo-info-card:hover::after,
+.stjo-info-card:focus-within::after,
+.stjo-info-card:has(:active)::after,
+.stjo-related-query .wp-block-post-template > li:is(:hover, :focus-within, :has(:active))::after { border-color: var(--wp--preset--color--brand-dark, #0053a0); }
+/* The card ring is the focus indicator here; the button's own yellow ring
+   would double it up. The arrow nudge on focus stays. */
+.stjo-info-card .wp-block-button__link:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+	.stjo-info-card::after,
+	.stjo-related-query .wp-block-post-template > li::after { transition: none; }
+}
 .stjo-info-card > .wp-block-image { margin: 0; }
 .stjo-info-card > .wp-block-image img,
 .stjo-related-query .wp-block-post-featured-image img {
@@ -939,7 +985,7 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
    image cards". The yellow ring already existed for :focus-within only, so
    keyboard users got it and mouse users did not. Same rule, both triggers. */
 .stjo-card.wp-block-cover:hover {
-	box-shadow: inset 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
+	box-shadow: 0 0 0 4px var(--wp--preset--color--yellow, #ffd520);
 }
 
 /* "Your Generosity > Can you break the title into two lines?"

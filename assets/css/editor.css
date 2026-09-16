@@ -166,3 +166,14 @@
 	content: "Overlay is 0% — nothing will show, even on mobile";
 	background: #8a2e00;
 }
+
+/* Card hover copy (.stjo-card__reveal) is collapsed until hover on the front
+   end. In the canvas that makes the paragraph unreachable for editing, so it
+   stays expanded here. The frontend rules live in sections.css. */
+.editor-styles-wrapper .stjo-card__reveal {
+	max-height: none;
+	opacity: 1;
+	overflow: visible;
+	margin-bottom: var(--stjo--spacing--xs, 8px);
+	transition: none;
+}

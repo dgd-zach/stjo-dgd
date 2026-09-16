@@ -78,11 +78,29 @@
 .stjo-card.wp-block-cover .wp-block-cover__background { border-radius: var(--stjo--radius--lg, 16px); }
 .stjo-card .wp-block-cover__inner-container { align-items: flex-start; }
 .stjo-card h3, .stjo-card .wp-block-heading { color: var(--wp--preset--color--light, #f3f3e6); margin-bottom: var(--stjo--spacing--sm); }
-/* Figma gradient (transparent → 80% black at bottom) instead of flat dim. */
+/* Figma gradient (transparent → black at the bottom) instead of core's flat
+   dim. The block's Overlay opacity slider sets how dark the bottom gets: core
+   stamps has-background-dim-N on the overlay span and that becomes the
+   gradient's end alpha (N/100). Overlay colour is ignored, the gradient is
+   always black. Mirrors core's classes exactly: no dim class = slider at 0,
+   the bare has-background-dim = core's default 50, has-background-dim-N = N. */
 .stjo-card .wp-block-cover__background {
-	background: linear-gradient(to bottom, rgba(97, 97, 97, 0) 0%, rgba(0, 0, 0, 0.8) 80%) !important;
+	--stjo-card-scrim: 0;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 15%, rgba(0, 0, 0, var(--stjo-card-scrim)) 100%) !important;
 	opacity: 1 !important;
 }
+.stjo-card .wp-block-cover__background.has-background-dim { --stjo-card-scrim: 0.5; }
+.stjo-card .wp-block-cover__background.has-background-dim-0 { --stjo-card-scrim: 0; }
+.stjo-card .wp-block-cover__background.has-background-dim-10 { --stjo-card-scrim: 0.1; }
+.stjo-card .wp-block-cover__background.has-background-dim-20 { --stjo-card-scrim: 0.2; }
+.stjo-card .wp-block-cover__background.has-background-dim-30 { --stjo-card-scrim: 0.3; }
+.stjo-card .wp-block-cover__background.has-background-dim-40 { --stjo-card-scrim: 0.4; }
+.stjo-card .wp-block-cover__background.has-background-dim-50 { --stjo-card-scrim: 0.5; }
+.stjo-card .wp-block-cover__background.has-background-dim-60 { --stjo-card-scrim: 0.6; }
+.stjo-card .wp-block-cover__background.has-background-dim-70 { --stjo-card-scrim: 0.7; }
+.stjo-card .wp-block-cover__background.has-background-dim-80 { --stjo-card-scrim: 0.8; }
+.stjo-card .wp-block-cover__background.has-background-dim-90 { --stjo-card-scrim: 0.9; }
+.stjo-card .wp-block-cover__background.has-background-dim-100 { --stjo-card-scrim: 1; }
 
 /* Whole card is clickable: the arrow link's stretched ::before covers the
    card. The inner-container is the arrow link's positioned ancestor, so it's

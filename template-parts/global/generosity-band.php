@@ -32,7 +32,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
 
     <div class="wp-block-columns alignwide stjo-give-row">
         <div class="wp-block-column">
-            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-4.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span>
+            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-4.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span>
                 <div class="wp-block-cover__inner-container">
                     <h3 class="wp-block-heading has-light-color has-text-color">Monthly giving</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Be a DreamMaker with a recurring gift.</p>
@@ -43,7 +43,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
             </div>
         </div>
         <div class="wp-block-column">
-            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-5.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span>
+            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-5.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span>
                 <div class="wp-block-cover__inner-container">
                     <h3 class="wp-block-heading has-light-color has-text-color">One-Time Gift</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Make an immediate impact today.</p>
@@ -54,7 +54,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
             </div>
         </div>
         <div class="wp-block-column">
-            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-6.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span>
+            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-6.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span>
                 <div class="wp-block-cover__inner-container">
                     <h3 class="wp-block-heading has-light-color has-text-color">Donor Advised Fund</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Give through your DAF account.</p>
@@ -65,7 +65,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
             </div>
         </div>
         <div class="wp-block-column">
-            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-7.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span>
+            <div class="wp-block-cover stjo-card" style="min-height:340px"><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( stjo_asset( 'card-7.png' ) ); ?>" data-object-fit="cover" /><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span>
                 <div class="wp-block-cover__inner-container">
                     <h3 class="wp-block-heading has-light-color has-text-color">Memorial Gift</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Honor a loved one's memory.</p>

@@ -42,6 +42,7 @@ $stjo_manifest = array(
 	'careers'                      => 'careers.php',
 	'contact'                      => 'contact.php',
 	'501c3'                        => '501c3.php',
+	'faq'                          => 'faq.php',
 );
 // Pages whose "unbuilt" state is not the Coming-soon stub: WordPress's own
 // privacy placeholder counts as unbuilt too, and gets published once seeded.
@@ -78,6 +79,7 @@ $stjo_ensure = array(
 	'annual-financial-report' => array( 'Annual Financial Report', 'accountability-reports' ),
 	// Footer pages the board lists (About children so their URLs match the footer)
 	'careers'                => array( 'Careers', 'about' ),
+	'faq'                    => array( 'Frequently Asked Questions', 'about' ),
 	'501c3'                  => array( '501(c)(3) Status', 'about' ),
 	// Beliefs & Traditions children
 	'seven-lakota-values'    => array( 'Seven Lakota Values', 'beliefs-traditions' ),

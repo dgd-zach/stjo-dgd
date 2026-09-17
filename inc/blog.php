@@ -33,6 +33,20 @@ function stjo_excerpt_more( $more ) {
 }
 add_filter( 'excerpt_more', 'stjo_excerpt_more' );
 
+/**
+ * Core's Post Excerpt block trims a manual excerpt with wp_trim_words() and its
+ * default "&hellip;" glued to the last word. House style is a space before the
+ * ellipsis, so every default-more trim on the site gets one (the theme's own
+ * trims already pass " …" explicitly).
+ */
+function stjo_trim_words_space( $text, $num_words, $more ) {
+	if ( '&hellip;' === $more || '…' === $more ) {
+		$text = preg_replace( '/(\S)(?:&hellip;|…)$/u', '$1 …', $text );
+	}
+	return $text;
+}
+add_filter( 'wp_trim_words', 'stjo_trim_words_space', 10, 3 );
+
 function stjo_blog_external_redirect() {
 	if ( is_home() && ! is_front_page() ) {
 		wp_redirect( 'https://blog.stjo.org/', 302 );

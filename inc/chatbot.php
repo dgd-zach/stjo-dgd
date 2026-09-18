@@ -33,7 +33,6 @@ function stjo_chatbot_embed() {
 		$stjo_location = wp_get_document_title();
 	}
 	$sitelocation = wp_json_encode( wp_strip_all_tags( (string) $stjo_location ) );
-	var_dump($sitelocation);
 	?>
 	<!-- NICE CXone chat -->
 	<script>

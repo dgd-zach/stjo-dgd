@@ -26,7 +26,7 @@ function stjo_register_student_story() {
 		'exclude_from_search' => true,
 		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-groups',
-		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ), // custom-fields: REST meta for the image-focus panel
+		'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'page-attributes' ), // custom-fields: REST meta for the image-focus panel; page-attributes: Order field for curated story sequence
 		// No auto-archive: the /student-stories/ page (built from stjo/stories-section
 		// blocks) is the archive now.
 		'has_archive'  => false,

@@ -169,16 +169,19 @@ function stjo_render_stories_section( $attrs ) {
 	}
 	$posts = $year ? stjo_stories_query( $cat, $year, $orderby ) : $all;
 
+	// One row of three per carousel page (client QA, Student Stories: six was
+	// too much scrolling on mobile).
+	$per_page = 3;
 	// In the block editor the preview comes from ServerSideRender (a REST
-	// request) where the carousel JS never runs, so every 6-card page would
-	// stack — too much. Preview only the first 6 and note how many more the
-	// live carousel holds. The front end (not a REST request) is unaffected.
+	// request) where the carousel JS never runs, so every page would stack —
+	// too much. Preview only the first page and note how many more the live
+	// carousel holds. The front end (not a REST request) is unaffected.
 	$preview_more = 0;
-	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && count( $posts ) > 6 ) {
-		$preview_more = count( $posts ) - 6;
-		$posts        = array_slice( $posts, 0, 6 );
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST && count( $posts ) > $per_page ) {
+		$preview_more = count( $posts ) - $per_page;
+		$posts        = array_slice( $posts, 0, $per_page );
 	}
-	$pages = array_chunk( $posts, 6 );
+	$pages = array_chunk( $posts, $per_page );
 
 
 	// Pills link back to the page they're on; carry every OTHER section's filter.

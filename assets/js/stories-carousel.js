@@ -3,7 +3,7 @@
  *
  * Carousel: any [data-stories-carousel] whose track holds more than one
  * .stjo-stories-carousel__page becomes a swipeable pager (the archive chunks
- * 6 cards per page). Progressive enhancement over stacked pages: without JS
+ * 3 cards per page). Progressive enhancement over stacked pages: without JS
  * everything is visible. Controls follow the hero carousel's APG shape
  * (prev / dots / next, ARIA roles, pointer swipe, arrow keys on the
  * controls) minus auto-rotation, so there is nothing to pause. Ends clamp

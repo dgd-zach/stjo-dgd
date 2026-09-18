@@ -915,16 +915,21 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 .stjo-plib__toc a { color: var(--wp--preset--color--white, #fff); text-decoration-color: rgba(255, 255, 255, .4); }
 .stjo-plib__toc a:hover { color: var(--wp--preset--color--yellow, #ffd520); }
 
+/* Full-bleed navy band per category (mirrors .stjo-plib__head); the heading
+   text stays aligned to the content column via a calc gutter, so no wrapper
+   markup is needed and the #cat-<slug> anchors are preserved. */
 .stjo-plib__cat {
-	max-width: var(--wp--style--global--content-size, 1146px);
-	margin: var(--stjo--spacing--xl, 48px) auto var(--stjo--spacing--sm, 16px);
-	padding-inline: var(--stjo--spacing--lg, 32px);
+	max-width: none;
+	margin: var(--stjo--spacing--xl, 48px) 0 0;
+	padding-block: var(--stjo--spacing--md, 24px);
+	padding-inline: max(var(--stjo--spacing--lg, 32px), calc((100% - var(--wp--style--global--content-size, 1146px)) / 2));
+	background: var(--wp--preset--color--blue-900, #003566);
 	font-family: var(--wp--preset--font-family--base, var(--stjo--font-family--base));
 	font-size: var(--stjo--font-size--h5, 21px);
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 1.5px;
-	color: var(--stjo--color--neutral-700, #4d4d4d);
+	color: var(--wp--preset--color--white, #fff);
 }
 
 /* Each pattern is one big focusable copy target. The preview is inert to
@@ -1007,6 +1012,43 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 }
 @media (max-width: 768px) {
 	.stjo-plib__toc { grid-template-columns: 1fr; }
+}
+
+/* Floating "back to the pattern list" control. Visible by default so it works
+   with no JS; pattern-library.js adds .is-hidden near the top of the page and
+   removes it once the reader has scrolled down. */
+.stjo-plib__totop {
+	position: fixed;
+	right: var(--stjo--spacing--md, 24px);
+	bottom: var(--stjo--spacing--md, 24px);
+	z-index: 50;
+	display: grid;
+	place-items: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--blue-900, #003566);
+	color: var(--wp--preset--color--white, #fff);
+	box-shadow: var(--stjo--shadow--elevated, 0 8px 24px rgba(0, 0, 0, .16));
+	transition: opacity .2s ease, transform .2s ease, background-color .15s ease;
+}
+.stjo-plib__totop:hover {
+	background: var(--wp--preset--color--blue-700, #0053a0);
+	color: var(--wp--preset--color--white, #fff);
+}
+.stjo-plib__totop:focus-visible {
+	outline: 3px solid var(--wp--preset--color--yellow, #ffd520);
+	outline-offset: 3px;
+}
+.stjo-plib__totop.is-hidden {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(12px);
+	pointer-events: none;
+}
+.stjo-plib__totop-icon { display: block; }
+@media (prefers-reduced-motion: reduce) {
+	.stjo-plib__totop { transition: none; }
 }
 
 /* ─── Our History page bands (hero + timeline outro) ─── */

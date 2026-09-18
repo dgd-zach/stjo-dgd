@@ -73,7 +73,7 @@ function stjo_pattern_library_item( $pattern ) {
 ?>
 
 <?php if ( ! $stjo_only ) : ?>
-<div class="stjo-plib__head">
+<div class="stjo-plib__head" id="plib-top">
 	<div class="stjo-plib__head-inner">
 		<p class="is-style-eyebrow"><?php echo esc_html( wp_get_theme()->get( 'Name' ) ); ?></p>
 		<h1><?php esc_html_e( 'Pattern Library', 'stjo' ); ?></h1>
@@ -124,6 +124,12 @@ function stjo_pattern_library_item( $pattern ) {
 		<?php stjo_pattern_library_item( $pattern ); ?>
 	<?php endforeach; ?>
 <?php endforeach; ?>
+
+<?php if ( ! $stjo_only ) : ?>
+	<a class="stjo-plib__totop" href="#plib-top" aria-label="<?php esc_attr_e( 'Back to the pattern list', 'stjo' ); ?>">
+		<svg class="stjo-plib__totop-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+	</a>
+<?php endif; ?>
 
 <?php
 get_footer();

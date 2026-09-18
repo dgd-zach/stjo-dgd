@@ -54,6 +54,20 @@
 		shortRaf = requestAnimationFrame(markShort);
 	});
 
+	// Floating back-to-top: hidden near the page top, revealed once scrolled.
+	var toTop = document.querySelector('.stjo-plib__totop');
+	if (toTop) {
+		var toTopRaf = 0;
+		var syncToTop = function () {
+			toTop.classList.toggle('is-hidden', window.pageYOffset < 400);
+		};
+		syncToTop();
+		window.addEventListener('scroll', function () {
+			cancelAnimationFrame(toTopRaf);
+			toTopRaf = requestAnimationFrame(syncToTop);
+		}, { passive: true });
+	}
+
 	items.forEach(function (item) {
 		var markupEl = item.querySelector('.stjo-plib__markup');
 		if (!markupEl) {

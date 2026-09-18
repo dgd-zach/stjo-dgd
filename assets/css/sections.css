@@ -542,43 +542,85 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 	margin-inline: calc(50% - 50vw);
 }
 
-/* Accordion: native Details blocks as white rounded bars. */
+/* Accordion: native Details blocks as white rounded bars. The bar's padding
+   sits on the summary, not the details, so the whole bar is the toggle (same
+   as the Yoast FAQ accordion below); the body gets the same 24px inset from
+   the panel. The summary is NOT flex: its children are inline nodes
+   ("<strong>Wétu</strong> — <em>Spring</em>") that flex would spread across
+   the bar as separate items. Text stays in normal flow at the left, the
+   chevron is pinned to the right edge and the right padding clears it. */
 .stjo-accordion .wp-block-details {
 	background: var(--wp--preset--color--white, #fff);
 	border-radius: var(--stjo--radius--lg, 16px);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
-	padding: var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
+	padding: 0;
 	margin-bottom: var(--stjo--spacing--sm, 16px);
 }
 .stjo-accordion summary {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--stjo--spacing--sm, 16px);
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	padding: var(--stjo--spacing--sm, 16px) calc(var(--stjo--spacing--md, 24px) + 20px + var(--stjo--spacing--sm, 16px)) var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
+	border-radius: inherit;
 	list-style: none;
 	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
 	font-size: 21px;
 	line-height: 1.3;
 	color: var(--wp--preset--color--brand-dark, #0053a0);
 }
 .stjo-accordion summary::-webkit-details-marker { display: none; }
+.stjo-accordion summary:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: -4px;
+}
 .stjo-accordion summary::after {
 	content: "";
-	flex: 0 0 20px;
+	position: absolute;
+	right: var(--stjo--spacing--md, 24px);
+	top: 50%;
 	width: 20px;
 	height: 20px;
+	margin-top: -10px; /* centre on the first line without a translate, so the open-state rotate stands alone */
 	background: currentColor;
 	-webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
 	mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
 	transition: transform 150ms ease;
 }
-.stjo-accordion .wp-block-details[open] > summary::after { transform: rotate(180deg); }
-.stjo-accordion .wp-block-details > :not(summary) {
+/* Chevron: no-JS keys off [open]; enhanced keys off .is-open so it flips in step
+   with the animated panel below (during a close the element stays [open] until
+   the collapse finishes). */
+.stjo-accordion:not(.is-enhanced) .wp-block-details[open] > summary::after,
+.stjo-accordion.is-enhanced .wp-block-details.is-open > summary::after { transform: rotate(180deg); }
+/* Body copy — no-JS: direct children below the summary; enhanced: the same
+   children after details-accordion.js moves them into the clipped inner. */
+.stjo-accordion .wp-block-details > :not(summary),
+.stjo-accordion .stjo-accordion__panel-inner > * {
 	margin-block: var(--stjo--spacing--sm, 16px) 0;
 	color: var(--stjo--color--neutral-700, #4d4d4d);
 }
+/* The 24px side inset the details used to carry: no-JS on each body child,
+   enhanced on the panel wrapper (its inner clips, so margins go outside it).
+   The bottom air only exists while open so a collapsed bar keeps its height. */
+.stjo-accordion:not(.is-enhanced) .wp-block-details > :not(summary) { margin-inline: var(--stjo--spacing--md, 24px); }
+.stjo-accordion:not(.is-enhanced) .wp-block-details[open] { padding-bottom: var(--stjo--spacing--sm, 16px); }
+.stjo-accordion.is-enhanced .stjo-accordion__panel { margin-inline: var(--stjo--spacing--md, 24px); }
+.stjo-accordion.is-enhanced .wp-block-details.is-open .stjo-accordion__panel-inner { padding-bottom: var(--stjo--spacing--sm, 16px); }
+/* Enhanced open/close. details-accordion.js wraps the body in
+   .stjo-accordion__panel > .stjo-accordion__panel-inner and toggles .is-open,
+   animating the grid row 0fr↔1fr exactly like the Yoast FAQ accordion — which
+   animates in every browser, unlike a CSS-only <details> (that needs Chromium's
+   interpolate-size). */
+.stjo-accordion.is-enhanced .stjo-accordion__panel {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 250ms ease;
+}
+.stjo-accordion.is-enhanced .wp-block-details.is-open .stjo-accordion__panel { grid-template-rows: 1fr; }
+.stjo-accordion.is-enhanced .stjo-accordion__panel-inner { overflow: hidden; min-height: 0; }
 @media (prefers-reduced-motion: reduce) {
-	.stjo-accordion summary::after { transition: none; }
+	.stjo-accordion summary::after,
+	.stjo-accordion.is-enhanced .stjo-accordion__panel { transition: none; }
 }
 
 /* Yoast FAQ block, "Accordion" style: same white rounded bars as the native
@@ -591,25 +633,46 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 	background: var(--wp--preset--color--white, #fff);
 	border-radius: var(--stjo--radius--lg, 16px);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
-	padding: var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
+	padding: var(--stjo--spacing--sm, 16px) 55px var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
 	margin-bottom: var(--stjo--spacing--sm, 16px);
 }
 .wp-block-yoast-faq-block.is-style-accordion .schema-faq-question {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--stjo--spacing--sm, 16px);
+	display: inline-block;
 	font-size: 21px;
 	line-height: 1.3;
 	font-weight: 400; /* QA: unbold the questions (design: regular weight) */
 	color: var(--wp--preset--color--brand-dark, #0053a0);
 }
-.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question { cursor: pointer; }
+/* Enhanced: the bar's padding moves off the section and onto the question, so
+   the whole bar is the click target and the focus ring outlines the full row
+   (before, only the words and the chevron toggled; the bar's padding and the
+   empty run between them did nothing).
+   NOT flex: a question's children are inline nodes ("Wačháŋtognaka — Generosity"
+   is a text node, a dash and an <em>), and flex would spread them across the bar
+   as separate items. The text stays in normal flow at the left; the chevron is
+   pinned to the right edge and the right padding clears it. */
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section { padding: 0; }
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question {
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	padding: var(--stjo--spacing--sm, 16px) calc(var(--stjo--spacing--md, 24px) + 20px + var(--stjo--spacing--sm, 16px)) var(--stjo--spacing--sm, 16px) var(--stjo--spacing--md, 24px);
+	border-radius: inherit;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+.wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question:focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary, #1a6db8);
+	outline-offset: -4px;
+}
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-question::after {
 	content: "";
-	flex: 0 0 20px;
+	position: absolute;
+	right: var(--stjo--spacing--md, 24px);
+	top: 50%;
 	width: 20px;
 	height: 20px;
+	margin-top: -10px; /* centre on the first line's row without a translate, so the open-state rotate stands alone */
 	background: currentColor;
 	-webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
 	mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
@@ -628,7 +691,7 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-answer-wrap {
 	display: grid;
 	grid-template-rows: 0fr;
-	margin-block: 0;
+	margin: 0 var(--stjo--spacing--md, 24px); /* the section's side padding lives on the question now */
 	transition: grid-template-rows 250ms ease;
 }
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-wrap { grid-template-rows: 1fr; }
@@ -637,8 +700,11 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 	min-height: 0;
 	color: var(--stjo--color--neutral-700, #4d4d4d);
 }
+/* Open: air above the answer (below the divider) and below it, where the
+   section's bottom padding used to be. Both sit on the inner so a collapsed
+   panel still measures 0. */
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-inner {
-	padding-top: var(--stjo--spacing--sm, 16px);
+	padding-block: var(--stjo--spacing--sm, 16px);
 }
 @media (prefers-reduced-motion: reduce) {
 	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question::after,
@@ -1095,25 +1161,19 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 }
 
 /* "FAQ > Add divider line between question and answer — like in the design."
-   Native Details accordion: the open summary carries the rule. */
-.stjo-accordion .wp-block-details[open] > summary {
-	border-bottom: 1px solid var(--stjo--color--neutral-200, #ccc);
-	padding-bottom: var(--stjo--spacing--sm, 16px);
+   Native Details accordion: the rule rides the body so it sits inside the
+   24px insets like the FAQ's (the summary's own padding is the air above it;
+   the first body child's margin-top is the air below). Enhanced keys off
+   .is-open so it leaves in step with the collapsing panel. */
+.stjo-accordion.is-enhanced .wp-block-details.is-open .stjo-accordion__panel-inner,
+.stjo-accordion:not(.is-enhanced) .wp-block-details[open] > summary + * {
+	border-top: 1px solid var(--stjo--color--neutral-200, #ccc);
 }
+.stjo-accordion:not(.is-enhanced) .wp-block-details[open] > summary + * { padding-top: var(--stjo--spacing--sm, 16px); }
 /* Yoast FAQ accordion: the rule rides the answer panel so it appears/leaves
    with the open state (the inner already gets padding-top when open). */
 .wp-block-yoast-faq-block.is-style-accordion.is-enhanced .schema-faq-section.is-open .schema-faq-answer-inner {
 	border-top: 1px solid var(--stjo--color--neutral-200, #ccc);
-}
-/* 16px of air between the question and the divider — only while open (the
-   closed bar keeps its tight height). The transition matches the panel's
-   250ms so the row grows with the answer instead of jumping. */
-.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question { transition: padding-bottom 250ms ease; }
-.wp-block-yoast-faq-block.is-style-accordion .schema-faq-section.is-open .schema-faq-question {
-	padding-bottom: var(--stjo--spacing--sm, 16px);
-}
-@media (prefers-reduced-motion: reduce) {
-	.wp-block-yoast-faq-block.is-style-accordion .schema-faq-question { transition: none; }
 }
 /* No-JS (never enhanced): answers always show — draw the rule statically. */
 .wp-block-yoast-faq-block.is-style-accordion:not(.is-enhanced) .schema-faq-answer-wrap {

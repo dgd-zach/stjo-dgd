@@ -323,6 +323,13 @@ function stjo_nav_assets() {
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(
+		'stjo-details-accordion',
+		get_template_directory_uri() . '/assets/js/details-accordion.js',
+		array(),
+		(string) filemtime( get_template_directory() . '/assets/js/details-accordion.js' ),
+		array( 'strategy' => 'defer', 'in_footer' => true )
+	);
+	wp_enqueue_script(
 		'stjo-play-video',
 		get_template_directory_uri() . '/assets/js/play-video.js',
 		array(),

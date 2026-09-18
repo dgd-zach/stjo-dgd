@@ -799,6 +799,20 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 }
 .stjo-related-query .wp-block-post-template > li,
 .stjo-blog-grid .wp-block-post-template > li { cursor: pointer; }
+/* Info card whose link opens a lightbox (Lakota Culture > Learn More: Seven
+   Lakota Rites). The Arrow Link lightbox trigger stretches over the card the
+   way a button link does, so the whole card is one target; the card ring is
+   the focus indicator, so the trigger's own outline goes. position: static on
+   the block and its button lets the stretch resolve to the card, not to the
+   block's own box. */
+.stjo-info-card .wp-block-stjo-lightbox-card.is-style-arrow-link,
+.stjo-info-card .wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link { position: static; }
+.stjo-info-card .wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+.stjo-info-card .wp-block-stjo-lightbox-card.is-style-arrow-link .stjo-lightbox-card__link:focus-visible { outline: none; }
 .stjo-related-query .wp-block-post-title a::before {
 	content: "";
 	position: absolute;

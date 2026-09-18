@@ -192,8 +192,8 @@ $hogebach = stjo_seeded_image( 'history-fr-hogebach-with-student.jpg' );
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-3.png","dimRatio":50,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-3.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-3.png","dimRatio":80,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
+<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-3.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">Our Mission</h3>
 <!-- /wp:heading -->
 
@@ -206,8 +206,8 @@ $hogebach = stjo_seeded_image( 'history-fr-hogebach-with-student.jpg' );
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-2.png","dimRatio":50,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-2.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-2.png","dimRatio":80,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
+<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-2.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">Lakota Culture</h3>
 <!-- /wp:heading -->
 
@@ -220,8 +220,8 @@ $hogebach = stjo_seeded_image( 'history-fr-hogebach-with-student.jpg' );
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-8.png","dimRatio":50,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
-<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-8.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
+<div class="wp-block-column"><!-- wp:cover {"url":"/wp-content/themes/stjo-dgd/assets/images/card-8.png","dimRatio":80,"overlayColor":"black","isUserOverlayColor":true,"minHeight":360,"className":"stjo-card"} -->
+<div class="wp-block-cover stjo-card" style="min-height:360px"><img class="wp-block-cover__image-background" alt="" src="/wp-content/themes/stjo-dgd/assets/images/card-8.png" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
 <h3 class="wp-block-heading has-light-color has-text-color">Your Impact</h3>
 <!-- /wp:heading -->
 

@@ -77,8 +77,8 @@
 
     <!-- wp:columns -->
     <div class="wp-block-columns"><!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card.png')); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">Our Mission</h3>
                     <!-- /wp:heading -->
@@ -99,8 +99,8 @@
         </div>
         <!-- /wp:column -->
         <!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-2.png')); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-2.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-2.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-2.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">About Our Children</h3>
                     <!-- /wp:heading -->
@@ -121,8 +121,8 @@
         </div>
         <!-- /wp:column -->
         <!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-3.png')); ?>","dimRatio":40,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-3.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-3.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-3.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">Our Programs</h3>
                     <!-- /wp:heading -->
@@ -356,8 +356,8 @@
 
     <!-- wp:columns -->
     <div class="wp-block-columns"><!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-4.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-4.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-4.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-4.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">Monthly giving</h3>
                     <!-- /wp:heading -->
@@ -378,8 +378,8 @@
         </div>
         <!-- /wp:column -->
         <!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-5.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-5.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-5.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-5.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">One-Time Gift</h3>
                     <!-- /wp:heading -->
@@ -400,8 +400,8 @@
         </div>
         <!-- /wp:column -->
         <!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-6.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-6.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-6.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-6.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">Donor Advised Fund</h3>
                     <!-- /wp:heading -->
@@ -422,8 +422,8 @@
         </div>
         <!-- /wp:column -->
         <!-- wp:column -->
-        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-7.png')); ?>","dimRatio":50,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
-            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-50 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-7.png')); ?>" data-object-fit="cover" />
+        <div class="wp-block-column"><!-- wp:cover {"url":"<?php echo esc_url(stjo_asset('card-7.png')); ?>","dimRatio":80,"overlayColor":"black","minHeight":400,"className":"stjo-card"} -->
+            <div class="wp-block-cover stjo-card" style="min-height:400px"><span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span><img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(stjo_asset('card-7.png')); ?>" data-object-fit="cover" />
                 <div class="wp-block-cover__inner-container"><!-- wp:heading {"level":3,"textColor":"light"} -->
                     <h3 class="wp-block-heading has-light-color has-text-color">Memorial Gift</h3>
                     <!-- /wp:heading -->

@@ -53,10 +53,10 @@ $zigzag = '<!-- wp:separator {"className":"alignfull"} --><hr class="wp-block-se
 $cover_card = function ( $img, $title, $text, $href, $cta ) {
 	$src = esc_url( stjo_asset( $img ) );
 	return '<!-- wp:column --><div class="wp-block-column">'
-		. '<!-- wp:cover {"url":"' . $src . '","dimRatio":40,"overlayColor":"black","isUserOverlayColor":true,"minHeight":400,"className":"stjo-card"} -->'
+		. '<!-- wp:cover {"url":"' . $src . '","dimRatio":80,"overlayColor":"black","isUserOverlayColor":true,"minHeight":400,"className":"stjo-card"} -->'
 		. '<div class="wp-block-cover stjo-card" style="min-height:400px">'
 		. '<img class="wp-block-cover__image-background" alt="" src="' . $src . '" data-object-fit="cover"/>'
-		. '<span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-40 has-background-dim"></span>'
+		. '<span aria-hidden="true" class="wp-block-cover__background has-black-background-color has-background-dim-80 has-background-dim"></span>'
 		. '<div class="wp-block-cover__inner-container">'
 		. '<!-- wp:heading {"level":3,"textColor":"light"} -->'
 		. '<h3 class="wp-block-heading has-light-color has-text-color">' . $title . '</h3>'

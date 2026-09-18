@@ -1,26 +1,48 @@
 <?php
 /**
- * our-children — "About Our Children" (About section).
+ * our-children: "About Our Children" (About section).
  *
- * Layout follows the About Our Children wireframe on the sitemap board
- * (uXjVHzJD47c, frame 3458764674147056179), which is the General Content
- * template: title band, intro paragraph, "A future for Lakota children" as two
- * columns (Education and Services | Family and Culture), a Student Stories
- * media-text with a Read More link, then an Accountability row of two cards
- * (Student Bill of Rights, Protecting Students). The board's sticky says
- * "Copy from here: stjo.org/native-american-children/", so the copy is that
- * page's, redistributed into those slots: admissions facts and the student
- * profile list in the intro, what gifts provide under Education and Services,
- * the "there is hope" heritage passage under Family and Culture.
+ * Same slots as the About Our Children wireframe on the sitemap board
+ * (uXjVHzJD47c, frame 3458764674147056179) and the same copy, from
+ * stjo.org/native-american-children/, redesigned in 2026-09 because the page
+ * read as four walls of text with one small photo. Nothing was written and no
+ * number was invented: every sentence that was on the page is still on it, and
+ * the only string added anywhere is the H2 "Our Lakota Students", a label made
+ * from the copy's own phrase ("many of our Lakota students...") so the
+ * demographics band has a heading. Flag it with the client.
+ *
+ * What moved, and why:
+ *
+ * - The admissions facts split. "Students are not required to be Catholic..."
+ *   and "To be admitted..." open the page beside a photo; the two counting
+ *   sentences ("21 homes", "over 100... on our waiting list") became the two
+ *   Stat Figures that close the demographics band, each keeping its whole
+ *   sentence as the label (the idiom annual-financial-report.php uses).
+ * - "But there is hope ... mind, body, heart and spirit." was the first
+ *   sentence of the Family and Culture column. It is now the full-bleed photo
+ *   band between the hardship list and the hope sections, which is the turn
+ *   the page makes anyway. Its paragraph keeps the rest of its sentences.
+ * - Family and Culture now runs before Education and Services, so "there is
+ *   hope" lands on the heritage passage rather than on a gift list.
+ * - The two Accountability cards are unchanged apart from photos.
+ *
+ * Bands alternate white / light and no two text-only bands sit together:
+ * title (blue), intro + photo (white), demographics + stats (light), hope
+ * photo band, A future for Lakota children (white, two media & text),
+ * Student Stories (light), Accountability cards (white).
+ *
+ * Photos are Media Library only. OurChildren1.jpg, the live page's own photo,
+ * is published at 350px wide and went soft in a half-width column, so the
+ * 2026/09 campus set is used instead; alt text comes from the library except
+ * on seasonal-ourChildren.jpg, which has none there.
  *
  * The two Accountability cards point at the tertiary pages the sitemap places
  * under Accountability & Reports (seed-pages.php creates them as stubs); their
  * blurbs come from those live pages. The Student Stories blurb is the Your
- * Impact page's own card copy. The photo is the live page's (350px wide, the
- * only size the client has published). Header, breadcrumbs, generosity
- * pre-footer and footer are template parts, not part of this content.
+ * Impact page's own card copy. Header, breadcrumbs, generosity pre-footer and
+ * footer are template parts, not part of this content.
  *
- * Seed source only — edit live content in the WP editor after seeding.
+ * Seed source only. Edit live content in the WP editor after seeding.
  *
  * @package stjo
  */
@@ -29,69 +51,109 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$sp = function ( $size ) {
-	return '<!-- wp:spacer {"height":"var:preset|spacing|' . $size . '"} -->'
-		. '<div style="height:var(--wp--preset--spacing--' . $size . ')" aria-hidden="true" class="wp-block-spacer"></div>'
-		. '<!-- /wp:spacer -->';
+require __DIR__ . '/_helpers.php'; // $sp, $title_band, $card, $card_rows
+
+/**
+ * Media Library photo by filename: id, root-relative URL and the library's own
+ * alt. The 2026/09 campus uploads carry _stjo_qa_source rather than
+ * _stjo_seed_source, so stjo_seeded_image() cannot see them; matching on the
+ * filename resolves the same photo on local and staging without an ID in the
+ * markup. Falls back to stjo_seeded_image() for the seeded set.
+ */
+$photo = function ( $file ) {
+	$id = function_exists( 'stjo_seed_find_attachment_by_filename' ) ? (int) stjo_seed_find_attachment_by_filename( $file ) : 0;
+	if ( ! $id ) {
+		$seeded = stjo_seeded_image( $file );
+		$id     = (int) $seeded['id'];
+	}
+	if ( ! $id ) {
+		return array( 'id' => 0, 'url' => '', 'alt' => '' );
+	}
+	return array(
+		'id'  => $id,
+		'url' => (string) wp_make_link_relative( (string) wp_get_attachment_url( $id ) ),
+		'alt' => (string) get_post_meta( $id, '_wp_attachment_image_alt', true ),
+	);
 };
 
-/** Seeded photo as a media-text figure. */
-$figure = function ( $file ) {
-	$img = stjo_seeded_image( $file );
-	$alt = $img['id'] ? (string) get_post_meta( $img['id'], '_wp_attachment_image_alt', true ) : '';
-	$cls = $img['id'] ? ' class="wp-image-' . (int) $img['id'] . ' size-full"' : '';
-	return '<figure class="wp-block-media-text__media"><img src="' . esc_url( $img['url'] ) . '" alt="' . esc_attr( $alt ) . '"' . $cls . '/></figure>';
-};
-$media_id = function ( $file ) {
-	$img = stjo_seeded_image( $file );
-	return $img['id'] ? '"mediaId":' . (int) $img['id'] . ',' : '';
+/**
+ * Media & text subsection. $side is 'left' or 'right' (the photo's side);
+ * $body is the already-serialized blocks for the text column. Serializes the
+ * way core does: content div first when the media is on the right.
+ */
+$media_text = function ( $file, $side, $body, $alt_override = '' ) use ( $photo ) {
+	$img    = $photo( $file );
+	$alt    = $alt_override ? $alt_override : $img['alt'];
+	$figure = '<figure class="wp-block-media-text__media"><img src="' . esc_url( $img['url'] ) . '" alt="' . esc_attr( $alt ) . '"'
+		. ( $img['id'] ? ' class="wp-image-' . (int) $img['id'] . ' size-full"' : '' ) . '/></figure>';
+	$content = '<div class="wp-block-media-text__content">' . $body . '</div>';
+	$attrs   = ( 'right' === $side ? '"mediaPosition":"right",' : '' )
+		. ( $img['id'] ? '"mediaId":' . (int) $img['id'] . ',' : '' )
+		. '"mediaType":"image","className":"is-style-rounded"';
+	$classes = 'wp-block-media-text' . ( 'right' === $side ? ' has-media-on-the-right' : '' ) . ' is-stacked-on-mobile is-style-rounded';
+	return '<!-- wp:media-text {' . $attrs . '} -->' . "\n"
+		. '<div class="' . $classes . '">' . ( 'right' === $side ? $content . $figure : $figure . $content ) . '</div>' . "\n"
+		. '<!-- /wp:media-text -->' . "\n";
 };
 
-/** Text info card (the wireframe's "Item / short description / Learn more"). */
-$card = function ( $title, $text, $href, $cta ) {
+/** One impact figure over its label, as a column (annual-financial-report idiom). */
+$stat = function ( $value, $label ) {
 	return '<!-- wp:column --><div class="wp-block-column">'
-		. '<!-- wp:group {"className":"stjo-info-card"} --><div class="wp-block-group stjo-info-card">'
-		. '<!-- wp:group {"className":"stjo-info-card__body"} --><div class="wp-block-group stjo-info-card__body">'
-		. '<!-- wp:heading {"level":3,"textColor":"blue-900"} -->'
-		. '<h3 class="wp-block-heading has-blue-900-color has-text-color">' . $title . '</h3>'
-		. '<!-- /wp:heading -->'
-		. '<!-- wp:paragraph --><p>' . $text . '</p><!-- /wp:paragraph -->'
-		. '<!-- wp:buttons --><div class="wp-block-buttons">'
-		. '<!-- wp:button {"textColor":"blue-900","className":"is-style-arrow-link"} -->'
-		. '<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-blue-900-color has-text-color wp-element-button" href="' . esc_url( $href ) . '">' . $cta . '</a></div>'
-		. '<!-- /wp:button --></div><!-- /wp:buttons -->'
-		. '</div><!-- /wp:group -->'
-		. '</div><!-- /wp:group -->'
+		. '<!-- wp:stjo/stat-figure {"value":"' . esc_attr( $value ) . '"} /-->'
+		. '<!-- wp:paragraph {"align":"center","className":"stjo-stat__label"} -->'
+		. '<p class="has-text-align-center stjo-stat__label">' . $label . '</p>'
+		. '<!-- /wp:paragraph -->'
 		. '</div><!-- /wp:column -->';
 };
+
+echo $title_band( 'About', 'About Our Children' );
+
+// The hope band's photo: the only one on the page with no alt in the library.
+$hope     = $photo( 'seasonal-ourChildren.jpg' );
+$hope_alt = 'Two students sitting on the grass outside, painting a clay flower pot together';
+$hope_att = serialize_block_attributes( array_filter( array(
+	'url'                => $hope['url'],
+	'id'                 => (int) $hope['id'],
+	'alt'                => $hope_alt,
+	'dimRatio'           => 80,
+	'overlayColor'       => 'blue-900',
+	'isUserOverlayColor' => true,
+	'focalPoint'         => array( 'x' => 0.34, 'y' => 0.5 ),
+	'minHeight'          => 418,
+	'metadata'           => array( 'name' => 'There Is Hope' ),
+	'align'              => 'full',
+	'layout'             => array( 'type' => 'constrained' ),
+) ) );
 ?>
-<!-- wp:group {"metadata":{"name":"Page Title Band"},"align":"full","textColor":"white","className":"stjo-page-title-band","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull stjo-page-title-band has-white-color has-text-color"><?php echo $sp( 'large' ); ?>
+<!-- wp:group {"metadata":{"name":"Intro"},"align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull"><?php echo $sp( 'medium' ); ?>
 
-<!-- wp:paragraph {"align":"center","textColor":"yellow","className":"is-style-eyebrow"} -->
-<p class="has-text-align-center is-style-eyebrow has-yellow-color has-text-color">About</p>
-<!-- /wp:paragraph -->
+<?php
+echo $media_text(
+	'youth-programs-rising-eagle-day-camp.jpg',
+	'right',
+	'<!-- wp:paragraph {"className":"stjo-subhead"} -->' . "\n"
+	. '<p class="stjo-subhead">Students are not required to be Catholic to attend St. Joseph&#8217;s, though over half are.</p>' . "\n"
+	. '<!-- /wp:paragraph -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>To be admitted, children must be of Native American heritage, and be in grades one through 12.</p>' . "\n"
+	. '<!-- /wp:paragraph -->'
+);
+?>
 
-<!-- wp:heading {"textAlign":"center","level":1,"textColor":"white"} -->
-<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color">About Our Children</h1>
-<!-- /wp:heading -->
-
-<?php echo $sp( 'large' ); ?></div>
+<?php echo $sp( 'medium' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Intro"},"layout":{"type":"constrained","contentSize":"768px"}} -->
-<div class="wp-block-group"><?php echo $sp( 'medium' ); ?>
+<!-- wp:group {"metadata":{"name":"Our Lakota Students"},"align":"full","backgroundColor":"light","className":"stjo-stats","layout":{"type":"constrained"},"anchor":"our-lakota-students"} -->
+<div class="wp-block-group alignfull stjo-stats has-light-background-color has-background" id="our-lakota-students"><?php echo $sp( 'large' ); ?>
 
-<!-- wp:paragraph {"className":"stjo-subhead"} -->
-<p class="stjo-subhead">Students are not required to be Catholic to attend St. Joseph’s, though over half are.</p>
-<!-- /wp:paragraph -->
+<!-- wp:heading {"textAlign":"center","level":2} -->
+<h2 class="wp-block-heading has-text-align-center">Our Lakota Students</h2>
+<!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p>Native American students fill our school’s 21 homes. Unfortunately, over 100 other American Indian youth are on our waiting list.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>To be admitted, children must be of Native American heritage, and be in grades one through 12. Admission is based on need, and many of our Lakota students have the following characteristics:</p>
+<!-- wp:group {"layout":{"type":"constrained","contentSize":"860px"}} -->
+<div class="wp-block-group"><!-- wp:paragraph -->
+<p>Admission is based on need, and many of our Lakota students have the following characteristics:</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:list -->
@@ -112,120 +174,151 @@ $card = function ( $title, $text, $href, $cta ) {
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li>Native American children’s exposure to substance abuse and domestic violence is increasing. Approximately 55% of our students have been exposed to drug and alcohol use and 41% have witnessed domestic violence.</li>
+<li>Native American children&#8217;s exposure to substance abuse and domestic violence is increasing. Approximately 55% of our students have been exposed to drug and alcohol use and 41% have witnessed domestic violence.</li>
 <!-- /wp:list-item --></ul>
-<!-- /wp:list -->
-
-<?php echo $sp( 'medium' ); ?></div>
+<!-- /wp:list --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"A Future for Lakota Children"},"layout":{"type":"constrained"},"anchor":"a-future-for-lakota-children"} -->
-<div class="wp-block-group" id="a-future-for-lakota-children"><!-- wp:heading {"textAlign":"center","level":2} -->
+<?php echo $sp( 'medium' ); ?>
+
+<!-- wp:group {"layout":{"type":"constrained","contentSize":"820px"}} -->
+<div class="wp-block-group"><!-- wp:columns {"className":"stjo-stats__row"} -->
+<div class="wp-block-columns stjo-stats__row"><?php
+echo $stat( '21', 'Native American students fill our school&#8217;s 21 homes.' );
+echo $stat( '100+', 'Unfortunately, over 100 other American Indian youth are on our waiting list.' );
+?></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
+
+<?php echo $sp( 'large' ); ?></div>
+<!-- /wp:group -->
+
+<!-- wp:cover <?php echo $hope_att; ?> -->
+<div class="wp-block-cover alignfull" style="min-height:418px"><img class="wp-block-cover__image-background<?php echo $hope['id'] ? ' wp-image-' . (int) $hope['id'] : ''; ?>" alt="<?php echo esc_attr( $hope_alt ); ?>" src="<?php echo esc_url( $hope['url'] ); ?>" style="object-position:34% 50%" data-object-fit="cover" data-object-position="34% 50%"/><span aria-hidden="true" class="wp-block-cover__background has-blue-900-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","contentSize":"900px"}} -->
+<div class="wp-block-group"><!-- wp:paragraph {"align":"center","textColor":"white","fontSize":"large"} -->
+<p class="has-text-align-center has-white-color has-text-color has-large-font-size">But there is hope &hellip; since 1927, St. Joseph&#8217;s Indian School has been working with Native American youth and their families to educate and support for life &mdash; mind, body, heart and spirit.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div></div>
+<!-- /wp:cover -->
+
+<!-- wp:group {"metadata":{"name":"A Future for Lakota Children"},"align":"full","layout":{"type":"constrained"},"anchor":"a-future-for-lakota-children"} -->
+<div class="wp-block-group alignfull" id="a-future-for-lakota-children"><?php echo $sp( 'large' ); ?>
+
+<!-- wp:heading {"textAlign":"center","level":2} -->
 <h2 class="wp-block-heading has-text-align-center">A future for Lakota children</h2>
 <!-- /wp:heading -->
 
-<!-- wp:columns -->
-<div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Education and Services</h3>
-<!-- /wp:heading -->
+<?php echo $sp( 'medium' ); ?>
 
-<!-- wp:paragraph -->
-<p>Tax-deductible gifts help our Lakota students receive:</p>
-<!-- /wp:paragraph -->
+<?php
+echo $media_text(
+	'youth-programs-residential-living.jpg',
+	'left',
+	'<!-- wp:heading {"level":3} -->' . "\n"
+	. '<h3 class="wp-block-heading">Family and Culture</h3>' . "\n"
+	. '<!-- /wp:heading -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>For over 90 years, reaching out to American Indian youth on Indian reservations and beyond has remained our top priority.</p>' . "\n"
+	. '<!-- /wp:paragraph -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>By supporting St. Joseph&#8217;s Indian School, you are helping Native American students in need regain pride in their Lakota (Sioux) heritage by learning the Lakota language, studying Native American culture and learning ways they can grow and prosper.</p>' . "\n"
+	. '<!-- /wp:paragraph -->'
+);
 
-<!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item -->
-<li>A safe, stable home away from reservation hardships</li>
-<!-- /wp:list-item -->
+echo $sp( 'medium' ) . "\n\n";
 
-<!-- wp:list-item -->
-<li>Individual counseling and guidance</li>
-<!-- /wp:list-item -->
+echo $media_text(
+	'youth-programs-education-cultural.jpg',
+	'right',
+	'<!-- wp:heading {"level":3} -->' . "\n"
+	. '<h3 class="wp-block-heading">Education and Services</h3>' . "\n"
+	. '<!-- /wp:heading -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>Tax-deductible gifts help our Lakota students receive:</p>' . "\n"
+	. '<!-- /wp:paragraph -->' . "\n\n"
+	. '<!-- wp:list -->' . "\n"
+	. '<ul class="wp-block-list"><!-- wp:list-item -->' . "\n"
+	. '<li>A safe, stable home away from reservation hardships</li>' . "\n"
+	. '<!-- /wp:list-item -->' . "\n\n"
+	. '<!-- wp:list-item -->' . "\n"
+	. '<li>Individual counseling and guidance</li>' . "\n"
+	. '<!-- /wp:list-item -->' . "\n\n"
+	. '<!-- wp:list-item -->' . "\n"
+	. '<li>Carefully planned curriculum based on Lakota (Sioux) culture and individual student needs</li>' . "\n"
+	. '<!-- /wp:list-item -->' . "\n\n"
+	. '<!-- wp:list-item -->' . "\n"
+	. '<li>Tools to help build confidence, boost self-esteem and improve cultural awareness</li>' . "\n"
+	. '<!-- /wp:list-item -->' . "\n\n"
+	. '<!-- wp:list-item -->' . "\n"
+	. '<li>And MORE to help our students believe in a productive, possibility-filled future!</li>' . "\n"
+	. '<!-- /wp:list-item --></ul>' . "\n"
+	. '<!-- /wp:list -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>Thank you for your support.</p>' . "\n"
+	. '<!-- /wp:paragraph -->'
+);
+?>
 
-<!-- wp:list-item -->
-<li>Carefully planned curriculum based on Lakota (Sioux) culture and individual student needs</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Tools to help build confidence, boost self-esteem and improve cultural awareness</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>And MORE to help our students believe in a productive, possibility-filled future!</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list -->
-
-<!-- wp:paragraph -->
-<p>Thank you for your support.</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:column -->
-
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Family and Culture</h3>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>But there is hope … since 1927, St. Joseph’s Indian School has been working with Native American youth and their families to educate and support for life — mind, body, heart and spirit. For over 90 years, reaching out to American Indian youth on Indian reservations and beyond has remained our top priority.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>By supporting St. Joseph’s Indian School, you are helping Native American students in need regain pride in their Lakota (Sioux) heritage by learning the Lakota language, studying Native American culture and learning ways they can grow and prosper.</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns -->
-
-<?php echo $sp( 'medium' ); ?></div>
+<?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Student Stories"},"align":"full","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull"><?php echo $sp( 'medium' ); ?>
+<!-- wp:group {"metadata":{"name":"Student Stories"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"},"anchor":"student-stories"} -->
+<div class="wp-block-group alignfull has-light-background-color has-background" id="student-stories"><?php echo $sp( 'large' ); ?>
 
-<!-- wp:media-text {<?php echo $media_id( 'OurChildren1.jpg' ); ?>"mediaType":"image","className":"is-style-rounded"} -->
-<div class="wp-block-media-text is-stacked-on-mobile is-style-rounded"><?php echo $figure( 'OurChildren1.jpg' ); ?><div class="wp-block-media-text__content"><!-- wp:heading {"level":2} -->
-<h2 class="wp-block-heading">Student Stories</h2>
-<!-- /wp:heading -->
+<?php
+echo $media_text(
+	'youth-programs-college-scholarships.jpg',
+	'left',
+	'<!-- wp:heading {"level":2} -->' . "\n"
+	. '<h2 class="wp-block-heading">Student Stories</h2>' . "\n"
+	. '<!-- /wp:heading -->' . "\n\n"
+	. '<!-- wp:paragraph -->' . "\n"
+	. '<p>Meet the Native American students who call St. Joseph&#8217;s home, from elementary school through high school graduation.</p>' . "\n"
+	. '<!-- /wp:paragraph -->' . "\n\n"
+	. '<!-- wp:buttons -->' . "\n"
+	. '<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link"} -->' . "\n"
+	. '<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="/student-stories/">Read Student Stories</a></div>' . "\n"
+	. '<!-- /wp:button --></div>' . "\n"
+	. '<!-- /wp:buttons -->'
+);
+?>
 
-<!-- wp:paragraph -->
-<p>Meet the Native American students who call St. Joseph’s home, from elementary school through high school graduation.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link"} -->
-<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="/student-stories/">Read More</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons --></div></div>
-<!-- /wp:media-text -->
-
-<?php echo $sp( 'medium' ); ?></div>
+<?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Accountability"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"},"anchor":"accountability"} -->
-<div class="wp-block-group alignfull has-light-background-color has-background" id="accountability"><?php echo $sp( 'large' ); ?>
+<!-- wp:group {"metadata":{"name":"Accountability"},"align":"full","layout":{"type":"constrained"},"anchor":"accountability"} -->
+<div class="wp-block-group alignfull" id="accountability"><?php echo $sp( 'large' ); ?>
 
 <!-- wp:heading {"textAlign":"center","level":2} -->
 <h2 class="wp-block-heading has-text-align-center">Accountability</h2>
 <!-- /wp:heading -->
 
-<!-- wp:columns {"className":"stjo-related-cards"} -->
-<div class="wp-block-columns stjo-related-cards">
+<?php echo $sp( 'medium' ); ?>
+
 <?php
-echo $card(
-	'Student Bill of Rights',
-	'Equal treatment, the necessities of life, freedom of expression, protection from abuse, medical and dental care, religious freedom, education and recreation, and more: the rights every St. Joseph’s student is guaranteed.',
-	'/about/accountability-reports/student-bill-of-rights/',
-	'Read the Student Bill of Rights'
-);
-echo $card(
-	'Protecting Students',
-	'Inappropriate behavior is unequivocally not tolerated at St. Joseph’s Indian School. A zero-tolerance policy is strictly enforced throughout our programs.',
-	'/about/accountability-reports/protecting-students/',
-	'How We Protect Students'
+$bill    = $photo( 'powwow-young-women-regalia.jpg' );
+$protect = $photo( 'youth-programs-student-health.jpg' );
+echo $card_rows(
+	array(
+		$card(
+			'Student Bill of Rights',
+			'Equal treatment, the necessities of life, freedom of expression, protection from abuse, medical and dental care, religious freedom, education and recreation, and more: the rights every St. Joseph&#8217;s student is guaranteed.',
+			'/about/accountability-reports/student-bill-of-rights/',
+			'Read the Student Bill of Rights',
+			$bill['url'],
+			$bill['alt']
+		),
+		$card(
+			'Protecting Students',
+			'Inappropriate behavior is unequivocally not tolerated at St. Joseph&#8217;s Indian School. A zero-tolerance policy is strictly enforced throughout our programs.',
+			'/about/accountability-reports/protecting-students/',
+			'How We Protect Students',
+			$protect['url'],
+			$protect['alt']
+		),
+	),
+	2
 );
 ?>
-</div>
-<!-- /wp:columns -->
-
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->

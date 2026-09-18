@@ -158,6 +158,7 @@ require_once get_template_directory() . '/inc/share-bar.php';
 require_once get_template_directory() . '/inc/blog.php';
 require_once get_template_directory() . '/inc/chatbot.php';
 require_once get_template_directory() . '/inc/content-guide.php';
+require_once get_template_directory() . '/inc/page-build-status.php';
 
 /**
  * Posts pagination styled like the site's carousel nav: centered, numbered,

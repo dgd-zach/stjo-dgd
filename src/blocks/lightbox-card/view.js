@@ -35,7 +35,19 @@
 		dialog.addEventListener( 'close', function () {
 			document.body.classList.remove( 'modal-open' );
 			document.documentElement.style.removeProperty( '--stjo-scrollbar-comp' );
+			dialog.classList.remove( 'is-scrollable' );
 		} );
+		// Classic (non-overlay) scrollbars take their width out of the dialog's
+		// box, so the moment long content made the dialog scroll (an FAQ answer
+		// opening) the text reflowed narrower and jumped left. Flag a scrolling
+		// dialog and measure its bar; style.css widens the dialog by that much
+		// so the content box keeps its size. ResizeObserver runs before paint,
+		// so the widening lands in the same frame as the scrollbar.
+		if ( window.ResizeObserver ) {
+			var observer = new ResizeObserver( syncScrollbar );
+			observer.observe( dialog );
+			observer.observe( contentEl );
+		}
 		// showModal() inerts the page but lets Tab step out to the browser UI at
 		// the ends — wrap it so focus stays inside the dialog.
 		dialog.addEventListener( 'keydown', function ( event ) {
@@ -60,6 +72,20 @@
 			}
 		} );
 		document.body.appendChild( dialog );
+	}
+
+	function syncScrollbar() {
+		if ( ! dialog || ! dialog.open ) {
+			return;
+		}
+		var scrollable = dialog.scrollHeight > dialog.clientHeight;
+		if ( scrollable && ! dialog.classList.contains( 'is-scrollable' ) ) {
+			var bar = dialog.offsetWidth - dialog.clientWidth; // 0 for overlay scrollbars
+			if ( bar > 0 ) {
+				dialog.style.setProperty( '--stjo-lightbox-scrollbar', bar + 'px' );
+			}
+		}
+		dialog.classList.toggle( 'is-scrollable', scrollable );
 	}
 
 	/* The template sits next to the trigger inside whatever card markup hosts
@@ -103,6 +129,7 @@
 		document.documentElement.style.setProperty( '--stjo-scrollbar-comp', scrollbar + 'px' );
 		document.body.classList.add( 'modal-open' );
 		dialog.showModal();
+		syncScrollbar();
 	}
 
 	document.addEventListener( 'click', function ( e ) {

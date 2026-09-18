@@ -98,6 +98,19 @@ span.stjo-lightbox-card__link { cursor: default; }
 	font-family: var(--wp--preset--font-family--base, "DM Sans", sans-serif);
 }
 
+/* Classic (non-overlay) scrollbars take their width out of the dialog's box,
+   so long content (an FAQ answer opening) made the text reflow narrower and
+   jump left. view.js flags a scrolling dialog with .is-scrollable and
+   measures the bar; the dialog grows by that width so the content box keeps
+   its size. The UA centres a modal dialog with inset:0 + margin:auto, so
+   pushing `left` out by the bar width re-centres the wider box exactly on
+   the old one: the content's left edge never moves, and nothing transitions
+   (translate would have slid it). Overlay scrollbars measure 0: no change. */
+.stjo-lightbox.is-scrollable {
+	width: calc(min(680px, 100vw - 32px) + var(--stjo-lightbox-scrollbar, 0px));
+	left: var(--stjo-lightbox-scrollbar, 0px);
+}
+
 /* Story modals (image + text split) are wider so the ~25% image column leaves
    plenty of room for the text. Only these; the card modals keep their width. */
 .stjo-lightbox:has(.stjo-lightbox__split) { width: min(920px, calc(100vw - 32px)); }
@@ -153,6 +166,7 @@ span.stjo-lightbox-card__link { cursor: default; }
 	.stjo-lightbox__split .stjo-lightbox__inner {
 		height: 100%;
 		overflow-y: auto;
+		scrollbar-gutter: stable; /* text column: reserve the bar so long copy never reflows */
 		padding-right: var(--stjo--spacing--xl, 48px); /* clear the corner close X */
 	}
 }
@@ -164,7 +178,7 @@ span.stjo-lightbox-card__link { cursor: default; }
 	.stjo-lightbox { --stjo-lightbox-pad: var(--stjo--spacing--sm, 16px); }
 }
 
-.stjo-lightbox__inner { padding: var(--stjo-lightbox-pad); }
+.stjo-lightbox__inner { padding: var(--stjo-lightbox-pad) ; }
 
 /* Whatever sits first at the top of the dialog (the title, or the content's
    own first heading when the title is hidden) clears the corner close X. */

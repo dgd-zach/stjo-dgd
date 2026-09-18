@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website Content Guide — St. Joseph's Indian School</title>
+<meta name="description" content="How and where the St. Joseph's team can add, edit, and remove content on the website.">
+
+<style>
+/* ============================================================
+   St. Joseph's Indian School — Content Guide
+   Styling mirrors the live theme tokens (tokens.css / theme.json).
+   Fonts are pulled from the theme so this page matches the site.
+   ============================================================ */
+
+/* --- Fonts (served from the theme; falls back gracefully) --- */
+@font-face{font-family:'DM Sans';src:url('/wp-content/themes/stjo-dgd/assets/fonts/DMSans-VariableFont_opsz,wght.woff2') format('woff2');font-weight:100 1000;font-style:normal;font-display:swap;}
+@font-face{font-family:'Caecilia LT Pro';src:url('/wp-content/themes/stjo-dgd/assets/fonts/CaeciliaLTPro55Roman.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Caecilia LT Pro';src:url('/wp-content/themes/stjo-dgd/assets/fonts/CaeciliaLTPro75Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Caecilia LT Pro';src:url('/wp-content/themes/stjo-dgd/assets/fonts/CaeciliaLTPro85Heavy.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap;}
+
+:root{
+  color-scheme: light;
+  --blue-900:#003566;
+  --blue-700:#0053a0;
+  --blue-400:#4d94cc;
+  --sand:#f3f3e6;
+  --yellow:#ffd520;
+  --ink:#333333;
+  --muted:#4d4d4d;
+  --line:#d9d9cf;
+  --white:#fff;
+  --font-head:'Caecilia LT Pro',Georgia,'Times New Roman',serif;
+  --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+  --radius:8px;
+  --radius-lg:16px;
+  --shadow:0 2px 8px rgba(0,0,0,.10);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.14);
+  --wrap:1180px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-head);line-height:1.2;color:var(--blue-900);}
+a{color:var(--blue-700);}
+a:hover{color:var(--blue-900);}
+
+/* --- Focus (visible, keyboard-friendly) --- */
+:focus-visible{outline:3px solid var(--blue-400);outline-offset:2px;border-radius:4px;}
+
+/* --- Skip link --- */
+.skip-link{
+  position:absolute;left:8px;top:-48px;z-index:100;
+  background:var(--blue-900);color:#fff;padding:.6rem 1rem;border-radius:var(--radius);
+  text-decoration:none;transition:top .15s ease;
+}
+.skip-link:focus{top:8px;color:#fff;}
+
+/* --- Hero --- */
+.hero{background:var(--blue-900);color:#fff;padding:56px 24px 40px;}
+.hero .inner{max-width:var(--wrap);margin:0 auto;}
+.hero .eyebrow{
+  font-family:var(--font-body);font-weight:700;text-transform:uppercase;
+  letter-spacing:1.5px;font-size:14px;color:var(--yellow);margin:0 0 12px;
+}
+.hero h1{color:#fff;font-size:clamp(2rem,5vw,3.6rem);margin:0 0 14px;letter-spacing:-.5px;}
+.hero p{max-width:60ch;font-size:1.12rem;margin:0;color:#e7eef5;}
+.zigzag{
+  height:12px;
+  background:var(--blue-900);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M0 10 L10 2 L20 10 L30 2 L40 10' fill='none' stroke='%23ffd520' stroke-width='3'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-position:center;
+}
+
+/* --- Layout: sticky TOC + content --- */
+.layout{max-width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:260px 1fr;gap:40px;padding:40px 24px 0;}
+@media (max-width:900px){.layout{grid-template-columns:1fr;gap:0;padding-top:16px;}}
+
+/* --- TOC --- */
+.toc{align-self:start;}
+@media (min-width:901px){
+  .toc{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow:auto;}
+  .toc>summary{display:none;}
+  .toc>.toc-list{display:block !important;}
+}
+.toc>summary{
+  font-family:var(--font-head);font-weight:700;color:var(--blue-900);
+  cursor:pointer;padding:12px 14px;background:var(--sand);border-radius:var(--radius);
+  list-style:none;margin-bottom:8px;
+}
+.toc>summary::-webkit-details-marker{display:none;}
+.toc>summary::after{content:"▾";float:right;}
+.toc[open]>summary::after{content:"▴";}
+.toc-list{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);}
+.toc-list li{margin:0;}
+.toc-list a{
+  display:block;padding:7px 14px;text-decoration:none;color:var(--muted);
+  font-size:.94rem;border-left:2px solid transparent;margin-left:-2px;
+}
+.toc-list a:hover{color:var(--blue-900);background:var(--sand);}
+.toc-list a[aria-current="true"]{color:var(--blue-900);font-weight:700;border-left-color:var(--yellow);background:var(--sand);}
+
+/* --- Main content --- */
+main{min-width:0;padding-bottom:64px;}
+section{scroll-margin-top:20px;padding:8px 0 36px;border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:0;}
+section>h2{
+  font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 6px;padding-top:24px;
+}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 0 20px;max-width:66ch;}
+h3{font-size:1.3rem;margin:28px 0 10px;}
+p{margin:0 0 14px;}
+ul.body,ol.body{margin:0 0 16px;padding-left:1.3em;}
+ul.body li,ol.body li{margin:6px 0;}
+
+/* --- Intro / quick links grid --- */
+.intro{padding:32px 0 12px;border-bottom:1px solid var(--line);}
+.quick-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;margin:24px 0 8px;padding:0;list-style:none;
+}
+.quick-grid a{
+  display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--blue-900);
+  background:var(--sand);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;font-weight:600;transition:box-shadow .15s ease,transform .15s ease;
+}
+.quick-grid a:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+.quick-grid a .ico{flex:0 0 auto;width:22px;height:22px;color:var(--blue-700);}
+
+/* --- Buttons / dashboard links --- */
+.btn{
+  display:inline-flex;align-items:center;gap:.5em;
+  background:var(--blue-900);color:#fff;text-decoration:none;font-weight:600;
+  padding:10px 18px;border-radius:999px;font-size:.95rem;
+  transition:background .15s ease;
+}
+.btn:hover{background:var(--blue-700);color:#fff;}
+.btn::after{content:"↗";font-weight:700;}
+.btn.ghost{background:transparent;color:var(--blue-900);border:1.5px solid var(--blue-900);}
+.btn.ghost:hover{background:var(--blue-900);color:#fff;}
+.section-actions{margin:4px 0 22px;display:flex;flex-wrap:wrap;gap:10px;}
+
+/* --- Callouts --- */
+.callout{
+  border-radius:var(--radius);padding:16px 18px;margin:18px 0;
+  border-left:5px solid var(--blue-700);background:var(--sand);
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .label{font-weight:700;color:var(--blue-900);display:block;margin-bottom:4px;}
+.callout.tip{border-left-color:#2e7d32;background:#eef7ef;}
+.callout.tip .label{color:#1e5f22;}
+.callout.warn{border-left-color:#c77700;background:#fff6e6;}
+.callout.warn .label{color:#8a5300;}
+.callout.locked{border-left-color:var(--muted);background:#f2f2f0;}
+.callout.locked .label{color:#333;}
+
+/* --- Steps --- */
+ol.steps{counter-reset:step;list-style:none;margin:14px 0 18px;padding:0;}
+ol.steps>li{
+  position:relative;padding:2px 0 14px 44px;margin:0;
+}
+ol.steps>li::before{
+  counter-increment:step;content:counter(step);
+  position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+  background:var(--blue-900);color:#fff;font-family:var(--font-head);font-weight:700;
+  display:grid;place-items:center;font-size:.95rem;
+}
+ol.steps ol.steps{margin-top:8px;}
+
+/* --- Page tree --- */
+.tree{list-style:none;margin:12px 0;padding:0;}
+.tree ul{list-style:none;margin:0;padding:0 0 0 22px;border-left:1px dashed var(--line);}
+.tree li{margin:0;}
+.tree .row{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding:7px 8px;border-radius:6px;
+}
+.tree .row:hover{background:var(--sand);}
+.tree .name{font-weight:600;color:var(--blue-900);}
+.tree .row.parent>.name{font-size:1.05rem;}
+.tree .edit{font-size:.85rem;text-decoration:none;color:var(--blue-700);white-space:nowrap;}
+.tree .edit::after{content:" ↗";}
+.tree .edit:hover{text-decoration:underline;}
+.badge{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:2px 8px;border-radius:999px;white-space:nowrap;
+}
+.badge.linkout{background:#fff6e6;color:#8a5300;border:1px solid #e6c98a;}
+.badge.draft{background:#eee;color:#555;border:1px solid #ccc;}
+.badge.example{background:#eef2f7;color:var(--blue-700);border:1px solid #cdd9e6;}
+.badge.soon{background:#eef7ef;color:#1e5f22;border:1px solid #bfe0c3;}
+.badge.popup{background:#f3f0fa;color:#4b3a8a;border:1px solid #d3c9ec;}
+kbd{font-family:var(--font-body);font-size:.85em;background:var(--sand);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 6px;}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--sand);border:1px solid var(--line);border-radius:4px;padding:0 5px;}
+
+/* --- Definition-style tables --- */
+.deftable{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem;}
+.deftable th,.deftable td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);}
+.deftable th{background:var(--sand);color:var(--blue-900);font-family:var(--font-head);}
+.deftable tr:last-child td{border-bottom:0;}
+.tbl-wrap{overflow-x:auto;}
+
+/* --- Footer --- */
+.site-footer{background:var(--blue-900);color:#dbe6f0;padding:40px 24px;margin-top:48px;}
+.site-footer .inner{max-width:var(--wrap);margin:0 auto;}
+.site-footer h2{color:#fff;font-size:1.4rem;margin:0 0 8px;}
+.site-footer a{color:var(--yellow);}
+.site-footer .tagline{font-family:var(--font-head);font-style:italic;color:#fff;font-size:1.1rem;margin-bottom:18px;}
+.site-footer .fine{font-size:.85rem;color:#9fb6cc;margin-top:20px;}
+
+/* visually hidden */
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow">St. Joseph's Indian School</p>
+    <h1>Content Guide</h1>
+    <p>How and where to add, edit, and remove content on the website. Every section links straight to the right spot in the WordPress dashboard.</p>
+  </div>
+</header>
+<div class="zigzag" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <!-- ============ TABLE OF CONTENTS ============ -->
+  <nav class="toc" aria-label="On this page" id="toc">
+    <details class="toc" open>
+      <summary>On this page</summary>
+      <ul class="toc-list">
+        <li><a href="#start">Before you start</a></li>
+        <li><a href="#pages">Pages</a></li>
+        <li><a href="#editor">Working in the editor</a></li>
+        <li><a href="#cards">Heroes &amp; photo cards</a></li>
+        <li><a href="#lightbox">Links that open lightboxes</a></li>
+        <li><a href="#galleries">Galleries</a></li>
+        <li><a href="#accordions">Accordions &amp; FAQs</a></li>
+        <li><a href="#blog">Blog posts</a></li>
+        <li><a href="#stories">Student Stories</a></li>
+        <li><a href="#timeline">History timeline</a></li>
+        <li><a href="#menus">Navigation menus</a></li>
+        <li><a href="#media">Images &amp; media</a></li>
+        <li><a href="#seo">Page SEO (Yoast)</a></li>
+        <li><a href="#forms">Forms</a></li>
+        <li><a href="#popups">Popups</a></li>
+        <li><a href="#managed">Managed by Doing Good Digital</a></li>
+        <li><a href="#help">Getting help</a></li>
+      </ul>
+    </details>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <main id="main">
+
+    <!-- Intro / quick links -->
+    <div class="intro">
+      <p class="lede">This guide covers the parts of the site your team can update yourself. Use the quick links below to jump into the dashboard, or the menu to read a section first.</p>
+      <ul class="quick-grid">
+        <li><a href="/wp-admin/" target="_blank" rel="noopener">Dashboard home <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/wp-admin/edit.php?post_type=page" target="_blank" rel="noopener">Pages <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/wp-admin/edit.php" target="_blank" rel="noopener">Blog posts <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/wp-admin/edit.php?post_type=student-story" target="_blank" rel="noopener">Student Stories <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/wp-admin/nav-menus.php" target="_blank" rel="noopener">Menus <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/wp-admin/upload.php" target="_blank" rel="noopener">Media library <span class="vh">(opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+
+    <!-- ===== BEFORE YOU START ===== -->
+    <section id="start">
+      <h2>Before you start</h2>
+      <p class="lede">A few things that apply everywhere on the site.</p>
+
+      <h3>Log in</h3>
+      <ol class="steps">
+        <li>Go to <a href="/wp-admin/" target="_blank" rel="noopener">the dashboard<span class="vh"> (opens in a new tab)</span></a> by adding <code>/wp-admin</code> to the site address (for example stjo.org/wp-admin).</li>
+        <li>Enter your username and password. If you do not have a login, contact Doing Good Digital.</li>
+        <li>You land on the Dashboard. The black menu down the left side is how you reach everything in this guide.</li>
+      </ol>
+
+      <h3>How editing works</h3>
+      <p>Most content lives on <strong>Pages</strong>. Pages are built from <strong>blocks</strong> (a heading block, an image block, a paragraph block, and so on). You click into a block to change its text or swap its image. You are editing content inside a layout that is already built for you.</p>
+
+      <div class="callout warn">
+        <span class="label">The golden rule</span>
+        <p>Change words and images. Do not delete or rearrange the colored bands, columns, or layout blocks. If a whole section needs to move or change shape, that is a design change: email Doing Good Digital instead of taking the layout apart.</p>
+      </div>
+
+      <div class="callout tip">
+        <span class="label">Always preview, then update</span>
+        <p>Use <strong>Save draft</strong> and <strong>Preview</strong> to check your work in a new tab. When it looks right, click the blue <strong>Update</strong> (or <strong>Publish</strong>) button to make it live. Nothing is public until you do.</p>
+      </div>
+    </section>
+
+    <!-- ===== PAGES ===== -->
+    <section id="pages">
+      <h2>Pages</h2>
+      <p class="lede">The main pages of the site. Click <em>Edit</em> next to any page to open it in the editor.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/edit.php?post_type=page" target="_blank" rel="noopener">Open all Pages<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <h3>Edit a page</h3>
+      <ol class="steps">
+        <li>Open the page from the tree below, or from <strong>Pages</strong> in the left menu.</li>
+        <li>Click any text to edit it. Click an image, then use <strong>Replace</strong> to swap it.</li>
+        <li>Click <strong>Preview</strong> to check it, then <strong>Update</strong> to publish your changes.</li>
+      </ol>
+
+      <div class="callout">
+        <span class="label">About the badges below</span>
+        <p><span class="badge linkout">Redirects off-site</span> This page sends visitors to the donation/prayer system at give.stjo.org. There is nothing to edit here in WordPress. <br>
+        <span class="badge example">Example / template</span> Built by Doing Good Digital for reference. Please leave these alone. <br>
+        <span class="badge draft">Draft</span> Not visible to the public yet. <br>
+        <span class="badge soon">Coming soon</span> A placeholder page with no content yet. It shows a "coming soon" message on the site. Doing Good Digital adds the content so the layout matches; send us the copy and photos. <br>
+        <span class="badge popup">Opens in a lightbox</span> This page's content appears in a window over another page. Edit it here; see <a href="#lightbox">Links that open lightboxes</a>.</p>
+      </div>
+
+      <h3>Site page tree</h3>
+      <ul class="tree">
+
+        <li>
+          <div class="row parent">
+            <span class="name">Home</span>
+            <a class="edit" href="/wp-admin/post.php?post=6&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Home (opens in a new tab)</span></a>
+          </div>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">About</span>
+            <a class="edit" href="/wp-admin/post.php?post=307&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> About</span></a>
+          </div>
+          <ul>
+            <li><div class="row"><span class="name">About Our Children</span><a class="edit" href="/wp-admin/post.php?post=315&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Our Podcast</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=316&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li>
+              <div class="row"><span class="name">Accountability &amp; Reports</span><a class="edit" href="/wp-admin/post.php?post=317&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Annual Financial Report</span><a class="edit" href="/wp-admin/post.php?post=1748&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Student Bill of Rights</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1731&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Protecting Students</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1732&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li><div class="row"><span class="name">Board of Directors</span><a class="edit" href="/wp-admin/post.php?post=1289&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Strategic Plan</span><a class="edit" href="/wp-admin/post.php?post=1288&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Frequently Asked Questions</span><a class="edit" href="/wp-admin/post.php?post=1920&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Careers</span><a class="edit" href="/wp-admin/post.php?post=1804&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">501(c)(3) Status</span><a class="edit" href="/wp-admin/post.php?post=1805&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">Youth Programs</span>
+            <a class="edit" href="/wp-admin/post.php?post=308&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Youth Programs</span></a>
+          </div>
+          <ul>
+            <li><div class="row"><span class="name">Residential Living</span><a class="edit" href="/wp-admin/post.php?post=318&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li>
+              <div class="row"><span class="name">Education &amp; Cultural Awareness</span><a class="edit" href="/wp-admin/post.php?post=319&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Religious Education</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1729&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Cultural Trip</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1730&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li><div class="row"><span class="name">Family Integration</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=320&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Student Health</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=321&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">Lakota Culture</span>
+            <a class="edit" href="/wp-admin/post.php?post=309&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Lakota Culture</span></a>
+          </div>
+          <ul>
+            <li>
+              <div class="row"><span class="name">Beliefs &amp; Traditions</span><a class="edit" href="/wp-admin/post.php?post=322&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Seven Lakota Values</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1749&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Four Directions</span><a class="edit" href="/wp-admin/post.php?post=1750&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Star Quilt</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1751&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Medicine Wheel</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1752&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Seasons and Moon Calendar</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1753&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Lakota Quillwork &amp; Beadwork</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1754&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Winter Count</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1755&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Morning Star</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1756&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Thípi</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1757&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li>
+              <div class="row"><span class="name">Powwow &amp; Dance</span><a class="edit" href="/wp-admin/post.php?post=323&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul><li><div class="row"><span class="name">Attend a Powwow</span><a class="edit" href="/wp-admin/post.php?post=1250&action=edit" target="_blank" rel="noopener">Edit</a></div></li></ul>
+            </li>
+            <li>
+              <div class="row"><span class="name">Lakota Legends</span><a class="edit" href="/wp-admin/post.php?post=324&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Dreamcatcher</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1758&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Origin of the Lakota Pipe</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1759&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Devils Tower</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1760&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Iktómi</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1761&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Great Race</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1762&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li><div class="row"><span class="name">Lakota Language</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=325&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Important Animals</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=326&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Native American Books</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=327&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Seven Lakota Rites</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1691&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Oceti Sakowin — Seven Council Fires</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1690&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">Your Impact</span>
+            <a class="edit" href="/wp-admin/post.php?post=310&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Your Impact</span></a>
+          </div>
+          <ul>
+            <li><div class="row"><span class="name">Become a DreamMaker</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">College Scholarship</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=329&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">Prayers</span>
+            <a class="edit" href="/wp-admin/post.php?post=311&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Prayers</span></a>
+          </div>
+          <ul>
+            <li><div class="row"><span class="name">Send a Prayer Request</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">Prayer Builder</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">Download Prayer Book</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">Prayer Tie</span><span class="badge linkout">Redirects off-site</span></div></li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="row parent">
+            <span class="name">Support Us</span>
+            <a class="edit" href="/wp-admin/post.php?post=312&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Support Us</span></a>
+          </div>
+          <ul>
+            <li><div class="row"><span class="name">One-Time Gift</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">Monthly Giving</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=335&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Our Shop</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=336&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Memorial Gifts</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=337&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Planned Giving</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=338&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Wishlists, Gift Cards &amp; Affiliate Programs</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=339&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Donate Your Vehicle</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=340&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li><div class="row parent"><span class="name">Contact</span><a class="edit" href="/wp-admin/post.php?post=313&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Contact</span></a></div></li>
+
+        <li>
+          <div class="row parent"><span class="name">Our History</span><a class="edit" href="/wp-admin/post.php?post=8&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Our History</span></a></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">The timeline dates on this page come from <a href="#timeline">History timeline</a>, not the page editor.</p>
+        </li>
+
+        <li>
+          <div class="row parent"><span class="name">Student Stories</span><a class="edit" href="/wp-admin/post.php?post=1141&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Student Stories</span></a></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">The cards on this page come from <a href="#stories">Student Stories</a>. The page itself only holds the section bands.</p>
+        </li>
+
+        <li id="tree-popups">
+          <div class="row parent"><span class="name">Lightbox content pages</span> <span class="badge popup">Opens in a lightbox</span></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Not in any menu. Each one feeds a card on the page named in brackets. Seven Lakota Rites and Oceti Sakowin (above) work the same way.</p>
+          <ul>
+            <li><div class="row"><span class="name">Awards (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1763&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Accreditation (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1764&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Memberships (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1765&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Charity Rating (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1767&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Four Directions Prayer (Four Directions)</span><a class="edit" href="/wp-admin/post.php?post=1768&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Houseparents and Pets In Homes (Residential Living)</span><a class="edit" href="/wp-admin/post.php?post=1826&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+          </ul>
+        </li>
+
+        <li><div class="row parent"><span class="name">Blog</span> <span class="badge example">Posts land here automatically</span></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">This is the listing page. Add articles under <a href="#blog">Blog posts</a>.</p>
+        </li>
+
+        <li><div class="row parent"><span class="name">Privacy Policy</span> <span class="badge draft">Draft</span> <a class="edit" href="/wp-admin/post.php?post=3&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+
+        <li>
+          <div class="row parent"><span class="name">Template &amp; example pages</span> <span class="badge example">Leave alone</span></div>
+          <ul>
+            <li><div class="row"><span class="name">Section Landing (Example)</span></div></li>
+            <li><div class="row"><span class="name">General Content Section</span></div></li>
+            <li><div class="row"><span class="name">Pattern Library</span></div></li>
+          </ul>
+        </li>
+
+      </ul>
+
+      <div class="callout">
+        <span class="label">The giving box on the Home page</span>
+        <p>The Give Once / Give Monthly box is a <strong>Donation Selector</strong> block. Select it to change the <strong>amount buttons</strong>, the <strong>default amount</strong>, and which frequency is selected first. The form IDs and the giving address behind it point at give.stjo.org; ask Doing Good Digital before changing those so gifts keep landing in the right form.</p>
+      </div>
+
+      <div class="callout warn">
+        <span class="label">Add a brand-new page? Talk to Doing Good Digital first.</span>
+        <p>New pages need the right layout, menu placement, and design bands to match the rest of the site. Editing existing pages is all yours; creating new top-level pages is a quick ask to Doing Good Digital.</p>
+      </div>
+    </section>
+
+    <!-- ===== WORKING IN THE EDITOR ===== -->
+    <section id="editor">
+      <h2>Working in the editor</h2>
+      <p class="lede">A few habits that make every edit on this site faster.</p>
+
+      <h3>Find the block you want with List View</h3>
+      <p>Pages here are built from bands nested inside bands, so clicking on the page does not always land on the block you meant. Click the <strong>List View</strong> icon (three stacked lines, top left of the editor). It shows every block on the page as an outline. Click a row to select that block, then edit it in the sidebar on the right. Bands are named for what they hold ("Page Hero", "Seven Lakota Rites", and so on), so the list reads like a table of contents.</p>
+
+      <h3>If a click selects the whole band</h3>
+      <p>Most bands are locked so the layout cannot be deleted or shuffled by accident. When you click a block inside one and the whole band highlights instead, look at the block toolbar for <strong>Edit pattern</strong> and click it. You can then click the block again and edit it normally. The band itself still cannot be removed, which is the point.</p>
+
+      <h3>Spacers own the gaps</h3>
+      <p>The space between sections comes from <strong>Spacer</strong> blocks, not from the text around them. If a gap looks too big or too small, select the Spacer (List View helps) and pick <strong>Small</strong>, <strong>Medium</strong>, or <strong>Large</strong> in the sidebar. Do not delete a Spacer to close a gap; the sections will run together.</p>
+
+      <h3>Buttons and links</h3>
+      <ol class="steps">
+        <li>Click the button text to edit the label.</li>
+        <li>Click the <strong>link</strong> icon in the toolbar to change where it goes. Paste a full web address, or start typing a page name to pick a page on this site.</li>
+        <li>Turn on <strong>Open in new tab</strong> only for links that leave the site (the giving system, the shop, social media).</li>
+      </ol>
+      <p>Buttons come in three looks, chosen under <strong>Styles</strong> in the sidebar: the filled button, <strong>Arrow Link</strong> (text with an arrow, used under cards and lists), and <strong>Plain Link</strong>.</p>
+
+      <h3>Styles built for this site</h3>
+      <p>Select a block and open the <strong>Styles</strong> tab in the sidebar to see these.</p>
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">Block styles available on this site</caption>
+        <thead><tr><th scope="col">Block</th><th scope="col">Style</th><th scope="col">Use it for</th></tr></thead>
+        <tbody>
+          <tr><td>Paragraph</td><td>Eyebrow (Caps)</td><td>The small capital-letter label above a heading.</td></tr>
+          <tr><td>Paragraph</td><td>Sub Header</td><td>A larger lead line under a heading.</td></tr>
+          <tr><td>Image</td><td>Rounded, Bordered</td><td>Rounded corners, or a thin frame.</td></tr>
+          <tr><td>Button</td><td>Arrow Link, Plain Link</td><td>See above.</td></tr>
+          <tr><td>Separator</td><td>Default, Basic line</td><td>The default separator is the yellow zigzag ribbon. Basic line is a thin rule.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Do not add a separator directly under a page's title band. The zigzag ribbon there is already part of the band.</p>
+
+      <h3>Text width</h3>
+      <p>Two controls change how wide text runs, and they do different things:</p>
+      <ul class="body">
+        <li><strong>Content width</strong> on a Group block (sidebar, under Layout) sets how wide the whole section is, and it stays centered. Use this when a section, an accordion, or a row of cards looks too narrow or too wide.</li>
+        <li><strong>Limit width</strong> on a paragraph, heading, or list caps that one block's line length so long text stays readable. It lines up on the left. Use it inside columns, not on whole sections.</li>
+      </ul>
+
+      <h3>Big numbers that count up</h3>
+      <p>The large figures on Annual Financial Report are <strong>Stat Figure</strong> blocks. Type the value exactly as it should read, symbols included ($275,000, 98.6%, 1,300+). The number counts up when it scrolls into view and the symbols stay put.</p>
+
+      <h3>Undo and revisions</h3>
+      <p><kbd>Cmd</kbd>+<kbd>Z</kbd> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> on Windows) undoes your last change while the page is open. After you have saved, open <strong>Revisions</strong> in the page sidebar to compare and restore any earlier version.</p>
+    </section>
+
+    <!-- ===== HEROES & PHOTO CARDS ===== -->
+    <section id="cards">
+      <h2>Heroes &amp; photo cards</h2>
+      <p class="lede">The full-width photo at the top of a section page, and the cards with a headline over a photo. Both are Cover blocks, so they work the same way.</p>
+
+      <h3>Change a hero photo</h3>
+      <p>About, Youth Programs, Lakota Culture, Your Impact, Prayers, and Support Us open with a photo hero. Other pages open with a plain blue title band whose label and heading are ordinary text blocks.</p>
+      <ol class="steps">
+        <li>Select the hero (in List View it is the band named <strong>Page Hero</strong>).</li>
+        <li>In the toolbar click <strong>Replace</strong> and choose or upload a photo. Landscape photos at least 2000px wide look best.</li>
+        <li>In the sidebar, drag the <strong>Focal point</strong> dot onto the part of the photo that must stay visible (usually a face). The hero is much wider than it is tall, so the top and bottom of the photo will crop.</li>
+        <li>The label and heading inside the hero are text. Click them to edit.</li>
+      </ol>
+
+      <h3>Photo cards</h3>
+      <p>Cards with a headline over a photo appear on Home, About, Youth Programs, Your Impact, Prayers, Support Us, Our History, and Student Stories. Each card is one Cover block, and the whole card is a link.</p>
+      <ul class="body">
+        <li><strong>Photo:</strong> select the card and click <strong>Replace</strong> in the toolbar. Use the Focal point dot to keep faces in frame.</li>
+        <li><strong>Headline and link:</strong> click the text to edit it. The card's destination is the button or link inside it; change it the same way as any button.</li>
+        <li><strong>Hover text:</strong> the short line under some headlines only appears when a visitor hovers or tabs to the card. In the editor it is always shown so you can edit it.</li>
+        <li><strong>Dark fade:</strong> the shade behind the headline follows the <strong>Overlay opacity</strong> slider in the Styles tab. 80 is the site standard. If white text is hard to read on a light photo, raise it. The overlay colour has no effect on cards.</li>
+      </ul>
+
+      <h3>Info cards</h3>
+      <p>The white cards with a heading, a short paragraph, and an arrow link (Your Impact, Lakota Culture, Prayers, and others) are ordinary Group blocks. Edit the text and link as usual. Keep each card's text about the same length as its neighbours so the row stays even.</p>
+
+      <div class="callout tip">
+        <span class="label">Alt text applies to hero and card photos too</span>
+        <p>After replacing a photo, check the <strong>Alternative text</strong> field in the sidebar. Even when the headline says what the card is about, a short description of the picture helps ("Students in regalia at the powwow").</p>
+      </div>
+    </section>
+
+    <!-- ===== LIGHTBOX LINKS ===== -->
+    <section id="lightbox">
+      <h2>Links that open lightboxes</h2>
+      <p class="lede">Some cards and links open a window over the page instead of going to a new page (Awards, Accreditation, Seven Lakota Rites, HAPI Homes, and others). The block is called <strong>Links that open Lightboxes</strong>.</p>
+
+      <h3>Where the window's content comes from</h3>
+      <p>Select the card and look at the sidebar. It shows one of two sources:</p>
+      <ul class="body">
+        <li><strong>Content page:</strong> the window shows a WordPress page. Edit that page like any other and the window updates. These pages are listed in the page tree under <a href="#tree-popups">Lightbox content pages</a>. They are not linked in the menus.</li>
+        <li><strong>Content:</strong> the text is typed straight into the block's Content field. Fine for a paragraph or two; use a content page for anything longer.</li>
+      </ul>
+
+      <h3>Editing a content page</h3>
+      <ul class="body">
+        <li>Start headings at <strong>Heading 3</strong>. The window's own title sits above them, so the editor only offers Heading 3 to 6 on these pages.</li>
+        <li>If the page starts with its own heading, turn on <strong>Hide heading in lightbox</strong> on the card so the title does not appear twice.</li>
+        <li>Keep them short. A window that scrolls for a long time is hard to use, especially on a phone. Split long material across two cards.</li>
+        <li>The page's <strong>Featured image</strong> becomes the card photo and the window's top image unless the card has its own image (below).</li>
+      </ul>
+
+      <h3>The card's own text and image</h3>
+      <p>In the sidebar, <strong>Title</strong> is the card headline and <strong>Link label</strong> is the arrow text ("Learn more", for example). The image line tells you which file is in use, either the card's own image or "Using the content page's featured image". Click <strong>Replace image</strong> to give the card its own photo, or <strong>Remove image</strong> to fall back to the featured image. The <strong>Arrow Link</strong> style hides the card and shows only the link text.</p>
+    </section>
+
+    <!-- ===== GALLERIES ===== -->
+    <section id="galleries">
+      <h2>Galleries</h2>
+      <p class="lede">Photo grids (for example on Attend a Powwow) use the standard Gallery block. Visitors click a photo to see it full size, then click outside it or press Escape to close.</p>
+      <ol class="steps">
+        <li>Select the gallery and use the <strong>+</strong> tile at the end to upload or pick more photos. Drag photos to reorder them.</li>
+        <li>Click a photo inside the gallery. In the sidebar, under Settings, make sure <strong>Expand on click</strong> is on. New photos need this switched on to open full size.</li>
+        <li>Give each photo alt text. The enlarged view announces it to screen reader users.</li>
+      </ol>
+      <p><strong>Expand on click</strong> also works on any single Image block, not only inside galleries.</p>
+    </section>
+
+    <!-- ===== ACCORDIONS ===== -->
+    <section id="accordions">
+      <h2>Accordions &amp; FAQs</h2>
+      <p class="lede">Two blocks make the open-and-close lists on the site, and they are edited differently.</p>
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">Accordion blocks</caption>
+        <thead><tr><th scope="col">Block</th><th scope="col">Used on</th><th scope="col">How to add or change an item</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Yoast FAQ</strong> (Accordion style)</td><td>Frequently Asked Questions, About, Residential Living, Powwow &amp; Dance, Seven Lakota Rites</td><td>Select the block and click <strong>Add question</strong> at the bottom. Type the question, then the answer; answers can hold links and lists. Each question has its own buttons to move it up or down, insert one after it, or delete it. Google can show these as FAQ results, so phrase questions the way people search.</td></tr>
+          <tr><td><strong>Details</strong></td><td>Prayers, Strategic Plan</td><td>Each item is its own Details block. Click the summary line to edit the title, and click inside to edit or add content (paragraphs, images, spacers). To add an item, select the last Details block, open its three-dot menu, choose <strong>Duplicate</strong>, then change the text.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout">
+        <span class="label">If an accordion looks too narrow</span>
+        <p>Its width comes from the Group it sits in. Select that Group (List View) and change <strong>Content width</strong> under Layout in the sidebar. Do not use the Limit width toggle for this; that pins the block to the left.</p>
+      </div>
+    </section>
+
+    <!-- ===== BLOG ===== -->
+    <section id="blog">
+      <h2>Blog posts</h2>
+      <p class="lede">News and articles. These appear on the <strong>Blog</strong> page automatically, newest first.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/edit.php" target="_blank" rel="noopener">All posts<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/post-new.php" target="_blank" rel="noopener">Add new post<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/edit-tags.php?taxonomy=category" target="_blank" rel="noopener">Categories<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <ol class="steps">
+        <li>Click <strong>Add new post</strong>.</li>
+        <li>Type a title, then write the body. Use the <strong>+</strong> button to add images, headings, quotes, and so on.</li>
+        <li>On the right, set a <strong>Category</strong> and a <strong>Featured image</strong> (this is the thumbnail people see in the listing).</li>
+        <li>Add a short <a href="#seo">SEO description</a>, then <strong>Publish</strong>.</li>
+      </ol>
+      <p><strong>Pages vs. posts:</strong> use a <em>page</em> for permanent content (About, Support Us). Use a <em>post</em> for dated news and stories that should stack up over time.</p>
+    </section>
+
+    <!-- ===== STUDENT STORIES ===== -->
+    <section id="stories">
+      <h2>Student Stories</h2>
+      <p class="lede">The story cards that feed the Student Stories area of the site. These are their own content type, kept separate from pages and blog posts.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/edit.php?post_type=student-story" target="_blank" rel="noopener">All Student Stories<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/post-new.php?post_type=student-story" target="_blank" rel="noopener">Add new story<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <ol class="steps">
+        <li>Click <strong>Add new story</strong> and give it a title.</li>
+        <li>Write the story in the main editor.</li>
+        <li>Set a <strong>Featured image</strong> on the right; this is the photo on the story card.</li>
+        <li>Assign a <strong>Story Category</strong> and <strong>Story Year</strong> so it files correctly.</li>
+        <li><strong>Publish</strong>.</li>
+      </ol>
+
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">Student Stories organizing tools</caption>
+        <thead><tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Open</th></tr></thead>
+        <tbody>
+          <tr><td>Story Categories</td><td>Groups stories by theme.</td><td><a href="/wp-admin/edit-tags.php?taxonomy=story-category&amp;post_type=student-story" target="_blank" rel="noopener">Open ↗</a></td></tr>
+          <tr><td>Story Years</td><td>Groups stories by year.</td><td><a href="/wp-admin/edit-tags.php?taxonomy=story-year&amp;post_type=student-story" target="_blank" rel="noopener">Open ↗</a></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>The Student Stories page</h3>
+      <p>The Student Stories page is a stack of <strong>Student Stories Section</strong> bands, one per category (Student Stories, Eighth Grade Graduates, High School Graduates, Alumni). Each band shows three cards at a time; visitors use the arrows or swipe to see more. A new story appears in the right band automatically once it has a Story Category (and a Story Year for the graduate bands). Nothing on the page itself needs editing when you add a story.</p>
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">Student Stories Section settings</caption>
+        <thead><tr><th scope="col">Setting</th><th scope="col">What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Story category</td><td>Which stories the band shows.</td></tr>
+          <tr><td>Heading</td><td>The band title. Blank uses the category name.</td></tr>
+          <tr><td>Class Year filter</td><td>Adds the year pills above the cards. The newest year shows first.</td></tr>
+          <tr><td>Curated order</td><td>Off: newest story first. On: the sequence you set with each story's <strong>Order</strong> number (lower numbers come first). To set it, open the story, click the three-dot <strong>Actions</strong> menu next to its title in the sidebar, and choose <strong>Order</strong>. Or, in the Student Stories list, hover a story and click <strong>Quick Edit</strong>. The Student Stories and Alumni bands use this.</td></tr>
+          <tr><td>Tinted background</td><td>Sand-coloured band instead of white.</td></tr>
+          <tr><td>Cards open a lightbox</td><td>Cards open the story in a window over the page instead of its own page.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout tip">
+        <span class="label">Photo cropping</span>
+        <p>Each story has an <strong>image focus point</strong> setting so faces stay centered when the card crops the photo. If a face looks cut off, adjust the focus point on the story rather than re-cropping the file.</p>
+      </div>
+    </section>
+
+    <!-- ===== TIMELINE ===== -->
+    <section id="timeline">
+      <h2>History timeline</h2>
+      <p class="lede">The dated events on the <strong>Our History</strong> page. Each event is its own entry, so the page stays in order automatically.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/edit.php?post_type=timeline-event" target="_blank" rel="noopener">All timeline events<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/post-new.php?post_type=timeline-event" target="_blank" rel="noopener">Add new event<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <ol class="steps">
+        <li>Click <strong>Add new event</strong>. The title is usually the year or event name.</li>
+        <li>Write the description in the editor and set a <strong>Featured image</strong> if there is a photo.</li>
+        <li>Set the <strong>Year</strong> and <strong>Decade</strong> so it sorts into the right spot.</li>
+        <li><strong>Publish</strong>. It appears on the Our History page in date order.</li>
+      </ol>
+    </section>
+
+    <!-- ===== MENUS ===== -->
+    <section id="menus">
+      <h2>Navigation menus</h2>
+      <p class="lede">The links in the top navigation and the footer.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/nav-menus.php" target="_blank" rel="noopener">Edit menus<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">The two menus</caption>
+        <thead><tr><th scope="col">Menu</th><th scope="col">Where it shows</th></tr></thead>
+        <tbody>
+          <tr><td>Primary</td><td>The main navigation across the top of every page, including the drop-down mega-menus.</td></tr>
+          <tr><td>Footer</td><td>The small link list at the bottom of every page.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Reorder or rename a link</h3>
+      <ol class="steps">
+        <li>Open <strong>Appearance &gt; Menus</strong> and pick <strong>Primary</strong> or <strong>Footer</strong> at the top.</li>
+        <li>Drag items up, down, or slightly right (indenting makes a sub-item).</li>
+        <li>Click an item to rename it (the "Navigation Label") or change its link.</li>
+        <li>Click <strong>Save Menu</strong>.</li>
+      </ol>
+
+      <div class="callout">
+        <span class="label">Mega-menu promos</span>
+        <p>Some top-level Primary items have extra fields for the promo box inside their drop-down: <em>Promo heading</em>, <em>Promo body</em>, a <em>promo image</em>, and a <em>button label</em> and <em>URL</em>. Open a menu item to see and edit these.</p>
+      </div>
+    </section>
+
+    <!-- ===== MEDIA ===== -->
+    <section id="media">
+      <h2>Images &amp; media</h2>
+      <p class="lede">Every photo and file on the site. You usually add images from inside a page or post, but you can also manage them all here.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/upload.php" target="_blank" rel="noopener">Media library<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/media-new.php" target="_blank" rel="noopener">Upload new<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <div class="callout tip">
+        <span class="label">Always write alt text (accessibility)</span>
+        <p>When you add an image, fill in the <strong>Alt text</strong> field with a short description of what is in the photo (for example, "Students dancing at the fall powwow"). This is what screen readers announce to visitors who cannot see the image, and it is required for accessibility. Leave it blank only for purely decorative graphics.</p>
+      </div>
+      <div class="callout">
+        <span class="label">Keep files reasonably sized</span>
+        <p>Upload photos around 2000px wide or less. The site compresses images automatically, but starting smaller keeps pages fast.</p>
+      </div>
+    </section>
+
+    <!-- ===== SEO ===== -->
+    <section id="seo">
+      <h2>Page SEO (Yoast)</h2>
+      <p class="lede">How each page shows up in Google and when shared on social media. The site uses the Yoast SEO plugin.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/admin.php?page=wpseo_dashboard" target="_blank" rel="noopener">Yoast dashboard<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <p>When editing any page or post, scroll to the <strong>Yoast SEO</strong> box below the content (or open it in the sidebar). Set:</p>
+      <ul class="body">
+        <li><strong>SEO title</strong> and <strong>Meta description</strong>: the headline and blurb Google shows.</li>
+        <li><strong>Social preview</strong>: the image and text used when the page is shared on Facebook or X.</li>
+      </ul>
+      <div class="callout warn">
+        <span class="label">Do not change redirects or site-wide SEO settings</span>
+        <p>Per-page titles and descriptions are yours to edit. The technical settings in the Yoast dashboard (redirects, sitemaps, schema) are managed by Doing Good Digital; changing them can break search rankings.</p>
+      </div>
+    </section>
+
+    <!-- ===== FORMS ===== -->
+    <section id="forms">
+      <h2>Forms</h2>
+      <p class="lede">Contact and sign-up forms are built with Gravity Forms.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/admin.php?page=gf_edit_forms" target="_blank" rel="noopener">Manage forms<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn ghost" href="/wp-admin/admin.php?page=gf_entries" target="_blank" rel="noopener">View entries<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <p>You can read and export form <strong>entries</strong> (submissions) here. To change which fields a form has, or where a form appears on the site, contact Doing Good Digital so the layout and notifications stay correct.</p>
+    </section>
+
+    <!-- ===== POPUPS ===== -->
+    <section id="popups">
+      <h2>Popups</h2>
+      <p class="lede">On-site popups (for example seasonal appeals) are built with Popup Builder.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/edit.php?post_type=popupbuilder" target="_blank" rel="noopener">Manage popups<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <p>You can turn a popup on or off and edit its text and image. Ask Doing Good Digital before creating a new popup so its timing and targeting are set up correctly.</p>
+    </section>
+
+    <!-- ===== MANAGED BY Doing Good Digital ===== -->
+    <section id="managed">
+      <h2>Managed by Doing Good Digital</h2>
+      <p class="lede">These parts are built into the theme, not the dashboard. They keep the site consistent and on-brand. To change any of them, email Doing Good Digital and we will handle it.</p>
+      <div class="callout locked">
+        <span class="label">Not editable in the dashboard</span>
+        <ul class="body" style="margin-bottom:0;">
+          <li><strong>Footer details:</strong> address, phone, email, and the "We serve and teach" tagline.</li>
+          <li><strong>Social media links</strong> in the footer.</li>
+          <li><strong>Header and footer buttons:</strong> "Log In", "Give Now", and the donation links behind them.</li>
+          <li><strong>Newsletter sign-up</strong> heading, text, and where it submits.</li>
+          <li><strong>Partner and accreditation logos</strong> in the footer.</li>
+          <li><strong>The "Your Generosity" giving band</strong> above the footer (four photo cards, four icon tiles, and the Donate button). It appears on every page automatically, and on Home and Support Us it is placed as a block. Its copy and links come from the site configuration, so there is nothing to edit in the block.</li>
+          <li><strong>The "coming soon" message</strong> on placeholder pages. It disappears as soon as the page has content.</li>
+          <li><strong>Colors, fonts, and page layouts</strong> (the design system).</li>
+          <li><strong>The redirect pages</strong> marked "Redirects off-site" (these live in the give.stjo.org system).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== HELP ===== -->
+    <section id="help">
+      <h2>Getting help</h2>
+      <p class="lede">Not sure where something lives, or want a change to a locked area? Reach out and we will point you to the right place or make the change.</p>
+      <p><strong>Doing Good Agency</strong><br>
+      <a href="https://doinggoodagency.com" target="_blank" rel="noopener">doinggoodagency.com</a></p>
+      <p>This guide is always available in the dashboard under <strong>Dashboard &gt; Content Guide</strong>.</p>
+      <div class="callout tip">
+        <span class="label">When in doubt, preview and ask</span>
+        <p>Nothing you type is live until you click Update or Publish, and every change is saved in the page's revision history. If something does not look right, save a draft and email us before publishing.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="inner">
+    <p class="tagline">We serve and teach, we receive and learn.</p>
+    <h2>Website Content Guide</h2>
+    <p>A reference for the St. Joseph's Indian School team, prepared by Doing Good Agency.</p>
+    <p class="fine">You can always find this guide in the WordPress dashboard under Dashboard &gt; Content Guide.</p>
+  </div>
+</footer>
+
+<script>
+/* Collapse the "On this page" menu on small screens, keep it open on desktop.
+   The details ships open so it still works with JavaScript disabled. */
+(function () {
+  var d = document.querySelector('details.toc');
+  if (!d || !window.matchMedia) return;
+  var mq = window.matchMedia('(min-width:901px)');
+  function apply() { d.open = mq.matches; }
+  apply();
+  mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
+})();
+
+/* Scroll-spy: highlight the current section in the TOC. Progressive
+   enhancement only; the guide works fully without JavaScript. */
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc-list a'));
+  if (!('IntersectionObserver' in window) || !links.length) return;
+  var map = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    if (id) map[id] = a;
+  });
+  var current = null;
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && map[e.target.id]) {
+        if (current) current.removeAttribute('aria-current');
+        current = map[e.target.id];
+        current.setAttribute('aria-current', 'true');
+      }
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+  document.querySelectorAll('main section[id]').forEach(function (s) { obs.observe(s); });
+})();
+</script>
+
+</body>
+</html>

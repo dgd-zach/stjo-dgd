@@ -7,6 +7,15 @@
  * Split out of the temporary "BOD & strategic plan" holding page (#1226)
  * together with strategic-plan.php.
  *
+ * Roster: headshots (from stjo.org/about/board-of-directors/ via the
+ * seeded-image pipeline, pages-images.json) laid out with core blocks —
+ * a group per governance tier holding one small group per member (image +
+ * name). Pure wp:columns sized tiers unevenly and blew each portrait up
+ * one-per-row on phones, so the tier group carries the .stjo-roster class
+ * (sections.css) that flexes the cards to a uniform width and wraps them
+ * centred. Per-person roles sit under the name where the tier heading does
+ * not already state them.
+ *
  * Note: the roster lists Jennifer Renner-Meyer as CEO while the strategic
  * plan quote on stjo.org/about/ credits her as Chief Operating Officer. Both
  * are carried verbatim from the client's own copy; worth confirming with them.
@@ -28,18 +37,34 @@ $sp = function ( $size ) {
 
 $zigzag = '<!-- wp:separator {"className":"alignfull"} --><hr class="wp-block-separator has-alpha-channel-opacity alignfull"/><!-- /wp:separator -->';
 
-/** One roster column: a heading and the names beneath it. */
-$group = function ( $title, $names ) {
-	$items = '';
-	foreach ( $names as $n ) {
-		$items .= '<!-- wp:list-item --><li>' . $n . '</li><!-- /wp:list-item -->';
-	}
-	return '<!-- wp:column --><div class="wp-block-column">'
-		. '<!-- wp:heading {"level":2,"fontSize":"medium"} -->'
-		. '<h2 class="wp-block-heading has-medium-font-size">' . $title . '</h2>'
-		. '<!-- /wp:heading -->'
-		. '<!-- wp:list --><ul class="wp-block-list">' . $items . '</ul><!-- /wp:list -->'
-		. '</div><!-- /wp:column -->';
+/** A centred governance-tier heading. */
+$cat = function ( $title ) {
+	return '<!-- wp:heading {"textAlign":"center","level":2,"fontSize":"medium"} -->'
+		. '<h2 class="wp-block-heading has-text-align-center has-medium-font-size">' . $title . '</h2>'
+		. '<!-- /wp:heading -->';
+};
+
+/** One member card: a headshot with the name (and optional role) beneath. */
+$card = function ( $file, $name, $role = '' ) {
+	$img = stjo_seeded_image( $file );
+	$alt = $img['id'] ? (string) get_post_meta( $img['id'], '_wp_attachment_image_alt', true ) : $name;
+	$fig = $img['id']
+		? '<!-- wp:image {"id":' . (int) $img['id'] . ',"sizeSlug":"full","linkDestination":"none","className":"is-style-rounded"} -->'
+			. '<figure class="wp-block-image size-full is-style-rounded"><img src="' . esc_url( $img['url'] ) . '" alt="' . esc_attr( $alt ) . '" class="wp-image-' . (int) $img['id'] . '"/></figure>'
+			. '<!-- /wp:image -->'
+		: '';
+	$meta = '<!-- wp:paragraph {"align":"center"} --><p class="has-text-align-center"><strong>' . $name . '</strong>'
+		. ( $role ? '<br>' . $role : '' )
+		. '</p><!-- /wp:paragraph -->';
+	return '<!-- wp:group -->' . "\n" . '<div class="wp-block-group">' . $fig . $meta . '</div>' . "\n" . '<!-- /wp:group -->';
+};
+
+/** A governance tier: heading, then its member cards in a centred grid. */
+$tier = function ( $title, $cards ) use ( $cat, $sp ) {
+	return $cat( $title ) . $sp( 'small' )
+		. '<!-- wp:group {"className":"stjo-roster"} -->' . "\n"
+		. '<div class="wp-block-group stjo-roster">' . implode( '', $cards ) . '</div>' . "\n"
+		. '<!-- /wp:group -->';
 };
 ?>
 <!-- wp:group {"metadata":{"name":"Page Title Band"},"align":"full","textColor":"white","className":"stjo-page-title-band","layout":{"type":"constrained"}} -->
@@ -75,34 +100,36 @@ $group = function ( $title, $names ) {
 <!-- wp:group {"metadata":{"name":"Board Roster"},"align":"full","backgroundColor":"light","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-light-background-color has-background"><?php echo $sp( 'large' ); ?>
 
-<!-- wp:columns -->
-<div class="wp-block-columns">
 <?php
-echo $group( 'Ex-Officio Members', array( 'Fr. Vien Nguyen, SCJ', 'Dn. David Nagel, SCJ' ) );
-echo $group( 'Leadership', array( 'Fr. Gregory Schill, SCJ, Chairperson', 'Doug Knust, Vice-Chairperson' ) );
-echo $group(
-	'Board Members',
-	array(
-		'Bridget Martin',
-		'Terry Johnson',
-		'Fr. Jack Kurps, SCJ',
-		'Dr. Emmet M. Kenney Jr., MD',
-		'Larry Jandreau',
-		'Sr. Catherine Bertrand, SSND',
-		'Mike Tyrell',
-	)
-);
-echo $group(
-	'Non-Voting Members',
-	array(
-		'Jennifer Renner-Meyer, CEO',
-		'Kory Christianson, Executive Director of Development, Secretary',
-		'Robyn Knecht, Executive Director of Child Services',
-	)
-);
+echo $tier( 'Ex-Officio Members', array(
+	$card( 'FrVienNguyenSCJ.jpg', 'Fr. Vien Nguyen, SCJ' ),
+	$card( 'DnDavidNagel.jpg', 'Dn. David Nagel, SCJ' ),
+) );
+echo $sp( 'medium' );
+
+echo $tier( 'Leadership', array(
+	$card( 'FrGregorySchillSCJ.jpg', 'Fr. Gregory Schill, SCJ', 'Chairperson' ),
+	$card( 'DougKnust.jpg', 'Doug Knust', 'Vice-Chairperson' ),
+) );
+echo $sp( 'medium' );
+
+echo $tier( 'Board Members', array(
+	$card( 'Bridget-B-Martin.jpg', 'Bridget Martin' ),
+	$card( 'TerryJohnson.jpg', 'Terry Johnson' ),
+	$card( 'FrJackKurpsSCJ.jpg', 'Fr. Jack Kurps, SCJ' ),
+	$card( 'EmmetKenney.jpg', 'Dr. Emmet M. Kenney Jr., MD' ),
+	$card( 'LarryJandreau.jpg', 'Larry Jandreau' ),
+	$card( 'Sr-Catherine-Bertrand-SSND.jpg', 'Sr. Catherine Bertrand, SSND' ),
+	$card( 'MikeTyrell.jpg', 'Mike Tyrell' ),
+) );
+echo $sp( 'medium' );
+
+echo $tier( 'Non-Voting Members', array(
+	$card( 'JenniferRenner-Meyer.jpg', 'Jennifer Renner-Meyer', 'CEO' ),
+	$card( 'KoryChristianson.jpg', 'Kory Christianson', 'Executive Director of Development, Secretary' ),
+	$card( 'RobynKnecht.jpg', 'Robyn Knecht', 'Executive Director of Child Services' ),
+) );
 ?>
-</div>
-<!-- /wp:columns -->
 
 <?php echo $sp( 'large' ); ?></div>
 <!-- /wp:group -->

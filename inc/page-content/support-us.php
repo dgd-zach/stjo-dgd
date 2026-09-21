@@ -147,7 +147,7 @@ echo $cover_card(
 	'card-2.png',
 	'College Scholarship',
 	'The Čhaŋkú Lúta Scholarship helps Native American students pursue higher education. In 2025-26, St. Joseph’s awarded a record $275,000 in scholarships.',
-	'/your-impact/college-scholarship/',
+	'/youth-programs/#college-scholarship',
 	'About the Scholarship'
 );
 echo $cover_card(

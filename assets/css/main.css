@@ -1497,6 +1497,13 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.wp-block-heading.is-style-center-mobile { text-align: center; }
 
 	.wp-block-columns { flex-direction: column; }
+
+	/* Columns whose every column holds ONLY a list read as one continuous list
+	   once stacked: drop the row-gap between columns and the inter-column list's
+	   bottom margin, so the last item of one column sits the same distance from
+	   the first of the next as any two items within a list. */
+	.wp-block-columns:has(> .wp-block-column > .wp-block-list):not(:has(> .wp-block-column > :not(.wp-block-list))) { row-gap: 0; }
+	.wp-block-columns:has(> .wp-block-column > .wp-block-list):not(:has(> .wp-block-column > :not(.wp-block-list))) > .wp-block-column:not(:last-child) > .wp-block-list { margin-bottom: 0; }
 	/* A constrained Group's "Content width" (set in the editor) compiles to a
 	   fixed-px max-width on its children. Once the column stacks, release it so
 	   the content fills the now-full-width column — this makes the native Group

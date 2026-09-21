@@ -1412,6 +1412,22 @@ p.is-style-subhead { font-size: 21px; color: var(--stjo--color--neutral-700, #4d
 .stjo-related-content-cards-manual .wp-block-columns + .wp-block-columns,
 .stjo-related-cards + .stjo-related-cards { margin-top: var(--stjo--spacing--md, 24px) !important; }
 
+/* A 3-up card grid whose last row is short: keep those cards the 3-up width
+   and centre them, instead of core columns growing 2 cards to 50%. Each row is
+   its own .stjo-related-cards block, so "3-up" is any row with a 3rd column,
+   and the trailing short row is one that follows such a row without one of its
+   own — scoping this off leaves genuine 2-up grids (accountability, lakota-
+   language) alone. Desktop only; below 768px the columns stack full width. */
+@media ( min-width: 769px ) {
+	.stjo-related-cards:has( > .wp-block-column:nth-child(3) ) ~ .stjo-related-cards:not( :has( > .wp-block-column:nth-child(3) ) ) {
+		justify-content: center;
+	}
+	.stjo-related-cards:has( > .wp-block-column:nth-child(3) ) ~ .stjo-related-cards:not( :has( > .wp-block-column:nth-child(3) ) ) > .wp-block-column {
+		flex: 0 1 calc( ( 100% - 2 * var(--stjo--spacing--md, 24px) ) / 3 );
+		max-width: calc( ( 100% - 2 * var(--stjo--spacing--md, 24px) ) / 3 );
+	}
+}
+
 /* ── component: gallery ── */
 /* Native gallery (Attend a Powwow): rounded tiles that scale on hover and
    keyboard focus like the card images, and core's image lightbox on click
@@ -1439,4 +1455,65 @@ html:has(.wp-lightbox-overlay.active) { overflow: hidden; }
 	.wp-block-gallery.has-nested-images figure.wp-block-image img { transition: none; }
 	.wp-block-gallery.has-nested-images figure.wp-block-image:hover img,
 	.wp-block-gallery.has-nested-images figure.wp-block-image:focus-within img { transform: none; }
+}
+
+/* Board roster (Board of Directors): uniform, centred headshot cards. Pure
+   wp:columns sized the tiers unevenly (two-up rows huge, four-up rows small)
+   and stacked one giant portrait per row on phones; this flexes the cards to
+   one width and wraps them centred. Markup is a .stjo-roster group per tier,
+   each child group = one member (image + name). */
+.stjo-roster {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--medium, 32px) var(--wp--preset--spacing--small, 16px);
+}
+.stjo-roster > .wp-block-group {
+	flex: 1 1 25%;
+	max-width: 180px;
+	margin: 0;
+}
+.stjo-roster > .wp-block-group > .wp-block-image { margin: 0 0 12px; }
+.stjo-roster > .wp-block-group > .wp-block-image img { width: 100%; height: auto; }
+.stjo-roster > .wp-block-group p { margin: 0; min-height: 50px;}
+.stjo-roster.top > .wp-block-group strong {white-space: nowrap}
+
+/* ------------------------------------------------------------------ *
+ * Lakota word table — the "New / Old spelling / Meaning" table in the
+ * Revitalize the Lakota Language lightbox (lightbox/revitalize-lakota-
+ * language.php). Scrolls sideways on very narrow screens.
+ * ------------------------------------------------------------------ */
+.stjo-word-table {
+	width: 100%;
+	margin: 0;
+	overflow-x: auto;
+}
+.stjo-word-table table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--wp--preset--font-size--small, 0.9375rem);
+	line-height: 1.4;
+}
+.stjo-word-table thead th {
+	background: var(--wp--preset--color--blue-900, #003566);
+	color: #fff;
+	text-align: left;
+	font-weight: 700;
+	padding: 10px 14px;
+	border: 0;
+}
+.stjo-word-table th,
+.stjo-word-table td {
+	padding: 8px 14px;
+	border: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	vertical-align: top;
+}
+.stjo-word-table tbody tr:nth-child(even) {
+	background: var(--wp--preset--color--light, #f3f3e6);
+}
+.stjo-word-table tbody td:first-child {
+	font-weight: 600;
+	color: var(--wp--preset--color--blue-900, #003566);
+	white-space: nowrap;
 }

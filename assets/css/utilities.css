@@ -63,8 +63,9 @@
  * group can't do this: its generated max-width is a fixed px value that stays
  * capped when the column goes full-width on mobile. Tune per use by setting
  * --stjo-measure (defaults to 25rem / 400px, matching the design's measure).
+ * The capped box always centres in its container (margin-inline auto).
  */
-.stjo-measure { max-width: var(--stjo-measure, 25rem) !important; }
+.stjo-measure { max-width: var(--stjo-measure, 25rem) !important; margin-inline: auto !important; }
 @media (max-width: 768px) {
 	.stjo-measure { max-width: none !important; }
 }

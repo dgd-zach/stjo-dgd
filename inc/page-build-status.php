@@ -6,6 +6,8 @@
  * placeholders (the seeded "Coming soon" stub, or an empty page) count as
  * not built. Pages rendered by a PHP template instead of their content
  * (the posts page, the Pattern Library) are marked "Template".
+ * Pages that redirect off-site (theme-config link-outs) are marked "External
+ * link" and are not counted as unbuilt.
  *
  * The rule lives in stjo_page_build_state(); the column, the view links,
  * the sort and the list filter all read from it, so there is one source
@@ -22,12 +24,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Build state for one page.
  *
  * @param int|WP_Post|null $post Page.
- * @return string 'built' | 'stub' | 'template' | '' (not a page).
+ * @return string 'built' | 'stub' | 'external' | 'template' | '' (not a page).
  */
 function stjo_page_build_state( $post = null ) {
 	$post = get_post( $post );
 	if ( ! $post || 'page' !== $post->post_type ) {
 		return '';
+	}
+	// A link-out page (theme-config `link_outs`) redirects off-site to Luminate,
+	// so it never needs building — flag it as its own state, ahead of the stub
+	// check (its placeholder content would otherwise read as "Not built").
+	if ( function_exists( 'stjo_link_out_url' ) && '' !== stjo_link_out_url( $post ) ) {
+		return 'external';
 	}
 	if ( (int) get_option( 'page_for_posts' ) === (int) $post->ID ) {
 		return 'template';
@@ -50,6 +58,7 @@ function stjo_page_build_state_labels() {
 	return array(
 		'stub'     => __( 'Not built', 'stjo' ),
 		'built'    => __( 'Built', 'stjo' ),
+		'external' => __( 'External link', 'stjo' ),
 		'template' => __( 'Template', 'stjo' ),
 	);
 }
@@ -128,10 +137,11 @@ function stjo_page_build_column_styles() {
 		return;
 	}
 	echo '<style id="stjo-page-build-status">
-		.fixed .column-stjo_built { width: 8em; }
+		.fixed .column-stjo_built { width: 9em; }
 		.stjo-build-state { display: inline-block; padding: 1px 9px; border-radius: 999px; border: 1px solid; font-size: 12px; line-height: 1.6; font-weight: 600; white-space: nowrap; }
 		.stjo-build-state--built { color: #00450c; background: #edfaef; border-color: #68de7c; }
 		.stjo-build-state--stub { color: #8a2424; background: #fcf0f1; border-color: #f86368; }
+		.stjo-build-state--external { color: #0a4b78; background: #eef5fc; border-color: #6aa9dd; }
 		.stjo-build-state--template { color: #1d2327; background: #f0f0f1; border-color: #c3c4c7; }
 		@media screen and (max-width: 782px) { .stjo-build-state { font-size: 13px; } }
 	</style>';
@@ -147,7 +157,7 @@ function stjo_page_build_views( $views ) {
 	$groups  = stjo_page_ids_by_build_state();
 	$labels  = stjo_page_build_state_labels();
 	$current = isset( $_GET['stjo_built'] ) ? sanitize_key( wp_unslash( $_GET['stjo_built'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	foreach ( array( 'stub', 'built' ) as $state ) {
+	foreach ( array( 'stub', 'built', 'external' ) as $state ) {
 		$url = add_query_arg(
 			array(
 				'post_type'  => 'page',

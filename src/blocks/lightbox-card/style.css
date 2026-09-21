@@ -45,6 +45,7 @@
 	font-weight: 600;
 	color: var(--wp--preset--color--brand-dark, #0053a0);
 	text-decoration: none;
+	text-align: left;
 	cursor: pointer;
 }
 .stjo-lightbox-card__link svg { transition: translate 0.2s ease; }
@@ -228,12 +229,60 @@ span.stjo-lightbox-card__link { cursor: default; }
 	align-self: stretch;
 }
 
-.stjo-lightbox__body p {
+/* Every heading in the modal appears one size step below the same tag on a
+   normal page (h3 reads like an h4, h4 like an h5, and so on), so the dialog
+   title stays the most prominent heading and the body reads compactly. The
+   dialog title (h2) is already sized like the theme h3 above; each body
+   heading drops to the next level's size here. */
+.stjo-lightbox__body h2,
+.stjo-lightbox__body h2.wp-block-heading {
+	font-size: var(--stjo--h3--font-size, var(--wp--preset--font-size--large, 32px));
+	line-height: var(--stjo--line-height--heading, 1.3);
+}
+.stjo-lightbox__body h3,
+.stjo-lightbox__body h3.wp-block-heading {
+	font-size: var(--stjo--h4--font-size, var(--wp--preset--font-size--medium, 24px));
+	line-height: var(--stjo--line-height--heading, 1.3);
+}
+.stjo-lightbox__body h4,
+.stjo-lightbox__body h4.wp-block-heading {
+	font-size: var(--stjo--h5--font-size, var(--stjo--font-size--h5, 21px));
+	line-height: var(--stjo--line-height--heading, 1.3);
+}
+.stjo-lightbox__body h5,
+.stjo-lightbox__body h5.wp-block-heading {
+	font-size: var(--wp--preset--font-size--base, 16px);
+	line-height: var(--stjo--line-height--heading, 1.3);
+}
+.stjo-lightbox__body h6,
+.stjo-lightbox__body h6.wp-block-heading {
+	font-size: var(--stjo--font-size--small, 14px);
+	line-height: var(--stjo--line-height--heading, 1.3);
+}
+
+/* Mobile: main.css steps the whole scale down at 768px; mirror it, still one
+   level below the on-page size (mobile h3 24 -> 20, h4 20 -> 18, ...). */
+@media (max-width: 768px) {
+	.stjo-lightbox__body h2,
+	.stjo-lightbox__body h2.wp-block-heading { font-size: 24px; }
+	.stjo-lightbox__body h3,
+	.stjo-lightbox__body h3.wp-block-heading { font-size: 20px; }
+	.stjo-lightbox__body h4,
+	.stjo-lightbox__body h4.wp-block-heading { font-size: 18px; }
+	.stjo-lightbox__body h5,
+	.stjo-lightbox__body h5.wp-block-heading { font-size: 16px; }
+	.stjo-lightbox__body h6,
+	.stjo-lightbox__body h6.wp-block-heading { font-size: 14px; }
+}
+
+.stjo-lightbox__body p:not(blockquote p) {
 	margin: 0 0 1em;
 	font-size: var(--wp--preset--font-size--base, 16px);
 	line-height: 1.6;
 	color: var(--wp--preset--color--contrast, #1a1a1a);
 }
+.stjo-lightbox__body blockquote p,
+.stjo-lightbox__body .wp-block-pullquote.stjo-pull-quote p {font-size: var(--wp--preset--font-size--small, 24px);}
 .stjo-lightbox__body p:last-child { margin-bottom: 0; }
 
 .stjo-lightbox__actions {

@@ -66,6 +66,17 @@ if ( '' === $stjo_lb_excerpt && $stjo_lb_page ) {
 	$stjo_lb_excerpt = wp_trim_words( wp_strip_all_tags( $stjo_lb_body_html ), 20, ' …' );
 }
 $stjo_lb_hide_title = ! empty( $attributes['hideTitle'] );
+
+// Stable id for the URL fragment (#<slug>): the content page's own slug when
+// sourced from a page (portable + readable), else a slug of the title. view.js
+// reflects it into location.hash while open and deep-links to it on load.
+// Empty (no fragment) when the card has neither a page nor a title.
+$stjo_lb_id = '';
+if ( $stjo_lb_page ) {
+	$stjo_lb_id = $stjo_lb_page->post_name;
+} elseif ( '' !== $stjo_lb_title ) {
+	$stjo_lb_id = sanitize_title( $stjo_lb_title );
+}
 $stjo_lb_label   = trim( $attributes['linkLabel'] ?? '' );
 $stjo_lb_label   = '' !== $stjo_lb_label ? $stjo_lb_label : __( 'Explore', 'stjo' );
 $stjo_lb_is_text  = false !== strpos( $attributes['className'] ?? '', 'is-style-text' );
@@ -76,9 +87,10 @@ $stjo_lb_is_arrow = false !== strpos( $attributes['className'] ?? '', 'is-style-
 $stjo_lb_media   = ! empty( $attributes['mediaUrl'] ) ? $attributes['mediaUrl'] : '';
 $stjo_lb_media_alt = (string) ( $attributes['mediaAlt'] ?? '' );
 
-// Lightbox hero: the block's own image wins; otherwise a content page's
-// featured image steps in, so a purpose-made lightbox page carries its own
-// hero without the block needing anything set.
+// Lightbox hero (and the card's own thumbnail — both use this): the block's
+// own image wins; otherwise a content page's featured image steps in, so a
+// purpose-made lightbox page carries its own image everywhere without the
+// block needing anything set.
 $stjo_lb_hero     = $stjo_lb_media;
 $stjo_lb_hero_alt = $stjo_lb_media_alt;
 if ( ! $stjo_lb_hero && $stjo_lb_page && has_post_thumbnail( $stjo_lb_page ) ) {
@@ -104,9 +116,9 @@ $stjo_lb_arrow = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" ar
 $stjo_lb_wrapper = get_block_wrapper_attributes( array( 'class' => 'stjo-lightbox-card' ) );
 ?>
 <article <?php echo $stjo_lb_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput -- core-built attribute string. ?>>
-	<?php if ( $stjo_lb_media && ! $stjo_lb_is_text && ! $stjo_lb_is_arrow ) : ?>
+	<?php if ( $stjo_lb_hero && ! $stjo_lb_is_text && ! $stjo_lb_is_arrow ) : ?>
 		<figure class="stjo-lightbox-card__media">
-			<img src="<?php echo esc_url( $stjo_lb_media ); ?>" alt="<?php echo esc_attr( $attributes['mediaAlt'] ?? '' ); ?>" loading="lazy" />
+			<img src="<?php echo esc_url( $stjo_lb_hero ); ?>" alt="<?php echo esc_attr( $stjo_lb_hero_alt ); ?>" loading="lazy" />
 		</figure>
 	<?php endif; ?>
 	<div class="stjo-lightbox-card__body">
@@ -124,7 +136,7 @@ $stjo_lb_wrapper = get_block_wrapper_attributes( array( 'class' => 'stjo-lightbo
 				<p class="stjo-lightbox-card__notice"><?php echo esc_html( sprintf( /* translators: %s: page title */ __( 'Lightbox content comes from the page “%s”.', 'stjo' ), get_the_title( $stjo_lb_page ) ) ); ?></p>
 			<?php endif; ?>
 		<?php elseif ( $stjo_lb_body_html ) : ?>
-			<button type="button" class="stjo-lightbox-card__link" data-stjo-lightbox>
+			<button type="button" class="stjo-lightbox-card__link" data-stjo-lightbox<?php echo $stjo_lb_id ? ' data-stjo-lightbox-id="' . esc_attr( $stjo_lb_id ) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_attr'd. ?>>
 				<?php echo esc_html( $stjo_lb_label ) . $stjo_lb_arrow; // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG. ?>
 			</button>
 			<template data-stjo-lightbox-template data-stjo-lightbox-title="<?php echo esc_attr( $stjo_lb_title ); ?>">

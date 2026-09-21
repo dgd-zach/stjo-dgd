@@ -10,6 +10,42 @@
 
 	var dialog = null;
 	var contentEl = null;
+	// data-stjo-lightbox-id of the lightbox currently open, so the close
+	// handler knows which fragment to strip and never clobbers an unrelated one.
+	var currentId = null;
+
+	/* ---- URL fragment sync (#<page-slug>) ------------------------------- */
+	// Reflect the open lightbox into the URL so it can be linked to and reopened
+	// on load. replaceState (not location.hash =) is used throughout: it changes
+	// the URL without firing hashchange (no feedback loop with our own writes)
+	// and without the native jump-to-anchor scroll. No history entry is pushed,
+	// so the Back button leaves the page rather than closing the lightbox.
+	function hashId() {
+		return location.hash ? decodeURIComponent( location.hash.slice( 1 ) ) : '';
+	}
+	function setHash( id ) {
+		if ( ! window.history || ! history.replaceState || hashId() === id ) {
+			return;
+		}
+		try {
+			history.replaceState( history.state, '', '#' + id );
+		} catch ( e ) {}
+	}
+	function clearHash() {
+		if ( ! window.history || ! history.replaceState ) {
+			return;
+		}
+		try {
+			history.replaceState( history.state, '', location.pathname + location.search );
+		} catch ( e ) {}
+	}
+	function triggerById( id ) {
+		if ( ! id ) {
+			return null;
+		}
+		var esc = ( window.CSS && CSS.escape ) ? CSS.escape( id ) : id.replace( /["\\]/g, '\\$&' );
+		return document.querySelector( 'button[data-stjo-lightbox][data-stjo-lightbox-id="' + esc + '"]' );
+	}
 
 	function buildDialog() {
 		dialog = document.createElement( 'dialog' );
@@ -36,6 +72,12 @@
 			document.body.classList.remove( 'modal-open' );
 			document.documentElement.style.removeProperty( '--stjo-scrollbar-comp' );
 			dialog.classList.remove( 'is-scrollable' );
+			// Drop the fragment only if it is still this lightbox's, so a hash
+			// left by something else on the page is untouched.
+			if ( currentId && hashId() === currentId ) {
+				clearHash();
+			}
+			currentId = null;
 		} );
 		// Classic (non-overlay) scrollbars take their width out of the dialog's
 		// box, so the moment long content made the dialog scroll (an FAQ answer
@@ -130,6 +172,11 @@
 		document.body.classList.add( 'modal-open' );
 		dialog.showModal();
 		syncScrollbar();
+		// Reflect this lightbox into the URL so it can be shared / reopened.
+		currentId = trigger.getAttribute( 'data-stjo-lightbox-id' ) || null;
+		if ( currentId ) {
+			setHash( currentId );
+		}
 	}
 
 	document.addEventListener( 'click', function ( e ) {
@@ -139,4 +186,32 @@
 		}
 		open( trigger );
 	} );
+
+	// Deep link: open the lightbox named by the URL fragment — on load, and if
+	// the fragment later changes to one (an in-page link, Back/Forward). A
+	// fragment matching no lightbox closes any that is open.
+	function syncFromHash() {
+		if ( ! window.HTMLDialogElement ) {
+			return;
+		}
+		var id = hashId();
+		var trigger = triggerById( id );
+		if ( trigger ) {
+			if ( dialog && dialog.open && currentId === id ) {
+				return;
+			}
+			if ( dialog && dialog.open ) {
+				dialog.close();
+			}
+			open( trigger );
+		} else if ( dialog && dialog.open ) {
+			dialog.close();
+		}
+	}
+	window.addEventListener( 'hashchange', syncFromHash );
+	if ( document.readyState === 'loading' ) {
+		document.addEventListener( 'DOMContentLoaded', syncFromHash );
+	} else {
+		syncFromHash();
+	}
 } )();

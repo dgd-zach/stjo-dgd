@@ -38,6 +38,15 @@ $stjo_manifest = array(
 	'beliefs-traditions'           => 'beliefs-traditions.php',
 	'four-directions'              => 'four-directions.php',
 	'lakota-legends'               => 'lakota-legends.php',
+	'lakota-language'              => 'lakota-language.php',
+	'religious-education'          => 'religious-education.php',
+	'cultural-trip'                => 'cultural-trip.php',
+	'native-american-books'       => 'native-american-books.php',
+	'family-integration'          => 'family-integration.php',
+	'student-health'               => 'student-health.php',
+	'protecting-students'          => 'protecting-students.php',
+	'student-bill-of-rights'       => 'student-bill-of-rights.php',
+	'important-animals'            => 'important-animals.php',
 	'privacy-policy'               => 'privacy-policy.php', // WP's draft placeholder page; published on seed
 	'careers'                      => 'careers.php',
 	'contact'                      => 'contact.php',
@@ -97,6 +106,12 @@ $stjo_ensure = array(
 	'devils-tower'           => array( 'Devils Tower', 'lakota-legends' ),
 	'iktomi'                 => array( 'Iktómi', 'lakota-legends' ),
 	'the-great-race'         => array( 'The Great Race', 'lakota-legends' ),
+	// Important Animals children
+	'buffalo'                => array( 'The Buffalo', 'important-animals' ),
+	'eagle'                  => array( 'The Eagle', 'important-animals' ),
+	'dog'                    => array( 'The Dog', 'important-animals' ),
+	'horse'                  => array( 'The Horse', 'important-animals' ),
+	'turtle'                 => array( 'The Turtle', 'important-animals' ),
 );
 $stjo_stub_content = '<!-- wp:paragraph {"className":"is-style-eyebrow"} -->' . "\n"
 	. '<p class="wp-block-paragraph is-style-eyebrow">Coming soon</p>' . "\n"
@@ -145,6 +160,23 @@ $stjo_lightbox = array(
 	'charity-rating'         => array( 'Charity Rating', 'charity-rating.php' ),
 	'four-directions-prayer' => array( 'Four Directions Prayer', 'four-directions-prayer.php' ),
 	'hapi-homes'             => array( 'Houseparents and Pets In Homes', 'hapi-homes.php' ),
+	'shop-wish-lists'        => array( 'Shop Our Wish Lists', 'shop-wish-lists.php' ),
+	'non-monetary-gift'      => array( 'Give a Non-monetary Gift', 'non-monetary-gift.php' ),
+	'give-a-gift-card'       => array( 'Give a Gift Card', 'give-a-gift-card.php' ),
+	'affiliate-programs'     => array( 'Affiliate Programs', 'affiliate-programs.php' ),
+	'donate-a-vehicle'       => array( 'Donate Your Unwanted Vehicle', 'donate-a-vehicle.php' ),
+	'dreamcatcher'           => array( 'Dreamcatcher', 'dreamcatcher.php' ),
+	'lakota-pipe'            => array( 'Origin of the Lakota Pipe', 'lakota-pipe.php' ),
+	'devils-tower'           => array( 'Devils Tower', 'devils-tower.php' ),
+	'iktomi'                 => array( 'Iktómi', 'iktomi.php' ),
+	'the-great-race'         => array( 'The Great Race', 'the-great-race.php' ),
+	'buffalo'                => array( 'The Buffalo', 'buffalo.php' ),
+	'eagle'                  => array( 'The Eagle', 'eagle.php' ),
+	'dog'                    => array( 'The Dog', 'dog.php' ),
+	'horse'                  => array( 'The Horse', 'horse.php' ),
+	'turtle'                 => array( 'The Turtle', 'turtle.php' ),
+	'lakota-vs-sioux'            => array( 'What\'s the Difference between Lakota and Sioux?', 'lakota-vs-sioux.php' ),
+	'revitalize-lakota-language' => array( 'Joining the Fight to Revitalize the Lakota Language', 'revitalize-lakota-language.php' ),
 );
 
 stjo_seed_say( '== Lightbox content pages ==' );

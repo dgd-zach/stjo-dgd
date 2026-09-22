@@ -275,7 +275,7 @@ span.stjo-lightbox-card__link { cursor: default; }
 	.stjo-lightbox__body h6.wp-block-heading { font-size: 14px; }
 }
 
-.stjo-lightbox__body p:not(blockquote p) {
+.stjo-lightbox__body p:not(blockquote p):not(.is-style-subhead){
 	margin: 0 0 1em;
 	font-size: var(--wp--preset--font-size--base, 16px);
 	line-height: 1.6;

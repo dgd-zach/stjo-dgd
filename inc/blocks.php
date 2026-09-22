@@ -238,6 +238,55 @@ function stjo_lightbox_content_heading_levels() {
 add_action( 'enqueue_block_editor_assets', 'stjo_lightbox_content_heading_levels' );
 
 /**
+ * Published pages/posts that host a lightbox showing $post_id: their content
+ * carries a stjo/lightbox-card with contentPageId = $post_id. The delimited
+ * LIKE (trailing , or }) keeps page 167 from sweeping up 1678's hosts. Shared
+ * by the host-cache purge and the search-result deep link.
+ *
+ * @param int $post_id Lightbox content page ID.
+ * @return int[] Host post IDs, lowest first.
+ */
+function stjo_lightbox_content_hosts( $post_id ) {
+	global $wpdb;
+	$post_id = (int) $post_id;
+	if ( ! $post_id ) {
+		return array();
+	}
+	return array_map( 'intval', $wpdb->get_col( $wpdb->prepare(
+		"SELECT ID FROM {$wpdb->posts}
+		 WHERE post_status = 'publish' AND post_type IN ( 'page', 'post' )
+		   AND ( post_content LIKE %s OR post_content LIKE %s )
+		 ORDER BY ID ASC",
+		'%' . $wpdb->esc_like( '"contentPageId":' . $post_id . ',' ) . '%',
+		'%' . $wpdb->esc_like( '"contentPageId":' . $post_id . '}' ) . '%'
+	) ) );
+}
+
+/**
+ * Deep link to a lightbox content page's content: the first published page
+ * that hosts it, plus the fragment (#<slug>) view.js opens on load. These
+ * pages 404 on their own URL (stjo_lightbox_content_no_single), so search
+ * results and other links point here instead of at the dead single. Returns
+ * '' when $post is not a lightbox content page or nothing hosts it (an orphan
+ * has no lightbox to open, so callers fall back to the permalink).
+ *
+ * @param int|WP_Post $post Lightbox content page.
+ * @return string URL with #<slug> fragment, or ''.
+ */
+function stjo_lightbox_content_link( $post ) {
+	$post = get_post( $post );
+	if ( ! $post || 'page' !== $post->post_type || ! has_term( 'lightbox-content', 'page-category', $post ) ) {
+		return '';
+	}
+	$hosts = stjo_lightbox_content_hosts( $post->ID );
+	if ( ! $hosts ) {
+		return '';
+	}
+	$host_url = get_permalink( $hosts[0] );
+	return $host_url ? $host_url . '#' . $post->post_name : '';
+}
+
+/**
  * Editing a lightbox content page must refresh every page whose lightbox
  * shows it: the modal body is baked into each HOST page's HTML, so the host
  * page's cache is what goes stale (this bit twice locally already — the FAQ
@@ -251,15 +300,7 @@ function stjo_lightbox_content_purge_hosts( $post_id, $post ) {
 	if ( ! has_term( 'lightbox-content', 'page-category', $post ) ) {
 		return;
 	}
-	global $wpdb;
-	// Delimited match so page 167 never sweeps up 1678's hosts.
-	$hosts = $wpdb->get_col( $wpdb->prepare(
-		"SELECT ID FROM {$wpdb->posts}
-		 WHERE post_status = 'publish' AND post_type IN ( 'page', 'post' )
-		   AND ( post_content LIKE %s OR post_content LIKE %s )",
-		'%' . $wpdb->esc_like( '"contentPageId":' . $post_id . ',' ) . '%',
-		'%' . $wpdb->esc_like( '"contentPageId":' . $post_id . '}' ) . '%'
-	) );
+	$hosts = stjo_lightbox_content_hosts( $post_id );
 	foreach ( $hosts as $stjo_host_id ) {
 		clean_post_cache( (int) $stjo_host_id );
 		if ( class_exists( 'WpeCommon' ) && method_exists( 'WpeCommon', 'purge_varnish_cache' ) ) {

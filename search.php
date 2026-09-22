@@ -30,18 +30,27 @@ stjo_page_hero(
 			<?php
 			while ( have_posts() ) :
 				the_post();
+				// Lightbox content pages 404 on their own URL, so point the card
+				// at the page that hosts them, with the #<slug> fragment that opens
+				// the lightbox on load. Every other result keeps its permalink (also
+				// the fallback for a lightbox page that has no host).
+				$stjo_result_link = stjo_lightbox_content_link( get_post() );
+				if ( '' === $stjo_result_link ) {
+					$stjo_result_link = get_permalink();
+				}
 				?>
 				<div class="wp-block-column">
 					<article <?php post_class( 'stjo-story-card' ); ?>>
 						<div class="stjo-story-card__body">
-							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+							<h3><a href="<?php echo esc_url( $stjo_result_link ); ?>"><?php the_title(); ?></a></h3>
 							<p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24, ' …' ) ); ?></p>
-							<a class="stjo-story-card__more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
+							<a class="stjo-story-card__more" href="<?php echo esc_url( $stjo_result_link ); ?>"><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
 						</div>
 					</article>
 				</div>
 			<?php endwhile; ?>
 		</div>
+		<div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 		<?php stjo_posts_pagination(); ?>
 	<?php else : ?>
 		<p><?php esc_html_e( 'Nothing found. Try another search.', 'stjo' ); ?></p>

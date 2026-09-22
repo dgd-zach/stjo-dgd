@@ -47,7 +47,7 @@ $hogebach = stjo_seeded_image( 'history-fr-hogebach-with-student.jpg' );
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading -->
-<h2 class="wp-block-heading">A Century  of Service &amp; Love</h2>
+<h2 class="wp-block-heading">A Century of Service &amp; Love</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:column -->
 

@@ -198,7 +198,8 @@ function stjo_render_stories_section( $attrs ) {
 
 	ob_start();
 	?>
-	<section id="<?php echo esc_attr( $section_id ); ?>" class="wp-block-group alignfull stjo-stories-band<?php echo $tint ? ' stjo-stories-band--tint' : ''; ?>" aria-labelledby="<?php echo esc_attr( $h_id ); ?>">
+	<?php // Hand-printed band: it never passes through the block renderer, so it carries the constrained-layout classes itself (main.css caps a Full band's children at content width only when the band is .is-layout-constrained). ?>
+	<section id="<?php echo esc_attr( $section_id ); ?>" class="wp-block-group alignfull is-layout-constrained wp-block-group-is-layout-constrained stjo-stories-band<?php echo $tint ? ' stjo-stories-band--tint' : ''; ?>" aria-labelledby="<?php echo esc_attr( $h_id ); ?>">
 		<div class="stjo-filterbar stjo-stories-band__head">
 			<h3 id="<?php echo esc_attr( $h_id ); ?>"><?php echo esc_html( $title ); ?></h3>
 			<?php if ( $years ) : ?>

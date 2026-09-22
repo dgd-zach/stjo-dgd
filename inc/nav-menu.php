@@ -77,6 +77,28 @@ function stjo_mega_nav() {
 }
 
 /**
+ * Per-item hook classes: menu-item-{ID} plus whatever the editor typed into
+ * the item's "CSS Classes" field (Appearance > Menus > Screen Options). They
+ * land on the item's <li>, so a class on a top-level item also scopes its
+ * whole dropdown, promo image included (e.g. `.promo-prayers
+ * .mega-panel__promo-img { object-position: 70% 50%; }`). Returned with a
+ * leading space, ready to append to a class attribute.
+ *
+ * @param WP_Post $item Menu item.
+ * @return string
+ */
+function stjo_nav_item_classes( $item ) {
+	$classes = array( 'menu-item-' . (int) $item->ID );
+	foreach ( (array) $item->classes as $class ) {
+		$class = sanitize_html_class( trim( (string) $class ) );
+		if ( '' !== $class && 'menu-item' !== $class && ! in_array( $class, $classes, true ) ) {
+			$classes[] = $class;
+		}
+	}
+	return ' ' . esc_attr( implode( ' ', $classes ) );
+}
+
+/**
  * One top-level item: plain link when childless, link + panel otherwise.
  */
 function stjo_mega_nav_section( $section, $tree ) {
@@ -88,11 +110,12 @@ function stjo_mega_nav_section( $section, $tree ) {
 
 	if ( ! $children ) {
 		printf(
-			'<li class="menu-item%1$s"><a class="menu-item__link" href="%2$s"%4$s>%3$s</a></li>',
+			'<li class="menu-item%1$s%5$s"><a class="menu-item__link" href="%2$s"%4$s>%3$s</a></li>',
 			$current ? ' is-current' : '',
 			esc_url( $section->url ),
 			esc_html( $section->title ),
-			stjo_external_link_attrs( $section->url )
+			stjo_external_link_attrs( $section->url ),
+			stjo_nav_item_classes( $section )
 		);
 		return;
 	}
@@ -100,8 +123,9 @@ function stjo_mega_nav_section( $section, $tree ) {
 	$panel_id = 'mega-panel-' . ( $section->post_name ? $section->post_name : $section->ID );
 
 	printf(
-		'<li class="menu-item menu-item--section%1$s">',
-		$current ? ' is-current' : ''
+		'<li class="menu-item menu-item--section%1$s%2$s">',
+		$current ? ' is-current' : '',
+		stjo_nav_item_classes( $section )
 	);
 	if ( ! empty( $section->url ) && '#' !== $section->url ) {
 		printf(
@@ -164,7 +188,7 @@ function stjo_mega_nav_section( $section, $tree ) {
 		if ( ! $grandchildren ) {
 			continue;
 		}
-		echo '<div class="mega-panel__group">';
+		echo '<div class="mega-panel__group' . stjo_nav_item_classes( $child ) . '">';
 		$heading_url = ( ! empty( $child->url ) && '#' !== $child->url ) ? $child->url : '';
 		if ( $heading_url ) {
 			printf(
@@ -198,10 +222,10 @@ function stjo_mega_nav_links( $items ) {
 	echo '<ul class="mega-panel__links">';
 	foreach ( $items as $item ) {
 		printf(
-			'<li%3$s><a href="%1$s"%4$s>%2$s</a></li>',
+			'<li class="%3$s"><a href="%1$s"%4$s>%2$s</a></li>',
 			esc_url( $item->url ),
 			esc_html( $item->title ),
-			! empty( $item->stjo_is_self ) ? ' class="mega-panel__self-link"' : '',
+			trim( ( ! empty( $item->stjo_is_self ) ? 'mega-panel__self-link' : '' ) . stjo_nav_item_classes( $item ) ),
 			stjo_external_link_attrs( $item->url )
 		);
 	}
@@ -269,7 +293,7 @@ function stjo_nav_assets() {
 		'stjo-carousel',
 		get_template_directory_uri() . '/assets/js/carousel.js',
 		array(),
-		STJO_VERSION,
+		(string) filemtime( get_template_directory() . '/assets/js/carousel.js' ), // cache-busts on edit, like the sibling scripts
 		array( 'strategy' => 'defer', 'in_footer' => true )
 	);
 	wp_enqueue_script(

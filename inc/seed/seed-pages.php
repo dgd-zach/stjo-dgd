@@ -47,6 +47,7 @@ $stjo_manifest = array(
 	'protecting-students'          => 'protecting-students.php',
 	'student-bill-of-rights'       => 'student-bill-of-rights.php',
 	'our-podcast'                  => 'our-podcast.php',
+	'stjo-block-training'          => 'stjo-block-training.php', // staff reference, noindex
 	'important-animals'            => 'important-animals.php',
 	'privacy-policy'               => 'privacy-policy.php', // WP's draft placeholder page; published on seed
 	'careers'                      => 'careers.php',

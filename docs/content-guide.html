@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Website Content Guide — St. Joseph's Indian School</title>
+<title>Website Content Guide: St. Joseph's Indian School</title>
 <meta name="description" content="How and where the St. Joseph's team can add, edit, and remove content on the website.">
 
 <style>
 /* ============================================================
-   St. Joseph's Indian School — Content Guide
+   St. Joseph's Indian School: Content Guide
    Styling mirrors the live theme tokens (tokens.css / theme.json).
    Fonts are pulled from the theme so this page matches the site.
    ============================================================ */
@@ -154,7 +154,8 @@ ul.body li,ol.body li{margin:6px 0;}
 /* --- Callouts --- */
 .callout{
   border-radius:var(--radius);padding:16px 18px;margin:18px 0;
-  border-left:5px solid var(--blue-700);background:var(--sand);
+  /* border-left:5px solid var(--blue-700); */
+  background:var(--sand);
 }
 .callout p:last-child{margin-bottom:0;}
 .callout .label{font-weight:700;color:var(--blue-900);display:block;margin-bottom:4px;}
@@ -278,6 +279,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <li><a href="/wp-admin/edit.php?post_type=student-story" target="_blank" rel="noopener">Student Stories <span class="vh">(opens in a new tab)</span></a></li>
         <li><a href="/wp-admin/nav-menus.php" target="_blank" rel="noopener">Menus <span class="vh">(opens in a new tab)</span></a></li>
         <li><a href="/wp-admin/upload.php" target="_blank" rel="noopener">Media library <span class="vh">(opens in a new tab)</span></a></li>
+        <li><a href="/stjo-block-training/" target="_blank" rel="noopener">Block layout training <span class="vh">(opens in a new tab)</span></a></li>
       </ul>
     </div>
 
@@ -326,9 +328,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <span class="label">About the badges below</span>
         <p><span class="badge linkout">Redirects off-site</span> This page sends visitors to the donation/prayer system at give.stjo.org. There is nothing to edit here in WordPress. <br>
         <span class="badge example">Example / template</span> Built by Doing Good Digital for reference. Please leave these alone. <br>
-        <span class="badge draft">Draft</span> Not visible to the public yet. <br>
-        <span class="badge soon">Coming soon</span> A placeholder page with no content yet. It shows a "coming soon" message on the site. Doing Good Digital adds the content so the layout matches; send us the copy and photos. <br>
-        <span class="badge popup">Opens in a lightbox</span> This page's content appears in a window over another page. Edit it here; see <a href="#lightbox">Links that open lightboxes</a>.</p>
+        <span class="badge popup">Opens in a lightbox</span> This page has no address of its own. Its content appears in a window over the page named in brackets. Edit it here; see <a href="#lightbox">Links that open lightboxes</a>.</p>
+        <p style="margin-bottom:0;">Every page in the tree now has real content. Pages that were only placeholders in the plan (Monthly Giving, Memorial Gifts, Planned Giving, Our Shop, Donate Your Vehicle) have been removed; their content lives in the giving system or in the Wishlists lightboxes.</p>
       </div>
 
       <h3>Site page tree</h3>
@@ -348,13 +349,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           </div>
           <ul>
             <li><div class="row"><span class="name">About Our Children</span><a class="edit" href="/wp-admin/post.php?post=315&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Our Podcast</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=316&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Our Podcast</span><a class="edit" href="/wp-admin/post.php?post=316&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
             <li>
               <div class="row"><span class="name">Accountability &amp; Reports</span><a class="edit" href="/wp-admin/post.php?post=317&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
                 <li><div class="row"><span class="name">Annual Financial Report</span><a class="edit" href="/wp-admin/post.php?post=1748&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Student Bill of Rights</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1731&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Protecting Students</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1732&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Student Bill of Rights</span><a class="edit" href="/wp-admin/post.php?post=1731&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Protecting Students</span><a class="edit" href="/wp-admin/post.php?post=1732&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Awards (Accountability &amp; Reports)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1763&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Accreditation (Accountability &amp; Reports)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1764&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Memberships (Accountability &amp; Reports)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1765&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Charity Rating (Accountability &amp; Reports)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1767&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
               </ul>
             </li>
             <li><div class="row"><span class="name">Board of Directors</span><a class="edit" href="/wp-admin/post.php?post=1289&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
@@ -371,16 +376,22 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <a class="edit" href="/wp-admin/post.php?post=308&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Youth Programs</span></a>
           </div>
           <ul>
-            <li><div class="row"><span class="name">Residential Living</span><a class="edit" href="/wp-admin/post.php?post=318&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li>
+              <div class="row"><span class="name">Residential Living</span><a class="edit" href="/wp-admin/post.php?post=318&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Houseparents and Pets In Homes (Residential Living)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1826&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
             <li>
               <div class="row"><span class="name">Education &amp; Cultural Awareness</span><a class="edit" href="/wp-admin/post.php?post=319&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
-                <li><div class="row"><span class="name">Religious Education</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1729&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Cultural Trip</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1730&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Religious Education</span><a class="edit" href="/wp-admin/post.php?post=1729&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Cultural Trip</span><a class="edit" href="/wp-admin/post.php?post=1730&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
               </ul>
             </li>
-            <li><div class="row"><span class="name">Family Integration</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=320&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Student Health</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=321&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Family Integration</span><a class="edit" href="/wp-admin/post.php?post=320&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Student Health</span><a class="edit" href="/wp-admin/post.php?post=321&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">College Scholarships (Youth Programs)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=329&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
           </ul>
         </li>
 
@@ -392,16 +403,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           <ul>
             <li>
               <div class="row"><span class="name">Beliefs &amp; Traditions</span><a class="edit" href="/wp-admin/post.php?post=322&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">The nine topics below are cards on Beliefs &amp; Traditions. Each opens in a lightbox; edit the text on the topic's own page.</p>
               <ul>
-                <li><div class="row"><span class="name">Seven Lakota Values</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1749&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Four Directions</span><a class="edit" href="/wp-admin/post.php?post=1750&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Star Quilt</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1751&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Medicine Wheel</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1752&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Seasons and Moon Calendar</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1753&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Lakota Quillwork &amp; Beadwork</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1754&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">The Winter Count</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1755&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">The Morning Star</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1756&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">The Thípi</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1757&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Seven Lakota Values</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1749&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Four Directions</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1750&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Star Quilt</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1751&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Medicine Wheel</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1752&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Seasons and Moon Calendar</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1753&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Lakota Quillwork &amp; Beadwork</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1754&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Winter Count</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1755&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Morning Star</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1756&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Thípi</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1757&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
               </ul>
             </li>
             <li>
@@ -411,16 +423,31 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <li>
               <div class="row"><span class="name">Lakota Legends</span><a class="edit" href="/wp-admin/post.php?post=324&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
-                <li><div class="row"><span class="name">Dreamcatcher</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1758&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Origin of the Lakota Pipe</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1759&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Devils Tower</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1760&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">Iktómi</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1761&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-                <li><div class="row"><span class="name">The Great Race</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=1762&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Dreamcatcher</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1758&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Origin of the Lakota Pipe</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1759&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Devils Tower</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1760&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Legend of Iktomi the Trickster</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1761&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Great Race</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1762&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
               </ul>
             </li>
-            <li><div class="row"><span class="name">Lakota Language</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=325&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Important Animals</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=326&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Native American Books</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=327&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li>
+              <div class="row"><span class="name">Lakota Language</span><a class="edit" href="/wp-admin/post.php?post=325&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">What's the Difference between Lakota and Sioux? (Lakota Language)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2494&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Joining the Fight to Revitalize the Lakota Language (Lakota Language)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2495&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li>
+              <div class="row"><span class="name">Important Animals</span><a class="edit" href="/wp-admin/post.php?post=326&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">The Buffalo</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2532&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Eagle</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2533&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Dog</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2534&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Horse</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2535&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">The Turtle</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2536&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
+            <li><div class="row"><span class="name">Native American Books</span><a class="edit" href="/wp-admin/post.php?post=327&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
             <li><div class="row"><span class="name">Seven Lakota Rites</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1691&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
             <li><div class="row"><span class="name">Oceti Sakowin — Seven Council Fires</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1690&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
           </ul>
@@ -433,8 +460,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           </div>
           <ul>
             <li><div class="row"><span class="name">Become a DreamMaker</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">College Scholarship</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=329&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
           </ul>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">College Scholarships is a lightbox opened from the Youth Programs page; it is listed there.</p>
         </li>
 
         <li>
@@ -457,13 +484,18 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           </div>
           <ul>
             <li><div class="row"><span class="name">One-Time Gift</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">Monthly Giving</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=335&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Our Shop</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=336&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Memorial Gifts</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=337&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Planned Giving</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=338&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Wishlists, Gift Cards &amp; Affiliate Programs</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=339&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Donate Your Vehicle</span><span class="badge soon">Coming soon</span><a class="edit" href="/wp-admin/post.php?post=340&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li>
+              <div class="row"><span class="name">Wishlists, Gift Cards &amp; Affiliate Programs</span><a class="edit" href="/wp-admin/post.php?post=339&action=edit" target="_blank" rel="noopener">Edit</a></div>
+              <ul>
+                <li><div class="row"><span class="name">Shop Our Wish Lists</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2384&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Give a Non-monetary Gift</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2385&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Give a Gift Card</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2386&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Affiliate Programs</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2387&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Donate Your Unwanted Vehicle</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=2388&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+              </ul>
+            </li>
           </ul>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Monthly giving, memorial gifts, planned giving and the shop are reached from the "Your Generosity" band and the giving system, not from pages here.</p>
         </li>
 
         <li><div class="row parent"><span class="name">Contact</span><a class="edit" href="/wp-admin/post.php?post=313&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Contact</span></a></div></li>
@@ -480,14 +512,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
 
         <li id="tree-popups">
           <div class="row parent"><span class="name">Lightbox content pages</span> <span class="badge popup">Opens in a lightbox</span></div>
-          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Not in any menu. Each one feeds a card on the page named in brackets. Seven Lakota Rites and Oceti Sakowin (above) work the same way.</p>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Every page marked "Opens in a lightbox" above sits under the page whose card opens it. They are not in any menu and have no web address of their own. The one below is written but not yet placed on a page.</p>
           <ul>
-            <li><div class="row"><span class="name">Awards (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1763&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Accreditation (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1764&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Memberships (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1765&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Charity Rating (Accountability &amp; Reports)</span><a class="edit" href="/wp-admin/post.php?post=1767&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Four Directions Prayer (Four Directions)</span><a class="edit" href="/wp-admin/post.php?post=1768&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-            <li><div class="row"><span class="name">Houseparents and Pets In Homes (Residential Living)</span><a class="edit" href="/wp-admin/post.php?post=1826&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+            <li><div class="row"><span class="name">Four Directions Prayer</span><a class="edit" href="/wp-admin/post.php?post=1768&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
           </ul>
         </li>
 
@@ -495,7 +522,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">This is the listing page. Add articles under <a href="#blog">Blog posts</a>.</p>
         </li>
 
-        <li><div class="row parent"><span class="name">Privacy Policy</span> <span class="badge draft">Draft</span> <a class="edit" href="/wp-admin/post.php?post=3&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+        <li><div class="row parent"><span class="name">Privacy Policy</span> <a class="edit" href="/wp-admin/post.php?post=3&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+
+        <li>
+          <div class="row parent"><span class="name">STJO Block Training</span> <span class="badge example">Staff training</span> <a class="edit" href="/stjo-block-training/" target="_blank" rel="noopener">View<span class="vh"> (opens in a new tab)</span></a></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">A hands-on page for your team showing how Group widths work, with live examples. Hidden from search engines. See <a href="#editor-widths">Group widths</a> below.</p>
+        </li>
 
         <li>
           <div class="row parent"><span class="name">Template &amp; example pages</span> <span class="badge example">Leave alone</span></div>
@@ -553,17 +585,26 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           <tr><td>Image</td><td>Rounded, Bordered</td><td>Rounded corners, or a thin frame.</td></tr>
           <tr><td>Button</td><td>Arrow Link, Plain Link</td><td>See above.</td></tr>
           <tr><td>Separator</td><td>Default, Basic line</td><td>The default separator is the yellow zigzag ribbon. Basic line is a thin rule.</td></tr>
+          <tr><td>Heading</td><td>Centered on Mobile</td><td>A heading that sits left on desktop but centers on phones.</td></tr>
+          <tr><td>Cover</td><td>Overlay on Mobile Only</td><td>The dark shade over a hero photo shows only on phones, where the crop is tighter.</td></tr>
+          <tr><td>Group</td><td>Overhang First Child, Overhang Last Child</td><td>Lets the first (or last) block in a colored band hang over the band's edge, the way the donation card overlaps the blue band. Set by Doing Good Digital; leave as is.</td></tr>
+          <tr><td>Yoast FAQ</td><td>Accordion</td><td>Turns the question list into open-and-close rows. See <a href="#accordions">Accordions &amp; FAQs</a>.</td></tr>
         </tbody>
       </table>
       </div>
       <p>Do not add a separator directly under a page's title band. The zigzag ribbon there is already part of the band.</p>
 
-      <h3>Text width</h3>
-      <p>Two controls change how wide text runs, and they do different things:</p>
+      <h3 id="editor-widths">Group widths</h3>
+      <p>A Group's <strong>Layout</strong> setting controls the blocks <em>inside</em> it. The Group's own width comes from its <strong>Align</strong> button (None, Wide width, Full width). Three widths exist on this site: content (the normal page column), wide, and full (edge to edge).</p>
       <ul class="body">
-        <li><strong>Content width</strong> on a Group block (sidebar, under Layout) sets how wide the whole section is, and it stays centered. Use this when a section, an accordion, or a row of cards looks too narrow or too wide.</li>
-        <li><strong>Limit width</strong> on a paragraph, heading, or list caps that one block's line length so long text stays readable. It lines up on the left. Use it inside columns, not on whole sections.</li>
+        <li><strong>Inner blocks use content width</strong> (sidebar, under Layout). ON keeps the blocks inside a full-width band lined up with the rest of the page. OFF lets them fill the band edge to edge. On a normal-width Group it changes nothing, because the Group is already at page width.</li>
+        <li><strong>Content width</strong> appears once that toggle is on. Type a value such as 768px to keep reading-heavy text in short lines. Leave it blank for the site default.</li>
+        <li><strong>Limit width</strong> on a paragraph, heading, or list caps that one block's line length. It lines up on the left. Use it inside columns, not on whole sections.</li>
       </ul>
+      <div class="callout tip">
+        <span class="label">See it live</span>
+        <p>The <a href="/stjo-block-training/" target="_blank" rel="noopener">STJO Block Training page<span class="vh"> (opens in a new tab)</span></a> shows every one of these settings as a real block, so you can see the width each one produces before you use it.</p>
+      </div>
 
       <h3>Big numbers that count up</h3>
       <p>The large figures on Annual Financial Report are <strong>Stat Figure</strong> blocks. Type the value exactly as it should read, symbols included ($275,000, 98.6%, 1,300+). The number counts up when it scrolls into view and the symbols stay put.</p>
@@ -607,7 +648,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
     <!-- ===== LIGHTBOX LINKS ===== -->
     <section id="lightbox">
       <h2>Links that open lightboxes</h2>
-      <p class="lede">Some cards and links open a window over the page instead of going to a new page (Awards, Accreditation, Seven Lakota Rites, HAPI Homes, and others). The block is called <strong>Links that open Lightboxes</strong>.</p>
+      <p class="lede">Some cards and links open a window over the page instead of going to a new page (Awards, Accreditation, the Lakota Legends, Important Animals, the Wishlists page, and others). The block is called <strong>Links that open Lightboxes</strong>.</p>
+      <div class="callout">
+        <span class="label">Every lightbox has a shareable address</span>
+        <p>While a window is open, the page address in the browser ends with a # and the window's name, for example <code>/about/accountability-reports/#awards</code>. Copy that address and it opens the page with the window already showing. Site search results use these addresses automatically.</p>
+      </div>
 
       <h3>Where the window's content comes from</h3>
       <p>Select the card and look at the sidebar. It shows one of two sources:</p>
@@ -656,7 +701,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       </div>
       <div class="callout">
         <span class="label">If an accordion looks too narrow</span>
-        <p>Its width comes from the Group it sits in. Select that Group (List View) and change <strong>Content width</strong> under Layout in the sidebar. Do not use the Limit width toggle for this; that pins the block to the left.</p>
+        <p>Its width comes from the Group it sits in. Select that Group (List View), make sure <strong>Inner blocks use content width</strong> is on under Layout in the sidebar, and change <strong>Content width</strong>. Do not use the Limit width toggle for this; that pins the block to the left. See <a href="#editor-widths">Group widths</a>.</p>
       </div>
     </section>
 
@@ -664,6 +709,10 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
     <section id="blog">
       <h2>Blog posts</h2>
       <p class="lede">News and articles. These appear on the <strong>Blog</strong> page automatically, newest first.</p>
+      <div class="callout">
+        <span class="label">For now, the blog still lives at blog.stjo.org</span>
+        <p>The "Our Blog" links in the menu and footer go to the existing blog, and the 30 posts in WordPress today are pointers to those articles (a title, a photo and a link), which is what feeds the "From the Blog" cards on the Home page. Keep publishing on blog.stjo.org until Doing Good Digital moves the blog into this site. The steps below apply from that point on.</p>
+      </div>
       <div class="section-actions">
         <a class="btn" href="/wp-admin/edit.php" target="_blank" rel="noopener">All posts<span class="vh"> (opens in a new tab)</span></a>
         <a class="btn ghost" href="/wp-admin/post-new.php" target="_blank" rel="noopener">Add new post<span class="vh"> (opens in a new tab)</span></a>

@@ -43,6 +43,16 @@
 	border-radius: 999px;
 }
 .stjo-donation-selector__freq:has(input:checked) { color: var(--wp--preset--color--white, #fff); }
+/* The frequency and amount options behave like buttons: a quick double-tap
+   or a drag across them should change the choice, not paint a text
+   highlight. The typed "Other amount" field is a real input and stays
+   selectable. */
+.stjo-donation-selector__freq,
+.stjo-donation-selector__amount {
+	-webkit-user-select: none;
+	user-select: none;
+}
+
 .stjo-donation-selector__freq input,
 .stjo-donation-selector__amount input {
 	position: absolute;

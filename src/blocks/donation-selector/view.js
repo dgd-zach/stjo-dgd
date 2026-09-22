@@ -51,7 +51,17 @@
 			if ( '1' !== form.dataset.monthlyForm ) {
 				params.set( 'setFreq', freq() );
 			}
-			window.location.assign( base + ( base.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString() );
+			var url = base + ( base.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString();
+			// The giving form lives on give.stjo.org, so it opens in a new tab
+			// like every other off-site link. Plain window.open (not the
+			// 'noopener' feature, which returns null even on success) so a
+			// blocked popup can be detected and the visitor still gets there.
+			var win = window.open( url, '_blank' );
+			if ( win ) {
+				win.opener = null;
+			} else {
+				window.location.assign( url );
+			}
 		} );
 		update();
 	}

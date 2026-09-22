@@ -44,7 +44,7 @@ $social_icons = array(
 							<li>
 								<span class="site-footer__icon" aria-hidden="true"><i class="<?php echo esc_attr( $contact_icons[ $row['icon'] ?? '' ] ?? 'fa-solid fa-location-dot' ); ?>"></i></span>
 								<?php if ( ! empty( $row['url'] ) ) : ?>
-									<a href="<?php echo esc_url( $row['url'] ); ?>"><?php echo wp_kses( $row['text'] ?? '', array( 'br' => array() ) ); ?></a>
+									<a href="<?php echo esc_url( $row['url'] ); ?>"<?php echo stjo_external_link_attrs( $row['url'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- fixed attribute string. ?>><?php echo wp_kses( $row['text'] ?? '', array( 'br' => array() ) ); ?></a>
 								<?php else : ?>
 									<span><?php echo wp_kses( $row['text'] ?? '', array( 'br' => array() ) ); ?></span>
 								<?php endif; ?>
@@ -71,7 +71,7 @@ $social_icons = array(
 							if ( empty( $link['label'] ) || empty( $link['url'] ) ) {
 								continue;
 							}
-							printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( home_url( $link['url'] ) ), esc_html( $link['label'] ) );
+							printf( '<li><a href="%1$s"%3$s>%2$s</a></li>', esc_url( 0 === strpos( $link['url'], 'http' ) ? $link['url'] : home_url( $link['url'] ) ), esc_html( $link['label'] ), stjo_external_link_attrs( $link['url'] ) );
 						}
 						echo '</ul>';
 					}
@@ -84,7 +84,7 @@ $social_icons = array(
 						<?php foreach ( $social as $network ) : ?>
 							<?php $brand = $social_icons[ strtolower( $network['network'] ?? '' ) ] ?? ''; ?>
 							<li>
-								<a href="<?php echo esc_url( $network['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( $network['network'] ?? '' ); ?>">
+								<a href="<?php echo esc_url( $network['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( $network['network'] ?? '' ); ?>"<?php echo stjo_external_link_attrs( $network['url'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput -- fixed attribute string. ?>>
 									<?php if ( ! empty( $network['icon'] ) ) : ?>
 										<img src="<?php echo esc_url( $network['icon'] ); ?>" alt="" width="24" height="24" loading="lazy">
 									<?php elseif ( $brand ) : ?>

@@ -40,7 +40,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
                     <h3 class="wp-block-heading has-light-color has-text-color">Monthly giving</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Be a DreamMaker with a recurring gift.</p>
                     <div class="wp-block-buttons">
-                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_give_monthly ); ?>">Give Monthly Now</a></div>
+                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_give_monthly ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_monthly ); ?>>Give Monthly Now</a></div>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
                     <h3 class="wp-block-heading has-light-color has-text-color">One-Time Gift</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Make an immediate impact today.</p>
                     <div class="wp-block-buttons">
-                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>">Give Now</a></div>
+                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_once ); ?>>Give Now</a></div>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
                     <h3 class="wp-block-heading has-light-color has-text-color">Donor Advised Fund</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Give through your DAF account.</p>
                     <div class="wp-block-buttons">
-                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_daf ); ?>">Give Now</a></div>
+                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_daf ); ?>"<?php echo stjo_external_link_attrs( $stjo_daf ); ?>>Give Now</a></div>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
                     <h3 class="wp-block-heading has-light-color has-text-color">Memorial Gift</h3>
                     <p class="has-light-color has-text-color stjo-card__reveal">Honor a loved one's memory.</p>
                     <div class="wp-block-buttons">
-                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_memorial ); ?>">Give Now</a></div>
+                        <div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link has-white-color has-text-color wp-element-button" href="<?php echo esc_url( $stjo_memorial ); ?>"<?php echo stjo_external_link_attrs( $stjo_memorial ); ?>>Give Now</a></div>
                     </div>
                 </div>
             </div>
@@ -81,16 +81,16 @@ $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishli
     </div>
 
     <div class="wp-block-columns alignwide stjo-give-row">
-        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_planned ); ?>"><img src="<?php echo esc_url( stjo_asset( 'article-person.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Estate Legacy Giving</span><span class="stjo-give-tile__sub">Leave a lasting legacy.</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_ira ); ?>"><img src="<?php echo esc_url( stjo_asset( 'savings.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Individual Retirement Account</span><span class="stjo-give-tile__sub">Give a tax-smart IRA gift.</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_shop ); ?>"><img src="<?php echo esc_url( stjo_asset( 'local-mall.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Our Shop</span><span class="stjo-give-tile__sub">Shop Lakota crafts.</span></a></div>
-        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_wishlist ); ?>"><img src="<?php echo esc_url( stjo_asset( 'redeem.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Wishlists &amp; Gift Cards</span><span class="stjo-give-tile__sub">Give specific items students need.</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_planned ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_planned ); ?>><img src="<?php echo esc_url( stjo_asset( 'article-person.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Estate Legacy Giving</span><span class="stjo-give-tile__sub">Leave a lasting legacy.</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_ira ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_ira ); ?>><img src="<?php echo esc_url( stjo_asset( 'savings.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Individual Retirement Account</span><span class="stjo-give-tile__sub">Give a tax-smart IRA gift.</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_shop ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_shop ); ?>><img src="<?php echo esc_url( stjo_asset( 'local-mall.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Our Shop</span><span class="stjo-give-tile__sub">Shop Lakota crafts.</span></a></div>
+        <div class="wp-block-column"><a class="stjo-give-tile" href="<?php echo esc_url( $stjo_give_wishlist ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_wishlist ); ?>><img src="<?php echo esc_url( stjo_asset( 'redeem.png' ) ); ?>" alt="" aria-hidden="true" class="skip-lazy"><span class="stjo-give-tile__title">Wishlists &amp; Gift Cards</span><span class="stjo-give-tile__sub">Give specific items students need.</span></a></div>
     </div>
 
     <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 
     <div class="wp-block-buttons is-layout-flex is-content-justification-center">
-        <div class="wp-block-button"><a class="wp-block-button__link has-blue-900-color has-yellow-background-color has-text-color has-background has-medium-font-size has-custom-font-size wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>">Donate Now</a></div>
+        <div class="wp-block-button"><a class="wp-block-button__link has-blue-900-color has-yellow-background-color has-text-color has-background has-medium-font-size has-custom-font-size wp-element-button" href="<?php echo esc_url( $stjo_give_once ); ?>"<?php echo stjo_external_link_attrs( $stjo_give_once ); ?>>Donate Now</a></div>
     </div>
     <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 </div>

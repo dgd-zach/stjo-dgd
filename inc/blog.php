@@ -163,9 +163,9 @@ function stjo_post_card( $post ) {
 				<figure class="wp-block-image"><?php echo get_the_post_thumbnail( $post, 'medium_large' ); ?></figure>
 			<?php endif; ?>
 			<div class="stjo-story-card__body">
-				<h3><a href="<?php echo esc_url( $permalink ); ?>"><?php echo esc_html( get_the_title( $post ) ); ?></a></h3>
+				<h3><a href="<?php echo esc_url( $permalink ); ?>"<?php echo stjo_external_link_attrs( $permalink ); // phpcs:ignore WordPress.Security.EscapeOutput -- fixed attribute string. ?>><?php echo esc_html( get_the_title( $post ) ); ?></a></h3>
 				<p><?php echo esc_html( wp_trim_words( get_the_excerpt( $post ), 24, ' …' ) ); ?></p>
-				<a class="stjo-story-card__more" href="<?php echo esc_url( $permalink ); ?>"><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
+				<a class="stjo-story-card__more" href="<?php echo esc_url( $permalink ); ?>"<?php echo stjo_external_link_attrs( $permalink ); // phpcs:ignore WordPress.Security.EscapeOutput -- fixed attribute string. ?>><?php esc_html_e( 'Read More', 'stjo' ); ?></a>
 			</div>
 		</article>
 	</div>

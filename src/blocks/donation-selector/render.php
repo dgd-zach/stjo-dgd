@@ -72,7 +72,7 @@ $default_form_id = 'once' === $default_freq ? $form_once : $form_monthly;
 		<div class="wp-block-button stjo-donation-selector__submit-wrap">
 			<button type="submit" class="wp-block-button__link wp-element-button stjo-donation-selector__submit">
 				<?php esc_html_e( 'Donate Now', 'stjo' ); ?>
-			</button>
+			<span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'stjo' ); ?></span></button>
 		</div>
 
 		<?php if ( ! empty( $attributes['fineprint'] ) ) : ?>
@@ -80,7 +80,7 @@ $default_form_id = 'once' === $default_freq ? $form_once : $form_monthly;
 		<?php endif; ?>
 
 		<noscript>
-			<a href="<?php echo esc_url( add_query_arg( 'df_id', rawurlencode( $default_form_id ), $base_url ) ); ?>"><?php esc_html_e( 'Donate on our secure giving page', 'stjo' ); ?></a>
+			<a href="<?php echo esc_url( add_query_arg( 'df_id', rawurlencode( $default_form_id ), $base_url ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Donate on our secure giving page', 'stjo' ); ?></a>
 		</noscript>
 	</form>
 </div>

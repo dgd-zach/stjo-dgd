@@ -88,10 +88,11 @@ function stjo_mega_nav_section( $section, $tree ) {
 
 	if ( ! $children ) {
 		printf(
-			'<li class="menu-item%1$s"><a class="menu-item__link" href="%2$s">%3$s</a></li>',
+			'<li class="menu-item%1$s"><a class="menu-item__link" href="%2$s"%4$s>%3$s</a></li>',
 			$current ? ' is-current' : '',
 			esc_url( $section->url ),
-			esc_html( $section->title )
+			esc_html( $section->title ),
+			stjo_external_link_attrs( $section->url )
 		);
 		return;
 	}
@@ -104,12 +105,13 @@ function stjo_mega_nav_section( $section, $tree ) {
 	);
 	if ( ! empty( $section->url ) && '#' !== $section->url ) {
 		printf(
-			'<a class="menu-item__link" href="%1$s" data-mega-link>%2$s</a><button type="button" class="menu-item__toggle" aria-expanded="false" aria-controls="%3$s" data-mega-trigger><span class="screen-reader-text">%4$s</span></button>',
+			'<a class="menu-item__link" href="%1$s" data-mega-link%5$s>%2$s</a><button type="button" class="menu-item__toggle" aria-expanded="false" aria-controls="%3$s" data-mega-trigger><span class="screen-reader-text">%4$s</span></button>',
 			esc_url( $section->url ),
 			esc_html( $section->title ),
 			esc_attr( $panel_id ),
 			/* translators: %s: menu section name */
-			esc_attr( sprintf( __( 'Open %s menu', 'stjo' ), $section->title ) )
+			esc_attr( sprintf( __( 'Open %s menu', 'stjo' ), $section->title ) ),
+			stjo_external_link_attrs( $section->url )
 		);
 	} else {
 		printf(
@@ -166,9 +168,10 @@ function stjo_mega_nav_section( $section, $tree ) {
 		$heading_url = ( ! empty( $child->url ) && '#' !== $child->url ) ? $child->url : '';
 		if ( $heading_url ) {
 			printf(
-				'<p class="mega-panel__group-heading"><a href="%1$s">%2$s</a></p>',
+				'<p class="mega-panel__group-heading"><a href="%1$s"%3$s>%2$s</a></p>',
 				esc_url( $heading_url ),
-				esc_html( $child->title )
+				esc_html( $child->title ),
+				stjo_external_link_attrs( $heading_url )
 			);
 		} else {
 			echo '<p class="mega-panel__group-heading">' . esc_html( $child->title ) . '</p>';
@@ -195,10 +198,11 @@ function stjo_mega_nav_links( $items ) {
 	echo '<ul class="mega-panel__links">';
 	foreach ( $items as $item ) {
 		printf(
-			'<li%3$s><a href="%1$s">%2$s</a></li>',
+			'<li%3$s><a href="%1$s"%4$s>%2$s</a></li>',
 			esc_url( $item->url ),
 			esc_html( $item->title ),
-			! empty( $item->stjo_is_self ) ? ' class="mega-panel__self-link"' : ''
+			! empty( $item->stjo_is_self ) ? ' class="mega-panel__self-link"' : '',
+			stjo_external_link_attrs( $item->url )
 		);
 	}
 	echo '</ul>';
@@ -233,9 +237,10 @@ function stjo_mega_nav_promo( $section ) {
 	}
 	if ( $label && $url ) {
 		printf(
-			'<div class="wp-block-button is-style-outline mega-panel__promo-button"><a class="wp-block-button__link has-white-color has-text-color has-white-background-color has-background wp-element-button" href="%1$s">%2$s</a></div>',
+			'<div class="wp-block-button is-style-outline mega-panel__promo-button"><a class="wp-block-button__link has-white-color has-text-color has-white-background-color has-background wp-element-button" href="%1$s"%3$s>%2$s</a></div>',
 			esc_url( 0 === strpos( $url, 'http' ) ? $url : home_url( $url ) ),
-			esc_html( $label )
+			esc_html( $label ),
+			stjo_external_link_attrs( $url )
 		);
 	}
 	echo '</div></div>';

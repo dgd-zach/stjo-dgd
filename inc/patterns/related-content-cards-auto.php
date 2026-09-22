@@ -22,14 +22,14 @@
 
 <!-- wp:query {"queryId":2,"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"className":"stjo-related-query"} -->
 <div class="wp-block-query stjo-related-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":4}} -->
-<!-- wp:post-featured-image {"isLink":true,"height":"200px"} /-->
+<!-- wp:post-featured-image {"isLink":true,"height":"200px","linkTarget":"_blank","rel":"noreferrer noopener"} /-->
 
 <!-- wp:group {"className":"stjo-info-card__body"} -->
-<div class="wp-block-group stjo-info-card__body"><!-- wp:post-title {"isLink":true,"level":3} /-->
+<div class="wp-block-group stjo-info-card__body"><!-- wp:post-title {"isLink":true,"level":3,"linkTarget":"_blank","rel":"noreferrer noopener"} /-->
 
 <!-- wp:post-excerpt {"excerptLength":18} /-->
 
-<!-- wp:read-more {"content":"Learn More"} /--></div>
+<!-- wp:read-more {"content":"Learn More","linkTarget":"_blank"} /--></div>
 <!-- /wp:group -->
 <!-- /wp:post-template --></div>
 <!-- /wp:query -->

@@ -105,11 +105,12 @@ function stjo_header_ctas() {
 		}
 		list( $style, $link_colors ) = $style_classes[ $cta['style'] ?? 'primary' ] ?? array( 'is-style-fill', '' );
 		printf(
-			'<div class="wp-block-button %1$s"><a class="wp-block-button__link %4$s wp-element-button" href="%2$s">%3$s</a></div>',
+			'<div class="wp-block-button %1$s"><a class="wp-block-button__link %4$s wp-element-button" href="%2$s"%5$s>%3$s</a></div>',
 			esc_attr( $style ),
 			esc_url( 0 === strpos( $cta['url'], 'http' ) ? $cta['url'] : home_url( $cta['url'] ) ),
 			esc_html( $cta['label'] ),
-			esc_attr( $link_colors )
+			esc_attr( $link_colors ),
+			stjo_external_link_attrs( $cta['url'] )
 		);
 	}
 }

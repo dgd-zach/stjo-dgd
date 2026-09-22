@@ -23,8 +23,8 @@
 
 <!-- wp:column {"verticalAlignment":"center","width":"30%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:30%"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"right"}} -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link"} -->
-<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="https://blog.stjo.org/">View All</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-arrow-link","linkTarget":"_blank","rel":"noreferrer noopener"} -->
+<div class="wp-block-button is-style-arrow-link"><a class="wp-block-button__link wp-element-button" href="https://blog.stjo.org/" target="_blank" rel="noreferrer noopener">View All</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column --></div>
@@ -36,13 +36,13 @@
 
 <!-- wp:query {"queryId":1,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"className":"stjo-blog-grid"} -->
 <div class="wp-block-query stjo-blog-grid"><!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","className":"is-style-rounded"} /-->
+<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","className":"is-style-rounded","linkTarget":"_blank","rel":"noreferrer noopener"} /-->
 
-<!-- wp:post-title {"isLink":true,"level":3} /-->
+<!-- wp:post-title {"isLink":true,"level":3,"linkTarget":"_blank","rel":"noreferrer noopener"} /-->
 
 <!-- wp:post-excerpt {"excerptLength":24} /-->
 
-<!-- wp:read-more {"content":"Read More"} /-->
+<!-- wp:read-more {"content":"Read More","linkTarget":"_blank"} /-->
 <!-- /wp:post-template --></div>
 <!-- /wp:query -->
 

@@ -118,8 +118,8 @@
 <div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-brand-dark-color has-white-background-color has-text-color has-background wp-element-button" href="/donate/">Give Monthly</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"textColor":"white","className":"is-style-outline","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}}} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-white-color has-text-color has-link-color wp-element-button" href="https://give.stjo.org/site/Donation2?mfc_pref=T&amp;idb=444651902&amp;df_id=10023&amp;10023.donation=form1">Learn More</a></div>
+<!-- wp:button {"textColor":"white","className":"is-style-outline","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"linkTarget":"_blank","rel":"noreferrer noopener"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-white-color has-text-color has-link-color wp-element-button" href="https://give.stjo.org/site/Donation2?mfc_pref=T&amp;idb=444651902&amp;df_id=10023&amp;10023.donation=form1" target="_blank" rel="noreferrer noopener">Learn More</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->

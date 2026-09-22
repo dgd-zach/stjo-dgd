@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Site
 
-Local by Flywheel site: `http://stjodevdev.local/`  
+Local by Flywheel site: `https://stjodevdev.local/`  
 Theme: `stjo-dgd` (active)  
 WordPress path: `~/Local-Sites/stjodevdev/app/public/`
 
@@ -16,7 +16,7 @@ Every Local site shares the DB name `local`, so bare `wp` hits whichever site is
 SOCK="$HOME/Library/Application Support/Local/run/EkBcVv_pZ/mysql/mysqld.sock"
 cd ~/Local-Sites/stjodevdev/app/public
 php -d mysqli.default_socket="$SOCK" "$(which wp)" \
-   --url=http://stjodevdev.local <subcommand>
+   --url=https://stjodevdev.local <subcommand>
 ```
 
 `--db-socket` / `--dbhost` do **not** work here: wp-config.php defines `DB_HOST` as

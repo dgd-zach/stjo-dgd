@@ -220,6 +220,24 @@ foreach ( $stjo_lightbox as $slug => $spec ) {
 
 /* ----------------------------------------------------------------- pages -- */
 
+/* -------------------------------------------------------------- internal -- */
+
+// Staff-only pages carry the `internal` page-category term; inc/internal-pages.php
+// gates them behind a login and keeps them out of search, sitemaps and REST.
+$stjo_internal = array( 'pattern-library', 'stjo-block-training', 'section-landing-example', 'general-content-section' );
+if ( ! term_exists( 'internal', 'page-category' ) ) {
+	wp_insert_term( 'Internal (staff only)', 'page-category', array( 'slug' => 'internal' ) );
+}
+foreach ( $stjo_internal as $slug ) {
+	$page = stjo_seed_find_page( $slug );
+	if ( $page && ! has_term( 'internal', 'page-category', $page ) ) {
+		wp_set_object_terms( $page->ID, 'internal', 'page-category', true );
+		update_post_meta( $page->ID, '_yoast_wpseo_meta-robots-noindex', '1' );
+		update_post_meta( $page->ID, '_yoast_wpseo_meta-robots-nofollow', '1' );
+		stjo_seed_say( "  $slug (#{$page->ID}): tagged internal" );
+	}
+}
+
 stjo_seed_say( '== Pages ==' );
 $stjo_done = 0;
 foreach ( $stjo_slugs as $slug ) {

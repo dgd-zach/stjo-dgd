@@ -103,25 +103,5 @@ function stjo_remove_stock_patterns() {
 add_action( 'after_setup_theme', 'stjo_remove_stock_patterns', 20 );
 add_filter( 'should_load_remote_block_patterns', '__return_false' );
 
-/**
- * Keep the Pattern Library style guide out of search engines and the
- * on-site search; it is a dev/staging reference page.
- */
-function stjo_pattern_library_robots( $robots ) {
-	if ( is_page_template( 'page-pattern-library.php' ) ) {
-		$robots['noindex']  = true;
-		$robots['nofollow'] = true;
-	}
-	return $robots;
-}
-add_filter( 'wp_robots', 'stjo_pattern_library_robots' );
-
-function stjo_pattern_library_exclude_search( $query ) {
-	if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
-		$library = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-pattern-library.php' ) );
-		if ( $library ) {
-			$query->set( 'post__not_in', wp_list_pluck( $library, 'ID' ) );
-		}
-	}
-}
-add_action( 'pre_get_posts', 'stjo_pattern_library_exclude_search' );
+// The Pattern Library's noindex + search exclusion moved to inc/internal-pages.php
+// (it covers every staff-only page, and gates them behind a login).

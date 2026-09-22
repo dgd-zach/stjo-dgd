@@ -21,7 +21,10 @@ $stjo_give_ira      = stjo_config_get( 'give.ira_url', 'https://plannedgiving.st
 $stjo_give_shop     = stjo_config_get( 'give.shop_url', '/support-us/our-shop/' );
 $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishlists-gift-cards/' );
 ?>
-<div class="wp-block-group alignfull stjo-generosity">
+<?php // Raw markup never passes through the block renderer, so it carries the
+      // constrained-layout classes itself: main.css caps a Full band's children at
+      // content width only when the band is .is-layout-constrained (2026-09-22). ?>
+<div class="wp-block-group alignfull stjo-generosity is-layout-constrained wp-block-group-is-layout-constrained">
     <div style="height:var(--wp--preset--spacing--medium)" aria-hidden="true" class="wp-block-spacer"></div>
 
     <h2 class="wp-block-heading has-text-align-center has-white-color has-text-color">Your Generosity <strong>Changes Everything</strong></h2>

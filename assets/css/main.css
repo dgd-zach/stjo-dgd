@@ -439,13 +439,30 @@ blockquote, .wp-block-quote {
 	margin-inline: calc((100% - var(--stjo-wide-w)) / 2);
 }
 
-/* Full-bleed band → inner content returns to wrapper width & centres.
-   The min() keeps a 16px gutter each side on small screens: any block that
-   is not itself alignfull can never touch the viewport edge. */
-.wp-block-group.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)),
-.wp-block-group.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)) {
+/* Full-bleed band with "Inner blocks use content width" ON: inner content
+   returns to wrapper width and centres. This is core's own constrained rule
+   plus a min() that keeps the gutter each side on small screens, so a child
+   that is not itself alignfull never touches the viewport edge.
+   Keyed on .is-layout-constrained on purpose (2026-09-22): it used to fire on
+   EVERY full band, which made the Layout toggle a dead control inside a Full
+   group and meant switching a Wide group to Full NARROWED its content from
+   1280 to 1146. Toggle off now behaves like stock WordPress: children fill the
+   band. Wide and Full children keep their own tiers either way (below).
+   The :not([class*="wp-container-core-group-is-layout-"]) leaves out groups
+   with a CUSTOM Content/Wide width: WordPress prints a per-group rule for
+   those (e.g. max-width:768px) that this 1146px cap used to outrank, so the
+   editor's Content width field was inert on every Full band. Such bands get
+   their gutter from the padding rule right below instead. */
+.wp-block-group.alignfull.is-layout-constrained:not([class*="wp-container-core-group-is-layout-"]) > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)),
+.wp-block-group.alignfull.is-layout-constrained:not([class*="wp-container-core-group-is-layout-"]) > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)) {
 	max-width: min(var(--wp--style--global--content-size, 1146px), calc(100% - 2 * var(--stjo-gutter)));
 	margin-inline: auto;
+}
+/* Custom-width Full band with no background: nothing else keeps its children
+   off the viewport edge on small screens, so the band itself takes the gutter
+   (a padded, colored band already has it). */
+.wp-block-group.alignfull.is-layout-constrained[class*="wp-container-core-group-is-layout-"]:not(.has-background) {
+	padding-inline: var(--stjo-gutter);
 }
 
 /* Wide children of full bands get the same guarantee at the wide tier.
@@ -466,7 +483,7 @@ blockquote, .wp-block-quote {
    100%, because there the band's padding IS the gutter and its children should
    fill it outright. Desktop is untouched either way — once the band's content
    box exceeds ~1178px the tier width wins and the gutter term never applied. */
-.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide)) {
+.wp-block-group.has-background.alignfull.is-layout-constrained:not([class*="wp-container-core-group-is-layout-"]) > :where(:not(.alignfull):not(.alignwide)) {
 	max-width: min(var(--wp--style--global--content-size, 1146px), 100%);
 }
 .wp-block-group.has-background.alignfull > .alignwide {
@@ -1470,9 +1487,9 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	   to live here as a padding override). The band's 16px mobile padding IS
 	   the gutter, so its children fill it rather than stacking a second min()
 	   gutter (which pushed content in to ~32px): */
-	.wp-block-group.has-background.alignfull > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)),
+	.wp-block-group.has-background.alignfull.is-layout-constrained > :where(:not(.alignfull):not(.alignwide):not(.wp-block-group__inner-container)),
 	.wp-block-group.has-background.alignfull > .alignwide,
-	.wp-block-group.has-background.alignfull > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)) { max-width: 100%; }
+	.wp-block-group.has-background.alignfull.is-layout-constrained > .wp-block-group__inner-container > :where(:not(.alignfull):not(.alignwide)) { max-width: 100%; }
 
 	/* Spacers halve on mobile. The attribute selectors match a spacer's inline
 	   height:var(--wp--preset--spacing--X) and recompute it at half the preset,

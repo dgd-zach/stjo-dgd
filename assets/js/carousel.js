@@ -79,8 +79,15 @@
 	}
 
 	function init(root) {
+		// Slides are direct-child Covers that are actually rendered. A slide
+		// hidden with display:none (e.g. a seasonal slide switched off) is left
+		// out of the count entirely, so the slide total, the "X of Y" labels and
+		// the dots all reflect only what a visitor can reach. Inactive slides use
+		// visibility:hidden (never display:none), so the running carousel's own
+		// hidden slides are still counted — only display:none drops a slide.
 		var slides = Array.prototype.slice.call(root.children).filter(function (el) {
-			return el.classList.contains('wp-block-cover');
+			return el.classList.contains('wp-block-cover') &&
+				window.getComputedStyle(el).display !== 'none';
 		});
 		if (!slides.length) {
 			return;

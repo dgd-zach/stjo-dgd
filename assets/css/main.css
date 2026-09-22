@@ -1477,7 +1477,7 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 	.mega-panel__intro { display: none; }
 	.mega-panel__columns { flex-direction: column; gap: var(--stjo--spacing--md); }
 	/* Promo card keeps its desktop look on the panel's right side. */
-	.mega-panel__promo { flex: 0 0 min(45%, 420px); }
+	.mega-panel__promo { flex: 0 0 min(75%, 420px); }
 
 	.mega-panel__group { max-width: unset}
 }

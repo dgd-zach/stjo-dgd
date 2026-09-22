@@ -79,3 +79,41 @@ function stjo_content_guide_serve() {
 	exit;
 }
 add_action( 'admin_post_stjo_content_guide', 'stjo_content_guide_serve' );
+
+/**
+ * Toolbar shortcut: "Content Guide" after "+ New" in the admin bar (front end
+ * and dashboard alike), for the same edit_posts audience as the page. The
+ * dropdown carries the staff Block Training page and the Pattern Library so the references are one
+ * click away wherever an editor happens to be.
+ *
+ * @param WP_Admin_Bar $wp_admin_bar Toolbar instance.
+ */
+function stjo_content_guide_admin_bar( $wp_admin_bar ) {
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+	$wp_admin_bar->add_node( array(
+		'id'    => 'stjo-content-guide',
+		'title' => '<span class="ab-icon dashicons dashicons-book-alt" aria-hidden="true"></span><span class="ab-label">' . esc_html__( 'Content Guide', 'stjo' ) . '</span>',
+		'href'  => admin_url( 'index.php?page=stjo-content-guide' ),
+		'meta'  => array( 'title' => __( 'How to add, edit and remove content on this site', 'stjo' ) ),
+	) );
+	$wp_admin_bar->add_node( array(
+		'id'     => 'stjo-block-training',
+		'parent' => 'stjo-content-guide',
+		'title'  => __( 'Block layout training page', 'stjo' ),
+		'href'   => home_url( '/stjo-block-training/' ),
+	) );
+	// The Pattern Library is the page using page-pattern-library.php, wherever
+	// it lives; skip the item if that page is ever removed.
+	$library = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-pattern-library.php', 'number' => 1 ) );
+	if ( $library ) {
+		$wp_admin_bar->add_node( array(
+			'id'     => 'stjo-pattern-library',
+			'parent' => 'stjo-content-guide',
+			'title'  => __( 'Pattern Library', 'stjo' ),
+			'href'   => get_permalink( $library[0] ),
+		) );
+	}
+}
+add_action( 'admin_bar_menu', 'stjo_content_guide_admin_bar', 90 );

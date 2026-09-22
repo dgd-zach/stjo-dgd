@@ -78,9 +78,11 @@ a:hover{color:var(--blue-900);}
 .zigzag{
   height:12px;
   background:var(--blue-900);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M0 10 L10 2 L20 10 L30 2 L40 10' fill='none' stroke='%23ffd520' stroke-width='3'/%3E%3C/svg%3E");
+  /* background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M0 10 L10 2 L20 10 L30 2 L40 10' fill='none' stroke='%23ffd520' stroke-width='3'/%3E%3C/svg%3E"); */
+  background-image:url("/wp-content/uploads/2026/07/divider-zigzag.png");
   background-repeat:repeat-x;
   background-position:center;
+  background-size: auto 100%;
 }
 
 /* --- Layout: sticky TOC + content --- */
@@ -526,11 +528,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
 
         <li>
           <div class="row parent"><span class="name">STJO Block Training</span> <span class="badge example">Staff training</span> <a class="edit" href="/stjo-block-training/" target="_blank" rel="noopener">View<span class="vh"> (opens in a new tab)</span></a></div>
-          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">A hands-on page for your team showing how Group widths work, with live examples. Hidden from search engines. See <a href="#editor-widths">Group widths</a> below.</p>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">A hands-on page for your team showing how Group widths work, with live examples. Only visible while you are logged in, and hidden from search engines. See <a href="#editor-widths">Group widths</a> below.</p>
         </li>
 
         <li>
           <div class="row parent"><span class="name">Template &amp; example pages</span> <span class="badge example">Leave alone</span></div>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Staff only: visitors who are not logged in are sent to the login screen, and search engines are told to skip these pages.</p>
           <ul>
             <li><div class="row"><span class="name">Section Landing (Example)</span></div></li>
             <li><div class="row"><span class="name">General Content Section</span></div></li>
@@ -542,7 +545,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
 
       <div class="callout">
         <span class="label">The giving box on the Home page</span>
-        <p>The Give Once / Give Monthly box is a <strong>Donation Selector</strong> block. Select it to change the <strong>amount buttons</strong>, the <strong>default amount</strong>, and which frequency is selected first. The form IDs and the giving address behind it point at give.stjo.org; ask Doing Good Digital before changing those so gifts keep landing in the right form.</p>
+        <p>The Give Once / Give Monthly box is a <strong>Donation Selector</strong> block. Select it to change the <strong>amount buttons</strong>, the <strong>default amount</strong>, and which frequency is selected first. Pressing Donate opens the giving form in a new tab, like every other off-site link. The form IDs and the giving address behind it point at give.stjo.org; ask Doing Good Digital before changing those so gifts keep landing in the right form.</p>
       </div>
 
       <div class="callout warn">
@@ -569,8 +572,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       <ol class="steps">
         <li>Click the button text to edit the label.</li>
         <li>Click the <strong>link</strong> icon in the toolbar to change where it goes. Paste a full web address, or start typing a page name to pick a page on this site.</li>
-        <li>Turn on <strong>Open in new tab</strong> only for links that leave the site (the giving system, the shop, social media).</li>
+        <li>Turn on <strong>Open in new tab</strong> for links that leave the site (the giving system, the shop, social media, other websites), and leave it off for links to pages on this site.</li>
       </ol>
+      <p>The menus, the footer, the "Your Generosity" band and the blog cards handle this on their own: any off-site address there opens in a new tab automatically. Every new-tab link on the site is also announced to screen reader users as "opens in a new tab", so you do not need to add that yourself.</p>
       <p>Buttons come in three looks, chosen under <strong>Styles</strong> in the sidebar: the filled button, <strong>Arrow Link</strong> (text with an arrow, used under cards and lists), and <strong>Plain Link</strong>.</p>
 
       <h3>Styles built for this site</h3>

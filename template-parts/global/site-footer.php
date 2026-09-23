@@ -181,7 +181,21 @@ $social_icons = array(
 				<?php
 				$legal = stjo_config_get( 'footer.legal' );
 				if ( $legal ) {
-					echo esc_html( str_replace( '{year}', gmdate( 'Y' ), $legal ) );
+					$legal = esc_html( str_replace( '{year}', gmdate( 'Y' ), $legal ) );
+					// The "501(c)(3)" mention links to the nonprofit-status page
+					// (footer.status_url, chosen under Custom Site Settings). Done
+					// here rather than as HTML in the field, so editors can retype
+					// the line freely and the link follows the page.
+					$stjo_status_url = (string) stjo_config_get( 'footer.status_url', '' );
+					if ( '' !== $stjo_status_url ) {
+						$legal = preg_replace(
+							'/501\(c\)\(3\)/',
+							'<a class="site-footer__status-link" href="' . esc_url( home_url( $stjo_status_url ) ) . '">501(c)(3)</a>',
+							$legal,
+							1
+						);
+					}
+					echo $legal; // phpcs:ignore WordPress.Security.EscapeOutput -- esc_html'd above; only the anchor built here is added.
 				} else {
 					printf(
 						/* translators: 1: year, 2: site name */

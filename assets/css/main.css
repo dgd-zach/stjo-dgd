@@ -1289,7 +1289,8 @@ body.modal-open { overflow: hidden; padding-right: var(--stjo-scrollbar-comp, 0p
 .site-footer a { color: var(--wp--preset--color--white, #fff); text-decoration: none; }
 .site-footer a:hover { color: var(--wp--preset--color--yellow, #ffd520); }
 .site-footer a[href^="tel:"],
-.site-footer a[href^="mailto:"] { text-decoration: underline; }
+.site-footer a[href^="mailto:"],
+.site-footer__copyright a { text-decoration: underline; }
 /* Inline padding is the shared layout gutter, so the footer's copy lines up
    with the page's. It was a flat 48px at every width, which on a phone put the
    footer 32px further in than the content above it. Vertical padding is

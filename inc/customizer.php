@@ -75,6 +75,9 @@ function stjo_sanitize_checkbox( $value ) {
 function stjo_sanitize_cta_style( $value ) {
 	return array_key_exists( $value, stjo_customize_cta_styles() ) ? $value : 'primary';
 }
+function stjo_sanitize_digits( $value ) {
+	return preg_replace( '/\D+/', '', (string) $value );
+}
 
 /* ------------------------------------------------------------ blank hint -- */
 
@@ -162,7 +165,7 @@ function stjo_customize_register( $wp_customize ) {
 	}
 
 	$wp_customize->add_panel( 'stjo_site_settings', array(
-		'title'       => __( 'Site Settings', 'stjo' ),
+		'title'       => __( 'Custom Site Settings', 'stjo' ),
 		'description' => __( 'The details that appear on every page: header buttons, footer, social links and partner logos. Each field notes what happens when you leave it blank, either falling back to the standard value or hiding that item.', 'stjo' ),
 		'priority'    => 5,
 	) );
@@ -283,6 +286,32 @@ function stjo_customize_register( $wp_customize ) {
 		'type'      => 'textarea',
 		'stjo_hint' => stjo_customize_blank_hint( 'fallback', $base['footer']['newsletter']['body'] ?? '' ),
 	) );
+	// Where the sign-up form submits. With the giving system's API connected
+	// (wp-config credentials) the form posts through this site and the Survey
+	// ID decides which Luminate survey receives it; without the API it posts
+	// straight to the submission URL. Both are exposed so either setup can be
+	// re-pointed without a code change.
+	$add( '[footer][newsletter][survey_id]', $base['footer']['newsletter']['survey_id'] ?? '', 'stjo_sanitize_digits', array(
+		'section'     => 'stjo_footer',
+		'label'       => __( 'Newsletter survey ID', 'stjo' ),
+		'type'        => 'text',
+		'description' => __( 'The Luminate Online survey that receives sign-ups (SURVEY_ID in the form address). Digits only.', 'stjo' ),
+		'stjo_hint'   => stjo_customize_blank_hint( 'fallback', $base['footer']['newsletter']['survey_id'] ?? '' ),
+	) );
+	$add( '[footer][newsletter][action]', $base['footer']['newsletter']['action'] ?? '', 'stjo_sanitize_url_field', array(
+		'section'     => 'stjo_footer',
+		'label'       => __( 'Newsletter submission URL', 'stjo' ),
+		'type'        => 'url',
+		'description' => __( 'The Luminate Online survey address the form posts to. Keep the survey ID above and this address pointing at the same survey.', 'stjo' ),
+		'stjo_hint'   => stjo_customize_blank_hint( 'fallback', $base['footer']['newsletter']['action'] ?? '' ),
+	) );
+	$add( '[footer][newsletter][s_src]', $base['footer']['newsletter']['s_src'] ?? '', 'stjo_sanitize_text', array(
+		'section'     => 'stjo_footer',
+		'label'       => __( 'Newsletter source code', 'stjo' ),
+		'type'        => 'text',
+		'description' => __( 'Sent with each sign-up (s_src) so Luminate reports where it came from.', 'stjo' ),
+		'stjo_hint'   => stjo_customize_blank_hint( 'fallback', $base['footer']['newsletter']['s_src'] ?? '' ),
+	) );
 	$add( '[footer][legal]', $base['footer']['legal'] ?? '', 'stjo_sanitize_multiline', array(
 		'section'     => 'stjo_footer',
 		'label'       => __( 'Legal line', 'stjo' ),
@@ -301,6 +330,19 @@ function stjo_customize_register( $wp_customize ) {
 		'label'          => __( 'Privacy policy page', 'stjo' ),
 		'type'           => 'dropdown-pages',
 		'allow_addition' => false,
+	) );
+	$status_default = 0;
+	$status_path    = trim( (string) ( $base['footer']['status_url'] ?? '' ), '/' );
+	if ( $status_path ) {
+		$status_page    = get_page_by_path( $status_path );
+		$status_default = $status_page ? (int) $status_page->ID : 0;
+	}
+	$add( '[footer][status_page]', $status_default, 'absint', array(
+		'section'        => 'stjo_footer',
+		'label'          => __( '501(c)(3) status page', 'stjo' ),
+		'type'           => 'dropdown-pages',
+		'allow_addition' => false,
+		'description'    => __( 'The words "501(c)(3)" in the legal line link to this page. Choose "Select" at the top of the list to leave them plain text.', 'stjo' ),
 	) );
 
 	/* Social links --------------------------------------------------------- */
@@ -399,7 +441,15 @@ function stjo_config_apply_mods( array $config, array $mods ) {
 
 	// Footer standing copy: the edited value shows; blank falls back to the
 	// theme-config.json default (this copy should never just vanish).
-	foreach ( array( 'footer.tagline' => array( 'footer', 'tagline' ), 'footer.legal' => array( 'footer', 'legal' ), 'footer.newsletter.heading' => array( 'footer', 'newsletter', 'heading' ), 'footer.newsletter.body' => array( 'footer', 'newsletter', 'body' ) ) as $path => $keys ) {
+	foreach ( array(
+		'footer.tagline'              => array( 'footer', 'tagline' ),
+		'footer.legal'                => array( 'footer', 'legal' ),
+		'footer.newsletter.heading'   => array( 'footer', 'newsletter', 'heading' ),
+		'footer.newsletter.body'      => array( 'footer', 'newsletter', 'body' ),
+		'footer.newsletter.action'    => array( 'footer', 'newsletter', 'action' ),
+		'footer.newsletter.survey_id' => array( 'footer', 'newsletter', 'survey_id' ),
+		'footer.newsletter.s_src'     => array( 'footer', 'newsletter', 's_src' ),
+	) as $path => $keys ) {
 		list( $has, $value ) = $mod( $path );
 		if ( $has && '' !== trim( (string) $value ) ) {
 			$ref = &$config;
@@ -482,6 +532,19 @@ function stjo_config_apply_mods( array $config, array $mods ) {
 		$uri = get_page_uri( (int) $value );
 		if ( $uri ) {
 			$config['footer']['privacy_url'] = '/' . trim( $uri, '/' ) . '/';
+		}
+	}
+
+	// 501(c)(3) status page: a chosen page wins; explicitly choosing none
+	// (0) drops the link so the legal line reads as plain text.
+	list( $has, $value ) = $mod( 'footer.status_page' );
+	if ( $has ) {
+		$config['footer']['status_url'] = '';
+		if ( (int) $value > 0 && 'publish' === get_post_status( (int) $value ) ) {
+			$uri = get_page_uri( (int) $value );
+			if ( $uri ) {
+				$config['footer']['status_url'] = '/' . trim( $uri, '/' ) . '/';
+			}
 		}
 	}
 

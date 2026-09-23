@@ -134,7 +134,8 @@
       }
     ],
     "legal": "© {year} St. Joseph's Indian School. All rights reserved. | St. Joseph's Indian School is a tax-exempt 501(c)(3) organization.",
-    "privacy_url": "/privacy-policy/"
+    "privacy_url": "/privacy-policy/",
+    "status_url": "/about/501c3/"
   },
   "give": {
     "once_url": "https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1",

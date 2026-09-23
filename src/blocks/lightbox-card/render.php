@@ -86,6 +86,17 @@ $stjo_lb_is_text  = false !== strpos( $attributes['className'] ?? '', 'is-style-
 $stjo_lb_is_arrow = false !== strpos( $attributes['className'] ?? '', 'is-style-arrow-link' );
 $stjo_lb_media   = ! empty( $attributes['mediaUrl'] ) ? $attributes['mediaUrl'] : '';
 $stjo_lb_media_alt = (string) ( $attributes['mediaAlt'] ?? '' );
+// Cards built by URL alone (the seeded ones) carry no mediaAlt; fall back to
+// the Media Library's alt for that file so library-wide alt work reaches them.
+if ( '' === $stjo_lb_media_alt && $stjo_lb_media ) {
+	$stjo_lb_media_id = ! empty( $attributes['mediaId'] ) ? (int) $attributes['mediaId'] : 0;
+	if ( ! $stjo_lb_media_id ) {
+		$stjo_lb_media_id = attachment_url_to_postid( preg_replace( '/-\d+x\d+(?=\.[a-z]{3,4}$)/i', '', ( 0 === strpos( $stjo_lb_media, '/' ) && 0 !== strpos( $stjo_lb_media, '//' ) ) ? home_url( $stjo_lb_media ) : $stjo_lb_media ) );
+	}
+	if ( $stjo_lb_media_id ) {
+		$stjo_lb_media_alt = (string) get_post_meta( $stjo_lb_media_id, '_wp_attachment_image_alt', true );
+	}
+}
 
 // Lightbox hero (and the card's own thumbnail — both use this): the block's
 // own image wins; otherwise a content page's featured image steps in, so a

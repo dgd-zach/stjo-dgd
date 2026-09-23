@@ -251,6 +251,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <li><a href="#pages">Pages</a></li>
         <li><a href="#editor">Working in the editor</a></li>
         <li><a href="#cards">Heroes &amp; photo cards</a></li>
+        <li><a href="#giving-band">The Your Generosity band</a></li>
         <li><a href="#lightbox">Links that open lightboxes</a></li>
         <li><a href="#galleries">Galleries</a></li>
         <li><a href="#accordions">Accordions &amp; FAQs</a></li>
@@ -262,6 +263,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <li><a href="#seo">Page SEO (Yoast)</a></li>
         <li><a href="#forms">Forms</a></li>
         <li><a href="#popups">Popups</a></li>
+        <li><a href="#site-settings">Site settings</a></li>
         <li><a href="#managed">Managed by Doing Good Digital</a></li>
         <li><a href="#help">Getting help</a></li>
       </ul>
@@ -486,6 +488,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
           </div>
           <ul>
             <li><div class="row"><span class="name">One-Time Gift</span><span class="badge linkout">Redirects off-site</span></div></li>
+            <li><div class="row"><span class="name">Our Shop</span><span class="badge linkout">Redirects off-site</span></div></li>
             <li>
               <div class="row"><span class="name">Wishlists, Gift Cards &amp; Affiliate Programs</span><a class="edit" href="/wp-admin/post.php?post=339&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
@@ -646,6 +649,38 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       <div class="callout tip">
         <span class="label">Alt text applies to hero and card photos too</span>
         <p>After replacing a photo, check the <strong>Alternative text</strong> field in the sidebar. Even when the headline says what the card is about, a short description of the picture helps ("Students in regalia at the powwow").</p>
+      </div>
+    </section>
+
+    <!-- ===== GIVING BAND ===== -->
+    <section id="giving-band">
+      <h2>The Your Generosity band</h2>
+      <p class="lede">The blue giving band above the footer: an intro, four photo cards, four icon tiles and the Donate button. It is one <strong>synced pattern</strong>, so you edit it in one place and every page updates at once.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/site-editor.php?p=/pattern" target="_blank" rel="noopener">Open Patterns<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+
+      <h3>Where to edit it</h3>
+      <ol class="steps">
+        <li>Go to <strong>Appearance &gt; Design &gt; Patterns</strong>, open <strong>My patterns</strong> and click <strong>Your Generosity Band</strong>. From Home or Support Us you can also select the band and click <strong>Edit original</strong> in its toolbar.</li>
+        <li>Click any text to change it. Select a photo card and click <strong>Replace</strong> for the picture, click an icon to swap it, and change a link the same way as any button.</li>
+        <li>Click <strong>Save</strong>. The band updates on every page, including the automatic one above the footer.</li>
+      </ol>
+
+      <h3>A different band on one page, or on a few</h3>
+      <ul class="body">
+        <li><strong>One page:</strong> insert the Your Generosity Band pattern on that page, select it and choose <strong>Detach</strong>. It becomes ordinary blocks on that page, which you edit freely; the other pages are not affected.</li>
+        <li><strong>Several pages sharing the same variant:</strong> in Appearance &gt; Design &gt; Patterns, <strong>Duplicate</strong> the Your Generosity Band, edit the copy, then insert the copy on those pages. Editing the copy later updates all of them.</li>
+      </ul>
+      <p>Either way the automatic band above the footer steps aside on those pages, so a band never shows twice.</p>
+
+      <div class="callout">
+        <span class="label">Why the rows cannot be moved or deleted</span>
+        <p>The pattern is locked to its content. Wording, pictures and links are yours; the layout is fixed so the band cannot be broken by accident. An administrator can lift the lock with the <strong>Modify</strong> button in the toolbar if the structure itself has to change.</p>
+      </div>
+      <div class="callout warn">
+        <span class="label">Giving links point at specific forms</span>
+        <p>The card links and the Donate button go to forms on give.stjo.org. If you change one, paste the full form address and test a gift afterwards. A wrong link means gifts stop landing on the right form.</p>
       </div>
     </section>
 
@@ -891,6 +926,35 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       <p>You can turn a popup on or off and edit its text and image. Ask Doing Good Digital before creating a new popup so its timing and targeting are set up correctly.</p>
     </section>
 
+    <!-- ===== SITE SETTINGS ===== -->
+    <section id="site-settings">
+      <h2>Site settings</h2>
+      <p class="lede">The details that repeat on every page live in one place: <strong>Appearance &gt; Customize &gt; Site Settings</strong>. Changes preview live on the right; nothing is saved until you click <strong>Publish</strong>.</p>
+      <div class="section-actions">
+        <a class="btn" href="/wp-admin/customize.php?autofocus[panel]=stjo_site_settings" target="_blank" rel="noopener">Open Site Settings<span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <div class="tbl-wrap">
+      <table class="deftable">
+        <caption class="vh">Site Settings sections</caption>
+        <thead><tr><th scope="col">Section</th><th scope="col">What you can change</th></tr></thead>
+        <tbody>
+          <tr><td>Header buttons</td><td>The two buttons at the top right ("Log In", "Give Now"): label, link and style. Clear a label to hide that button. Also the search icon.</td></tr>
+          <tr><td>Footer</td><td>Tagline, address, phone, email, the newsletter heading and text, the legal line, and which page the Privacy Policy link goes to. It opens with a shortcut to the Your Generosity band's editor.</td></tr>
+          <tr><td>Social links</td><td>One link per network under "Connect With Us". Clear a link to hide that icon.</td></tr>
+          <tr><td>Partner logos</td><td>The five accreditation and partner logos. Replace or remove an image; the name is what screen readers hear.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout">
+        <span class="label">Looking for the giving links?</span>
+        <p>They are not here. The Your Generosity band is one synced pattern, links included, edited under Appearance &gt; Design &gt; Patterns; see <a href="#giving-band">The Your Generosity band</a>.</p>
+      </div>
+      <div class="callout tip">
+        <span class="label">Every field tells you what blank does</span>
+        <p>When a field is empty, a small note appears under it. Standing copy (the tagline, newsletter wording, legal line, and all the links) shows "Leave blank to use:" followed by the standard value, so clearing it just restores that. Removable items (a contact row, a social icon, a partner logo, a header button) show "Leave blank to hide this."</p>
+      </div>
+    </section>
+
     <!-- ===== MANAGED BY Doing Good Digital ===== -->
     <section id="managed">
       <h2>Managed by Doing Good Digital</h2>
@@ -898,12 +962,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       <div class="callout locked">
         <span class="label">Not editable in the dashboard</span>
         <ul class="body" style="margin-bottom:0;">
-          <li><strong>Footer details:</strong> address, phone, email, and the "We serve and teach" tagline.</li>
-          <li><strong>Social media links</strong> in the footer.</li>
-          <li><strong>Header and footer buttons:</strong> "Log In", "Give Now", and the donation links behind them.</li>
-          <li><strong>Newsletter sign-up</strong> heading, text, and where it submits.</li>
-          <li><strong>Partner and accreditation logos</strong> in the footer.</li>
-          <li><strong>The "Your Generosity" giving band</strong> above the footer (four photo cards, four icon tiles, and the Donate button). It appears on every page automatically, and on Home and Support Us it is placed as a block. Its copy and links come from the site configuration, so there is nothing to edit in the block.</li>
+          <li><strong>Where the newsletter form submits</strong> (the sign-up survey behind it). Its heading and text are yours under <a href="#site-settings">Site settings</a>.</li>
           <li><strong>The "coming soon" message</strong> on placeholder pages. It disappears as soon as the page has content.</li>
           <li><strong>Colors, fonts, and page layouts</strong> (the design system).</li>
           <li><strong>The redirect pages</strong> marked "Redirects off-site" (these live in the give.stjo.org system).</li>

@@ -11,19 +11,19 @@ rendered content of every lightbox-content page.
 - **lightbox**: direct link to a lightbox-content page (they 404 by design)
 - **external**: off-site URL that answers 404 / 410 or cannot be reached
 
-_Last run: 2026-09-22 10:52_
+_Last run: 2026-09-22 19:09_
 
 ## Summary
 
 | | Count |
 | --- | --- |
-| Pages scanned | 40 |
-| Lightbox content pages scanned | 34 |
+| Pages scanned | 36 |
+| Lightbox content pages scanned | 35 |
 | Problems in page content | 1 |
 | Problems in lightbox content | 2 |
-| Problems in header / footer / pre-footer | 3 |
+| Problems in header / footer / pre-footer | 1 |
 | Pages still Not built | 0 |
-| Lightbox content pages not opened anywhere | 1 |
+| Lightbox content pages not opened anywhere | 2 |
 
 ## Page content
 
@@ -40,11 +40,9 @@ These render on every page, so each is listed once. Fix them in the menu,
 
 | Region | Kind | Link | Link text |
 | --- | --- | --- | --- |
-| header | broken | `/support-us/donate-your-vehicle/` (404, page #340 is in the Trash, Primary menu item 378) | Donate Your Vehicle |
-| header | broken | `/support-us/our-shop/` (404, page #336 is in the Trash, Primary menu item 373) | Our Shop |
 | header | lightbox | `/your-impact/college-scholarship/` (lightbox-content page, 404 by design, Primary menu item 363) | College Scholarship |
 
-3 links.
+1 link.
 
 ## Lightbox content pages
 
@@ -72,8 +70,9 @@ Built lightbox content with no lightbox card pointing at it yet.
 | Lightbox page | Slug | Edit |
 | --- | --- | --- |
 | Four Directions Prayer | `four-directions-prayer` | [#1768](https://stjodevdev.local/wp-admin/post.php?post=1768&action=edit) |
+| Houseparents and Pets In Homes | `hapi-homes` | [#1826](https://stjodevdev.local/wp-admin/post.php?post=1826&action=edit) |
 
-1 page.
+2 pages.
 
 ## Pages that send you off-site (by design)
 
@@ -85,70 +84,19 @@ Not scanned: their own URL redirects. Link-out pages come from
 | Become a DreamMaker | `/your-impact/become-a-dreammaker/` | https://give.stjo.org/site/Donation2?mfc_pref=T&idb=444651902&df_id=10023&10023.donation=form1 |
 | Download Prayer Book | `/prayers/download-prayer-book/` | https://give.stjo.org/site/SPageNavigator/wp_prayer_book.html |
 | One-Time Gift | `/support-us/one-time-gift/` | https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1 |
+| Our Shop | `/support-us/our-shop/` | https://give.stjo.org/site/SPageNavigator/Giftstore_Home.html&s_src=GiftStore_Main_Navigation |
 | Prayer Builder | `/prayers/prayer-builder/` | https://give.stjo.org/site/SPageNavigator/wp_Prayer_Builder |
 | Prayer Tie | `/prayers/prayer-tie/` | https://give.stjo.org/site/SPageNavigator/wp_Prayer_Tie_Survey.html?s_src=wp_prayer_pg |
 | Send a Prayer Request | `/prayers/send-a-prayer-request/` | https://give.stjo.org/site/SPageNavigator/wp_prayer_request.html?s_src=prayer_nav |
 | Blog | `/blog/` | https://blog.stjo.org/ |
 
-## Reference pages (expected)
+## Pages that did not render
 
-Seeded from the pattern library with lorem and `href="#"`. Delete these
-pages before launch along with `seed.php`.
+Published pages whose own URL did not come back 200, so they were not scanned.
 
-| Page | Kind | Link | Link text |
-| --- | --- | --- | --- |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Learn More |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Primary CTA |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Primary CTA |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Secondary CTA |
-| [General Content Section](https://stjodevdev.local/general-content-section/) | empty | `#` | Secondary CTA |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Donate |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Explore Our Programs |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Learn More |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Meet Our Children |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Primary CTA |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Primary CTA |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Secondary CTA |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Secondary CTA |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | See Our Mission |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Share Your Story |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | empty | `#` | Your Impact |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | anchor | `#section-1` | Subsection Link |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | anchor | `#section-2` | Subsection Link |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | anchor | `#section-3` | Subsection Link |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | anchor | `#section-4` | Subsection Link |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | broken | `/donate/` (404) | Give Monthly |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | broken | `/donate/` (404) | Give Monthly |
-| [Pattern Library](https://stjodevdev.local/pattern-library/) | broken | `/donate/` (404) | Give Monthly |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `` (no href) | Learn More |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Explore |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Give Monthly |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Learn More |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Learn More |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Learn More |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Primary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Primary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Primary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Secondary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Secondary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | empty | `#` | Secondary CTA |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | anchor | `#section-2` | Subsection Link |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | anchor | `#section-3` | Subsection Link |
-| [Section Landing (Example)](https://stjodevdev.local/section-landing-example/) | anchor | `#section-4` | Subsection Link |
-
-53 links.
+| Page | URL | Status |
+| --- | --- | --- |
+| General Content Section | https://stjodevdev.local/general-content-section/ | 302 |
+| Pattern Library | https://stjodevdev.local/pattern-library/ | 302 |
+| Section Landing (Example) | https://stjodevdev.local/section-landing-example/ | 302 |
+| STJO Block Training | https://stjodevdev.local/stjo-block-training/ | 302 |

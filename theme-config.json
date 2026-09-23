@@ -155,6 +155,7 @@
     "send-a-prayer-request": "https://give.stjo.org/site/SPageNavigator/wp_prayer_request.html?s_src=prayer_nav",
     "prayer-builder": "https://give.stjo.org/site/SPageNavigator/wp_Prayer_Builder",
     "prayer-tie": "https://give.stjo.org/site/SPageNavigator/wp_Prayer_Tie_Survey.html?s_src=wp_prayer_pg",
-    "download-prayer-book": "https://give.stjo.org/site/SPageNavigator/wp_prayer_book.html"
+    "download-prayer-book": "https://give.stjo.org/site/SPageNavigator/wp_prayer_book.html",
+    "our-shop": "https://give.stjo.org/site/SPageNavigator/Giftstore_Home.html&s_src=GiftStore_Main_Navigation"
   }
 }

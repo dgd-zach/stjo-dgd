@@ -13,9 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Full config array (cached). Missing file or keys fall back to safe defaults.
+ * Defaults + theme-config.json, before any Customizer edits (cached). The
+ * Customizer reads this for its default values.
  */
-function stjo_config() {
+function stjo_config_base() {
 	static $config = null;
 	if ( null !== $config ) {
 		return $config;
@@ -49,6 +50,57 @@ function stjo_config() {
 	}
 	$config = array_replace_recursive( $defaults, $data );
 	return $config;
+}
+
+/**
+ * Full config array: the base with the Customizer's Site Settings layered on
+ * top (inc/customizer.php). Cached per request, except inside the Customizer
+ * preview where the previewed values must be re-read.
+ */
+function stjo_config() {
+	static $cached    = null;
+	static $cache_key = null;
+	static $computing = false;
+
+	// Re-entrancy guard: applying the edits can touch WordPress functions
+	// whose filters read the config again (get_permalink -> page_link ->
+	// stjo_link_out_url). Hand those nested calls the plain JSON config
+	// instead of recursing until PHP runs out of memory.
+	if ( $computing || ! function_exists( 'stjo_config_apply_mods' ) ) {
+		return stjo_config_base();
+	}
+	$mods = get_theme_mod( 'stjo_config', array() );
+	$mods = is_array( $mods ) ? $mods : array();
+	// Cache keyed on the saved (or, in the Customizer preview, the previewed)
+	// values, so an unsaved change in the preview is picked up while a normal
+	// page computes this once.
+	$key = $mods ? md5( wp_json_encode( $mods ) ) : 'base';
+	if ( null !== $cached && $key === $cache_key ) {
+		return $cached;
+	}
+	$computing = true;
+	$config    = stjo_config_base();
+	if ( $mods ) {
+		$config = stjo_config_apply_mods( $config, $mods );
+	}
+	$computing = false;
+	$cached    = $config;
+	$cache_key = $key;
+	return $cached;
+}
+
+/**
+ * Like stjo_config_get() but ignoring Customizer edits (JSON defaults only).
+ */
+function stjo_config_get_base( $path, $fallback = '' ) {
+	$value = stjo_config_base();
+	foreach ( explode( '.', $path ) as $key ) {
+		if ( ! is_array( $value ) || ! array_key_exists( $key, $value ) ) {
+			return $fallback;
+		}
+		$value = $value[ $key ];
+	}
+	return $value;
 }
 
 /**

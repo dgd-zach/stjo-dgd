@@ -153,6 +153,7 @@ require_once get_template_directory() . '/inc/newsletter.php';
 require_once get_template_directory() . '/inc/link-outs.php';
 require_once get_template_directory() . '/inc/external-links.php';
 require_once get_template_directory() . '/inc/internal-pages.php';
+require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/block-styles.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 require_once get_template_directory() . '/inc/video-facade.php';

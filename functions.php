@@ -150,7 +150,6 @@ require_once get_template_directory() . '/inc/stories.php';
 require_once get_template_directory() . '/inc/blocks.php';
 require_once get_template_directory() . '/inc/hero-slide-controls.php';
 require_once get_template_directory() . '/inc/newsletter.php';
-require_once get_template_directory() . '/inc/link-outs.php';
 require_once get_template_directory() . '/inc/external-links.php';
 require_once get_template_directory() . '/inc/internal-pages.php';
 require_once get_template_directory() . '/inc/customizer.php';

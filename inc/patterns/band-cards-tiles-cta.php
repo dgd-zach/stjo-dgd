@@ -41,7 +41,7 @@ $stjo_give_daf      = $stjo_give( 'daf_url', $stjo_give_once );
 $stjo_give_memorial = $stjo_give( 'memorial_url', $stjo_give_once );
 $stjo_give_planned  = $stjo_give( 'planned_url', 'https://plannedgiving.stjo.org/' );
 $stjo_give_ira      = $stjo_give( 'ira_url', 'https://plannedgiving.stjo.org/give-from-your-ira' );
-$stjo_give_shop     = $stjo_give( 'shop_url', '/support-us/our-shop/' );
+$stjo_give_shop     = $stjo_give( 'shop_url', 'https://give.stjo.org/site/SPageNavigator/Giftstore_Home.html&s_src=GiftStore_Main_Navigation' );
 $stjo_give_wishlist = $stjo_give( 'wishlists_url', '/support-us/wishlists-gift-cards/' );
 
 // Root-relative image URLs so a local to staging push cannot drag a hostname along.

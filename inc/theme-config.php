@@ -63,9 +63,8 @@ function stjo_config() {
 	static $computing = false;
 
 	// Re-entrancy guard: applying the edits can touch WordPress functions
-	// whose filters read the config again (get_permalink -> page_link ->
-	// stjo_link_out_url). Hand those nested calls the plain JSON config
-	// instead of recursing until PHP runs out of memory.
+	// whose filters may read the config again. Hand those nested calls the
+	// plain JSON config instead of recursing until PHP runs out of memory.
 	if ( $computing || ! function_exists( 'stjo_config_apply_mods' ) ) {
 		return stjo_config_base();
 	}

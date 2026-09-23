@@ -27,9 +27,9 @@ $stjo_give_once     = stjo_config_get( 'give.once_url', 'https://give.stjo.org/s
 $stjo_give_monthly  = stjo_config_get( 'give.monthly_url', $stjo_give_once );
 $stjo_daf  = stjo_config_get( 'give.daf_url', $stjo_give_once );
 $stjo_memorial  = stjo_config_get( 'give.memorial_url', $stjo_give_once );
-$stjo_give_planned  = stjo_config_get( 'give.planned_url', '/support-us/planned-giving/' );
+$stjo_give_planned  = stjo_config_get( 'give.planned_url', 'https://plannedgiving.stjo.org/' );
 $stjo_give_ira      = stjo_config_get( 'give.ira_url', 'https://plannedgiving.stjo.org/give-from-your-ira' );
-$stjo_give_shop     = stjo_config_get( 'give.shop_url', '/support-us/our-shop/' );
+$stjo_give_shop     = stjo_config_get( 'give.shop_url', 'https://give.stjo.org/site/SPageNavigator/Giftstore_Home.html&s_src=GiftStore_Main_Navigation' );
 $stjo_give_wishlist = stjo_config_get( 'give.wishlists_url', '/support-us/wishlists-gift-cards/' );
 ?>
 <?php // Raw markup never passes through the block renderer, so it carries the

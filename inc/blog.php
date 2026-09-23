@@ -62,9 +62,21 @@ add_action( 'template_redirect', 'stjo_blog_external_redirect' );
  * loops — anything using get_permalink) points at the external article, and a
  * direct hit on the local single URL 302s out the same way (temporary on
  * purpose: drop both hooks when the blog goes native).
+ *
+ * Posts the DGD Web Scraper brings in on its schedule carry the article URL
+ * as source_url instead, so that counts too. When the blog goes native,
+ * removing these hooks makes both metas inert.
  */
+function stjo_post_external_url( $post_id ) {
+	$external = (string) get_post_meta( $post_id, 'stjo_external_url', true );
+	if ( '' === $external ) {
+		$external = (string) get_post_meta( $post_id, 'source_url', true );
+	}
+	return preg_match( '#^https?://#i', $external ) ? $external : '';
+}
+
 function stjo_external_post_link( $permalink, $post ) {
-	$external = get_post_meta( $post->ID, 'stjo_external_url', true );
+	$external = stjo_post_external_url( $post->ID );
 	return $external ? $external : $permalink;
 }
 add_filter( 'post_link', 'stjo_external_post_link', 10, 2 );
@@ -73,7 +85,7 @@ function stjo_external_post_redirect() {
 	if ( ! is_singular( 'post' ) ) {
 		return;
 	}
-	$external = get_post_meta( get_queried_object_id(), 'stjo_external_url', true );
+	$external = stjo_post_external_url( get_queried_object_id() );
 	if ( $external ) {
 		wp_redirect( esc_url_raw( $external ), 302 );
 		exit;

@@ -165,8 +165,6 @@ ul.body li,ol.body li{margin:6px 0;}
 .callout.tip .label{color:#1e5f22;}
 .callout.warn{border-left-color:#c77700;background:#fff6e6;}
 .callout.warn .label{color:#8a5300;}
-.callout.locked{border-left-color:var(--muted);background:#f2f2f0;}
-.callout.locked .label{color:#333;}
 
 /* --- Steps --- */
 ol.steps{counter-reset:step;list-style:none;margin:14px 0 18px;padding:0;}
@@ -264,7 +262,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <li><a href="#forms">Forms</a></li>
         <li><a href="#popups">Popups</a></li>
         <li><a href="#site-settings">Site settings</a></li>
-        <li><a href="#managed">Managed by Doing Good Digital</a></li>
         <li><a href="#help">Getting help</a></li>
       </ul>
     </details>
@@ -330,10 +327,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
 
       <div class="callout">
         <span class="label">About the badges below</span>
-        <p><span class="badge linkout">Redirects off-site</span> This page sends visitors to the donation/prayer system at give.stjo.org. There is nothing to edit here in WordPress. <br>
-        <span class="badge example">Example / template</span> Built by Doing Good Digital for reference. Please leave these alone. <br>
+        <p><span class="badge example">Example / template</span> Built by Doing Good Digital for reference. Please leave these alone. <br>
         <span class="badge popup">Opens in a lightbox</span> This page has no address of its own. Its content appears in a window over the page named in brackets. Edit it here; see <a href="#lightbox">Links that open lightboxes</a>.</p>
-        <p style="margin-bottom:0;">Every page in the tree now has real content. Pages that were only placeholders in the plan (Monthly Giving, Memorial Gifts, Planned Giving, Our Shop, Donate Your Vehicle) have been removed; their content lives in the giving system or in the Wishlists lightboxes.</p>
+        <p style="margin-bottom:0;">Every page in the tree has real content, and every page leads to itself. The giving and prayer destinations that live on give.stjo.org (One-Time Gift, Become a DreamMaker, the prayer tools, Our Shop) are not pages here; they are links in the menus, edited under <a href="#menus">Navigation menus</a>.</p>
       </div>
 
       <h3>Site page tree</h3>
@@ -383,7 +379,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <li>
               <div class="row"><span class="name">Residential Living</span><a class="edit" href="/wp-admin/post.php?post=318&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
-                <li><div class="row"><span class="name">Houseparents and Pets In Homes (Residential Living)</span><span class="badge popup">Opens in a lightbox</span><a class="edit" href="/wp-admin/post.php?post=1826&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
+                <li><div class="row"><span class="name">Houseparents and Pets In Homes</span><a class="edit" href="/wp-admin/post.php?post=1826&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
               </ul>
             </li>
             <li>
@@ -462,10 +458,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <span class="name">Your Impact</span>
             <a class="edit" href="/wp-admin/post.php?post=310&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Your Impact</span></a>
           </div>
-          <ul>
-            <li><div class="row"><span class="name">Become a DreamMaker</span><span class="badge linkout">Redirects off-site</span></div></li>
-          </ul>
-          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">College Scholarships is a lightbox opened from the Youth Programs page; it is listed there.</p>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Become a DreamMaker is a menu link to the giving system, not a page. College Scholarships is a lightbox opened from the Youth Programs page; it is listed there.</p>
         </li>
 
         <li>
@@ -473,12 +466,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <span class="name">Prayers</span>
             <a class="edit" href="/wp-admin/post.php?post=311&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Prayers</span></a>
           </div>
-          <ul>
-            <li><div class="row"><span class="name">Send a Prayer Request</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">Prayer Builder</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">Download Prayer Book</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">Prayer Tie</span><span class="badge linkout">Redirects off-site</span></div></li>
-          </ul>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">The four prayer tools in this menu (Send a Prayer Request, Prayer Builder, Download Prayer Book, Prayer Tie) are menu links to give.stjo.org, not pages.</p>
         </li>
 
         <li>
@@ -487,8 +475,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
             <a class="edit" href="/wp-admin/post.php?post=312&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Support Us</span></a>
           </div>
           <ul>
-            <li><div class="row"><span class="name">One-Time Gift</span><span class="badge linkout">Redirects off-site</span></div></li>
-            <li><div class="row"><span class="name">Our Shop</span><span class="badge linkout">Redirects off-site</span></div></li>
             <li>
               <div class="row"><span class="name">Wishlists, Gift Cards &amp; Affiliate Programs</span><a class="edit" href="/wp-admin/post.php?post=339&action=edit" target="_blank" rel="noopener">Edit</a></div>
               <ul>
@@ -500,7 +486,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
               </ul>
             </li>
           </ul>
-          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Monthly giving, memorial gifts, planned giving and the shop are reached from the "Your Generosity" band and the giving system, not from pages here.</p>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">One-Time Gift, Monthly Giving, Memorial Gifts, Planned Giving and Our Shop are menu links straight to the giving system, not pages here.</p>
         </li>
 
         <li><div class="row parent"><span class="name">Contact</span><a class="edit" href="/wp-admin/post.php?post=313&action=edit" target="_blank" rel="noopener">Edit<span class="vh"> Contact</span></a></div></li>
@@ -517,10 +503,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
 
         <li id="tree-popups">
           <div class="row parent"><span class="name">Lightbox content pages</span> <span class="badge popup">Opens in a lightbox</span></div>
-          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Every page marked "Opens in a lightbox" above sits under the page whose card opens it. They are not in any menu and have no web address of their own. The one below is written but not yet placed on a page.</p>
-          <ul>
-            <li><div class="row"><span class="name">Four Directions Prayer</span><a class="edit" href="/wp-admin/post.php?post=1768&action=edit" target="_blank" rel="noopener">Edit</a></div></li>
-          </ul>
+          <p style="margin:4px 0 0 8px;color:var(--muted);font-size:.9rem;">Every page marked "Opens in a lightbox" above sits under the page whose card opens it. They are not in any menu and have no web address of their own, so a lightbox page nobody has placed on a page is invisible to visitors. Every one listed today is placed.</p>
         </li>
 
         <li><div class="row parent"><span class="name">Blog</span> <span class="badge example">Posts land here automatically</span></div>
@@ -599,7 +582,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         </tbody>
       </table>
       </div>
-      <p>Do not add a separator directly under a page's title band. The zigzag ribbon there is already part of the band.</p>
+      <p>Do not add a separator directly under a page's title band, or right before the Your Generosity band. Both already include the zigzag ribbon, so a second one shows twice.</p>
 
       <h3 id="editor-widths">Group widths</h3>
       <p>A Group's <strong>Layout</strong> setting controls the blocks <em>inside</em> it. The Group's own width comes from its <strong>Align</strong> button (None, Wide width, Full width). Three widths exist on this site: content (the normal page column), wide, and full (edge to edge).</p>
@@ -861,6 +844,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
         <li>Click <strong>Save Menu</strong>.</li>
       </ol>
 
+      <div class="callout tip">
+        <span class="label">Three kinds of menu item, and how to tell them apart</span>
+        <p><strong>Pages</strong>: every item that leads to a page on this site is a Page item, so if the page is renamed or moved the link follows. <strong>Custom Links</strong> with a full give.stjo.org address (One-Time Gift, Become a DreamMaker, the prayer tools, Our Shop, Monthly Giving, Memorial Gifts, Planned Giving): what you see is exactly where the visitor goes; click the item and edit its URL to change it. <strong>Custom Links ending in #something</strong> (College Scholarship, Donate Your Vehicle, Awards): these open a lightbox on the page named before the #. Items with no link at all are the section headings inside the drop-downs.</p>
+      </div>
+
       <div class="callout">
         <span class="label">Mega-menu promos</span>
         <p>Some top-level Primary items have extra fields for the promo box inside their drop-down: <em>Promo heading</em>, <em>Promo body</em>, a <em>promo image</em>, and a <em>button label</em> and <em>URL</em>. Open a menu item to see and edit these.</p>
@@ -929,17 +917,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
     <!-- ===== SITE SETTINGS ===== -->
     <section id="site-settings">
       <h2>Site settings</h2>
-      <p class="lede">The details that repeat on every page live in one place: <strong>Appearance &gt; Customize &gt; Site Settings</strong>. Changes preview live on the right; nothing is saved until you click <strong>Publish</strong>.</p>
+      <p class="lede">The details that repeat on every page live in one place: <strong>Appearance &gt; Customize &gt; Custom Site Settings</strong>. Changes preview live on the right; nothing is saved until you click <strong>Publish</strong>.</p>
       <div class="section-actions">
-        <a class="btn" href="/wp-admin/customize.php?autofocus[panel]=stjo_site_settings" target="_blank" rel="noopener">Open Site Settings<span class="vh"> (opens in a new tab)</span></a>
+        <a class="btn" href="/wp-admin/customize.php?autofocus[panel]=stjo_site_settings" target="_blank" rel="noopener">Open Custom Site Settings<span class="vh"> (opens in a new tab)</span></a>
       </div>
       <div class="tbl-wrap">
       <table class="deftable">
-        <caption class="vh">Site Settings sections</caption>
+        <caption class="vh">Custom Site Settings sections</caption>
         <thead><tr><th scope="col">Section</th><th scope="col">What you can change</th></tr></thead>
         <tbody>
           <tr><td>Header buttons</td><td>The two buttons at the top right ("Log In", "Give Now"): label, link and style. Clear a label to hide that button. Also the search icon.</td></tr>
-          <tr><td>Footer</td><td>Tagline, address, phone, email, the newsletter heading and text, the legal line, and which page the Privacy Policy link goes to. It opens with a shortcut to the Your Generosity band's editor.</td></tr>
+          <tr><td>Footer</td><td>Tagline, address, phone, email, the newsletter heading, text and where its sign-ups go (survey ID, submission address and source code), the legal line, and which pages the Privacy Policy link and the "501(c)(3)" mention in the legal line go to. It opens with a shortcut to the Your Generosity band's editor.</td></tr>
           <tr><td>Social links</td><td>One link per network under "Connect With Us". Clear a link to hide that icon.</td></tr>
           <tr><td>Partner logos</td><td>The five accreditation and partner logos. Replace or remove an image; the name is what screen readers hear.</td></tr>
         </tbody>
@@ -955,28 +943,13 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       </div>
     </section>
 
-    <!-- ===== MANAGED BY Doing Good Digital ===== -->
-    <section id="managed">
-      <h2>Managed by Doing Good Digital</h2>
-      <p class="lede">These parts are built into the theme, not the dashboard. They keep the site consistent and on-brand. To change any of them, email Doing Good Digital and we will handle it.</p>
-      <div class="callout locked">
-        <span class="label">Not editable in the dashboard</span>
-        <ul class="body" style="margin-bottom:0;">
-          <li><strong>Where the newsletter form submits</strong> (the sign-up survey behind it). Its heading and text are yours under <a href="#site-settings">Site settings</a>.</li>
-          <li><strong>The "coming soon" message</strong> on placeholder pages. It disappears as soon as the page has content.</li>
-          <li><strong>Colors, fonts, and page layouts</strong> (the design system).</li>
-          <li><strong>The redirect pages</strong> marked "Redirects off-site" (these live in the give.stjo.org system).</li>
-        </ul>
-      </div>
-    </section>
-
     <!-- ===== HELP ===== -->
     <section id="help">
       <h2>Getting help</h2>
-      <p class="lede">Not sure where something lives, or want a change to a locked area? Reach out and we will point you to the right place or make the change.</p>
+      <p class="lede">Not sure where something lives, or need a change the dashboard does not cover (colors, fonts, layouts, how the site is wired up)? Reach out and we will point you to the right place or make the change.</p>
       <p><strong>Doing Good Agency</strong><br>
       <a href="https://doinggoodagency.com" target="_blank" rel="noopener">doinggoodagency.com</a></p>
-      <p>This guide is always available in the dashboard under <strong>Dashboard &gt; Content Guide</strong>.</p>
+      <p>This guide is always available in the dashboard under <strong>Dashboard &gt; Content Guide</strong>, and from the <strong>Content Guide</strong> item in the black toolbar at the top of every page while you are logged in. That item also drops down to the Block Training page and the Pattern Library.</p>
       <div class="callout tip">
         <span class="label">When in doubt, preview and ask</span>
         <p>Nothing you type is live until you click Update or Publish, and every change is saved in the page's revision history. If something does not look right, save a draft and email us before publishing.</p>
@@ -992,7 +965,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
     <p class="tagline">We serve and teach, we receive and learn.</p>
     <h2>Website Content Guide</h2>
     <p>A reference for the St. Joseph's Indian School team, prepared by Doing Good Agency.</p>
-    <p class="fine">You can always find this guide in the WordPress dashboard under Dashboard &gt; Content Guide.</p>
+    <p class="fine">You can always find this guide under Dashboard &gt; Content Guide, or from the Content Guide item in the toolbar.</p>
   </div>
 </footer>
 

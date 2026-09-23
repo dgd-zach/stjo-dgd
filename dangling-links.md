@@ -11,7 +11,7 @@ rendered content of every lightbox-content page.
 - **lightbox**: direct link to a lightbox-content page (they 404 by design)
 - **external**: off-site URL that answers 404 / 410 or cannot be reached
 
-_Last run: 2026-09-22 19:09_
+_Last run: 2026-09-23 12:13_
 
 ## Summary
 
@@ -21,7 +21,7 @@ _Last run: 2026-09-22 19:09_
 | Lightbox content pages scanned | 35 |
 | Problems in page content | 1 |
 | Problems in lightbox content | 2 |
-| Problems in header / footer / pre-footer | 1 |
+| Problems in header / footer / pre-footer | 0 |
 | Pages still Not built | 0 |
 | Lightbox content pages not opened anywhere | 2 |
 
@@ -38,11 +38,7 @@ _Last run: 2026-09-22 19:09_
 These render on every page, so each is listed once. Fix them in the menu,
 `theme-config.json` or the template part, not on a page.
 
-| Region | Kind | Link | Link text |
-| --- | --- | --- | --- |
-| header | lightbox | `/your-impact/college-scholarship/` (lightbox-content page, 404 by design, Primary menu item 363) | College Scholarship |
-
-1 link.
+Nothing dangling in the site chrome.
 
 ## Lightbox content pages
 
@@ -81,13 +77,6 @@ Not scanned: their own URL redirects. Link-out pages come from
 
 | Page | URL | Goes to |
 | --- | --- | --- |
-| Become a DreamMaker | `/your-impact/become-a-dreammaker/` | https://give.stjo.org/site/Donation2?mfc_pref=T&idb=444651902&df_id=10023&10023.donation=form1 |
-| Download Prayer Book | `/prayers/download-prayer-book/` | https://give.stjo.org/site/SPageNavigator/wp_prayer_book.html |
-| One-Time Gift | `/support-us/one-time-gift/` | https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1 |
-| Our Shop | `/support-us/our-shop/` | https://give.stjo.org/site/SPageNavigator/Giftstore_Home.html&s_src=GiftStore_Main_Navigation |
-| Prayer Builder | `/prayers/prayer-builder/` | https://give.stjo.org/site/SPageNavigator/wp_Prayer_Builder |
-| Prayer Tie | `/prayers/prayer-tie/` | https://give.stjo.org/site/SPageNavigator/wp_Prayer_Tie_Survey.html?s_src=wp_prayer_pg |
-| Send a Prayer Request | `/prayers/send-a-prayer-request/` | https://give.stjo.org/site/SPageNavigator/wp_prayer_request.html?s_src=prayer_nav |
 | Blog | `/blog/` | https://blog.stjo.org/ |
 
 ## Pages that did not render

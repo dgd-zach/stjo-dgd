@@ -170,9 +170,52 @@ function stjo_lightbox_content_no_single() {
 		$wp_query->set_404();
 		status_header( 404 );
 		nocache_headers();
+		header( 'X-Robots-Tag: noindex, nofollow', true );
 	}
 }
 add_action( 'template_redirect', 'stjo_lightbox_content_no_single' );
+
+/**
+ * IDs of every lightbox content page (any status), cached per request.
+ *
+ * @return int[]
+ */
+function stjo_lightbox_content_page_ids() {
+	static $ids = null;
+	if ( null === $ids ) {
+		$ids = array_map( 'intval', get_posts( array(
+			'post_type'      => 'page',
+			'post_status'    => array( 'publish', 'private', 'draft', 'pending', 'future' ),
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+			'tax_query'      => array( array( 'taxonomy' => 'page-category', 'field' => 'slug', 'terms' => 'lightbox-content' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		) ) );
+	}
+	return $ids;
+}
+
+/*
+ * A URL that always 404s has no business in the sitemap or the index. The
+ * content is still reachable where it lives: inside the host page's lightbox
+ * and via the host#slug deep link that search results use.
+ */
+add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', function ( $ids ) {
+	return array_merge( (array) $ids, stjo_lightbox_content_page_ids() );
+} );
+add_filter( 'wp_sitemaps_posts_query_args', function ( $args, $post_type ) {
+	if ( 'page' === $post_type ) {
+		$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), stjo_lightbox_content_page_ids() );
+	}
+	return $args;
+}, 10, 2 );
+add_filter( 'wp_robots', function ( $robots ) {
+	if ( is_page() && has_term( 'lightbox-content', 'page-category', get_queried_object_id() ) ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+	}
+	return $robots;
+}, 20 );
 
 /**
  * Blocks that misbehave inside the lightbox are not offered on lightbox

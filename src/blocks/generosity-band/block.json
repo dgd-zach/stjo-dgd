@@ -5,7 +5,7 @@
 	"title": "Your Generosity Band",
 	"category": "design",
 	"icon": "heart",
-	"description": "The site-wide ways-to-give band: four photo cards, four icon tiles and the Donate button. One source for every page. Copy and destinations come from theme-config.json, so there is nothing to edit here.",
+	"description": "Legacy placement of the ways-to-give band. It renders the synced Your Generosity Band pattern, which is what editors now insert and edit (Appearance > Design > Patterns), so this block is hidden from the inserter.",
 	"keywords": [ "give", "donate", "generosity", "ways to give", "band" ],
 	"attributes": {
 		"align": {
@@ -17,7 +17,8 @@
 		"html": false,
 		"align": [ "full" ],
 		"multiple": false,
-		"reusable": false
+		"reusable": false,
+		"inserter": false
 	},
 	"textdomain": "stjo",
 	"editorScript": "stjo-generosity-band-editor",

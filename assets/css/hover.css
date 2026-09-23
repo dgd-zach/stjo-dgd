@@ -40,5 +40,8 @@
 .wp-block-read-more:hover { color: rgb(0, 83, 160) !important; }
 
 /* Ways to Give Button Large → Property 1=Hover (home) */
-a.stjo-give-tile { transition: box-shadow .2s ease; height: 100% }
-a.stjo-give-tile:hover { box-shadow: inset 0 0 0 4px rgb(255, 213, 32) !important; }
+/* Both tile shapes: the template <a> and the editable pattern's Group. */
+.stjo-give-tile { transition: box-shadow .2s ease; height: 100% }
+a.stjo-give-tile:hover,
+.wp-block-group.stjo-give-tile:hover,
+.wp-block-group.stjo-give-tile:has(a:focus-visible) { box-shadow: inset 0 0 0 4px rgb(255, 213, 32) !important; }

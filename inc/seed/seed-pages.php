@@ -220,6 +220,17 @@ foreach ( $stjo_lightbox as $slug => $spec ) {
 
 /* ----------------------------------------------------------------- pages -- */
 
+/* ------------------------------------------------------ synced band pattern -- */
+
+// The Your Generosity band is one synced pattern (inc/generosity-band.php).
+// Create it from inc/patterns/band-cards-tiles-cta.php when missing, before
+// the page seeds that reference it run.
+stjo_seed_say( '== Your Generosity band ==' );
+if ( function_exists( 'stjo_generosity_band_ensure_pattern' ) ) {
+	$stjo_band_id = stjo_generosity_band_ensure_pattern();
+	stjo_seed_say( $stjo_band_id ? sprintf( '  synced pattern your-generosity-band: #%d', $stjo_band_id ) : '  could not create the synced pattern' );
+}
+
 /* -------------------------------------------------------------- internal -- */
 
 // Staff-only pages carry the `internal` page-category term; inc/internal-pages.php

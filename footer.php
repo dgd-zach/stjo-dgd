@@ -11,9 +11,15 @@
 // design, the testimonial band sits between it and the footer there).
 // A page whose own content already carries the band (Support Us: the sitemap
 // puts the ways to give mid-page, above Your Impact) must not get it twice.
-$stjo_content_has_band = is_singular()
-	&& ( has_block( 'stjo/generosity-band', get_queried_object_id() )
-		|| false !== strpos( (string) get_post_field( 'post_content', get_queried_object_id() ), 'stjo-generosity' ) );
+// "Content has the band" also covers a synced-pattern reference
+// (<!-- wp:block {"ref":N} /--> to the Your Generosity Band); see
+// inc/generosity-band.php.
+$stjo_content_has_band = is_singular() && (
+	function_exists( 'stjo_content_has_generosity_band' )
+		? stjo_content_has_generosity_band( get_queried_object_id() )
+		: ( has_block( 'stjo/generosity-band', get_queried_object_id() )
+			|| false !== strpos( (string) get_post_field( 'post_content', get_queried_object_id() ), 'stjo-generosity' ) )
+);
 if ( ! is_front_page() && ! $stjo_content_has_band && locate_template( 'template-parts/global/pre-footer.php' ) ) {
 	get_template_part( 'template-parts/global/pre-footer' );
 }

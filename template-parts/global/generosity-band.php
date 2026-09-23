@@ -12,6 +12,17 @@
  * @package stjo
  */
 
+// One synced pattern when it exists (edited in the Pattern editor, see
+// inc/generosity-band.php). The markup below is the fallback for an
+// environment where the pattern has not been created yet.
+if ( function_exists( 'stjo_generosity_band_ref_block' ) ) {
+	$stjo_band_ref = stjo_generosity_band_ref_block();
+	if ( $stjo_band_ref ) {
+		echo do_blocks( $stjo_band_ref ); // phpcs:ignore WordPress.Security.EscapeOutput -- block render output.
+		return;
+	}
+}
+
 $stjo_give_once     = stjo_config_get( 'give.once_url', 'https://give.stjo.org/site/Donation2?df_id=6740&6740.donation=form1' );
 $stjo_give_monthly  = stjo_config_get( 'give.monthly_url', $stjo_give_once );
 $stjo_daf  = stjo_config_get( 'give.daf_url', $stjo_give_once );

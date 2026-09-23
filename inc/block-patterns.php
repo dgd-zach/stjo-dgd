@@ -69,6 +69,7 @@ function stjo_register_patterns() {
 			'title'       => 'Title',
 			'description' => 'Description',
 			'categories'  => 'Categories',
+			'inserter'    => 'Inserter', // "no" keeps a seed-source pattern out of the inserter
 		) );
 		$slug  = 'stjo/' . basename( $file, '.php' );
 		$title = $headers['title'] ?: ucwords( str_replace( '-', ' ', basename( $file, '.php' ) ) );
@@ -87,7 +88,7 @@ function stjo_register_patterns() {
 			'description' => $headers['description'],
 			'categories'  => $cats,
 			'content'     => trim( $content ),
-			'inserter'    => true,
+			'inserter'    => ! in_array( strtolower( trim( (string) $headers['inserter'] ) ), array( 'no', 'false', '0' ), true ),
 		) );
 	}
 }

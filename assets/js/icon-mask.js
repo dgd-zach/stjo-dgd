@@ -13,7 +13,9 @@
 (function () {
 	'use strict';
 
-	document.querySelectorAll('a.stjo-give-tile img, .stjo-icon-mask img').forEach(function (img) {
+	// .stjo-give-tile covers both tile shapes: the template <a> and the
+	// editable pattern's Group (Your Generosity Band).
+	document.querySelectorAll('.stjo-give-tile img, .stjo-icon-mask img').forEach(function (img) {
 		function realSrc() {
 			var ds = img.getAttribute('data-src');
 			if (ds && 0 !== ds.indexOf('data:')) {

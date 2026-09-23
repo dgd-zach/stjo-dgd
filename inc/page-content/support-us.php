@@ -124,7 +124,7 @@ $dreammaker = esc_url( (string) stjo_config_get( 'give.dreammaker_url', 'https:/
 <hr class="wp-block-separator alignfull has-alpha-channel-opacity"/>
 <!-- /wp:separator -->
 
-<?php include get_template_directory() . '/inc/patterns/band-cards-tiles-cta.php'; ?>
+<?php echo stjo_generosity_band_seed_markup(); // the synced Your Generosity Band (inline blocks only if the pattern is missing) ?>
 
 <!-- wp:group {"metadata":{"name":"Your Impact"},"align":"full","className":"stjo-cards-band","layout":{"type":"constrained"},"anchor":"your-impact"} -->
 <div class="wp-block-group alignfull stjo-cards-band" id="your-impact"><?php echo $sp( 'large' ); ?>

@@ -53,11 +53,11 @@ Functions.php enqueues in this exact dependency chain — always edit in the rig
 
 ## Architecture
 
-**Hybrid classic theme:** PHP templates + block patterns + settings-only theme.json. No FSE (no `templates/` dir), no custom blocks yet.
+**Hybrid classic theme:** PHP templates + block patterns + settings-only theme.json. No FSE (no `templates/` dir). Custom blocks live in `src/blocks/*` (no build step; `edit.js` files are plain ES5 registered in `inc/blocks.php`).
 
 **Homepage flow:**  
 `front-page.php` → `get_header()` / `get_footer()` → renders the Home *Page*'s block content.  
-The Home page content is seeded from `inc/patterns/home.php` via `seed.php`. After seeding, the live content lives in the DB and `home.php` is the seed source only.
+Page content was seeded from `inc/page-content/*.php`. The live content lives in the DB; those files are seed sources only and are increasingly behind the editor.
 
 **Block patterns** (`inc/patterns/*.php`) are auto-registered by `inc/block-patterns.php`. Each file is included with `ob_start`/`ob_get_clean`, so PHP is valid inside patterns (used for `$img = get_template_directory_uri() . '/assets/images'`).
 
@@ -76,7 +76,9 @@ The Home page content is seeded from `inc/patterns/home.php` via `seed.php`. Aft
 wp --path=... --url=... eval-file wp-content/themes/stjo-dgd/seed.php
 ```
 
-`seed.php` reads `seed-manifest.json` and creates/updates pages idempotently by slug. **Delete both files before launch.**
+`seed.php` reads `seed-manifest.json` and creates/updates pages idempotently by slug. The newer seeder is `inc/seed/seed-pages.php` (manifest inside it, bare word `force` to overwrite built pages).
+
+**Delete before launch:** `seed.php`, `seed-manifest.json`, `inc/seed/`, `inc/page-content/`. The seed-only image sources (`assets/images/pages/`, `assets/images/history/`) were removed 2026-09-23; every image already lives in the Media Library (tagged `_stjo_seed_source`), so the seeders adopt those rows and log MISSING FILE only on an environment without the uploads.
 
 ## Figma-to-WP pipeline
 
@@ -86,7 +88,7 @@ Key frames: Home `4948:1396`, Section Landing `4948:1609`, History `4948:1731`, 
 
 Pipeline output lands in `f2w-build/` — `asset-map.json` maps Figma image refs to filenames in `assets/images/`. Run `diff.py` to compare rendered page against Figma; exit 0 = converged.
 
-Coverage reports (`coverage-*.md`) track which Figma sections mapped to which registry components and which were skipped (nav + footer = template parts, not post content).
+The pipeline's coverage/hover/invalid-markup reports were removed from the theme root 2026-09-23 (stale; lessons captured in the project memory). `media-map.json` stays: `stjo_asset()` reads it at runtime to resolve pattern images to Media Library URLs, with the `assets/images/` copy as fallback.
 
 ## Design tokens
 
